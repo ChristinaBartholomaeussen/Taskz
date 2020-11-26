@@ -9,13 +9,19 @@
 </head>
 <body>
 
-<p align="center"><b> Welcome to Taskz! </b></p>
+<h1 class="text-center my-3">Welcome to Taskz!</h1>
 
-<div align="center">
+<div class="container">
     <form th:method="post" action="/postLogin">
-        <input type="email" name="username" placeholder="User email"><br>
-        <input type="password" name="password" placeholder="User password"><br><br>
-        <button class="btn btn-primary" th:type="submit">Login</button>
+		<div class="form-group row">
+			<div class="col-xs-4 m-auto">
+				<label for="email">Enter your email</label>
+				<input type="email" class="form-control" id="email" name="username" placeholder="User email">
+				<label class="my-2" for="password">Enter Password: </label>
+				<input type="password" id="password" class="form-control" name="password" placeholder="User password"><br><br>
+				<button class="btn btn-primary" th:type="submit">Login</button>
+			</div>
+		</div>
     </form>
 </div>
 

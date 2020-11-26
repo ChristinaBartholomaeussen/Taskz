@@ -5,6 +5,38 @@
     margin-top: 5px;
 }
 
+.background {
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 900;
+	background-color: rgba(0,0,0,0.7);
+	border: none;
+	cursor: default;
+}
+
+.popup {
+	position: absolute;
+	background-color: #f4f4f4;
+	z-index: 999;
+	width: 33%;
+	left: 33%;
+	top: 10%;
+	padding: 4rem;
+	
+}
+
+.none {
+	display: none;	
+}
+
+.display {
+	display: block;
+}
+
 #form-header {
     background-color: lightblue;
 }
