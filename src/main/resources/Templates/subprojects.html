@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>SubProject Page</title>
+</head>
+<body>
+<div class="wrapper">
+    <header class="flex">
+        <h1>Taskz</h1>
+        <a href="/logOut" class="btn btn-danger">Log out</a>
+    </header>
+
+    <main>
+        <div class="subproject container" >
+            <div class="subproject flex">
+                <span>Subproject 1</span>
+                <span>16/16 hours</span>
+                <button class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+        <div class="container border">
+            <div class="row" align="center">
+                <div class="col border">Done</div>
+                <div class="col border">Task Name</div>
+                <div class="col border">Priority</div>
+                <div class="col border">Severity</div>
+                <div class="col border">Members</div>
+                <div class="col border">Estimated</div>
+                <div class="col border">Deadline</div>
+            </div>
+        </div>
+        &nbsp &nbsp &nbsp &nbsp <button class="btn btn-primary">New Task</button>
+    </main>
+</div>
+</body>
+</html>
