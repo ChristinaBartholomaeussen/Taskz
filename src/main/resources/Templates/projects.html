@@ -6,7 +6,7 @@
     <title>Project Page</title>
 </head>
 <body>
-	<div class="wrapper">
+	<div class="wrapper container">
 		<header class="d-flex">
 			<h1>Taskz</h1>
 			<a href="/newProject" class="btn btn-primary">New Project</a>
@@ -14,7 +14,7 @@
 		</header>
 		
 		
-		<main>
+		<main class="my-5">
 			<!--div class="project-container">
 				<div class="project" th:each="project: ${projects}">
 					<p th:text="${project.name}" ></p>
@@ -23,20 +23,23 @@
 					</div>
 				</div>
 			</div -->
-			<div class="project-container">
-				<div class="project flex">
-					<span>Project 1</span>
-					<span>16/16</span>
-					<button class="btn btn-danger">Delete</button>
-					<a href="/project/sup-projects" class="btn btn-primary">See Project</a>
-				</div>
-			</div>
 			
-			<table class="table table-striped mx-auto">
+			
+			<table class="table table-striped">
 				<thead>
 					<th>Project Name</th>
+					<th>Time</th>
+					<th></th>
 					<th></th>
 				</thead>
+				<tbody>
+					<tr>
+						<td>Project 1</td>
+						<td>16/16</td>
+						<td><button class="btn btn-danger">Delete</button></td>
+						<td><a href="/subprojects" class="btn btn-primary">See Project</a></td>
+					</tr>
+				</tbody>
 			</table>
 			
 		</main>
