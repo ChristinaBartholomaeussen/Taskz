@@ -1,10 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Project Page</title>
 </head>
 <body>
-
+	<div class="wrapper">
+		<header class="flex">
+			<h1>Taskz</h1>
+			<a href="/newProject" class="btn btn-primary">New Project</a>
+			<a href="/logOut" class="btn btn-danger">Log out</a>
+		</header>
+		
+		
+		<main>
+			<!--div class="project-container">
+				<div class="project" th:each="project: ${projects}">
+					<p th:text="${project.name}" ></p>
+					<div class="flex">
+						<span th:text="${project.}"></span>
+					</div>
+				</div>
+			</div -->
+			<div class="project-container">
+				<div class="project flex">
+					<span>Project 1</span>
+					<span>16/16</span>
+					<button class="btn btn-danger">Delete</button>
+					<a href="/project/sup-projects" class="btn btn-primary">See Project</a>
+				</div>
+			</div>
+		</main>
+	</div>
 </body>
 </html>
