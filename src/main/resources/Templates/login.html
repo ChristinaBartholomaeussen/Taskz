@@ -12,10 +12,10 @@
 <p align="center"><b> Welcome to Taskz! </b></p>
 
 <div align="center">
-    <form>
-        <input type="email" placeholder="User email"><br>
-        <input type="password" placeholder="User password"><br><br>
-        <button>Login</button>
+    <form th:method="post" action="/postLogin">
+        <input type="email" name="username" placeholder="User email"><br>
+        <input type="password" name="password" placeholder="User password"><br><br>
+        <button class="btn btn-primary" th:type="submit">Login</button>
     </form>
 </div>
 
