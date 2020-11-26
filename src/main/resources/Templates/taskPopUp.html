@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="taskPopUp.css">
+</head>
+
+<body>
+
+<div id="custom-container" class="container">
+    <form>
+        <div id="form-header" class="form-row justify-content-center">
+            <div class="col-xs-5">
+                <h1>Create task</h1>
+            </div>
+        </div>
+        <div class="form-row justify-content-center">
+            <div class="col-xs-5">
+                <label for="taskName">Task name:</label>
+                <input type="text" class="form-control" id="taskName" placeholder="Enter task name" required>
+            </div>
+        </div>
+        <div class="form-row justify-content-center">
+            <div class="col-xs-5">
+                <label for="taskPriority">Priority:</label>
+                <select class="custom-select" id="taskPriority" required>
+                    <option value="" disabled selected hidden>Choose priority</option>
+                    <option value="Critical">Critical</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row justify-content-center">
+            <div class="col-xs-5">
+                <label for="taskComplexity">Complexity:</label>
+                <select class="custom-select" id="taskComplexity" required>
+                    <option value="" disabled selected hidden>Choose complexity</option>
+                    <option value="Very Hard">Very Hard</option>
+                    <option value="Hard">Hard</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Easy">Easy</option>
+                    <option value="Very Easy">Very Easy</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row justify-content-center">
+            <div class="col-xs-5">
+                <label for="taskEstimatedTime">Estimated completion time in hours:</label>
+                <input type="number" class="form-control" id="taskEstimatedTime" placeholder="Estimated time" min="1" required>
+            </div>
+        </div>
+        <div class="form-row justify-content-center">
+            <div class="col-xs-5">
+                <label for="taskDeadline">Deadline:</label>
+                <input type="date" class="form-control" id="taskDeadline" placeholder="Choose deadline" required>
+            </div>
+        </div>
+        <div class="form-row justify-content-center">
+            <div class="col-xs-5">
+                <label for="taskAssignMember">Assign team member:</label>
+                <select class="custom-select" id="taskAssignMember" required>
+                    <option value="" disabled selected hidden>Choose team member</option>
+                    <option value="1">Frederik Meizner Petersen</option>
+                    <option value="2">Christina Maria Bartholomæussen</option>
+                    <option value="3">Rune Martin Bjerregaard Petersen</option>
+                    <option value="4">Oscar Vinther Otterstad</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row justify-content-center">
+            <div class="col-xs-5">
+                <label for="taskAssignSubProject">Assign sub project:</label>
+                <select class="custom-select" id="taskAssignSubProject" required>
+                    <option value="" disabled selected hidden>Choose sub project</option>
+                    <option value="Frontend">Frontend</option>
+                    <option value="Backend">Backend</option>
+                    <option value="Server">Server</option>
+                    <option value="Database">Database</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row justify-content-center">
+            <div class="col-xs-5">
+                <button type="submit" class="btn btn-success">Save</button>
+            </div>
+            <div class="col-xs-5">
+                <button type="button" class="btn btn-danger">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
