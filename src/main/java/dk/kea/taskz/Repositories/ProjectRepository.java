@@ -6,6 +6,7 @@ import dk.kea.taskz.Services.ConnectionService;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +19,9 @@ ConnectionService connection = new ConnectionService();
      * Henter alle projecter fra databasen
      * @return liste af alle projekter
      */
-    public List<Project> selectAllProjectsFromDatabase(){
+    public List<Project> selectProjectFromDatabaseByIdNameDeadlineEstimatedTime(){
 
-    String selectAllProjects = "SELECT * FROM projects";
+    String selectAllProjects = "SELCECT Project_Id, Project_Name, Deadline, Project_Estimated_Time FROM projects";
 
     List<Project> allProjects = new ArrayList<>();
 
@@ -33,9 +34,7 @@ ConnectionService connection = new ConnectionService();
             Project project = new Project(
                     rs.getInt(1),
                     rs.getString(2),
-                    rs.getDate(3).toLocalDate(),
                     rs.getDate(4).toLocalDate(),
-                    rs.getDouble(5),
                     rs.getDouble(6)
                     );
             allProjects.add(project);
@@ -45,9 +44,39 @@ ConnectionService connection = new ConnectionService();
         System.out.println(e.getMessage());
     }
 
-    System.out.println(allProjects.toString());
     return allProjects;
 
     }
+
+
+    public void insertProjectIntoDatabase(Project project){
+
+        String insertProjectIntoDatabasen =
+                "INSERT INTO projects(Project_Name, Project_StartDate, Deadline, Workload_Per_Day, Project_Estimated_Time) " +
+                        "VALUES (?, ?, ?, ?, ?, ?)";
+
+        try{
+            PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(insertProjectIntoDatabasen);
+            preparedStatement.setString(2, project.getName());
+            preparedStatement.setDate(3, java.sql.Date.valueOf(project.getStartDate()));
+            preparedStatement.setDate(4, java.sql.Date.valueOf(project.getDeadline()));
+            preparedStatement.setNull(5, Types.DOUBLE);
+            preparedStatement.setDouble(6, project.getTotalEstimatedTime());
+
+            preparedStatement.execute();
+
+        }catch (SQLException e)
+        {
+            System.out.println("Error" + e.getMessage());
+        }
+
+
+    }
+
+
+
+
+
+
 
 }

@@ -27,6 +27,13 @@ public class Project {
         this.deadline = deadline;
     }
 
+    public Project(int idProject, String name, LocalDate deadline, double totalEstimatedTime){
+        this.idProject = idProject;
+        this.name = name;
+        this.deadline = deadline;
+        this.totalEstimatedTime = totalEstimatedTime;
+    }
+
     public Project(int idProject, String name, LocalDate startDate, LocalDate deadline, double totalWorkHoursPerDay, double totalEstimatedTime) {
         this.idProject = idProject;
         this.name = name;

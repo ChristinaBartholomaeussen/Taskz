@@ -16,7 +16,7 @@ import java.util.List;
 public class LoginController
 {
 
-    ProjectRepository projectRepository = new ProjectRepository();
+
     @Autowired
     private MemberService memberService;
 
@@ -31,9 +31,6 @@ public class LoginController
     @PostMapping("/postLogin")
 	public String postLogin(WebRequest data)
     {
-
-        List<Project> projectList = projectRepository.selectAllProjectsFromDatabase();
-        System.out.println(projectList);
 
 	
         String username = data.getParameter("username");
