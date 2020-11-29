@@ -48,26 +48,26 @@
 					</form>
 					</div>
 				</div>
-			
-			
+
 			<table class="table table-striped">
 				<thead>
 					<th>Project Name</th>
-					<th>Time</th>
-					<th></th>
+					<th>Startdate</th>
+					<th>Deadline</th>
 					<th></th>
 				</thead>
 				<tbody>
-					<tr>
-						<td>Project 1</td>
-						<td>16/16</td>
-						<td><button class="btn btn-danger">Delete</button></td>
-						<td><a href="/subprojects" class="btn btn-primary">See Project</a></td>
+					<tr th:each="project : ${projectList}">
+						<td th:text="${project.getName}"/>
+						<td th:text="${project.getStartDate}"/>
+						<td th:text="${project.getDeadline}"/>
+						<td><form method="post" action="/deleteProject"><button type="submit" name="projectId" th:value="${project.getProjectId}" class="btn btn-danger">Delete</button></form></td>
+						<td><form method="post" action="/subprojects"><button type="submit" name="projectId" th:value="${project.getProjectId}" class="btn btn-primary">See Project</button></form></td>
 					</tr>
 				</tbody>
 			</table>
 			
 		</main>
-	
+	</div>
 </body>
 </html>

@@ -63,4 +63,16 @@ public class ProjectController {
 
 		return "projects";
 	}
+
+	@PostMapping("/deleteProject")
+	public String deleteProject(WebRequest data)
+	{
+		int projectToDeleteId = Integer.parseInt(data.getParameter("projectId"));
+
+		for(Project project : projectList)
+			if(project.getProjectId() == projectToDeleteId)
+				System.out.println("Deleting project: " + project.getName());
+
+		return "redirect:/projects";
+	}
 }

@@ -1,19 +1,24 @@
 package dk.kea.taskz.Models;
 
-import java.util.ArrayList;
+import dk.kea.taskz.Services.SubprojectService;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.List;
 
 public class Subproject
 {
-    private String subprojectName;
+    @Autowired
+    SubprojectService subprojectService;
+
+    private int subprojectId;
     private int parentProjectId;
+    private String subprojectName;
     private List<Task> taskList;
 
     public Subproject(String subprojectName, int parentProjectId)
     {
-        this.subprojectName = subprojectName;
         this.parentProjectId = parentProjectId;
-        taskList = new ArrayList<>();
+        this.subprojectName = subprojectName;
     }
 
     public String getSubprojectName()
