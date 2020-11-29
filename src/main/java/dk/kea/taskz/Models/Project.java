@@ -1,7 +1,5 @@
 package dk.kea.taskz.Models;
 
-import org.apache.tomcat.jni.Local;
-
 import java.time.LocalDate;
 
 public class Project {
