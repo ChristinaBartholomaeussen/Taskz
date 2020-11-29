@@ -27,7 +27,6 @@ public class ConnectionService {
 
         connection = DriverManager.getConnection("jdbc:mysql://den1.mysql2.gear.host:3306/taskz","taskz","taskz!");
 
-        //connection = DriverManager.getConnection("jdbc:mysql://den1.mysql2.gear.host:3306","taskz","taskz!");
         }catch (SQLException e){
             System.out.println("No Connection");
         }
