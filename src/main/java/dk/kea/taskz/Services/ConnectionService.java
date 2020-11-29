@@ -10,7 +10,7 @@ import java.sql.SQLException;
 @Service
 public class ConnectionService {
 
-    private Connection connection;
+
 
     /** Christina
      * Oprettelse af forbindelse til databasen
@@ -20,9 +20,14 @@ public class ConnectionService {
     @Bean
     public Connection establishConnection(){
 
+        Connection connection = null;
+
         connection = null;
         try{
-        connection = DriverManager.getConnection("jdbc:mysql://den1.mysql2.gear.host:3306","taskz","taskz!");
+
+        connection = DriverManager.getConnection("jdbc:mysql://den1.mysql2.gear.host:3306/taskz","taskz","taskz!");
+
+        //connection = DriverManager.getConnection("jdbc:mysql://den1.mysql2.gear.host:3306","taskz","taskz!");
         }catch (SQLException e){
             System.out.println("No Connection");
         }
