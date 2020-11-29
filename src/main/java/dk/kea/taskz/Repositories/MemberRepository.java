@@ -1,6 +1,7 @@
 package dk.kea.taskz.Repositories;
 
 import dk.kea.taskz.Models.Member;
+import dk.kea.taskz.Services.ConnectionService;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -9,13 +10,13 @@ import java.util.List;
 @Repository
 public class MemberRepository
 {
+    ConnectionService connection = new ConnectionService();
+
     public List<Member> getAllMembersFromDB()
     {
-
         try
         {
-            Connection connection = DriverManager.getConnection("den1.mysql2.gear.host","taskz","taskz!");
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM members");
+            PreparedStatement ps = connection.establishConnection().prepareStatement("SELECT * FROM members");
 
             ResultSet rs = ps.executeQuery();
 
