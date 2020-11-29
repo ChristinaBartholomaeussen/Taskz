@@ -25,7 +25,7 @@
 	width: 33%;
 	left: 33%;
 	top: 10%;
-	padding: 4rem;
+	padding: 40px;
 	
 }
 
@@ -40,3 +40,27 @@
 #form-header {
     background-color: lightblue;
 }
+
+.cross-container {
+	position: relative;
+	top: -20px;
+	right: -20px;
+}
+
+.cross {
+	width: 20px;
+	border-radius: 5px;
+	background-color: #4f4f4f;
+	height: 3px;
+	position: relative;
+	display: block;
+	z-index: 1000;
+	transition: .3;
+}
+
+.cross-one {
+	transform: rotate(-45deg);
+	top: 3px; /* For at differancen på højden på stregerne */
+}
+.cross-two {transform: rotate(45deg);}
+
