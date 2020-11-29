@@ -3,7 +3,7 @@ package dk.kea.taskz.Models;
 import java.time.LocalDate;
 
 public class Project {
-    private int idProject;
+    private int projectId;
     private String name;
     private LocalDate startDate;
     private LocalDate deadline;
@@ -14,8 +14,8 @@ public class Project {
         this.name = name;
     }
 
-    public Project(int idProject, String name, LocalDate startDate, LocalDate deadline, double totalWorkHoursPerDay, double totalEstimatedTime) {
-        this.idProject = idProject;
+    public Project(int projectId, String name, LocalDate startDate, LocalDate deadline, double totalWorkHoursPerDay, double totalEstimatedTime) {
+        this.projectId = projectId;
         this.name = name;
         this.startDate = startDate;
         this.deadline = deadline;
@@ -23,12 +23,12 @@ public class Project {
         this.totalEstimatedTime = totalEstimatedTime;
     }
 
-    public int getIdProject() {
-        return idProject;
+    public int getProjectId() {
+        return projectId;
     }
 
-    public void setIdProject(int idProject) {
-        this.idProject = idProject;
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
     }
 
     public String getName() {
@@ -74,7 +74,7 @@ public class Project {
     @Override
     public String toString() {
         return "Project{" +
-                "idProject=" + idProject +
+                "projectId=" + projectId +
                 ", name='" + name + '\'' +
                 ", startDate=" + startDate +
                 ", deadline=" + deadline +
