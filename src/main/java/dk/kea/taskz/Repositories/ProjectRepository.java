@@ -52,11 +52,12 @@ ConnectionService connection = new ConnectionService();
     public void insertProjectIntoDatabase(Project project){
 
         String insertProjectIntoDatabasen =
-                "INSERT INTO projects(Project_Name, Project_StartDate, Deadline, Workload_Per_Day, Project_Estimated_Time) " +
+                "INSERT INTO projects(Project_Id, Project_Name, Project_StartDate, Deadline, Workload_Per_Day, Project_Estimated_Time) " +
                         "VALUES (?, ?, ?, ?, ?, ?)";
 
         try{
             PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(insertProjectIntoDatabasen);
+            preparedStatement.setInt(1, project.getProjectId());
             preparedStatement.setString(2, project.getName());
             preparedStatement.setDate(3, java.sql.Date.valueOf(project.getStartDate()));
             preparedStatement.setDate(4, java.sql.Date.valueOf(project.getDeadline()));
