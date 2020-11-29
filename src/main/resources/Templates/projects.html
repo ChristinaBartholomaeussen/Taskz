@@ -14,7 +14,6 @@
 			<a href="/logOut" class="btn btn-danger">Log out</a>
 		</header>
 		
-		
 		<main class="my-5">
 			
 			<div class="" th:classappend="${popup} ? display : none">
@@ -33,6 +32,8 @@
 									<label for="inputFormProjectName">Project Name</label>
 									<input type="text" class="form-control" id="inputFormProjectName" placeholder="Enter Project Name" required>
 								</div>
+							</div>	
+							<div class="form-row">
 								<div class="form-group col-md-6">
 									<label for="startDateProjectForm">Start Date:</label>
 									<input type="date" class="form-control" id="startDateProjectForm" name="projectStartDate" placeholder="Choose start date" th:attr="min=${date}" required>
@@ -41,11 +42,12 @@
 									<label for="deadlineProjectForm">Deadline:</label>
 									<input type="date" class="form-control" id="deadlineProjectForm" placeholder="Choose deadline" th:attr="min=${date}" required>
 								</div>
+							</div>	
 							<button type="submit" class="btn btn-primary mx-auto">Create Project</button>
 						<a href="/projects" class="btn btn-danger mx-auto">Cancel</a>
 					</form>
+					</div>
 				</div>
-			</div>
 			
 			
 			<table class="table table-striped">
@@ -66,6 +68,6 @@
 			</table>
 			
 		</main>
-	</div>
+	
 </body>
 </html>

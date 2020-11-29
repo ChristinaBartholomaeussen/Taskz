@@ -10,6 +10,7 @@ public class ProjectController {
 
 	
 	/**
+	 * - OVO
 	 * Getmapping for project. 
 	 * Sætter en model attribute med en boolean som styre om popup html skal være aktiv
 	 * @param model
@@ -22,6 +23,7 @@ public class ProjectController {
 	}
 
 	/**
+	 * - OVO
 	 * En ny getmapping som bliver kaldt af "New Projects" linket i project siden.
 	 * Egentlig returnere den projekt siden igen, men også sætter boolean til true.
 	 * Det gør at popup bliver aktiv.
