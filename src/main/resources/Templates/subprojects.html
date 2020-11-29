@@ -3,37 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="projectPopUp.css">
     <title>SubProject Page</title>
 </head>
 <body>
 <div class="wrapper">
     <header class="d-flex">
         <h1>Taskz</h1>
+		<a href="/newSubProject" class="btn btn-primary">New Subproject</a>
         <a href="/logOut" class="btn btn-danger">Log out</a>
     </header>
 
     <main>
-		<!--div class="table table-striped">
 		
-			<div class="subproject container border border-striped mx-1" >
-				<div class="subproject flex">
-					<span>Subproject 1</span>
-					<span>16/16 hours</span>
-					<button class="btn btn-danger">Delete</button>
+		<!-- Pop up SubProject-->
+		<div class="" th:classappend="${popup} ? display : none">
+			<a href="/subprojects" class="background">
+			</a>
+			<div class="popup relative">
+				<div class="float-right cross-container">
+					<a href="/subprojects">
+						<span class="cross cross-one"></span>
+						<span class="cross cross-two"></span>
+					</a>
 				</div>
-				<div class="container border">
-					<div class="row" align="center">
-						<div class="col border">Done</div>
-						<div class="col border">Task Name</div>
-						<div class="col border">Priority</div>
-						<div class="col border">Severity</div>
-						<div class="col border">Members</div>
-						<div class="col border">Estimated</div>
-						<div class="col border">Deadline</div>
+				<form th:method="post" action="/postNewSubproject">
+					<div class="form-row">
+						<div class="form-group col-md-12">
+							<label for="inputFormSubProjectName">SubProject Name</label>
+							<input type="text" class="form-control" name="newSubProject" id="inputFormSubProjectName" placeholder="Enter Subproject Name" required>
+						</div>
 					</div>
-				</div>
+					<button type="submit" class="btn btn-primary mx-auto">Create Project</button>
+					<a href="/subprojects" class="btn btn-danger mx-auto">Cancel</a>
+				</form>
 			</div>
-		</div -->
+		</div>
+
+
+		<!-- Pop up Task-->
+		<div class="" th:classappend="${TaskPopUp} ? display : none">
+			<a href="/subprojects" class="background">
+			</a>
+			<div class="popup relative">
+				<div class="float-right cross-container">
+					<a href="/subprojects">
+						<span class="cross cross-one"></span>
+						<span class="cross cross-two"></span>
+					</a>
+				</div>
+				<form th:method="post" action="/newTaskData">
+					<div class="form-row">
+						<div class="form-group col-md-12">
+							<label for="inputFormSubProjectName">Task Name</label>
+							<input type="text" class="form-control" name="taskName" id="inputFormSubProjectName" placeholder="Enter Subproject Name" required>
+						</div>
+					</div>
+					<div class="form-row my-2">
+						<div class="col-md-6">
+							<label for="taskPriority">Priority:</label>
+							<select class="custom-select" name="priority" id="taskPriority" required>
+								<option value="" disabled selected hidden>Choose priority</option>
+								<option value="Critical">Critical</option>
+								<option value="High">High</option>
+								<option value="Medium">Medium</option>
+								<option value="Low">Low</option>
+							</select>
+						</div>
+						<div class="col-md-6">
+							<label for="taskComplexity">Complexity:</label>
+							<select class="custom-select" name="complexity" id="taskComplexity" required>
+								<option value="" disabled selected hidden>Choose complexity</option>
+								<option value="Very Hard">Very Hard</option>
+								<option value="Hard">Hard</option>
+								<option value="Medium">Medium</option>
+								<option value="Easy">Easy</option>
+								<option value="Very Easy">Very Easy</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-row my-2">
+						<div class="col-md-12">
+							<label for="taskEstimatedTime">Estimated completion time in hours:</label>
+							<input type="number" class="form-control" name="estimatedTime" id="taskEstimatedTime" placeholder="Estimated time" min="1" required>
+						</div>
+					</div>	
+					<div class="form-row my-2">	
+						<div class="col-md-6">
+							<label for="taskDeadline">Deadline:</label>
+							<input type="date" class="form-control" name="deadline" id="taskDeadline" placeholder="Choose deadline" required>
+						</div>
+						<div class="col-md-6">
+							<label for="taskAssignMember">Assign team member:</label>
+							<select class="custom-select" id="taskAssignMember" name="TeamMembers" required>
+								<option value="" disabled selected hidden>Choose team member</option>
+								<option value="1">Frederik Meizner Petersen</option>
+								<option value="2">Christina Maria Bartholomæussen</option>
+								<option value="3">Rune Martin Bjerregaard Petersen</option>
+								<option value="4">Oscar Vinther Otterstad</option>
+							</select>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-primary mx-auto">Create Project</button>
+					<a href="/subprojects" class="btn btn-danger mx-auto">Cancel</a>
+				</form>
+			</div>
+		</div>
 		
 		<div class="subproject container border border-striped mx-auto my-4">
 			<div class="subproject d-flex">
@@ -75,7 +150,7 @@
 				</tbody>
 			</table>
 			<div class="d-flex">
-				<button class="btn btn-primary mx-1 p-2 ml-auto">New Task</button>
+				<a href="/newTask" class="btn btn-primary mx-1 p-2 ml-auto">New Task</a>
 			</div>
 		</div>
 
