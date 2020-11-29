@@ -1,13 +1,24 @@
 package dk.kea.taskz.Controllers;
 
+import dk.kea.taskz.Models.Project;
+import dk.kea.taskz.Services.ProjectService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.context.request.WebRequest;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class ProjectController {
 
+	ProjectService projectService = new ProjectService();
+
+	List<Project> projectList = projectService.getProjectList();
 	
 	/**
 	 * - OVO
@@ -19,6 +30,7 @@ public class ProjectController {
 	@GetMapping("/projects")
 	public String projects(Model model) {
 		model.addAttribute("popup", false);
+		model.addAttribute("projectList", projectList);
 		return "projects";
 	}
 
@@ -33,6 +45,22 @@ public class ProjectController {
 	@GetMapping("/newProject")
 	public String newProject(Model model){
 		model.addAttribute("popup", true);
+		return "projects";
+	}
+
+	/**
+	 * DO NOT TOUCH - ONGOING - FREDE
+	 * @param projectData
+	 * @return
+	 */
+
+	@PostMapping("/postNewProject")
+	public String postNewProject(WebRequest projectData) {
+
+		String projectStartDate = projectData.getParameter("projectStartDate");
+
+		//projectList.add(new Project(projectData.getParameter("projectName"), projectData.getParameter(), projectData.getParameter("projectDeadline")));
+
 		return "projects";
 	}
 }
