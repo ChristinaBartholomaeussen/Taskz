@@ -30,7 +30,7 @@
 							<div class="form-row">
 								<div class="form-group col-md-12">
 									<label for="inputFormProjectName">Project Name</label>
-									<input type="text" class="form-control" id="inputFormProjectName" placeholder="Enter Project Name" required>
+									<input type="text" class="form-control" id="inputFormProjectName" name="projectName" placeholder="Enter Project Name" required>
 								</div>
 							</div>	
 							<div class="form-row">
@@ -40,7 +40,7 @@
 								</div>
 								<div class="form-group col-md-6">
 									<label for="deadlineProjectForm">Deadline:</label>
-									<input type="date" class="form-control" id="deadlineProjectForm" placeholder="Choose deadline" th:attr="min=${date}" required>
+									<input type="date" class="form-control" id="deadlineProjectForm" name="projectDeadline" placeholder="Choose deadline" th:attr="min=${date}" required>
 								</div>
 							</div>	
 							<button type="submit" class="btn btn-primary mx-auto">Create Project</button>
