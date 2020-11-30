@@ -18,7 +18,7 @@ public class SubprojectRepository
 
     public List<Subproject> getAllAssociatedSubprojects(int projectId)
     {
-        String getAllAssociatedSubprojectsSqlStatement = "SELECT COUNT(*) FROM taskz.subprojects WHERE Project_ID = " + projectId;
+        String getAllAssociatedSubprojectsSqlStatement = "SELECT * FROM taskz.subprojects WHERE Project_ID = 1" ;
         List<Subproject> subprojectList = new ArrayList<>();
 
         try

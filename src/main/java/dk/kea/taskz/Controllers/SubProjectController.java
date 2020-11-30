@@ -21,7 +21,7 @@ public class SubProjectController
 	{
 		activeProject = Integer.parseInt(data.getParameter("projectId"));
 
-		return "subprojects";
+		return "redirect:/subprojects";
 	}
 
 	/**
@@ -31,7 +31,8 @@ public class SubProjectController
 	 * @return
 	 */
 	@GetMapping("/subprojects")
-	public String subproject(Model model) {
+	public String subprojects(Model model)
+	{
 		model.addAttribute("popup", false);
 		model.addAttribute("taskPopUp", false);
 		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProject));
