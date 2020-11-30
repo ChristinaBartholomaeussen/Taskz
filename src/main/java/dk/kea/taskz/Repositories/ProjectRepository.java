@@ -70,8 +70,26 @@ ConnectionService connection = new ConnectionService();
             System.out.println("Error" + e.getMessage());
         }
 
+    }
+
+
+    public void deleteWholeProject(int projectId){
+
+        String deleteQuery = "delete from projects where projectId = ?";
+
+        try{
+            PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(deleteQuery);
+            preparedStatement.setInt(1, projectId);
+
+            preparedStatement.execute();
+        }catch (SQLException e){
+            System.out.println("Error: " + e.getMessage());
+        }
+
+
 
     }
+
 
 
 

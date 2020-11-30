@@ -38,4 +38,9 @@ public class ProjectService {
         projectRepository.insertProjectIntoDatabase(project);
 
     }
+
+    public void deleteProject(int projectId){
+
+        projectRepository.deleteWholeProject(projectId);
+    }
 }
