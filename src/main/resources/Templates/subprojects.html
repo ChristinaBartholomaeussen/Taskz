@@ -114,8 +114,8 @@
 
 		<div class="subproject container border border-striped mx-auto my-4" th:each="subprojects : ${subprojectList}">
 			<div class="subproject d-flex">
-				<span>Subproject 1 </span>
-				<span>16/16 hours</span>
+				<h4 class="text-center my-auto display-block" th:text="${subprojects.getSubprojectName()}" > </h4>
+				<!--span>16/16 hours</span -->
 				<button class="btn btn-danger  mx-1 p-2 ml-auto">Delete</button>
 			</div>
 			<table class="table table-striped" style="position: relative">
