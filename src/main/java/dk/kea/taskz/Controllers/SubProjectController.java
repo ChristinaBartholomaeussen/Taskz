@@ -46,6 +46,7 @@ public class SubProjectController
 			return "redirect:/projects";
 		}
 		model.addAttribute("activeProjectID", activeProjectID);
+		model.addAttribute("projectName", subprojectService.)
 		model.addAttribute("popup", false);
 		model.addAttribute("taskPopUp", false);
 		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProjectID));

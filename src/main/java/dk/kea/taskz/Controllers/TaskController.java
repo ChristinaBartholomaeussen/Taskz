@@ -22,7 +22,6 @@ public class TaskController {
 	@PostMapping("/newTask")
 	public String newTaskPost(WebRequest data) {
 		subprojectsID = Integer.parseInt(data.getParameter("subprojectsID"));
-		System.out.println(subprojectsID);
 		return "redirect:/newTask";
 	}
 	

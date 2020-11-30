@@ -24,5 +24,6 @@ public class SubprojectService
 	}
 	
 	public void deleteSubProject(int id) {subprojectRepository.deleteSubProjectFromDB(id);}
+	
 
 }
