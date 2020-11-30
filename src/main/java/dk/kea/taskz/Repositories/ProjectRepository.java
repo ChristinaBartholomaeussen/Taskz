@@ -83,7 +83,5 @@ ConnectionService connection = new ConnectionService();
         }
     }
     
-    public String getProjectName(int projectId) {
-    	String selectsProject = "SELECT"
-	}
+    
 }
