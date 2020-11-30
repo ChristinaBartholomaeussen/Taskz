@@ -15,7 +15,12 @@ import java.util.List;
 public class TaskRepository {
 	
 	ConnectionService connection = new ConnectionService();
-	
+
+	/**
+	 *  - OVO
+	 *  Get all the task from the database
+	 * @return
+	 */
 	public List<Task> getAllTasksFromDB() {
 		ArrayList<Task> taskList = new ArrayList<>();
 		try {
@@ -35,8 +40,12 @@ public class TaskRepository {
 		}
 
 		return taskList;
-	}  
-	
+	}
+
+	/**
+	 * Gets the latest id from the database
+	 * @return
+	 */
 	public int getLatestIdFromDB() {
 		try {
 			PreparedStatement preparedStatement = connection.establishConnection().prepareStatement("SELECT * FROM taskz.tasks ORDER BY Task_ID DESC LIMIT 1;");
@@ -53,6 +62,11 @@ public class TaskRepository {
 		return 404;
 	}
 
+	/**
+	 *  - OVO
+	 *  Creates a task from the database.
+	 * @param task
+	 */
 	public void insertNewTaskToDB(Task task) {
 		String insertTaskSQL = "INSERT INTO tasks(Task_ID, SubProject_ID, Task_Name, Priority, Complexity, Task_Deadline, Task_Estimated_Time, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -75,6 +89,22 @@ public class TaskRepository {
 			System.out.println(e.getMessage());
 		}
 	}
-	
+
+	/**
+	 *  - OVO
+	 *  Deletes a task form the database
+	 * @param Task_ID
+	 */
+	public void deleteTaskFromDB(int Task_ID) {
+		String deleteTaskFromDB =  "DELETE FROM tasks WHERE Task_ID = ?";
+		try {
+			PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(deleteTaskFromDB);
+			preparedStatement.setInt(1, Task_ID);
+			
+			preparedStatement.execute();
+		}catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
 	
 }

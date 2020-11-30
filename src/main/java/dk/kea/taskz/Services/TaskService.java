@@ -18,4 +18,8 @@ public class TaskService {
 	public void insertTask(Task task) {
 		taskRepository.insertNewTaskToDB(task);
 	}
+	
+	public void deleteTask(int id) {
+		taskRepository.deleteTaskFromDB(id);
+	}
 }
