@@ -25,7 +25,12 @@
 							<span class="cross cross-two"></span>
 						</a>
 					</div>
+
 					<form th:method="post" action="/postNewProject">
+						<div class="form-group" th:classappend="${deadlineIsAfterStartDate} ? display : none">
+							<span class="display-block bg-dark mx-auto col-md-12 p-3 text-white">Deadline can't be before start date</span>
+
+						</div>
 							<div class="form-row">
 								<div class="form-group col-md-12">
 									<label for="inputFormProjectName">Project Name</label>
