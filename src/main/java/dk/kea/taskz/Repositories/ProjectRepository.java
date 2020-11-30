@@ -14,7 +14,6 @@ public class ProjectRepository {
 
 ConnectionService connection = new ConnectionService();
 
-
     /**
      * Henter alle projekter fra databasen
      * @return liste af alle projekter
@@ -117,4 +116,6 @@ ConnectionService connection = new ConnectionService();
     }
 
 
+
+	
 }

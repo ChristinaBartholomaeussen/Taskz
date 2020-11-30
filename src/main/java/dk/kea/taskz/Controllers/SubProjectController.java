@@ -50,7 +50,7 @@ public class SubProjectController
 			return "redirect:/projects";
 		}
 		model.addAttribute("activeProjectID", activeProjectID);
-		//model.addAttribute("projectName", subprojectService.)
+		model.addAttribute("projectName", subprojectService.getParentProjectName(activeProjectID));
 		model.addAttribute("popup", false);
 		model.addAttribute("taskPopUp", false);
 		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProjectID));
@@ -68,6 +68,7 @@ public class SubProjectController
 	public String subprojectsPopUp(Model model) {
 		model.addAttribute("popup", true);
 		model.addAttribute("taskPopUp", false);
+		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProjectID));
 		return "subprojects";
 	}
 

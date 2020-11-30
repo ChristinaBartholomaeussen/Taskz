@@ -40,5 +40,6 @@ public class SubprojectService
 	
 	public void deleteSubProject(int id) {subprojectRepository.deleteSubProjectFromDB(id);}
 	
+	public String getParentProjectName(int id) {return subprojectRepository.getParentProjectNameFromDB(id);}
 
 }
