@@ -57,4 +57,17 @@ public class SubprojectRepository
 			System.out.println("Error in SubProjectRepository. Method: createSubProject: " + e.getMessage());
 		}
 	}
+	
+	public void deleteSubProjectFromDB(int Subproject_ID) {
+    	String deleteSubProjectFromDB = "DELETE FROM subprojects WHERE Subproject_ID = ?";
+    	
+    	try {
+			PreparedStatement preparedStatement = connectionService.establishConnection().prepareStatement(deleteSubProjectFromDB);
+			preparedStatement.setInt(1, Subproject_ID);
+			
+			preparedStatement.execute();
+		} catch (SQLException e) {
+			System.out.println("Klasse: SubprojectRepository\nMethode: deleteSubProject()\nError: " + e.getMessage());
+		}
+	}
 }

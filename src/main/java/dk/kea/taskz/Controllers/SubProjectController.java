@@ -24,6 +24,14 @@ public class SubProjectController
 
 		return "redirect:/subprojects";
 	}
+	
+	@PostMapping("/deleteSubProject")
+	public String deleteSubProject(WebRequest data) {
+		String id = data.getParameter("deleteSubProject");
+		subprojectService.deleteSubProject(Integer.valueOf(id));
+		return "redirect:/subprojects";
+		
+	}
 
 	/**
 	 * - OVO

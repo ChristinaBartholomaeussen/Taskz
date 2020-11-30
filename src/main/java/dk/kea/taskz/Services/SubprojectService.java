@@ -22,5 +22,7 @@ public class SubprojectService
     public void createSubproject(Subproject subproject){
     	subprojectRepository.insertSubProjectIntoDB(subproject);
 	}
+	
+	public void deleteSubProject(int id) {subprojectRepository.deleteSubProjectFromDB(id);}
 
 }

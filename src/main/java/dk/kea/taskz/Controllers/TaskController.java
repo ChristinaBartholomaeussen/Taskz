@@ -17,6 +17,14 @@ import java.time.LocalDate;
 public class TaskController {
 
 	TaskService taskService = new TaskService();
+	int subprojectsID = -1;
+	
+	@PostMapping("/newTask")
+	public String newTaskPost(WebRequest data) {
+		subprojectsID = Integer.parseInt(data.getParameter("subprojectsID"));
+		System.out.println(subprojectsID);
+		return "redirect:/newTask";
+	}
 	
 	/**
 	 *  - OVO
@@ -26,6 +34,7 @@ public class TaskController {
 	 */
 	@GetMapping("/newTask")
 	public String taskPopUp(Model model) {
+		model.addAttribute("subprojectsID", subprojectsID);
 		model.addAttribute("popup", false);
 		model.addAttribute("TaskPopUp", true);
 		return "subprojects";

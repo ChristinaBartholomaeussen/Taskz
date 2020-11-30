@@ -50,7 +50,7 @@
 				</div>
 				<form th:method="post" action="/newTaskData">
 					<div class="form-row">
-						<input type="number" name="subProjectId" class="hidden" value="18®">
+						<input type="number" name="subProjectId" class="hidden" th:value="${subprojectsID}">
 					</div>
 					<div class="form-row">
 						<div class="form-group col-md-12">
@@ -114,7 +114,11 @@
 			<div class="subproject d-flex">
 				<h4 class="text-center my-auto display-block" th:text="${subprojects.getSubprojectName()}" > </h4>
 				<!--span>16/16 hours</span -->
-				<button class="btn btn-danger  mx-1 p-2 ml-auto">Delete</button>
+				<form th:method="post" action="/deleteSubProject">
+					<input type="text" th:value="${subprojects.getSubprojectId()}" name="deleteSubProject" class="hidden">
+					<button type="submit" class="btn btn-danger  mx-1 p-2 ml-auto">Delete Subproject</button>
+				</form>
+				
 			</div>
 			<table class="table table-striped" style="position: relative">
 				<thead>
@@ -150,7 +154,10 @@
 				</tbody>
 			</table>
 			<div class="d-flex">
-				<a href="/newTask" class="btn btn-primary mx-1 p-2 ml-auto">New Task</a>
+				<form th:method="post" action="/newTask">
+					<input type="text" th:value="${subprojects.getSubprojectId()}" name="subprojectsID" class="hidden">
+					<button type="submit" class="btn btn-primary mx-1 p-2 ml-auto">New Task</button>
+				</form>
 			</div>
 		</div>
     </main>
