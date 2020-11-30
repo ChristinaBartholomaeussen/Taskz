@@ -19,8 +19,12 @@ public class Task
 	private Enum<Complexity> complexity;
 	private String member;
 
-    public Task(int taskId, int parentSubProjectId, String taskName, Enum<Priority> priority, Enum<Complexity> complexity, LocalDate deadline, double estimatedTime,
-                Enum<Status> status)
+	public Task() {
+
+	}
+
+    public Task(int taskId, int parentSubProjectId, String taskName, Enum<Priority> priority, Enum<Complexity> complexity,
+				LocalDate deadline, double estimatedTime, Enum<Status> status, String member)
     {
         this.taskId = taskId;
         this.parentSubProjectId = parentSubProjectId;
@@ -30,18 +34,12 @@ public class Task
         this.status = status;
         this.priority = priority;
         this.complexity = complexity;
-        //this.assigned = assigned;
-
-		/**
-		 *  - OVO
-		 *  Der er ikke sat assigned members på i databasen. Derfor udkommentere jeg alt koden med assigned members, fordi det ikke er færdig implementeret endnu.
-		 *  29/11
-		 */
-}
+        this.member = member;
+	}
 
 
 	public Task(int parentSubProjectId, String taskName, Enum<Priority> priority, Enum<Complexity> complexity, LocalDate deadline, double estimatedTime,
-				Enum<Status> status)
+				Enum<Status> status, String member)
 	{
 		this.taskId = taskId;
 		this.parentSubProjectId = parentSubProjectId;
@@ -51,18 +49,10 @@ public class Task
 		this.status = status;
 		this.priority = priority;
 		this.complexity = complexity;
-		//this.assigned = assigned;
-
-		/**
-		 *  - OVO
-		 *  Der er ikke sat assigned members på i databasen. Derfor udkommentere jeg alt koden med assigned members, fordi det ikke er færdig implementeret endnu.
-		 *  29/11
-		 */
+		this.member = member;
 	}
 	
-	public Task() {
-    	
-	}
+
 
 	public String getTaskName() {
 		return taskName;

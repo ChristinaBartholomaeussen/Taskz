@@ -53,9 +53,9 @@ public class TaskController {
 		int complexity = Integer.parseInt(data.getParameter("complexity"));
 		String estimatedTime = data.getParameter("estimatedTime");
 		String deadline = data.getParameter("deadline");
-		String teamMembers = data.getParameter("TeamMembers");
-		
-		Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline),  Double.valueOf(estimatedTime), Status.INACTIVE);
+		String member = data.getParameter("TeamMembers");
+
+		Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline),  Double.valueOf(estimatedTime), Status.INACTIVE, member);
 		taskService.insertTask(task);
 		
 		return "redirect:/subprojects";

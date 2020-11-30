@@ -28,7 +28,7 @@
 					<div class="form-row">
 						<div class="form-group col-md-12">
 							<label for="inputFormSubProjectName">SubProject Name</label>
-							<input type="text" class="form-control" name="newSubProject" id="inputFormSubProjectName" placeholder="Enter Subproject Name" required>
+							<input type="text" class="form-control" name="newSubProject" id="inputFormSubProjectName" placeholder="Enter Task Name" required>
 						</div>
 					</div>
 					<button type="submit" class="btn btn-primary mx-auto">Create Project</button>
@@ -96,10 +96,10 @@
 							<label for="taskAssignMember">Assign team member:</label>
 							<select class="custom-select" id="taskAssignMember" name="TeamMembers" required>
 								<option value="" disabled selected hidden>Choose team member</option>
-								<option value="1">Frederik Meizner Petersen</option>
-								<option value="2">Christina Maria Bartholomæussen</option>
-								<option value="3">Rune Martin Bjerregaard Petersen</option>
-								<option value="4">Oscar Vinther Otterstad</option>
+								<option value="FMP">Frederik Meizner Petersen</option>
+								<option value="CMB">Christina Maria Bartholomæussen</option>
+								<option value="RBP">Rune Martin Bjerregaard Petersen</option>
+								<option value="OVO">Oscar Vinther Otterstad</option>
 							</select>
 						</div>
 					</div>
@@ -114,8 +114,8 @@
 			<div class="subproject d-flex">
 				<h4 class="text-center my-auto display-block" th:text="${subproject.getSubprojectName()}" > </h4>
 				<form th:method="post" action="/deleteSubProject">
-					<input type="text" th:value="${subprojects.getSubprojectId()}" name="deleteSubProject" class="hidden">
-					<button type="submit" class="btn btn-danger  mx-1 p-2 ml-auto">Delete Subproject</button>
+					<input type="text" th:value="${subproject.getSubprojectId()}" name="deleteSubProject" class="hidden">
+					<button type="submit" class="btn btn-danger mx-1 p-2 ml-auto">Delete Subproject</button>
 				</form>
 				
 			</div>
@@ -132,20 +132,21 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="task : ${subproject.getTaskList()}">
+					<tr th:each="task : ${subproject.getTaskList}">
 						<td><form><input type="checkbox"> </form></td>
 						<td th:text="${task.taskName}"></td>
-						<td th:text="${task.getPriority()}"></td>
+						<td th:text="${task.getPriority}"></td>
 						<td th:text="${task.getComplexity}"></td>
-						<td>memberString</td>
-						<td th:></td>
-						<td></td>
+						<td th:text="${task.getMember}"></td>
+						<td th:text="${task.getEstimatedTime}"></td>
+						<td th:text="${task.getDeadline}"></td>
+						<td><form method="post" action="/deleteTask" ><button type="submit" class="btn btn-danger mx-1 p-2 ml-auto" name="deleteTask" th:value="${task.getTaskId}">Delete</button></form></td>
 					</tr>
 				</tbody>
 			</table>
 			<div class="d-flex">
 				<form th:method="post" action="/newTask">
-					<input type="text" th:value="${subprojects.getSubprojectId()}" name="subprojectsID" class="hidden">
+					<input type="text" th:value="${subproject.getSubprojectId()}" name="subprojectsID" class="hidden">
 					<button type="submit" class="btn btn-primary mx-1 p-2 ml-auto">New Task</button>
 				</form>
 			</div>

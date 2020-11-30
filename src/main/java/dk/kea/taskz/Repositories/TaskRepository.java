@@ -40,7 +40,8 @@ public class TaskRepository {
 						 Complexity.values()[resultSet.getInt(5)], 
 						 resultSet.getDate(6).toLocalDate(), 
 						 resultSet.getDouble(7), 
-						 Status.values()[resultSet.getInt(8)]
+						 Status.values()[resultSet.getInt(8)],
+						 resultSet.getString(9)
 						);
 				 taskList.add(task);
 			}
@@ -77,7 +78,8 @@ public class TaskRepository {
 						Complexity.values()[resultSet.getInt(5)], 
 						resultSet.getDate(6).toLocalDate(), 
 						resultSet.getDouble(7), 
-						Status.values()[resultSet.getInt(8)]
+						Status.values()[resultSet.getInt(8)],
+						resultSet.getString(9)
 				);
 
 			}
@@ -116,9 +118,8 @@ public class TaskRepository {
 	 * @param task
 	 */
 	public void insertNewTaskToDB(Task task) {
-		String insertTaskSQL = "INSERT INTO taskz.tasks(Task_ID, SubProject_ID, Task_Name, Priority, Complexity, Task_Deadline, Task_Estimated_Time, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		String insertTaskSQL = "INSERT INTO taskz.tasks(Task_ID, SubProject_ID, Task_Name, Priority, Complexity, Task_Deadline, Task_Estimated_Time, Status, Member) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)";
 
-		
 		int id = getLatestIdFromDB() + 1;
 		System.out.println(id);
 		try {
@@ -131,10 +132,11 @@ public class TaskRepository {
 			preparedStatement.setDate(6, java.sql.Date.valueOf(task.getDeadline()));
 			preparedStatement.setDouble(7, task.getEstimatedTime());
 			preparedStatement.setInt(8, task.getStatus().ordinal());
+			preparedStatement.setString(9,task.getMember());
 
 			preparedStatement.execute();
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			System.out.println("Error happened in TaskRepository at insertNewTaskToDB" + e.getMessage());
 		}
 	}
 
@@ -175,7 +177,8 @@ public class TaskRepository {
 						Complexity.values()[rs.getInt(5)],
 						rs.getDate(6).toLocalDate(),
 						rs.getDouble(7),
-						Status.values()[rs.getInt(8)]));
+						Status.values()[rs.getInt(8)],
+						rs.getString(9)));
 			}
 
 		}
