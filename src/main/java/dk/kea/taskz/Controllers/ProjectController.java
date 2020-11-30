@@ -8,25 +8,32 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
 public class ProjectController {
 
 	ProjectService projectService = new ProjectService();
-	List<Project> projectList = projectService.getProjectList();
-	
+
+
 	/**
 	 * - OVO
 	 * Getmapping for project. 
 	 * Sætter en model attribute med en boolean som styre om popup html skal være aktiv
+	 * - FMP
+	 * Sætter en model attribute, til og hente en liste af alle projekter fra databasen.
 	 * @param model
 	 * @return projects
 	 */
 	@GetMapping("/projects")
 	public String projects(Model model) {
+
+		List<Project> projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();
+
 		model.addAttribute("popup", false);
 		model.addAttribute("projectList", projectList);
+
 		return "projects";
 	}
 
@@ -35,12 +42,19 @@ public class ProjectController {
 	 * En ny getmapping som bliver kaldt af "New Projects" linket i project siden.
 	 * Egentlig returnere den projekt siden igen, men også sætter boolean til true.
 	 * Det gør at popup bliver aktiv.
+	 * - FMP
+	 * Tilføjet date attribute, såfremt at minimums datoen bliver sat til i dag.
 	 * @param model
 	 * @return projects
 	 */
 	@GetMapping("/newProject")
-	public String newProject(Model model){
+	public String newProject(Model model) {
+
+		LocalDate date = LocalDate.now();
+
+		model.addAttribute("date", date);
 		model.addAttribute("popup", true);
+
 		return "projects";
 	}
 
@@ -55,14 +69,24 @@ public class ProjectController {
 
 		String projectStartDate = projectData.getParameter("projectStartDate");
 
-		//projectList.add(new Project(projectData.getParameter("projectName"), projectData.getParameter(), projectData.getParameter("projectDeadline")));
+		LocalDate convertedProjectStartDate = LocalDate.parse(projectStartDate);
 
-		return "projects";
+		String projectDeadline = projectData.getParameter("projectDeadline");
+
+		LocalDate convertedProjectDeadline = LocalDate.parse(projectDeadline);
+
+		Project newProject = new Project(projectData.getParameter("projectName"), convertedProjectStartDate, convertedProjectDeadline);
+
+		projectService.addProjectToDatabase(newProject);
+
+		return "redirect:/projects";
 	}
 
 	@PostMapping("/deleteProject")
-	public String deleteProject(WebRequest data)
-	{
+	public String deleteProject(WebRequest data) {
+
+		List<Project> projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();
+
 		int projectToDeleteId = Integer.parseInt(data.getParameter("projectId"));
 
 		for(Project project : projectList)

@@ -24,9 +24,10 @@ public class Project
         this.deadline = deadline;
     }
 
-    public Project(int projectId, String name, LocalDate deadline, double totalEstimatedTime){
+    public Project(int projectId, String name, LocalDate startDate, LocalDate deadline, double totalEstimatedTime){
         this.projectId = projectId;
         this.name = name;
+        this.startDate = startDate;
         this.deadline = deadline;
         this.totalEstimatedTime = totalEstimatedTime;
     }

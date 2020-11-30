@@ -13,13 +13,8 @@ public class ProjectService {
 
     List<Project> projectList = new ArrayList<>();
 
-    public ProjectService() {
-        projectList.add(new Project("Host Migration", LocalDate.now(), LocalDate.now().plusDays(7)));
-        projectList.add(new Project("Frontend Development", LocalDate.now(), LocalDate.now().plusDays(14)));
-    }
+    public List<Project> getProjectList() {
 
-    public List<Project> getProjectList()
-    {
         return  projectList;
     }
 
@@ -28,7 +23,7 @@ public class ProjectService {
      * Henter listen fra Repository, som henter det specfikke ID, navn, deadline og estimeret time
      * @return
      */
-    public List<Project> getProjectByIdNameDeadlineEstimatedTime(){
+    public List<Project> getProjectByIdNameDeadlineEstimatedTime() {
         projectList = projectRepository.selectProjectFromDatabaseByIdNameDeadlineEstimatedTime();
 
         return projectList;
@@ -38,7 +33,7 @@ public class ProjectService {
      * Indsaetter nyt object af Project i databasen ved hjaelp af metode i repository
      * @param project
      */
-    public void addProjectToDatabase(Project project){
+    public void addProjectToDatabase(Project project) {
 
         projectRepository.insertProjectIntoDatabase(project);
 
