@@ -54,6 +54,9 @@
 				</div>
 				<form th:method="post" action="/newTaskData">
 					<div class="form-row">
+						<input type="number" name="subProjectId" class="hidden" value="18®">
+					</div>
+					<div class="form-row">
 						<div class="form-group col-md-12">
 							<label for="inputFormSubProjectName">Task Name</label>
 							<input type="text" class="form-control" name="taskName" id="inputFormSubProjectName" placeholder="Enter Subproject Name" required>
@@ -64,21 +67,21 @@
 							<label for="taskPriority">Priority:</label>
 							<select class="custom-select" name="priority" id="taskPriority" required>
 								<option value="" disabled selected hidden>Choose priority</option>
-								<option value="Critical">Critical</option>
-								<option value="High">High</option>
-								<option value="Medium">Medium</option>
-								<option value="Low">Low</option>
+								<option value="3">Critical</option>
+								<option value="2">High</option>
+								<option value="1">Medium</option>
+								<option value="0">Low</option>
 							</select>
 						</div>
 						<div class="col-md-6">
 							<label for="taskComplexity">Complexity:</label>
 							<select class="custom-select" name="complexity" id="taskComplexity" required>
 								<option value="" disabled selected hidden>Choose complexity</option>
-								<option value="Very Hard">Very Hard</option>
-								<option value="Hard">Hard</option>
-								<option value="Medium">Medium</option>
-								<option value="Easy">Easy</option>
-								<option value="Very Easy">Very Easy</option>
+								<option value="4">Very Hard</option>
+								<option value="3">Hard</option>
+								<option value="2">Medium</option>
+								<option value="1">Easy</option>
+								<option value="0">Very Easy</option>
 							</select>
 						</div>
 					</div>

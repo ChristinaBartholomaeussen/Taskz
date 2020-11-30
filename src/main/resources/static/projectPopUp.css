@@ -64,3 +64,6 @@
 }
 .cross-two {transform: rotate(45deg);}
 
+.hidden {
+	visibility: hidden;
+}
