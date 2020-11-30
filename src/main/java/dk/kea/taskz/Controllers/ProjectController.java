@@ -15,6 +15,7 @@ import java.util.List;
 public class ProjectController {
 
 	ProjectService projectService = new ProjectService();
+	List<Project> projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();
 
 
 	/**
@@ -29,7 +30,6 @@ public class ProjectController {
 	@GetMapping("/projects")
 	public String projects(Model model) {
 
-		List<Project> projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();
 
 		model.addAttribute("popup", false);
 		model.addAttribute("projectList", projectList);
@@ -50,10 +50,13 @@ public class ProjectController {
 	@GetMapping("/newProject")
 	public String newProject(Model model) {
 
+
+		model.addAttribute("popup", true);
+		model.addAttribute("projectList", projectList);
+
 		LocalDate date = LocalDate.now();
 
 		model.addAttribute("date", date);
-		model.addAttribute("popup", true);
 
 		return "projects";
 	}
