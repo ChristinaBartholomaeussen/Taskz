@@ -15,8 +15,7 @@
     </header>
 
     <main>
-		
-		<!-- Pop up SubProject-->
+		<!--#region Popup Subproject -->
 		<div class="" th:classappend="${popup} ? display : none">
 			<a href="/subprojects" class="background">
 			</a>
@@ -39,9 +38,8 @@
 				</form>
 			</div>
 		</div>
-
-
-		<!-- Pop up Task-->
+		<!--#endregion-->
+		<!--#region Popup Task -->
 		<div class="" th:classappend="${TaskPopUp} ? display : none">
 			<a href="/subprojects" class="background">
 			</a>
@@ -112,8 +110,9 @@
 				</form>
 			</div>
 		</div>
-		
-		<div class="subproject container border border-striped mx-auto my-4">
+		<!--#endregion -->
+
+		<div class="subproject container border border-striped mx-auto my-4" >
 			<div class="subproject d-flex">
 				<span>Subproject 1</span>
 				<span>16/16 hours</span>
@@ -156,96 +155,6 @@
 				<a href="/newTask" class="btn btn-primary mx-1 p-2 ml-auto">New Task</a>
 			</div>
 		</div>
-
-		<div class="subproject container border border-striped mx-auto my-4">
-			<div class="subproject d-flex">
-				<span>Subproject 1</span>
-				<span>16/16 hours</span>
-				<button class="btn btn-danger  mx-1 p-2 ml-auto">Delete</button>
-			</div>
-			<table class="table table-striped" style="position: relative">
-				<thead>
-				<tr>
-					<th scope="col">Done</th>
-					<th scope="col">Task Name</th>
-					<th scope="col">Priority</th>
-					<th scope="col">Severity</th>
-					<th scope="col">Members</th>
-					<th scope="col">Estimated</th>
-					<th scope="col">Deadline</th>
-				</tr>
-				</thead>
-				<tbody>
-				<tr>
-					<td class="m-auto text-center"><input  scope="row"  type="checkbox"></td>
-					<td>Task 1</td>
-					<td>3</td>
-					<td>2</td>
-					<td>Oscar, Frederik, Christina, Rune</td>
-					<td>16</td>
-					<td>21-12-2020</td>
-				</tr>
-				<tr>
-					<td class="m-auto text-center"><input  scope="row"  type="checkbox"></td>
-					<td>Task 1</td>
-					<td>3</td>
-					<td>2</td>
-					<td>Oscar, Frederik, Christina, Rune</td>
-					<td>16</td>
-					<td>21-12-2020</td>
-				</tr>
-				</tbody>
-			</table>
-			<div class="d-flex">
-				<button class="btn btn-primary mx-1 p-2 ml-auto">New Task</button>
-			</div>
-		</div>
-
-		<div class="subproject container border border-striped mx-auto my-4">
-			<div class="subproject d-flex">
-				<span>Subproject 1</span>
-				<span>16/16 hours</span>
-				<button class="btn btn-danger  mx-1 p-2 ml-auto">Delete</button>
-			</div>
-			<table class="table table-striped" style="position: relative">
-				<thead>
-				<tr>
-					<th scope="col">Done</th>
-					<th scope="col">Task Name</th>
-					<th scope="col">Priority</th>
-					<th scope="col">Severity</th>
-					<th scope="col">Members</th>
-					<th scope="col">Estimated</th>
-					<th scope="col">Deadline</th>
-				</tr>
-				</thead>
-				<tbody>
-				<tr>
-					<td class="m-auto text-center"><input  scope="row"  type="checkbox"></td>
-					<td>Task 1</td>
-					<td>3</td>
-					<td>2</td>
-					<td>Oscar, Frederik, Christina, Rune</td>
-					<td>16</td>
-					<td>21-12-2020</td>
-				</tr>
-				<tr>
-					<td class="m-auto text-center"><input  scope="row"  type="checkbox"></td>
-					<td>Task 1</td>
-					<td>3</td>
-					<td>2</td>
-					<td>Oscar, Frederik, Christina, Rune</td>
-					<td>16</td>
-					<td>21-12-2020</td>
-				</tr>
-				</tbody>
-			</table>
-			<div class="d-flex">
-				<button class="btn btn-primary mx-1 p-2 ml-auto">New Task</button>
-			</div>
-		</div>
-		
-       
     </main>
 </div>
 </body>

@@ -1,15 +1,9 @@
 package dk.kea.taskz.Models;
 
-import dk.kea.taskz.Services.SubprojectService;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.List;
 
 public class Subproject
 {
-    @Autowired
-    SubprojectService subprojectService;
-
     private int subprojectId;
     private int parentProjectId;
     private String subprojectName;
@@ -17,6 +11,13 @@ public class Subproject
 
     public Subproject(String subprojectName, int parentProjectId)
     {
+        this.parentProjectId = parentProjectId;
+        this.subprojectName = subprojectName;
+    }
+
+    public Subproject(int subprojectId, int parentProjectId, String subprojectName)
+    {
+        this.subprojectId = subprojectId;
         this.parentProjectId = parentProjectId;
         this.subprojectName = subprojectName;
     }

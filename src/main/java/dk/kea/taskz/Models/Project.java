@@ -1,25 +1,22 @@
 package dk.kea.taskz.Models;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Project {
+public class Project
+{
     private int projectId;
     private String name;
     private LocalDate startDate;
     private LocalDate deadline;
     private double totalWorkHoursPerDay;
     private double totalEstimatedTime;
+    private List<Subproject> associatedSubprojects;
 
     public Project(String name) {
         this.name = name;
     }
-
-    /**
-     * HTML connection test // Delete when finished
-     * @param name
-     * @param startDate
-     * @param deadline
-     */
 
     public Project(String name, LocalDate startDate, LocalDate deadline) {
         this.name = name;
@@ -41,6 +38,7 @@ public class Project {
         this.deadline = deadline;
         this.totalWorkHoursPerDay = totalWorkHoursPerDay;
         this.totalEstimatedTime = totalEstimatedTime;
+        this.associatedSubprojects = new ArrayList<>();
     }
 
     public int getProjectId() {
