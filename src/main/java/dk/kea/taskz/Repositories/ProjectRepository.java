@@ -14,7 +14,6 @@ public class ProjectRepository {
 
 ConnectionService connection = new ConnectionService();
 
-
     /**
      * Henter alle projekter fra databasen
      * @return liste af alle projekter
@@ -25,28 +24,27 @@ ConnectionService connection = new ConnectionService();
 
     List<Project> allProjects = new ArrayList<>();
 
-    try {
-        PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(selectAllProjects);
+        try {
+            PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(selectAllProjects);
 
-        ResultSet rs = preparedStatement.executeQuery();
+            ResultSet rs = preparedStatement.executeQuery();
 
-        while(rs.next()) {
-            Project project = new Project(
-                    rs.getInt(1),
-                    rs.getString(2),
-                    rs.getDate(3).toLocalDate(),
-                    rs.getDate(4).toLocalDate(),
-                    rs.getDouble(5)
-                    );
-            allProjects.add(project);
-        }
+            while(rs.next()) {
+                Project project = new Project(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getDate(3).toLocalDate(),
+                        rs.getDate(4).toLocalDate(),
+                        rs.getDouble(5)
+                        );
+                allProjects.add(project);
+            }
 
-    } catch (SQLException e) {
-        System.out.println(e.getMessage());
-    }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            }
 
-    return allProjects;
-
+        return allProjects;
     }
 
 
@@ -69,13 +67,11 @@ ConnectionService connection = new ConnectionService();
         {
             System.out.println("Error" + e.getMessage());
         }
-
     }
-
 
     public void deleteWholeProject(int projectId){
 
-        String deleteQuery = "delete from projects where projectId = ?";
+        String deleteQuery = "delete from projects where Project_ID = ?";
 
         try{
             PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(deleteQuery);
@@ -85,16 +81,5 @@ ConnectionService connection = new ConnectionService();
         }catch (SQLException e){
             System.out.println("Error: " + e.getMessage());
         }
-
-
-
     }
-
-
-
-
-
-
-
-
 }

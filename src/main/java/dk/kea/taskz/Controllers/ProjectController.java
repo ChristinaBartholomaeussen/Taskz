@@ -30,6 +30,7 @@ public class ProjectController {
 	@GetMapping("/projects")
 	public String projects(Model model) {
 
+		projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();
 
 		model.addAttribute("popup", false);
 		model.addAttribute("projectList", projectList);
@@ -62,9 +63,12 @@ public class ProjectController {
 	}
 
 	/**
-	 * DO NOT TOUCH - ONGOING - FREDE
+	 * - FMP
+	 * Postmapping for 'create new project'
+	 * Sender et projekt objekt til databasen, hvori objektet bliver gemt
+	 * Konvertering fra html date datatype (String) til LocalDate
 	 * @param projectData
-	 * @return
+	 * @return redirect:/projects
 	 */
 
 	@PostMapping("/postNewProject")
@@ -85,16 +89,27 @@ public class ProjectController {
 		return "redirect:/projects";
 	}
 
+	/**
+	 * - FMP/RBP
+	 * Postmapping for 'delete project'
+	 * Henter en liste over alle projekter, hvorefter den henter projectId fra objektet
+	 * Herefter looper vi igennem listen, og forsøger at finde, hvor projektId'et matcher med det projektId, vi gerne vil slette
+	 * Hvis det er fundet sletter metoden projektet fra databasen
+	 * @param deleteProjectData
+	 * @return
+	 */
+
 	@PostMapping("/deleteProject")
-	public String deleteProject(WebRequest data) {
+	public String deleteProject(WebRequest deleteProjectData) {
 
 		List<Project> projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();
 
-		int projectToDeleteId = Integer.parseInt(data.getParameter("projectId"));
+		int projectToDeleteId = Integer.parseInt(deleteProjectData.getParameter("projectId"));
 
 		for(Project project : projectList)
-			if(project.getProjectId() == projectToDeleteId)
-				System.out.println("Deleting project: " + project.getName());
+			if(project.getProjectId() == projectToDeleteId) {
+				projectService.deleteProject(projectToDeleteId);
+			}
 
 		return "redirect:/projects";
 	}
