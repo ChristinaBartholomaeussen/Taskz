@@ -50,16 +50,21 @@
 
 			<table class="table table-striped">
 				<thead>
-					<th>Project Name</th>
-					<th>Startdate</th>
-					<th>Deadline</th>
+					<th class="text-center">Project Name</th>
+					<th class="text-center">Startdate</th>
+					<th class="text-center">Deadline</th>
+					<th class="text-center">Work Hours Per Day</th>
+					<th class="text-center">Total Estimated Time</th>
+					<th></th>
 					<th></th>
 				</thead>
 				<tbody>
 					<tr th:each="project : ${projectList}">
 						<td th:text="${project.getName}"/>
-						<td th:text="${project.getStartDate}"/>
-						<td th:text="${project.getDeadline}"/>
+						<td class="text-center" th:text="${project.getStartDate}"/>
+						<td class="text-center" th:text="${project.getDeadline}"/>
+						<td class="text-center" th:text="${project.getTotalWorkHoursPerDay}"/>
+						<td class="text-center" th:text="${project.getTotalEstimatedTime}"/>
 						<td><form method="post" action="/deleteProject"><button type="submit" name="projectId" th:value="${project.getProjectId}" class="btn btn-danger">Delete</button></form></td>
 						<td><form method="post" action="/postSubprojects"><button type="submit" name="projectId" th:value="${project.getProjectId}" class="btn btn-primary">See Project</button></form></td>
 					</tr>
