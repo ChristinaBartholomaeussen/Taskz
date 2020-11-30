@@ -1,10 +1,12 @@
 package dk.kea.taskz.Repositories;
 
 import dk.kea.taskz.Models.Subproject;
+import dk.kea.taskz.Models.Task;
 import dk.kea.taskz.Services.ConnectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.security.auth.Subject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,8 +21,9 @@ public class SubprojectRepository
 
     public List<Subproject> getAllAssociatedSubprojects(int projectId)
     {
-        String getAllAssociatedSubprojectsSqlStatement = "SELECT * FROM taskz.subprojects WHERE Project_ID = 1" ;
+        String getAllAssociatedSubprojectsSqlStatement = "SELECT * FROM taskz.subprojects WHERE Project_ID = " + projectId ;
         List<Subproject> subprojectList = new ArrayList<>();
+        List<Task> taskList = new ArrayList<>();
 
         try
         {
@@ -42,7 +45,7 @@ public class SubprojectRepository
     }
     
     public void insertSubProjectIntoDB(Subproject subproject) {
-    	String insertSubProject = "INSERT INTO subprojects (Subproject_Name, Project_ID, Time_Spent, Subproject_Estimated_Time) VALUES (?, ?, ?, ?)";
+    	String insertSubProject = "INSERT INTO taskz.subprojects (Subproject_Name, Project_ID, Time_Spent, Subproject_Estimated_Time) VALUES (?, ?, ?, ?)";
     	
     	try {
     		PreparedStatement preparedStatement = connectionService.establishConnection().prepareStatement(insertSubProject);

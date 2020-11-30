@@ -29,7 +29,8 @@ ConnectionService connection = new ConnectionService();
 
             ResultSet rs = preparedStatement.executeQuery();
 
-            while(rs.next()) {
+            while(rs.next())
+            {
                 Project project = new Project(
                         rs.getInt(1),
                         rs.getString(2),

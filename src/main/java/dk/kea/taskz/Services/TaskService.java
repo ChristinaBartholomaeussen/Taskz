@@ -4,12 +4,15 @@ import dk.kea.taskz.Models.Task;
 import dk.kea.taskz.Repositories.TaskRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TaskService {
 	TaskRepository taskRepository = new TaskRepository();
 	
-	public void printData() {
-		System.out.println(taskRepository.getAllTasksFromDB());
+	public List<Task> getAllAssociatedTasksToSubproject(int subprojectId)
+	{
+		return taskRepository.getAllAssociatedTasksToSubproject(subprojectId);
 	}
 	
 	public int getLatestId() {

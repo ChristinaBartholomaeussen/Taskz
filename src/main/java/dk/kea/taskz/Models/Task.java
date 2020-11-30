@@ -17,7 +17,7 @@ public class Task
 	private Enum<Status> status;
 	private Enum<Priority> priority;
 	private Enum<Complexity> complexity;
-//private List<Member> assigned;
+	private String member;
 
     public Task(int taskId, int parentSubProjectId, String taskName, Enum<Priority> priority, Enum<Complexity> complexity, LocalDate deadline, double estimatedTime,
                 Enum<Status> status)
@@ -120,6 +120,13 @@ public class Task
 		this.taskId = taskId;
 	}
 
+	public String getMember() {
+		return member;
+	}
+
+	public void setMember(String member) {
+		this.member = member;
+	}
 
 	public int getParentSubProjectId() {
 		return parentSubProjectId;

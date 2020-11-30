@@ -4,8 +4,6 @@ import java.util.List;
 
 public class Subproject
 {
-	
-
 	private int subprojectId;
     private int parentProjectId;
     private String subprojectName;
@@ -23,7 +21,6 @@ public class Subproject
         this.parentProjectId = parentProjectId;
         this.subprojectName = subprojectName;
     }
-    
 
     public String getSubprojectName()
     {
@@ -42,4 +39,9 @@ public class Subproject
 	public int getParentProjectId() {
 		return parentProjectId;
 	}
+
+    public void setTaskList(List<Task> taskList)
+    {
+        this.taskList = taskList;
+    }
 }

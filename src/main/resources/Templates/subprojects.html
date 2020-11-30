@@ -110,10 +110,9 @@
 		</div>
 		<!--#endregion -->
 
-		<div class="subproject container border border-striped mx-auto my-4" th:each="subprojects : ${subprojectList}">
+		<div class="subproject container border border-striped mx-auto my-4" th:each="subproject : ${subprojectList}">
 			<div class="subproject d-flex">
-				<h4 class="text-center my-auto display-block" th:text="${subprojects.getSubprojectName()}" > </h4>
-				<!--span>16/16 hours</span -->
+				<h4 class="text-center my-auto display-block" th:text="${subproject.getSubprojectName()}" > </h4>
 				<form th:method="post" action="/deleteSubProject">
 					<input type="text" th:value="${subprojects.getSubprojectId()}" name="deleteSubProject" class="hidden">
 					<button type="submit" class="btn btn-danger  mx-1 p-2 ml-auto">Delete Subproject</button>
@@ -122,35 +121,26 @@
 			</div>
 			<table class="table table-striped" style="position: relative">
 				<thead>
-				<tr>
-					<th scope="col">Done</th>
-					<th scope="col">Task Name</th>
-					<th scope="col">Priority</th>
-					<th scope="col">Severity</th>
-					<th scope="col">Members</th>
-					<th scope="col">Estimated</th>
-					<th scope="col">Deadline</th>
-				</tr>
+					<tr>
+						<th scope="col">Done</th>
+						<th scope="col">Task Name</th>
+						<th scope="col">Priority</th>
+						<th scope="col">Complexity</th>
+						<th scope="col">Members</th>
+						<th scope="col">Estimated</th>
+						<th scope="col">Deadline</th>
+					</tr>
 				</thead>
 				<tbody>
-				<tr>
-					<td class="m-auto text-center"><input  scope="row"  type="checkbox"></td>
-					<td>Task 1</td>
-					<td>3</td>
-					<td>2</td>
-					<td>Oscar, Frederik, Christina, Rune</td>
-					<td>16</td>
-					<td>21-12-2020</td>
-				</tr>
-				<tr>
-					<td class="m-auto text-center"><input  scope="row"  type="checkbox"></td>
-					<td>Task 1</td>
-					<td>3</td>
-					<td>2</td>
-					<td>Oscar, Frederik, Christina, Rune</td>
-					<td>16</td>
-					<td>21-12-2020</td>
-				</tr>
+					<tr th:each="task : ${subproject.getTaskList()}">
+						<td><form><input type="checkbox"> </form></td>
+						<td th:text="${task.taskName}"></td>
+						<td th:text="${task.getPriority()}"></td>
+						<td th:text="${task.getComplexity}"></td>
+						<td>memberString</td>
+						<td th:></td>
+						<td></td>
+					</tr>
 				</tbody>
 			</table>
 			<div class="d-flex">

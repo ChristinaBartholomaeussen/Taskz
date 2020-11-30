@@ -2,6 +2,7 @@ package dk.kea.taskz.Controllers;
 
 import dk.kea.taskz.Models.Subproject;
 import dk.kea.taskz.Services.SubprojectService;
+import dk.kea.taskz.Services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,9 @@ public class SubProjectController
 {
 	@Autowired
 	SubprojectService subprojectService;
+
+	@Autowired
+	TaskService taskService;
 
 	int activeProjectID = -1;
 
@@ -80,7 +84,7 @@ public class SubProjectController
 		String subProjectName = data.getParameter("newSubProject");
 		Subproject subproject = new Subproject(subProjectName, activeProjectID);
 		subprojectService.createSubproject(subproject);
-		
+
 		return "redirect:/subprojects";
 	}
 

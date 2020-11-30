@@ -1,5 +1,6 @@
 package dk.kea.taskz.Repositories;
 
+import com.mysql.cj.protocol.Resultset;
 import dk.kea.taskz.Models.Enums.Complexity;
 import dk.kea.taskz.Models.Enums.Priority;
 import dk.kea.taskz.Models.Enums.Status;
@@ -27,7 +28,7 @@ public class TaskRepository {
 	public List<Task> getAllTasksFromDB() {
 		ArrayList<Task> taskList = new ArrayList<>();
 		try {
-			PreparedStatement preparedStatement = connection.establishConnection().prepareStatement("SELECT * from Tasks");
+			PreparedStatement preparedStatement = connection.establishConnection().prepareStatement("SELECT * from taskz.Tasks");
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 			
@@ -58,7 +59,7 @@ public class TaskRepository {
 	 * @return
 	 */
 	public Task getASpecificTaskFromDB(int Task_ID) {
-		String selectTask = " SELECT * FROM tasks WHERE Task_ID = ?";
+		String selectTask = " SELECT * FROM taskz.tasks WHERE Task_ID = ?";
 		Task taskToReturn = new Task();
 		
 		try {
@@ -115,7 +116,7 @@ public class TaskRepository {
 	 * @param task
 	 */
 	public void insertNewTaskToDB(Task task) {
-		String insertTaskSQL = "INSERT INTO tasks(Task_ID, SubProject_ID, Task_Name, Priority, Complexity, Task_Deadline, Task_Estimated_Time, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		String insertTaskSQL = "INSERT INTO taskz.tasks(Task_ID, SubProject_ID, Task_Name, Priority, Complexity, Task_Deadline, Task_Estimated_Time, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
 		
 		int id = getLatestIdFromDB() + 1;
@@ -143,7 +144,7 @@ public class TaskRepository {
 	 * @param Task_ID
 	 */
 	public void deleteTaskFromDB(int Task_ID) {
-		String deleteTaskFromDB =  "DELETE FROM tasks WHERE Task_ID = ?";
+		String deleteTaskFromDB =  "DELETE FROM taskz.tasks WHERE Task_ID = ?";
 		try {
 			PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(deleteTaskFromDB);
 			preparedStatement.setInt(1, Task_ID);
@@ -153,5 +154,36 @@ public class TaskRepository {
 			System.out.println(e.getMessage());
 		}
 	}
-	
+
+	public List<Task> getAllAssociatedTasksToSubproject(int subprojectId)
+	{
+		String getAllAssociatedTasksToSubproject = "SELECT * FROM taskz.tasks WHERE SubProject_ID = " + subprojectId;
+		List<Task> taskList = new ArrayList<>();
+
+		try
+		{
+			PreparedStatement ps = connection.establishConnection().prepareStatement(getAllAssociatedTasksToSubproject);
+			ResultSet rs = ps.executeQuery();
+
+			while(rs.next())
+			{
+				taskList.add(new Task(
+						rs.getInt(1),
+						rs.getInt(2),
+						rs.getString(3),
+						Priority.values()[rs.getInt(4)],
+						Complexity.values()[rs.getInt(5)],
+						rs.getDate(6).toLocalDate(),
+						rs.getDouble(7),
+						Status.values()[rs.getInt(8)]));
+			}
+
+		}
+		catch(Exception e)
+		{
+			System.out.println("Error happened in TaskRepository at getAllAssociatedTasksToSubproject(): " + e);
+		}
+
+		return taskList;
+	}
 }
