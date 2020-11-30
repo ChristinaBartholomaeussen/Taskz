@@ -4,16 +4,15 @@
     <meta charset="UTF-8">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="projectPopUp.css">
+	<link rel="stylesheet" href="styles.css">
 	<title>Project Page</title>
 </head>
 <body>
+
+	<!-- Header fragment -->
+	<div th:replace="Fragments/header :: header"></div>
+	
 	<div class="wrapper container">
-		<header class="d-flex">
-			<h1>Taskz</h1>
-			<a href="/newProject" class="btn btn-primary">New Project</a>
-			<a href="/logOut" class="btn btn-danger">Log out</a>
-		</header>
-		
 		<main class="my-5">
 			
 			<div class="" th:classappend="${popup} ? display : none">

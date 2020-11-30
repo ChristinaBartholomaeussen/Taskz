@@ -17,6 +17,7 @@ public class ProjectController {
 	ProjectService projectService = new ProjectService();
 	List<Project> projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();
 
+	int activeProjectID = 0;
 
 	/**
 	 * - OVO
@@ -32,6 +33,7 @@ public class ProjectController {
 
 		projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();
 
+		model.addAttribute("activeProjectID", activeProjectID);
 		model.addAttribute("popup", false);
 		model.addAttribute("projectList", projectList);
 

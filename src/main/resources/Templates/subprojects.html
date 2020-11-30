@@ -4,17 +4,15 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="projectPopUp.css">
+	<link rel="stylesheet" href="styles.css">
     <title>SubProject Page</title>
 </head>
 <body>
 <div class="wrapper">
-    <header class="d-flex">
-        <h1>Taskz</h1>
-		<a href="/newSubProject" class="btn btn-primary">New Subproject</a>
-        <a href="/logOut" class="btn btn-danger">Log out</a>
-    </header>
 
-    <main>
+	<!-- Header fragment -->
+	<div th:replace="Fragments/header :: header"></div>
+	<main>
 		<!--#region Popup Subproject -->
 		<div class="" th:classappend="${popup} ? display : none">
 			<a href="/subprojects" class="background">

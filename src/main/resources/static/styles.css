@@ -1,0 +1,11 @@
+* {
+	text-decoration: none;
+}
+
+header {
+	background-color: #007BFF;
+}
+
+a:hover {
+	text-decoration: none;
+}
