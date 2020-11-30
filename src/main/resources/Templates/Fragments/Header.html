@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Title</title>
+</head>
+<body>
+
+	<header th:fragment="header" class="d-flex justify-content-between bg-secondary text-light p-3">
+		<a href="/projects" class="text-light ml-2"><h1>Taskz</h1></a>
+		
+		<a href="/newSubProject" class="btn btn-primary ml-auto">New Subproject</a>
+		<a href="/logOut" class="btn btn-danger ml-4">Log out</a>
+	</header>
+	
+</body>
+</html>
