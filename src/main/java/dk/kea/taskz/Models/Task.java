@@ -59,6 +59,10 @@ public class Task
 		 *  29/11
 		 */
 	}
+	
+	public Task() {
+    	
+	}
 
 	public String getTaskName() {
 		return taskName;

@@ -16,12 +16,11 @@ import java.time.LocalDate;
 @Controller
 public class TaskController {
 
-	//Slet efter test
-	TaskService ts = new TaskService();
+	TaskService taskService = new TaskService();
 	
 	/**
 	 *  - OVO
-	 * Sætter en popup op for at lave en ny task.
+	 * Activates the pop up for new task.
 	 * @param model
 	 * @return subprojects
 	 */
@@ -31,7 +30,13 @@ public class TaskController {
 		model.addAttribute("TaskPopUp", true);
 		return "subprojects";
 	}
-	
+
+	/**
+	 *  - OVO
+	 *  Send from data to the database. To create an task.
+	 * @param data
+	 * @return
+	 */
 	@PostMapping("/newTaskData")
 	public String newTaskData(WebRequest data) {
 		String subprojectId = data.getParameter("subProjectId");
@@ -41,13 +46,39 @@ public class TaskController {
 		String estimatedTime = data.getParameter("estimatedTime");
 		String deadline = data.getParameter("deadline");
 		String teamMembers = data.getParameter("TeamMembers");
-
-		//System.out.println("Subproject ID: " + subprojectId + "\nTask name: "+ taskName + "\nPriority: " + priority + "\nComplexity: " + complexity + "\nEstimated time: " + estimatedTime + "\nDeadline: " + deadline + "\nTeammembers: " + teamMembers);
 		
 		Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline),  Double.valueOf(estimatedTime), Status.INACTIVE);
-		ts.insertTask(task);
-
-		System.out.println(task);
+		taskService.insertTask(task);
+		
 		return "redirect:/subprojects";
 	}
+
+
+	/**
+	 *  - OVO
+	 *  Sletter en task fra databasen.
+	 * @param data
+	 * @return
+	 */
+	@PostMapping("/deleteTask")
+	public String deleteTask(WebRequest data) {
+		int idTask = Integer.parseInt(data.getParameter("deleteTask"));
+		taskService.deleteTask(idTask);
+		return "redirect:/subprojects";
+	}
+
+	/**
+	 *  - OVO 
+	 *  Retunere en enkelt task. Men methoden skal ikke se sådan her ud.
+	 *  Det her er bare et eksempel.
+	 */
+	
+	/*
+	@GetMapping("/getSingleTask")
+	public String getSingleTask() {
+		
+		System.out.println(taskService.getASpecificTask(3));
+		return "subprojects";
+	} */
+
 }
