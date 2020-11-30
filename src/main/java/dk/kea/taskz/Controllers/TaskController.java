@@ -65,7 +65,20 @@ public class TaskController {
 		int idTask = Integer.parseInt(data.getParameter("deleteTask"));
 		taskService.deleteTask(idTask);
 		return "redirect:/subprojects";
-	} 
+	}
+
+	/**
+	 *  - OVO 
+	 *  Retunere en enkelt task. Men methoden skal ikke se sådan her ud.
+	 *  Det her er bare et eksempel.
+	 */
 	
+	/*
+	@GetMapping("/getSingleTask")
+	public String getSingleTask() {
+		
+		System.out.println(taskService.getASpecificTask(3));
+		return "subprojects";
+	} */
 
 }

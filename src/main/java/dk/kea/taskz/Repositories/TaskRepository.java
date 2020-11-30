@@ -43,6 +43,38 @@ public class TaskRepository {
 	}
 
 	/**
+	 *  - OVO
+	 *  Returns a specific task from the database. Uses the ID to search for it.
+	 * @param Task_ID
+	 * @return
+	 */
+	public Task getASpecificTaskFromDB(int Task_ID) {
+		String selectTask = " SELECT * FROM tasks WHERE Task_ID = ?";
+		Task taskToReturn = new Task();
+		
+		try {
+			PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(selectTask);
+			preparedStatement.setInt(1, Task_ID);
+			
+			ResultSet resultSet = preparedStatement.executeQuery();
+			
+			while (resultSet.next()) {
+				
+				taskToReturn = new Task(resultSet.getInt(1), resultSet.getInt(2), resultSet.getString(3),
+						Priority.values()[resultSet.getInt(4)], Complexity.values()[resultSet.getInt(5)], resultSet.getDate(6).toLocalDate(), resultSet.getDouble(7), Status.values()[resultSet.getInt(8)]
+				);
+
+			}
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+
+		
+		return taskToReturn;
+	}
+
+	/**
 	 * Gets the latest id from the database
 	 * @return
 	 */
