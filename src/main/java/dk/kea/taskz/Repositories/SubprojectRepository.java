@@ -73,5 +73,22 @@ public class SubprojectRepository
 			System.out.println("Klasse: SubprojectRepository\nMethode: deleteSubProject()\nError: " + e.getMessage());
 		}
 	}
-	
+
+	public String getParentProjectNameFromDB(int projectId) {
+		String selectsProject = "SELECT Project_Name FROM taskz.projects WHERE Project_ID = " + projectId;
+		String projectNameToReturn = "";
+
+		try {
+			PreparedStatement preparedStatement = connectionService.establishConnection().prepareStatement(selectsProject);
+			ResultSet resultSet =  preparedStatement.executeQuery();
+
+			while (resultSet.next()) {
+				projectNameToReturn = resultSet.getString(1);
+			}
+		} catch (SQLException e) {
+			System.out.println("Klasse: ProjectRepository\nMethode: getProjectName\nError: " + e.getMessage());
+		}
+
+		return projectNameToReturn;
+	}
 }

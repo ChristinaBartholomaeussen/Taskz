@@ -96,10 +96,10 @@
 							<label for="taskAssignMember">Assign team member:</label>
 							<select class="custom-select" id="taskAssignMember" name="TeamMembers" required>
 								<option value="" disabled selected hidden>Choose team member</option>
-								<option value="FMP">Frederik Meizner Petersen</option>
-								<option value="CMB">Christina Maria Bartholomæussen</option>
-								<option value="RBP">Rune Martin Bjerregaard Petersen</option>
-								<option value="OVO">Oscar Vinther Otterstad</option>
+								<option value="1">Frederik Meizner Petersen</option>
+								<option value="2">Christina Maria Bartholomæussen</option>
+								<option value="3">Rune Martin Bjerregaard Petersen</option>
+								<option value="4">Oscar Vinther Otterstad</option>
 							</select>
 						</div>
 					</div>
@@ -110,7 +110,17 @@
 		</div>
 		<!--#endregion -->
 
-		<div class="subproject container border border-striped mx-auto my-4" th:each="subproject : ${subprojectList}">
+		<a href="/projects">
+			<h2 class="ml-5 p-3" th:text="${projectName}"></h2>
+		</a>
+		
+		<div th:if="${subprojectList.size() == 0}" class="container mx-auto">
+			<span class="text-info">You have no sub projects <a href="/newSubProject" class="btn btn-success">Create a Subproject</a></span>
+		</div>
+		
+		<div th:unless="${subprojectList.size() == 0}" class="subproject container border border-striped mx-auto my-4" th:each="subproject : ${subprojectList}">
+			
+			
 			<div class="subproject d-flex">
 				<h4 class="text-center my-auto display-block" th:text="${subproject.getSubprojectName()}" > </h4>
 				<form th:method="post" action="/deleteSubProject">
