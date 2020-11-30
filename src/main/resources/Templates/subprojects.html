@@ -117,12 +117,11 @@
 					<input type="text" th:value="${subproject.getSubprojectId()}" name="deleteSubProject" class="hidden">
 					<button type="submit" class="btn btn-danger mx-1 p-2 ml-auto">Delete Subproject</button>
 				</form>
-				
 			</div>
 			<table class="table table-striped" style="position: relative">
 				<thead>
 					<tr>
-						<th scope="col">Done</th>
+						<th scope="col">Status</th>
 						<th scope="col">Task Name</th>
 						<th scope="col">Priority</th>
 						<th scope="col">Complexity</th>
@@ -133,13 +132,17 @@
 				</thead>
 				<tbody>
 					<tr th:each="task : ${subproject.getTaskList}">
-						<td><form><input type="checkbox"> </form></td>
+						<td th:text="${task.getStatus}"></td>
 						<td th:text="${task.taskName}"></td>
 						<td th:text="${task.getPriority}"></td>
 						<td th:text="${task.getComplexity}"></td>
 						<td th:text="${task.getMember}"></td>
 						<td th:text="${task.getEstimatedTime}"></td>
 						<td th:text="${task.getDeadline}"></td>
+						<td th:if="${task.getStatus == T(dk.kea.taskz.Models.Enums.Status).ACTIVE}">
+							<form method="post"><button type="submit" class="btn btn-primary mx-1 p-2 ml-auto">Complete</button></form></td>
+						<td th:if="${task.getStatus == T(dk.kea.taskz.Models.Enums.Status).COMPLETED}">
+							<form method="post"><button type="submit" class="btn btn-secondary mx-1 p-2 ml-auto">Reactivate</button></form></td>
 						<td><form method="post" action="/deleteTask" ><button type="submit" class="btn btn-danger mx-1 p-2 ml-auto" name="deleteTask" th:value="${task.getTaskId}">Delete</button></form></td>
 					</tr>
 				</tbody>
