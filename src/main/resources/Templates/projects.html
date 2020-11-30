@@ -62,7 +62,7 @@
 						<td th:text="${project.getStartDate}"/>
 						<td th:text="${project.getDeadline}"/>
 						<td><form method="post" action="/deleteProject"><button type="submit" name="projectId" th:value="${project.getProjectId}" class="btn btn-danger">Delete</button></form></td>
-						<td><form method="post" action="/postSubprojects"><button type="submit" name="projectId" th:value="${project.getProjectName}" class="btn btn-primary">See Project</button></form></td>
+						<td><form method="post" action="/postSubprojects"><button type="submit" name="projectId" th:value="${project.getProjectId}" class="btn btn-primary">See Project</button></form></td>
 					</tr>
 				</tbody>
 			</table>
