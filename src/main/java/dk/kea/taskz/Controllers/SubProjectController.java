@@ -1,5 +1,6 @@
 package dk.kea.taskz.Controllers;
 
+import dk.kea.taskz.Models.Subproject;
 import dk.kea.taskz.Services.SubprojectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,12 +15,12 @@ public class SubProjectController
 	@Autowired
 	SubprojectService subprojectService;
 
-	int activeProject = -1;
+	int activeProjectID = -1;
 
 	@PostMapping("/postSubprojects")
 	public String postSubprojects(WebRequest data)
 	{
-		activeProject = Integer.parseInt(data.getParameter("projectId"));
+		activeProjectID = Integer.parseInt(data.getParameter("projectId"));
 
 		return "redirect:/subprojects";
 	}
@@ -33,9 +34,13 @@ public class SubProjectController
 	@GetMapping("/subprojects")
 	public String subprojects(Model model)
 	{
+		if (activeProjectID == -1) {
+			return "redirect:/projects";
+		}
+		
 		model.addAttribute("popup", false);
 		model.addAttribute("taskPopUp", false);
-		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProject));
+		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProjectID));
 
 		return "subprojects";
 	}
@@ -61,7 +66,12 @@ public class SubProjectController
 	 */
 	@PostMapping("/postNewSubproject")
 	public String newSubproject(WebRequest data){
-		System.out.println(data.getParameter("newSubProject"));
+
+		System.out.println(activeProjectID);
+		String subProjectName = data.getParameter("newSubProject");
+		Subproject subproject = new Subproject(subProjectName, activeProjectID);
+		subprojectService.createSubproject(subproject);
+		
 		return "redirect:/subprojects";
 	}
 

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,6 @@ public class SubprojectRepository
             while(rs.next())
             {
                 subprojectList.add(new Subproject(rs.getInt(1),rs.getInt(3),rs.getString(2)));
-                System.out.println("Added: " + rs.getString(2));
             }
 
         }
@@ -40,4 +40,21 @@ public class SubprojectRepository
 
         return subprojectList;
     }
+    
+    public void insertSubProjectIntoDB(Subproject subproject) {
+    	String insertSubProject = "INSERT INTO subprojects (Subproject_Name, Project_ID, Time_Spent, Subproject_Estimated_Time) VALUES (?, ?, ?, ?)";
+    	
+    	try {
+    		PreparedStatement preparedStatement = connectionService.establishConnection().prepareStatement(insertSubProject);
+    		
+    		preparedStatement.setString(1, subproject.getSubprojectName());
+    		preparedStatement.setInt(2, subproject.getParentProjectId());
+    		preparedStatement.setInt(3, 0);
+    		preparedStatement.setDouble(4, 0.0);
+    		
+    		preparedStatement.execute();
+		} catch (SQLException e) {
+			System.out.println("Error in SubProjectRepository. Method: createSubProject: " + e.getMessage());
+		}
+	}
 }

@@ -5,7 +5,6 @@ import dk.kea.taskz.Repositories.SubprojectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,5 +18,9 @@ public class SubprojectService
         return subprojectRepository.getAllAssociatedSubprojects(projectId);
 
     }
+    
+    public void createSubproject(Subproject subproject){
+    	subprojectRepository.insertSubProjectIntoDB(subproject);
+	}
 
 }

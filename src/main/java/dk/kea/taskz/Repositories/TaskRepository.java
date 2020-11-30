@@ -5,6 +5,7 @@ import dk.kea.taskz.Models.Enums.Priority;
 import dk.kea.taskz.Models.Enums.Status;
 import dk.kea.taskz.Models.Task;
 import dk.kea.taskz.Services.ConnectionService;
+import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +13,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Repository
 public class TaskRepository {
 	
 	ConnectionService connection = new ConnectionService();
@@ -29,8 +32,14 @@ public class TaskRepository {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			
 			while (resultSet.next()) {
-				 Task task = new Task(resultSet.getInt(1), resultSet.getInt(2), resultSet.getString(3),
-						Priority.values()[resultSet.getInt(4)], Complexity.values()[resultSet.getInt(5)], resultSet.getDate(6).toLocalDate(), resultSet.getDouble(7), Status.values()[resultSet.getInt(8)]
+				 Task task = new Task(resultSet.getInt(1), 
+						 resultSet.getInt(2), 
+						 resultSet.getString(3),
+						Priority.values()[resultSet.getInt(4)],
+						 Complexity.values()[resultSet.getInt(5)], 
+						 resultSet.getDate(6).toLocalDate(), 
+						 resultSet.getDouble(7), 
+						 Status.values()[resultSet.getInt(8)]
 						);
 				 taskList.add(task);
 			}
@@ -60,8 +69,14 @@ public class TaskRepository {
 			
 			while (resultSet.next()) {
 				
-				taskToReturn = new Task(resultSet.getInt(1), resultSet.getInt(2), resultSet.getString(3),
-						Priority.values()[resultSet.getInt(4)], Complexity.values()[resultSet.getInt(5)], resultSet.getDate(6).toLocalDate(), resultSet.getDouble(7), Status.values()[resultSet.getInt(8)]
+				taskToReturn = new Task(resultSet.getInt(1), 
+						resultSet.getInt(2), 
+						resultSet.getString(3),
+						Priority.values()[resultSet.getInt(4)], 
+						Complexity.values()[resultSet.getInt(5)], 
+						resultSet.getDate(6).toLocalDate(), 
+						resultSet.getDouble(7), 
+						Status.values()[resultSet.getInt(8)]
 				);
 
 			}
