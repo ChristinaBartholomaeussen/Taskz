@@ -82,4 +82,8 @@ ConnectionService connection = new ConnectionService();
             System.out.println("Error: " + e.getMessage());
         }
     }
+    
+    public String getProjectName(int projectId) {
+    	String selectsProject = "SELECT"
+	}
 }
