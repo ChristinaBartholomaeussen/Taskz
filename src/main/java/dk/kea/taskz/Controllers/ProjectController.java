@@ -16,7 +16,7 @@ public class ProjectController {
 
 	ProjectService projectService = new ProjectService();
 	List<Project> projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();
-
+	boolean deadlineIsAfterStartDate = false;
 	int activeProjectID = 0;
 
 	/**
@@ -47,6 +47,7 @@ public class ProjectController {
 	 * Det gør at popup bliver aktiv.
 	 * - FMP
 	 * Tilføjet date attribute, såfremt at minimums datoen bliver sat til i dag.
+	 * Tilføjet deadLineIsAfterStartDate, for at undgå at deadline bliver sat før start datoen
 	 * @param model
 	 * @return projects
 	 */
@@ -60,6 +61,7 @@ public class ProjectController {
 		LocalDate date = LocalDate.now();
 
 		model.addAttribute("date", date);
+		model.addAttribute("deadlineIsAfterStartDate", deadlineIsAfterStartDate);
 
 		return "projects";
 	}
@@ -69,6 +71,7 @@ public class ProjectController {
 	 * Postmapping for 'create new project'
 	 * Sender et projekt objekt til databasen, hvori objektet bliver gemt
 	 * Konvertering fra html date datatype (String) til LocalDate
+	 * If skal sikre at man ikke sætter deadline, før projekt start, dette udløser en pop up, med en fejlbesked
 	 * @param projectData
 	 * @return redirect:/projects
 	 */
@@ -84,11 +87,20 @@ public class ProjectController {
 
 		LocalDate convertedProjectDeadline = LocalDate.parse(projectDeadline);
 
-		Project newProject = new Project(projectData.getParameter("projectName"), convertedProjectStartDate, convertedProjectDeadline);
 
-		projectService.addProjectToDatabase(newProject);
 
-		return "redirect:/projects";
+		if (convertedProjectDeadline.compareTo(convertedProjectStartDate) < 0) {
+			deadlineIsAfterStartDate = true;
+			return "redirect:/newProject";
+		}
+		else {
+
+			Project newProject = new Project(projectData.getParameter("projectName"), convertedProjectStartDate, convertedProjectDeadline);
+
+			projectService.addProjectToDatabase(newProject);
+
+			return "redirect:/projects";
+		}
 	}
 
 	/**
