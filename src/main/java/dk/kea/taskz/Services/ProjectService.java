@@ -44,4 +44,25 @@ public class ProjectService {
 
         projectRepository.deleteWholeProject(projectId);
     }
+
+
+    public double calculateTotalEstimatedTimeForProject(int projectId)
+    {
+        double sum  = 0;
+
+        List<Double> total = projectRepository.calculateEstimatedTimeForProject(projectId);
+
+        for(Double d : total){
+            sum += d;
+        }
+
+        return sum;
+    }
+
+
+
+
+
 }
+
+

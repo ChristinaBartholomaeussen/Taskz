@@ -14,6 +14,7 @@ public class ProjectRepository {
 
 ConnectionService connection = new ConnectionService();
 
+
     /**
      * Henter alle projekter fra databasen
      * @return liste af alle projekter
@@ -41,9 +42,9 @@ ConnectionService connection = new ConnectionService();
                 allProjects.add(project);
             }
 
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            }
+    } catch (SQLException e) {
+        System.out.println("Happened in ProjectRepository selectProjectFromDatabaseByIdNameDeadlineEstimatedTime: " + e.getMessage());
+    }
 
         return allProjects;
     }
@@ -66,7 +67,7 @@ ConnectionService connection = new ConnectionService();
 
         }catch (SQLException e)
         {
-            System.out.println("Error" + e.getMessage());
+            System.out.println("Happened in ProjectRepository insertProjectIntoDatabase: " + e.getMessage());
         }
     }
 
@@ -80,9 +81,40 @@ ConnectionService connection = new ConnectionService();
 
             preparedStatement.execute();
         }catch (SQLException e){
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Happened in ProjectRepository deleteWholeProject: " + e.getMessage());
         }
+
     }
-    
-    
+
+
+    public List<Double> calculateEstimatedTimeForProject(int projectId){
+
+        String calculate = "select tasks.Task_Estimated_Time from projects\n" +
+                "join subprojects on projects.Project_ID = subprojects.Project_ID\n" +
+                "left outer join tasks on subprojects.Subproject_ID = tasks.SubProject_ID\n" +
+                "where projects.Project_ID = ?";
+
+        List<Double> allTasksToCalculate = new ArrayList<>();
+
+        try{
+
+            PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(calculate);
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while(rs.next()){
+                double i = rs.getInt(1);
+
+                allTasksToCalculate.add(i);
+            }
+
+
+        }catch (SQLException e){
+            System.out.println("Happened in ProjectRepository calculateEstimatedTimeForProject: " + e.getMessage());
+        }
+
+        return allTasksToCalculate;
+    }
+
+
 }
