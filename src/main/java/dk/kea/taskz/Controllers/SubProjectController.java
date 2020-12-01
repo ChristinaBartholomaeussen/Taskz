@@ -55,6 +55,7 @@ public class SubProjectController
 		model.addAttribute("popup", false);
 		model.addAttribute("taskPopUp", false);
 		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProjectID));
+		model.addAttribute("deletePopUp", false);
 
 		return "subprojects";
 	}
@@ -82,11 +83,22 @@ public class SubProjectController
 	@PostMapping("/postNewSubproject")
 	public String newSubproject(WebRequest data){
 
-		System.out.println(activeProjectID);
 		String subProjectName = data.getParameter("newSubProject");
 		Subproject subproject = new Subproject(subProjectName, activeProjectID);
 		subprojectService.createSubproject(subproject);
 
 		return "redirect:/subprojects";
+	}
+	
+	@GetMapping("/deleteSubProjectPopUp")
+	public String deleteSubProjectPopUp(Model model) {
+		model.addAttribute("activeProjectID", activeProjectID);
+		model.addAttribute("projectName", subprojectService.getParentProjectName(activeProjectID));
+		model.addAttribute("popup", false);
+		model.addAttribute("taskPopUp", false);
+		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProjectID));
+		model.addAttribute("deletePopUp", true);
+
+		return "subprojects";
 	}
 }
