@@ -29,14 +29,13 @@
 					<form th:method="post" action="/postNewProject">
 						<div class="form-group" th:classappend="${deadlineIsAfterStartDate} ? display : none">
 							<span class="display-block bg-dark mx-auto col-md-12 p-3 text-white">Deadline can't be before start date</span>
-
 						</div>
 							<div class="form-row">
 								<div class="form-group col-md-12">
 									<label for="inputFormProjectName">Project Name</label>
 									<input type="text" class="form-control" id="inputFormProjectName" name="projectName" placeholder="Enter Project Name" required>
 								</div>
-							</div>	
+							</div>
 							<div class="form-row">
 								<div class="form-group col-md-6">
 									<label for="startDateProjectForm">Start Date:</label>
@@ -46,7 +45,7 @@
 									<label for="deadlineProjectForm">Deadline:</label>
 									<input type="date" class="form-control" id="deadlineProjectForm" name="projectDeadline" placeholder="Choose deadline" th:attr="min=${date}" required>
 								</div>
-							</div>	
+							</div>
 							<button type="submit" class="btn btn-primary mx-auto">Create Project</button>
 						<a href="/projects" class="btn btn-danger mx-auto">Cancel</a>
 					</form>
