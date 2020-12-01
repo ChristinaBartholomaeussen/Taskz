@@ -5,6 +5,7 @@ import dk.kea.taskz.Models.Enums.Priority;
 import dk.kea.taskz.Models.Enums.Status;
 import dk.kea.taskz.Models.Task;
 import dk.kea.taskz.Services.ConnectionService;
+import dk.kea.taskz.Services.ProjectService;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -18,6 +19,7 @@ import java.util.List;
 public class TaskRepository {
 	
 	ConnectionService connection = new ConnectionService();
+	ProjectService projectService = new ProjectService();
 
 	/**
 	 *  - OVO
@@ -133,6 +135,8 @@ public class TaskRepository {
 			preparedStatement.setString(9,task.getMember());
 
 			preparedStatement.execute();
+
+
 		} catch (SQLException e) {
 			System.out.println("Error happened in TaskRepository at insertNewTaskToDB" + e.getMessage());
 		}

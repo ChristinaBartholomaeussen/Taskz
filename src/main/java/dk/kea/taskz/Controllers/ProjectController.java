@@ -31,12 +31,15 @@ public class ProjectController {
 	@GetMapping("/projects")
 	public String projects(Model model) {
 
+
 		projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();
+
 
 		model.addAttribute("activeProjectID", activeProjectID);
 		model.addAttribute("popup", false);
 		model.addAttribute("projectList", projectList);
 		model.addAttribute("deletePopUp", false);
+
 
 		return "projects";
 	}

@@ -3,6 +3,7 @@ package dk.kea.taskz.Repositories;
 import dk.kea.taskz.Models.Subproject;
 import dk.kea.taskz.Models.Task;
 import dk.kea.taskz.Services.ConnectionService;
+import dk.kea.taskz.Services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -44,6 +45,7 @@ public class SubprojectRepository
         {
             System.out.println("Error happened in SubprojectRepository at getAllAssociatedSubprojects(): " + e);
         }
+
 
         return subprojectList;
     }

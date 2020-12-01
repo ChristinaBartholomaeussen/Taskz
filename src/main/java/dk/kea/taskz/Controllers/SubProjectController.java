@@ -48,6 +48,7 @@ public class SubProjectController
 	public String subprojects(Model model)
 	{
 		if (activeProjectID == -1) {
+
 			return "redirect:/projects";
 		}
 		model.addAttribute("activeProjectID", activeProjectID);

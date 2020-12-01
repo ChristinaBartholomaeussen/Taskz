@@ -2,6 +2,7 @@ package dk.kea.taskz.Repositories;
 
 import dk.kea.taskz.Models.Project;
 import dk.kea.taskz.Services.ConnectionService;
+import dk.kea.taskz.Services.ProjectService;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,8 +13,6 @@ import java.util.List;
 
 public class ProjectRepository {
 
-
-
     ConnectionService connection = new ConnectionService();
 
     /**
@@ -21,6 +20,10 @@ public class ProjectRepository {
      * @return liste af alle projekter
      */
     public List<Project> selectProjectFromDatabaseByIdNameDeadlineEstimatedTime() {
+
+        ProjectService projectService = new ProjectService();
+
+        int projectID = 0;
 
     String selectAllProjects = "SELECT Project_Id, Project_Name, Project_StartDate, Deadline, Project_Estimated_Time FROM projects";
 
@@ -31,16 +34,24 @@ public class ProjectRepository {
 
             ResultSet rs = preparedStatement.executeQuery();
 
+
             while(rs.next())
             {
                 Project project = new Project(
-                        rs.getInt(1),
+                        projectID = rs.getInt(1),
                         rs.getString(2),
                         rs.getDate(3).toLocalDate(),
                         rs.getDate(4).toLocalDate(),
                         rs.getDouble(5)
                         );
+
+
                 allProjects.add(project);
+                projectService.calculateTotalEstimatedTimeForProject(projectID);
+
+                if(projectID == -1){
+                    return allProjects;
+                }
             }
 
     } catch (SQLException e) {
@@ -120,25 +131,20 @@ public class ProjectRepository {
 
 
 
+    public void insertTotalEstimatedTime(double sum, int projectId){
 
+            String updateTotalEstimatedTime = "update projects set Project_Estimated_Time = ? where project_ID = ?";
 
-    public void insertTotalEstimatedTime(double sum, Project project){
+            try{
+                PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(updateTotalEstimatedTime);
+                preparedStatement.setDouble(1, sum);
+                preparedStatement.setInt(2, projectId);
 
+                preparedStatement.executeUpdate();
 
-
-        String updateTotalEstimatedTime = "update projects set Project_Estimated_Time = ? where project_ID = ?";
-
-        try{
-            PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(updateTotalEstimatedTime);
-            preparedStatement.setDouble(1, sum);
-            preparedStatement.setInt(2, project.getProjectId());
-
-            preparedStatement.executeUpdate();
-
-        }catch (SQLException e){
-            System.out.println("Happened in ProjectRepository insertTotalEstimatedTime: " + e.getMessage());
-        }
-
+            }catch (SQLException e){
+                System.out.println("Happened in ProjectRepository insertTotalEstimatedTime: " + e.getMessage());
+            }
 
     }
 
