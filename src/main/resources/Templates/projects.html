@@ -11,10 +11,11 @@
 
 	<!-- Header fragment -->
 	<div th:replace="Fragments/header :: header"></div>
-	
+
 	<div class="wrapper container">
 		<main class="my-5">
-			
+
+			<!--#region Popups-->
 			<div class="" th:classappend="${popup} ? display : none">
 				<a href="/projects" class="background">
 				</a>
@@ -52,7 +53,9 @@
 					</form>
 					</div>
 				</div>
+			<!--#endregion-->
 
+			<!--#region Main table-->
 			<table class="table table-striped">
 				<thead>
 					<th class="text-center">Project Name</th>
@@ -75,7 +78,8 @@
 					</tr>
 				</tbody>
 			</table>
-			
+			<a href="/newProject" class="btn btn-success">New Project</a>
+			<!--#endregion-->
 		</main>
 	</div>
 </body>

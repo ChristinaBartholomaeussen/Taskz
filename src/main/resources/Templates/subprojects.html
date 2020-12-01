@@ -125,8 +125,9 @@
 				<h4 class="text-center my-auto display-block" th:text="${subproject.getSubprojectName()}" > </h4>
 				<form th:method="post" action="/deleteSubProject">
 					<input type="text" th:value="${subproject.getSubprojectId()}" name="deleteSubProject" class="hidden">
-					<button type="submit" class="btn btn-danger mx-1 p-2 ml-auto">Delete Subproject</button>
+					<button type="submit" class="btn btn-danger mx-1 p-2 ml-auto float-right">Delete Subproject</button>
 				</form>
+				<a href="/newSubProject" class="btn btn-success mx-1 p-2 ml-auto float-right">New Subproject</a>
 			</div>
 			<table class="table table-striped" style="position: relative">
 				<thead>
@@ -160,7 +161,7 @@
 			<div class="d-flex">
 				<form th:method="post" action="/newTask">
 					<input type="text" th:value="${subproject.getSubprojectId()}" name="subprojectsID" class="hidden">
-					<button type="submit" class="btn btn-primary mx-1 p-2 ml-auto">New Task</button>
+					<button type="submit" class="btn btn-primary mx-1 p-2 ml-auto float-left">New Task</button>
 				</form>
 			</div>
 		</div>
