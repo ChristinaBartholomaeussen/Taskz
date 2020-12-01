@@ -14,6 +14,9 @@ public class Project
     private double totalEstimatedTime;
     private List<Subproject> associatedSubprojects;
 
+    public Project(){
+
+    }
     public Project(String name) {
         this.name = name;
     }

@@ -12,7 +12,9 @@ import java.util.List;
 
 public class ProjectRepository {
 
-ConnectionService connection = new ConnectionService();
+
+
+    ConnectionService connection = new ConnectionService();
 
     /**
      * Henter alle projekter fra databasen
@@ -98,11 +100,12 @@ ConnectionService connection = new ConnectionService();
         try{
 
             PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(calculate);
+            preparedStatement.setInt(1, projectId);
 
             ResultSet rs = preparedStatement.executeQuery();
 
             while(rs.next()){
-                double i = rs.getInt(1);
+                double i = rs.getDouble(1);
 
                 allTasksToCalculate.add(i);
             }
@@ -117,5 +120,27 @@ ConnectionService connection = new ConnectionService();
 
 
 
-	
+
+
+    public void insertTotalEstimatedTime(double sum, Project project){
+
+
+
+        String updateTotalEstimatedTime = "update projects set Project_Estimated_Time = ? where project_ID = ?";
+
+        try{
+            PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(updateTotalEstimatedTime);
+            preparedStatement.setDouble(1, sum);
+            preparedStatement.setInt(2, project.getProjectId());
+
+            preparedStatement.executeUpdate();
+
+        }catch (SQLException e){
+            System.out.println("Happened in ProjectRepository insertTotalEstimatedTime: " + e.getMessage());
+        }
+
+
+    }
+
+
 }
