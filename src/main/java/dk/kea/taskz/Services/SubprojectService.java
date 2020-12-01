@@ -13,6 +13,7 @@ public class SubprojectService
 {
     @Autowired
     SubprojectRepository subprojectRepository;
+    SubprojectRepository subRep = new SubprojectRepository();
 
     @Autowired
     TaskRepository taskRepository;
@@ -41,5 +42,9 @@ public class SubprojectService
 	public void deleteSubProject(int id) {subprojectRepository.deleteSubProjectFromDB(id);}
 	
 	public String getParentProjectName(int id) {return subprojectRepository.getParentProjectNameFromDB(id);}
+	
+	public int getParentId(int id) {
+    	return subprojectRepository.getParentProjectIdFromDB(id);
+    }
 
 }

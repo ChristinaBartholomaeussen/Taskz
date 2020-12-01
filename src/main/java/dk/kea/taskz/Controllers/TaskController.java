@@ -4,7 +4,9 @@ import dk.kea.taskz.Models.Enums.Complexity;
 import dk.kea.taskz.Models.Enums.Priority;
 import dk.kea.taskz.Models.Enums.Status;
 import dk.kea.taskz.Models.Task;
+import dk.kea.taskz.Services.SubprojectService;
 import dk.kea.taskz.Services.TaskService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,12 +18,17 @@ import java.time.LocalDate;
 @Controller
 public class TaskController {
 
+	@Autowired
+	SubprojectService subprojectService;
+	
 	TaskService taskService = new TaskService();
 	int subprojectsID = -1;
+	int parentProject = -1;
 	
 	@PostMapping("/newTask")
 	public String newTaskPost(WebRequest data) {
 		subprojectsID = Integer.parseInt(data.getParameter("subprojectsID"));
+		parentProject = subprojectService.getParentId(subprojectsID);
 		return "redirect:/newTask";
 	}
 	
@@ -36,6 +43,7 @@ public class TaskController {
 		model.addAttribute("subprojectsID", subprojectsID);
 		model.addAttribute("popup", false);
 		model.addAttribute("TaskPopUp", true);
+		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(parentProject));
 		return "subprojects";
 	}
 

@@ -4,6 +4,7 @@ import dk.kea.taskz.Models.Subproject;
 import dk.kea.taskz.Models.Task;
 import dk.kea.taskz.Services.ConnectionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import javax.security.auth.Subject;
@@ -14,10 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
+@Component
 public class SubprojectRepository
 {
     @Autowired
     ConnectionService connectionService;
+    
+    ConnectionService conServ = new ConnectionService();
 
     public List<Subproject> getAllAssociatedSubprojects(int projectId)
     {
@@ -90,5 +94,24 @@ public class SubprojectRepository
 		}
 
 		return projectNameToReturn;
+	}
+	
+	public int getParentProjectIdFromDB(int subproject_ID) {
+
+    	String selectsProject = "SELECT Project_ID FROM taskz.subprojects WHERE Subproject_ID = " + subproject_ID;
+    	int idToReturn = 0;
+    	
+    	try {
+    		PreparedStatement preparedStatement = conServ.establishConnection().prepareStatement(selectsProject);
+    		ResultSet resultSet = preparedStatement.executeQuery();
+    		
+    		while (resultSet.next()) {
+    			idToReturn = resultSet.getInt(1);
+			}
+		}catch (SQLException e) {
+			System.out.println("Klasse: ServiceRepository\nMethode: getParentProjectIdFromDB\n" + e.getMessage());
+		}
+
+    	return idToReturn;
 	}
 }
