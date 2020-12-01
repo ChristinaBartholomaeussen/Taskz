@@ -1,6 +1,5 @@
 package dk.kea.taskz.Repositories;
 
-import com.mysql.cj.protocol.Resultset;
 import dk.kea.taskz.Models.Enums.Complexity;
 import dk.kea.taskz.Models.Enums.Priority;
 import dk.kea.taskz.Models.Enums.Status;
@@ -121,7 +120,6 @@ public class TaskRepository {
 		String insertTaskSQL = "INSERT INTO taskz.tasks(Task_ID, SubProject_ID, Task_Name, Priority, Complexity, Task_Deadline, Task_Estimated_Time, Status, Member) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)";
 
 		int id = getLatestIdFromDB() + 1;
-		System.out.println(id);
 		try {
 			PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(insertTaskSQL);
 			preparedStatement.setInt(1, id);

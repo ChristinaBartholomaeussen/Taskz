@@ -61,7 +61,6 @@ public class TaskController {
 		return "redirect:/subprojects";
 	}
 
-
 	/**
 	 *  - OVO
 	 *  Sletter en task fra databasen.

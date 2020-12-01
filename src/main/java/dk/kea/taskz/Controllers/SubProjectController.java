@@ -20,6 +20,7 @@ public class SubProjectController
 	TaskService taskService;
 
 	int activeProjectID = -1;
+	String projectTotalEstimatedTime;
 
 	@PostMapping("/postSubprojects")
 	public String postSubprojects(WebRequest data)

@@ -54,8 +54,6 @@ public class ProjectController {
 	@GetMapping("/newProject")
 	public String newProject(Model model) {
 
-
-
 		model.addAttribute("popup", true);
 		model.addAttribute("projectList", projectList);
 
@@ -81,14 +79,10 @@ public class ProjectController {
 	public String postNewProject(WebRequest projectData) {
 
 		String projectStartDate = projectData.getParameter("projectStartDate");
-
 		LocalDate convertedProjectStartDate = LocalDate.parse(projectStartDate);
 
 		String projectDeadline = projectData.getParameter("projectDeadline");
-
 		LocalDate convertedProjectDeadline = LocalDate.parse(projectDeadline);
-
-
 
 		if (convertedProjectDeadline.compareTo(convertedProjectStartDate) < 0) {
 			deadlineIsAfterStartDate = true;
