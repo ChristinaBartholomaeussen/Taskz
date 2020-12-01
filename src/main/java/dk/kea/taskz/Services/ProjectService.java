@@ -11,6 +11,7 @@ import java.util.List;
 public class ProjectService {
 
     ProjectRepository projectRepository = new ProjectRepository();
+    Project project = new Project();
 
     List<Project> projectList = new ArrayList<>();
 
@@ -25,6 +26,7 @@ public class ProjectService {
      * @return
      */
     public List<Project> getProjectByIdNameDeadlineEstimatedTime() {
+
         projectList = projectRepository.selectProjectFromDatabaseByIdNameDeadlineEstimatedTime();
 
         return projectList;
@@ -46,18 +48,23 @@ public class ProjectService {
     }
 
 
-    public double calculateTotalEstimatedTimeForProject(int projectId)
+    /*
+    public void calculateTotalEstimatedTimeForProject(Project project)
     {
+
         double sum  = 0;
 
-        List<Double> total = projectRepository.calculateEstimatedTimeForProject(projectId);
+        List<Double> total = projectRepository.calculateEstimatedTimeForProject(project.getProjectId());
 
         for(Double d : total){
             sum += d;
         }
 
-        return sum;
-    }
+        projectRepository.insertTotalEstimatedTime(sum, project);
+
+    }*/
+
+
 
 
 

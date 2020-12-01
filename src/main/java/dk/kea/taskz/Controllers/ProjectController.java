@@ -55,6 +55,7 @@ public class ProjectController {
 	public String newProject(Model model) {
 
 
+
 		model.addAttribute("popup", true);
 		model.addAttribute("projectList", projectList);
 
