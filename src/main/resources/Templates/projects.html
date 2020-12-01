@@ -72,8 +72,30 @@
 						<td class="text-center" th:text="${project.getDeadline}"/>
 						<td class="text-center" th:text="${project.getTotalWorkHoursPerDay}"/>
 						<td class="text-center" th:text="${project.getTotalEstimatedTime}"/>
-						<td><form method="post" action="/deleteProject"><button type="submit" name="projectId" th:value="${project.getProjectId}" class="btn btn-danger">Delete</button></form></td>
+						<td><a href="/deletePopup" class="btn btn-danger">Delete</a></td>
+						<!--td><form method="post" action="/deleteProject"><button type="submit" name="projectId" th:value="${project.getProjectId}" class="btn btn-danger">Delete</button></form></td-->
 						<td><form method="post" action="/postSubprojects"><button type="submit" name="projectId" th:value="${project.getProjectId}" class="btn btn-primary">See Project</button></form></td>
+						<div class="" th:classappend="${deletePopUp} ? display : none">
+							<a href="/projects" class="background-delete">
+							</a>
+							<div class="popup relative">
+								<div class="float-right cross-container">
+									<a href="/projects">
+										<span class="cross cross-one"></span>
+										<span class="cross cross-two"></span>
+									</a>
+								</div>
+
+								<form th:method="post" action="/deleteProject">
+									<p class="d-block mx-auto text-info">Are you sure you wanna delete the project?</p>
+									
+									<div class="d-flex">
+										<button type="submit" name="projectId" th:value="${project.getProjectId}" class="btn btn-danger">Delete</button>
+										<a href="/projects" class="btn btn-primary d-block ml-auto">Cancel</a>
+									</div>
+								</form>
+							</div>
+						</div>
 					</tr>
 				</tbody>
 			</table>

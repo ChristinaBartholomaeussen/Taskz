@@ -36,6 +36,7 @@ public class ProjectController {
 		model.addAttribute("activeProjectID", activeProjectID);
 		model.addAttribute("popup", false);
 		model.addAttribute("projectList", projectList);
+		model.addAttribute("deletePopUp", false);
 
 		return "projects";
 	}
@@ -121,5 +122,16 @@ public class ProjectController {
 			}
 
 		return "redirect:/projects";
+	}
+	
+	@GetMapping("/deletePopup")
+	public String deletePopip(Model model) {
+		projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();
+
+		model.addAttribute("activeProjectID", activeProjectID);
+		model.addAttribute("popup", false);
+		model.addAttribute("projectList", projectList);
+		model.addAttribute("deletePopUp", true);
+		return "projects";
 	}
 }
