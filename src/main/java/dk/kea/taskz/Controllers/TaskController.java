@@ -89,4 +89,21 @@ public class TaskController {
 		return "subprojects";
 	} */
 
+	/**
+	 * - FMP
+	 * Updates the status of a specific task, changing the display values of that element
+	 * Redirects to subprojects
+	 * @param data
+	 * @return
+	 */
+
+	@PostMapping("/postChangeStatus")
+	public String postChangeStatus(WebRequest data) {
+		int idTask = Integer.parseInt(data.getParameter("changeStatus"));
+
+		taskService.updateTaskStatus(idTask);
+
+		return "redirect:/subprojects";
+	}
+
 }

@@ -189,4 +189,67 @@ public class TaskRepository {
 
 		return taskList;
 	}
+
+	/**
+	 * - FMP
+	 * Selects a specific task Status from the database
+	 * @param idTask
+	 * @return
+	 */
+
+	public int selectTaskStatusByID(int idTask) {
+		String selectStatus = "SELECT Status FROM tasks WHERE Task_ID = ?";
+
+		int taskStatus = 0;
+
+		try {
+			PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(selectStatus);
+			preparedStatement.setInt(1, idTask);
+
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			while (resultSet.next()) {
+				taskStatus = resultSet.getInt(1);
+			}
+		} catch (SQLException e) {
+			System.out.println("Error happened in TaskRepository at selectTaskStatusByID(): \n" + e.getMessage());
+		}
+		return taskStatus;
+	}
+
+	/**
+	 * - FMP
+	 * Updates a single task Status, with the goal of changing the task's display values on /subprojects
+	 * @param idTask
+	 */
+
+	public void updateTaskStatus(int idTask) {
+		String updateTaskByID = "UPDATE tasks SET Status = ? WHERE Task_ID = ?";
+
+		int preleminaryStatus = selectTaskStatusByID(idTask);
+
+		if (preleminaryStatus == 0) {
+			try {
+				PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(updateTaskByID);
+				preparedStatement.setInt(1, 1);
+				preparedStatement.setInt(2, idTask);
+
+				preparedStatement.executeUpdate();
+			} catch (SQLException e) {
+				System.out.println("Error happened in TaskRepository at updateTaskStatus() if preleminaryStatus == 0: \n" + e.getMessage());
+			}
+		}
+
+		if (preleminaryStatus == 1) {
+			try {
+				PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(updateTaskByID);
+				preparedStatement.setInt(1, 0);
+				preparedStatement.setInt(2, idTask);
+
+				preparedStatement.executeUpdate();
+			} catch (SQLException e) {
+				System.out.println("Error happened in TaskRepository at updateTaskStatus() if preleminaryStatus == 1: \n" + e.getMessage());
+			}
+		}
+	}
 }

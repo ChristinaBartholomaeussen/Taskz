@@ -36,4 +36,14 @@ public class TaskService {
 	public void deleteTask(int id) {
 		taskRepository.deleteTaskFromDB(id);
 	}
+
+	/**
+	 * - FMP
+	 * Service layer update task status vehicle
+	 * @param idTask
+	 */
+
+	public void updateTaskStatus(int idTask) {
+		taskRepository.updateTaskStatus(idTask);
+	}
 }
