@@ -26,6 +26,7 @@ public class SubprojectRepository
 
     public List<Subproject> getAllAssociatedSubprojects(int projectId)
     {
+		updateSubprojectEstimated();
         String getAllAssociatedSubprojectsSqlStatement = "SELECT * FROM taskz.subprojects WHERE Project_ID = " + projectId ;
         List<Subproject> subprojectList = new ArrayList<>();
         List<Task> taskList = new ArrayList<>();
@@ -45,7 +46,6 @@ public class SubprojectRepository
         {
             System.out.println("Error happened in SubprojectRepository at getAllAssociatedSubprojects(): " + e);
         }
-
 
         return subprojectList;
     }
@@ -115,5 +115,26 @@ public class SubprojectRepository
 		}
 
     	return idToReturn;
+	}
+
+
+	public void updateSubprojectEstimated(){
+
+    	String updateTotalEstimatedTime = "update subprojects s\n" +
+				"right outer join (select tasks.SubProject_ID, sum(tasks.Task_Estimated_Time) as mysum\n" +
+				"\t\tfrom tasks group by tasks.SubProject_ID) as t\n" +
+				"        on s.Subproject_ID = t.SubProject_ID\n" +
+				"\t\tset s.Subproject_Estimated_Time = t.mysum\n" +
+				"        where s.Subproject_ID = t.SubProject_ID";
+
+    	try{
+    		PreparedStatement preparedStatement = connectionService.establishConnection().prepareStatement(updateTotalEstimatedTime);
+			preparedStatement.executeUpdate();
+		}catch (SQLException e){
+
+			System.out.println("Happened in ProjectRepository updateProjectEstimatedTime: " + e.getMessage());
+
+		}
+
 	}
 }

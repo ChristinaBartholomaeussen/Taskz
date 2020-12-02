@@ -137,9 +137,11 @@ public class TaskRepository {
 			preparedStatement.execute();
 
 
+
 		} catch (SQLException e) {
 			System.out.println("Error happened in TaskRepository at insertNewTaskToDB" + e.getMessage());
 		}
+
 	}
 
 	/**

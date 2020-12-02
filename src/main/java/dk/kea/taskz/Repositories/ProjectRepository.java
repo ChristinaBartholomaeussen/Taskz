@@ -22,6 +22,7 @@ public class ProjectRepository {
     public List<Project> selectProjectFromDatabaseByIdNameDeadlineEstimatedTime() {
 
 
+        updateProjectEstimatedTime();
 
     String selectAllProjects = "SELECT Project_Id, Project_Name, Project_StartDate, Deadline, Project_Estimated_Time FROM projects";
 
@@ -51,7 +52,7 @@ public class ProjectRepository {
     } catch (SQLException e) {
         System.out.println("Happened in ProjectRepository selectProjectFromDatabaseByIdNameDeadlineEstimatedTime: " + e.getMessage());
     }
-        updateProjectEstimatedTime();
+
         return allProjects;
     }
 
