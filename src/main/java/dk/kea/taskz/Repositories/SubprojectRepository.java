@@ -1,6 +1,7 @@
 package dk.kea.taskz.Repositories;
 import dk.kea.taskz.Models.Subproject;
 import dk.kea.taskz.Services.ConnectionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
@@ -13,6 +14,8 @@ import java.util.List;
 @Component
 public class SubprojectRepository
 {
+	@Autowired
+	ProjectRepository projectRepository;
 
 	PreparedStatement preparedStatement = null;
 
@@ -57,19 +60,23 @@ public class SubprojectRepository
 		} catch (SQLException e) {
 			System.out.println("Error in SubProjectRepository. Method: createSubProject: " + e.getMessage());
 		}
+
 	}
 	
 	public void deleteSubProjectFromDB(int Subproject_ID) {
     	String deleteSubProjectFromDB = "DELETE FROM subprojects WHERE Subproject_ID = ?";
-    	
+
     	try {
 			preparedStatement = ConnectionService.getConnection().prepareStatement(deleteSubProjectFromDB);
 			preparedStatement.setInt(1, Subproject_ID);
-			
+
 			preparedStatement.execute();
+			projectRepository.updateProjectEstimatedTime();
+
 		} catch (SQLException e) {
 			System.out.println("Klasse: SubprojectRepository\nMethode: deleteSubProject()\nError: " + e.getMessage());
 		}
+
 	}
 
 	public String getParentProjectNameFromDB(int projectId) {

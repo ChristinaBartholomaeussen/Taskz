@@ -1,14 +1,18 @@
 package dk.kea.taskz.Repositories;
 import dk.kea.taskz.Models.Project;
 import dk.kea.taskz.Services.ConnectionService;
+import org.springframework.stereotype.Repository;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class ProjectRepository {
 
+    SubprojectRepository subprojectRepository = new SubprojectRepository();
 
     PreparedStatement preparedStatement = null;
     /**
@@ -16,7 +20,6 @@ public class ProjectRepository {
      * @return liste af alle projekter
      */
     public List<Project> selectProjectFromDatabaseByIdNameDeadlineEstimatedTime() {
-
 
         updateProjectEstimatedTime();
 
