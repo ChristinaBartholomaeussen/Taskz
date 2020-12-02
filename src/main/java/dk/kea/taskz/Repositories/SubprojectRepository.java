@@ -1,14 +1,8 @@
 package dk.kea.taskz.Repositories;
-
 import dk.kea.taskz.Models.Subproject;
-import dk.kea.taskz.Models.Task;
 import dk.kea.taskz.Services.ConnectionService;
-import dk.kea.taskz.Services.ProjectService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
-
-import javax.security.auth.Subject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,22 +13,20 @@ import java.util.List;
 @Component
 public class SubprojectRepository
 {
-    @Autowired
-    ConnectionService connectionService;
-    
-    ConnectionService conServ = new ConnectionService();
+
+	PreparedStatement preparedStatement = null;
 
     public List<Subproject> getAllAssociatedSubprojects(int projectId)
     {
 		updateSubprojectEstimated();
         String getAllAssociatedSubprojectsSqlStatement = "SELECT * FROM taskz.subprojects WHERE Project_ID = " + projectId ;
         List<Subproject> subprojectList = new ArrayList<>();
-        List<Task> taskList = new ArrayList<>();
+
 
         try
         {
-            PreparedStatement ps = connectionService.establishConnection().prepareStatement(getAllAssociatedSubprojectsSqlStatement);
-            ResultSet rs = ps.executeQuery();
+            preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(getAllAssociatedSubprojectsSqlStatement);
+            ResultSet rs = preparedStatement.executeQuery();
 
             while(rs.next())
             {
@@ -54,7 +46,7 @@ public class SubprojectRepository
     	String insertSubProject = "INSERT INTO taskz.subprojects (Subproject_Name, Project_ID, Time_Spent, Subproject_Estimated_Time) VALUES (?, ?, ?, ?)";
     	
     	try {
-    		PreparedStatement preparedStatement = connectionService.establishConnection().prepareStatement(insertSubProject);
+    		preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(insertSubProject);
     		
     		preparedStatement.setString(1, subproject.getSubprojectName());
     		preparedStatement.setInt(2, subproject.getParentProjectId());
@@ -71,7 +63,7 @@ public class SubprojectRepository
     	String deleteSubProjectFromDB = "DELETE FROM subprojects WHERE Subproject_ID = ?";
     	
     	try {
-			PreparedStatement preparedStatement = connectionService.establishConnection().prepareStatement(deleteSubProjectFromDB);
+			preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(deleteSubProjectFromDB);
 			preparedStatement.setInt(1, Subproject_ID);
 			
 			preparedStatement.execute();
@@ -85,7 +77,7 @@ public class SubprojectRepository
 		String projectNameToReturn = "";
 
 		try {
-			PreparedStatement preparedStatement = connectionService.establishConnection().prepareStatement(selectsProject);
+			preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(selectsProject);
 			ResultSet resultSet =  preparedStatement.executeQuery();
 
 			while (resultSet.next()) {
@@ -104,7 +96,7 @@ public class SubprojectRepository
     	int idToReturn = 0;
     	
     	try {
-    		PreparedStatement preparedStatement = conServ.establishConnection().prepareStatement(selectsProject);
+    		preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(selectsProject);
     		ResultSet resultSet = preparedStatement.executeQuery();
     		
     		while (resultSet.next()) {
@@ -128,7 +120,7 @@ public class SubprojectRepository
 				"        where s.Subproject_ID = t.SubProject_ID";
 
     	try{
-    		PreparedStatement preparedStatement = connectionService.establishConnection().prepareStatement(updateTotalEstimatedTime);
+    		preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(updateTotalEstimatedTime);
 			preparedStatement.executeUpdate();
 		}catch (SQLException e){
 

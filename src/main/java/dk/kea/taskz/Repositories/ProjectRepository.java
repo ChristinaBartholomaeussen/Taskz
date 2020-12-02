@@ -1,20 +1,16 @@
 package dk.kea.taskz.Repositories;
-
 import dk.kea.taskz.Models.Project;
 import dk.kea.taskz.Services.ConnectionService;
-import dk.kea.taskz.Services.ProjectService;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectRepository {
 
-    ConnectionService connection = new ConnectionService();
 
+    PreparedStatement preparedStatement = null;
     /**
      * Henter alle projekter fra databasen
      * @return liste af alle projekter
@@ -29,8 +25,7 @@ public class ProjectRepository {
     List<Project> allProjects = new ArrayList<>();
 
         try {
-            PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(selectAllProjects);
-
+            preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(selectAllProjects);
             ResultSet rs = preparedStatement.executeQuery();
 
 
@@ -64,7 +59,7 @@ public class ProjectRepository {
                         "VALUES (?, ?, ?, ?)";
 
         try{
-            PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(insertProjectIntoDatabasen);
+            preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(insertProjectIntoDatabasen);
             preparedStatement.setInt(1, project.getProjectId());
             preparedStatement.setString(2, project.getName());
             preparedStatement.setDate(3, java.sql.Date.valueOf(project.getStartDate()));
@@ -83,7 +78,7 @@ public class ProjectRepository {
         String deleteQuery = "delete from projects where Project_ID = ?";
 
         try{
-            PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(deleteQuery);
+            preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(deleteQuery);
             preparedStatement.setInt(1, projectId);
 
             preparedStatement.execute();
@@ -104,7 +99,7 @@ public class ProjectRepository {
                 " = s.mysum where p.Project_ID = s.Project_ID";
 
         try{
-            PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(updateTotalTime);
+            preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(updateTotalTime);
             preparedStatement.executeUpdate();
 
         }catch (SQLException e){

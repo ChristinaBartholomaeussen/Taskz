@@ -2,23 +2,14 @@ package dk.kea.taskz.Services;
 
 import dk.kea.taskz.Models.Project;
 import dk.kea.taskz.Repositories.ProjectRepository;
-import org.apache.tomcat.jni.Local;
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectService {
 
     ProjectRepository projectRepository = new ProjectRepository();
-    Project project = new Project();
 
     List<Project> projectList = new ArrayList<>();
-
-    public List<Project> getProjectList() {
-
-        return  projectList;
-    }
 
 
     /** Christina

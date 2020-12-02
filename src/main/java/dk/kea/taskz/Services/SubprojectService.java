@@ -13,7 +13,6 @@ public class SubprojectService
 {
     @Autowired
     SubprojectRepository subprojectRepository;
-    SubprojectRepository subRep = new SubprojectRepository();
 
     @Autowired
     TaskRepository taskRepository;

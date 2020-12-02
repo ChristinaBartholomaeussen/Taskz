@@ -1,24 +1,23 @@
 package dk.kea.taskz.Repositories;
-
 import dk.kea.taskz.Models.Member;
 import dk.kea.taskz.Services.ConnectionService;
 import org.springframework.stereotype.Repository;
-
 import java.sql.*;
 import java.util.List;
 
 @Repository
 public class MemberRepository
 {
-    ConnectionService connection = new ConnectionService();
+
+    PreparedStatement preparedStatement = null;
 
     public List<Member> getAllMembersFromDB()
     {
         try
         {
-            PreparedStatement ps = connection.establishConnection().prepareStatement("SELECT * FROM members");
+            preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement("SELECT * FROM members");
 
-            ResultSet rs = ps.executeQuery();
+            ResultSet rs = preparedStatement.executeQuery();
 
             while(rs.next())
                 System.out.println(rs);

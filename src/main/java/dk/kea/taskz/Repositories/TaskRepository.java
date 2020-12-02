@@ -1,13 +1,10 @@
 package dk.kea.taskz.Repositories;
-
 import dk.kea.taskz.Models.Enums.Complexity;
 import dk.kea.taskz.Models.Enums.Priority;
 import dk.kea.taskz.Models.Enums.Status;
 import dk.kea.taskz.Models.Task;
 import dk.kea.taskz.Services.ConnectionService;
-import dk.kea.taskz.Services.ProjectService;
 import org.springframework.stereotype.Repository;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,42 +14,10 @@ import java.util.List;
 
 @Repository
 public class TaskRepository {
-	
-	ConnectionService connection = new ConnectionService();
-	ProjectService projectService = new ProjectService();
 
-	/**
-	 *  - OVO
-	 *  Get all the task from the database
-	 * @return
-	 */
-	public List<Task> getAllTasksFromDB() {
-		ArrayList<Task> taskList = new ArrayList<>();
-		try {
-			PreparedStatement preparedStatement = connection.establishConnection().prepareStatement("SELECT * from taskz.Tasks");
 
-			ResultSet resultSet = preparedStatement.executeQuery();
-			
-			while (resultSet.next()) {
-				 Task task = new Task(resultSet.getInt(1), 
-						 resultSet.getInt(2), 
-						 resultSet.getString(3),
-						Priority.values()[resultSet.getInt(4)],
-						 Complexity.values()[resultSet.getInt(5)], 
-						 resultSet.getDate(6).toLocalDate(), 
-						 resultSet.getDouble(7), 
-						 Status.values()[resultSet.getInt(8)],
-						 resultSet.getString(9)
-						);
-				 taskList.add(task);
-			}
-			
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+	PreparedStatement preparedStatement = null;
 
-		return taskList;
-	}
 
 	/**
 	 *  - OVO
@@ -65,7 +30,7 @@ public class TaskRepository {
 		Task taskToReturn = new Task();
 		
 		try {
-			PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(selectTask);
+			preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(selectTask);
 			preparedStatement.setInt(1, Task_ID);
 			
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -99,7 +64,7 @@ public class TaskRepository {
 	 */
 	public int getLatestIdFromDB() {
 		try {
-			PreparedStatement preparedStatement = connection.establishConnection().prepareStatement("SELECT * FROM taskz.tasks ORDER BY Task_ID DESC LIMIT 1;");
+			preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement("SELECT * FROM taskz.tasks ORDER BY Task_ID DESC LIMIT 1;");
 			ResultSet resultSet = preparedStatement.executeQuery();
 
 			while(resultSet.next()) {
@@ -123,7 +88,7 @@ public class TaskRepository {
 
 		int id = getLatestIdFromDB() + 1;
 		try {
-			PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(insertTaskSQL);
+			preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(insertTaskSQL);
 			preparedStatement.setInt(1, id);
 			preparedStatement.setInt(2, task.getParentSubProjectId());
 			preparedStatement.setString(3, task.getTaskName());
@@ -152,7 +117,7 @@ public class TaskRepository {
 	public void deleteTaskFromDB(int Task_ID) {
 		String deleteTaskFromDB =  "DELETE FROM taskz.tasks WHERE Task_ID = ?";
 		try {
-			PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(deleteTaskFromDB);
+			preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(deleteTaskFromDB);
 			preparedStatement.setInt(1, Task_ID);
 			
 			preparedStatement.execute();
@@ -168,8 +133,8 @@ public class TaskRepository {
 
 		try
 		{
-			PreparedStatement ps = connection.establishConnection().prepareStatement(getAllAssociatedTasksToSubproject);
-			ResultSet rs = ps.executeQuery();
+			preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(getAllAssociatedTasksToSubproject);
+			ResultSet rs = preparedStatement.executeQuery();
 
 			while(rs.next())
 			{
@@ -207,7 +172,7 @@ public class TaskRepository {
 		int taskStatus = 0;
 
 		try {
-			PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(selectStatus);
+			preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(selectStatus);
 			preparedStatement.setInt(1, idTask);
 
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -234,7 +199,7 @@ public class TaskRepository {
 
 		if (preleminaryStatus == 0) {
 			try {
-				PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(updateTaskByID);
+				preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(updateTaskByID);
 				preparedStatement.setInt(1, 1);
 				preparedStatement.setInt(2, idTask);
 
@@ -246,7 +211,7 @@ public class TaskRepository {
 
 		if (preleminaryStatus == 1) {
 			try {
-				PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(updateTaskByID);
+				preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(updateTaskByID);
 				preparedStatement.setInt(1, 0);
 				preparedStatement.setInt(2, idTask);
 
