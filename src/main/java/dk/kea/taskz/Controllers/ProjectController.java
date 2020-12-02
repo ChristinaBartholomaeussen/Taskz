@@ -40,13 +40,11 @@ public class ProjectController {
 	{
 		projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();
 
-
 		model.addAttribute("activeProjectID", activeProjectID);
 		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
 		model.addAttribute("popup", false);
 		model.addAttribute("projectList", projectList);
 		model.addAttribute("deletePopUp", false);
-
 
 		return "projects";
 	}
