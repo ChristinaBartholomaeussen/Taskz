@@ -10,8 +10,9 @@
 <body class="" th:classappend="${stopScroll} ? scrollNone : scroll">
 <div class="wrapper">
 
-	<!-- Header fragment -->
+	<!--#region Header fragment -->
 	<div th:replace="Fragments/header :: header"></div>
+	<!--#endregion-->
 	<main>
 		<!--#region Popup Subproject -->
 		<div class="" th:classappend="${popup} ? display : none">
