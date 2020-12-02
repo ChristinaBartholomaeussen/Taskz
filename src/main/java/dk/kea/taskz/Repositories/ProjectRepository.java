@@ -20,7 +20,7 @@ public class ProjectRepository {
 
         updateProjectEstimatedTime();
 
-    String selectAllProjects = "SELECT Project_Id, Project_Name, Project_StartDate, Deadline, Project_Estimated_Time FROM projects";
+    String selectAllProjects = "SELECT Project_Id, Project_Name, Project_StartDate, Deadline, Workload_Per_Day, Project_Estimated_Time FROM projects";
 
     List<Project> allProjects = new ArrayList<>();
 
@@ -36,7 +36,8 @@ public class ProjectRepository {
                         rs.getString(2),
                         rs.getDate(3).toLocalDate(),
                         rs.getDate(4).toLocalDate(),
-                        rs.getDouble(5)
+                        rs.getString(5),
+                        rs.getDouble(6)
                         );
 
 
@@ -108,12 +109,12 @@ public class ProjectRepository {
         }
     }
 
-    public void updateWorkloadPerDay(double workloadPerDay, int projectID) {
+    public void updateWorkloadPerDay(String workloadPerDay, int projectID) {
         String updateWorkloadPerDay = "UPDATE projects SET Workload_Per_Day = ? WHERE Project_ID = ?;";
 
         try {
             PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(updateWorkloadPerDay);
-            preparedStatement.setDouble(1, workloadPerDay);
+            preparedStatement.setString(1, workloadPerDay);
             preparedStatement.setDouble(2, projectID);
 
             preparedStatement.executeUpdate();

@@ -40,6 +40,8 @@ public class ProjectController {
 	{
 		projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();
 
+		projectService.updateWorkloadPerDay(projectList);
+
 		model.addAttribute("activeProjectID", activeProjectID);
 		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
 		model.addAttribute("popup", false);

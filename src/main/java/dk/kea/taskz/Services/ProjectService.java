@@ -59,9 +59,7 @@ public class ProjectService {
 
             double workloadPerDay =  project.getTotalEstimatedTime() / convertedDaysBetween ;
 
-            System.out.println(workloadPerDay);
-
-            //projectRepository.updateWorkloadPerDay(workloadPerDay, project.getProjectId());
+            projectRepository.updateWorkloadPerDay(df.format(workloadPerDay), project.getProjectId());
         }
     }
 }

@@ -10,7 +10,7 @@ public class Project
     private String name;
     private LocalDate startDate;
     private LocalDate deadline;
-    private double totalWorkHoursPerDay;
+    private String totalWorkHoursPerDay;
     private double totalEstimatedTime;
     private List<Subproject> associatedSubprojects;
 
@@ -35,7 +35,7 @@ public class Project
         this.totalEstimatedTime = totalEstimatedTime;
     }
 
-    public Project(int projectId, String name, LocalDate startDate, LocalDate deadline, double totalWorkHoursPerDay, double totalEstimatedTime) {
+    public Project(int projectId, String name, LocalDate startDate, LocalDate deadline, String totalWorkHoursPerDay, double totalEstimatedTime) {
         this.projectId = projectId;
         this.name = name;
         this.startDate = startDate;
@@ -77,11 +77,11 @@ public class Project
         this.deadline = deadline;
     }
 
-    public double getTotalWorkHoursPerDay() {
+    public String getTotalWorkHoursPerDay() {
         return totalWorkHoursPerDay;
     }
 
-    public void setTotalWorkHoursPerDay(double totalWorkHoursPerDay) {
+    public void setTotalWorkHoursPerDay(String totalWorkHoursPerDay) {
         this.totalWorkHoursPerDay = totalWorkHoursPerDay;
     }
 
