@@ -26,7 +26,8 @@ public class TaskController {
 	int parentProject = -1;
 	
 	@PostMapping("/newTask")
-	public String newTaskPost(WebRequest data) {
+	public String newTaskPost(WebRequest data)
+	{
 		subprojectsID = Integer.parseInt(data.getParameter("subprojectsID"));
 		parentProject = subprojectService.getParentId(subprojectsID);
 		return "redirect:/newTask";
@@ -39,7 +40,11 @@ public class TaskController {
 	 * @return subprojects
 	 */
 	@GetMapping("/newTask")
-	public String taskPopUp(Model model) {
+	public String taskPopUp(Model model)
+	{
+		if(parentProject == -1)
+			return "redirect:/projects";
+
 		model.addAttribute("subprojectsID", subprojectsID);
 		model.addAttribute("popup", false);
 		model.addAttribute("TaskPopUp", true);

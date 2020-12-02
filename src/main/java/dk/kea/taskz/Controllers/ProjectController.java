@@ -18,8 +18,13 @@ public class ProjectController {
 	List<Project> projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();
 	boolean deadlineIsAfterStartDate = false;
 	int activeProjectIDToTest = 0; // This one is only for the header fragment rendering.
-	int activeProjectID = 0;
-	
+
+	/**
+	 * Needs to be initialized, but the default value is -1.
+	 * If we hit a breakpoint here and the value still is -1, we know there is no activeproject
+	 * recieved from the LoginController mapping.
+	 */
+	int activeProjectID = -1;
 
 	/**
 	 * - OVO
@@ -31,9 +36,8 @@ public class ProjectController {
 	 * @return projects
 	 */
 	@GetMapping("/projects")
-	public String projects(Model model) {
-
-
+	public String projects(Model model)
+	{
 		projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();
 
 
@@ -90,7 +94,7 @@ public class ProjectController {
 
 		String projectDeadline = projectData.getParameter("projectDeadline");
 		LocalDate convertedProjectDeadline = LocalDate.parse(projectDeadline);
-		
+
 		if (convertedProjectDeadline.compareTo(convertedProjectStartDate) < 0) {
 			deadlineIsAfterStartDate = true;
 			return "redirect:/newProject";
@@ -134,8 +138,8 @@ public class ProjectController {
 		activeProjectID = Integer.valueOf(data.getParameter("activeProjectId"));
 		return "redirect:/deletePopup";
 	}
-	
-	
+
+
 	@GetMapping("/deletePopup")
 	public String deletePopip(Model model) {
 		projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();

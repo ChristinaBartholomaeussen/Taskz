@@ -23,6 +23,11 @@ public class SubProjectController
 	int activeProjectID = -1;
 	String projectTotalEstimatedTime;
 
+	/**
+	 * Postmapping der bliver ramt efter man tr
+	 * @param data
+	 * @return
+	 */
 	@PostMapping("/postSubprojects")
 	public String postSubprojects(WebRequest data)
 	{
@@ -32,7 +37,8 @@ public class SubProjectController
 	}
 	
 	@PostMapping("/deleteSubProject")
-	public String deleteSubProject(WebRequest data) {
+	public String deleteSubProject(WebRequest data)
+	{
 		String id = data.getParameter("deleteSubProject");
 		subprojectService.deleteSubProject(Integer.valueOf(id));
 		return "redirect:/subprojects";
@@ -60,7 +66,7 @@ public class SubProjectController
 		model.addAttribute("deletePopUp", false);
 		model.addAttribute("stopScroll", false);
 		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
-		
+
 
 		return "subprojects";
 	}
@@ -72,7 +78,11 @@ public class SubProjectController
 	 * @return
 	 */
 	@GetMapping("/newSubProject")
-	public String subprojectsPopUp(Model model) {
+	public String subprojectsPopUp(Model model)
+	{
+		if (activeProjectID == -1)
+			return "redirect:/projects";
+
 		model.addAttribute("popup", true);
 		model.addAttribute("taskPopUp", false);
 		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProjectID));
@@ -87,7 +97,10 @@ public class SubProjectController
 	 * @return
 	 */
 	@PostMapping("/postNewSubproject")
-	public String newSubproject(WebRequest data){
+	public String newSubproject(WebRequest data)
+	{
+		if (activeProjectID == -1)
+			return "redirect:/projects";
 
 		String subProjectName = data.getParameter("newSubProject");
 		Subproject subproject = new Subproject(subProjectName, activeProjectID);
@@ -97,7 +110,11 @@ public class SubProjectController
 	}
 	
 	@GetMapping("/deleteSubProjectPopUp")
-	public String deleteSubProjectPopUp(Model model) {
+	public String deleteSubProjectPopUp(Model model)
+	{
+		if (activeProjectID == -1)
+			return "redirect:/projects";
+
 		model.addAttribute("activeProjectID", activeProjectID);
 		model.addAttribute("projectName", subprojectService.getParentProjectName(activeProjectID));
 		model.addAttribute("popup", false);

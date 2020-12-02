@@ -17,12 +17,26 @@ public class LoginController
     @Autowired
     private SubprojectService subprojectService;
 
+    /**
+     * The "root"-mapping which points to the login screen and shows login.html
+     * /RBP
+     * @return
+     */
     @GetMapping({"/","/login"})
     public String login()
     {
         return "login";
     }
 
+    /**
+     * The postmapping that will be used after we press the Login-button from login.html.
+     * Declares two variables, username and password which are sent to the service, which gets a list from the
+     * database of all the users.
+     * If the password and username do not match the information on the list, the user will be redirected back to the
+     * login page. If they match, the project-overview screen will be shown.
+     * @param data
+     * @return
+     */
     @PostMapping("/postLogin")
 	public String postLogin(WebRequest data)
     {
