@@ -87,6 +87,7 @@ public class SubProjectController
 		model.addAttribute("taskPopUp", false);
 		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProjectID));
 		model.addAttribute("stopScroll", true);
+		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
 		return "subprojects";
 	}
 

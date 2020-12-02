@@ -22,6 +22,7 @@ public class TaskController {
 	SubprojectService subprojectService;
 	
 	TaskService taskService = new TaskService();
+	int activeProjectIDToTest = 1; // This one is only for the header fragment rendering.
 	int subprojectsID = -1;
 	int parentProject = -1;
 	
@@ -49,6 +50,7 @@ public class TaskController {
 		model.addAttribute("popup", false);
 		model.addAttribute("TaskPopUp", true);
 		model.addAttribute("stopScroll", true);
+		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
 		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(parentProject));
 		return "subprojects";
 	}
