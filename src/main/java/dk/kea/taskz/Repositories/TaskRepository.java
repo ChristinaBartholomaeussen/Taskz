@@ -30,7 +30,7 @@ public class TaskRepository {
 		Task taskToReturn = new Task();
 		
 		try {
-			preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(selectTask);
+			preparedStatement = ConnectionService.getConnection().prepareStatement(selectTask);
 			preparedStatement.setInt(1, Task_ID);
 			
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -64,7 +64,7 @@ public class TaskRepository {
 	 */
 	public int getLatestIdFromDB() {
 		try {
-			preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement("SELECT * FROM taskz.tasks ORDER BY Task_ID DESC LIMIT 1;");
+			preparedStatement = ConnectionService.getConnection().prepareStatement("SELECT * FROM taskz.tasks ORDER BY Task_ID DESC LIMIT 1;");
 			ResultSet resultSet = preparedStatement.executeQuery();
 
 			while(resultSet.next()) {
@@ -88,7 +88,7 @@ public class TaskRepository {
 
 		int id = getLatestIdFromDB() + 1;
 		try {
-			preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(insertTaskSQL);
+			preparedStatement = ConnectionService.getConnection().prepareStatement(insertTaskSQL);
 			preparedStatement.setInt(1, id);
 			preparedStatement.setInt(2, task.getParentSubProjectId());
 			preparedStatement.setString(3, task.getTaskName());
@@ -117,7 +117,7 @@ public class TaskRepository {
 	public void deleteTaskFromDB(int Task_ID) {
 		String deleteTaskFromDB =  "DELETE FROM taskz.tasks WHERE Task_ID = ?";
 		try {
-			preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(deleteTaskFromDB);
+			preparedStatement = ConnectionService.getConnection().prepareStatement(deleteTaskFromDB);
 			preparedStatement.setInt(1, Task_ID);
 			
 			preparedStatement.execute();
@@ -133,7 +133,7 @@ public class TaskRepository {
 
 		try
 		{
-			preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(getAllAssociatedTasksToSubproject);
+			preparedStatement = ConnectionService.getConnection().prepareStatement(getAllAssociatedTasksToSubproject);
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while(rs.next())
@@ -172,7 +172,7 @@ public class TaskRepository {
 		int taskStatus = 0;
 
 		try {
-			preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(selectStatus);
+			preparedStatement = ConnectionService.getConnection().prepareStatement(selectStatus);
 			preparedStatement.setInt(1, idTask);
 
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -199,7 +199,7 @@ public class TaskRepository {
 
 		if (preleminaryStatus == 0) {
 			try {
-				preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(updateTaskByID);
+				preparedStatement = ConnectionService.getConnection().prepareStatement(updateTaskByID);
 				preparedStatement.setInt(1, 1);
 				preparedStatement.setInt(2, idTask);
 
@@ -211,7 +211,7 @@ public class TaskRepository {
 
 		if (preleminaryStatus == 1) {
 			try {
-				preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(updateTaskByID);
+				preparedStatement = ConnectionService.getConnection().prepareStatement(updateTaskByID);
 				preparedStatement.setInt(1, 0);
 				preparedStatement.setInt(2, idTask);
 

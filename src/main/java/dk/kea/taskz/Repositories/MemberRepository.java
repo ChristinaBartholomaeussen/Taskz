@@ -15,7 +15,7 @@ public class MemberRepository
     {
         try
         {
-            preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement("SELECT * FROM members");
+            preparedStatement = ConnectionService.getConnection().prepareStatement("SELECT * FROM members");
 
             ResultSet rs = preparedStatement.executeQuery();
 

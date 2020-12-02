@@ -25,7 +25,7 @@ public class ProjectRepository {
     List<Project> allProjects = new ArrayList<>();
 
         try {
-            preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(selectAllProjects);
+            preparedStatement = ConnectionService.getConnection().prepareStatement(selectAllProjects);
             ResultSet rs = preparedStatement.executeQuery();
 
 
@@ -44,6 +44,7 @@ public class ProjectRepository {
 
             }
 
+
     } catch (SQLException e) {
         System.out.println("Happened in ProjectRepository selectProjectFromDatabaseByIdNameDeadlineEstimatedTime: " + e.getMessage());
     }
@@ -59,7 +60,7 @@ public class ProjectRepository {
                         "VALUES (?, ?, ?, ?)";
 
         try{
-            preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(insertProjectIntoDatabasen);
+            preparedStatement = ConnectionService.getConnection().prepareStatement(insertProjectIntoDatabasen);
             preparedStatement.setInt(1, project.getProjectId());
             preparedStatement.setString(2, project.getName());
             preparedStatement.setDate(3, java.sql.Date.valueOf(project.getStartDate()));
@@ -78,7 +79,7 @@ public class ProjectRepository {
         String deleteQuery = "delete from projects where Project_ID = ?";
 
         try{
-            preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(deleteQuery);
+            preparedStatement = ConnectionService.getConnection().prepareStatement(deleteQuery);
             preparedStatement.setInt(1, projectId);
 
             preparedStatement.execute();
@@ -99,7 +100,7 @@ public class ProjectRepository {
                 " = s.mysum where p.Project_ID = s.Project_ID";
 
         try{
-            preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(updateTotalTime);
+            preparedStatement = ConnectionService.getConnection().prepareStatement(updateTotalTime);
             preparedStatement.executeUpdate();
 
         }catch (SQLException e){

@@ -25,7 +25,7 @@ public class SubprojectRepository
 
         try
         {
-            preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(getAllAssociatedSubprojectsSqlStatement);
+            preparedStatement = ConnectionService.getConnection().prepareStatement(getAllAssociatedSubprojectsSqlStatement);
             ResultSet rs = preparedStatement.executeQuery();
 
             while(rs.next())
@@ -46,7 +46,7 @@ public class SubprojectRepository
     	String insertSubProject = "INSERT INTO taskz.subprojects (Subproject_Name, Project_ID, Time_Spent, Subproject_Estimated_Time) VALUES (?, ?, ?, ?)";
     	
     	try {
-    		preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(insertSubProject);
+    		preparedStatement = ConnectionService.getConnection().prepareStatement(insertSubProject);
     		
     		preparedStatement.setString(1, subproject.getSubprojectName());
     		preparedStatement.setInt(2, subproject.getParentProjectId());
@@ -63,7 +63,7 @@ public class SubprojectRepository
     	String deleteSubProjectFromDB = "DELETE FROM subprojects WHERE Subproject_ID = ?";
     	
     	try {
-			preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(deleteSubProjectFromDB);
+			preparedStatement = ConnectionService.getConnection().prepareStatement(deleteSubProjectFromDB);
 			preparedStatement.setInt(1, Subproject_ID);
 			
 			preparedStatement.execute();
@@ -77,7 +77,7 @@ public class SubprojectRepository
 		String projectNameToReturn = "";
 
 		try {
-			preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(selectsProject);
+			preparedStatement = ConnectionService.getConnection().prepareStatement(selectsProject);
 			ResultSet resultSet =  preparedStatement.executeQuery();
 
 			while (resultSet.next()) {
@@ -96,7 +96,7 @@ public class SubprojectRepository
     	int idToReturn = 0;
     	
     	try {
-    		preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(selectsProject);
+    		preparedStatement = ConnectionService.getConnection().prepareStatement(selectsProject);
     		ResultSet resultSet = preparedStatement.executeQuery();
     		
     		while (resultSet.next()) {
@@ -120,7 +120,7 @@ public class SubprojectRepository
 				"        where s.Subproject_ID = t.SubProject_ID";
 
     	try{
-    		preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(updateTotalEstimatedTime);
+    		preparedStatement = ConnectionService.getConnection().prepareStatement(updateTotalEstimatedTime);
 			preparedStatement.executeUpdate();
 		}catch (SQLException e){
 

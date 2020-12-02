@@ -8,33 +8,24 @@ import java.sql.SQLException;
 public class ConnectionService {
 
 
-    private static ConnectionService single_instance = null;
+    private static Connection connection = null;
 
-    public static ConnectionService getInstance(){
-        if(single_instance == null){
-            single_instance = new ConnectionService();
-            System.out.println("Connection ok");
+    static
+    {
+        String url = "jdbc:mysql://den1.mysql2.gear.host:3306/taskz";
+        String user = "taskz";
+        String pass = "taskz!";
+        try {
+            connection = DriverManager.getConnection(url, user, pass);
         }
-        return single_instance;
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    /** Christina
-     * Oprettelse af forbindelse til databasen
-     * @return connection
-     */
-    Connection connection = null;
-
-    public Connection establishConnection(){
-
-        try{
-
-        connection = DriverManager.getConnection("jdbc:mysql://den1.mysql2.gear.host:3306/taskz","taskz","taskz!");
-
-        }catch (SQLException e){
-            System.out.println("No Connection: " + e.getMessage());
-        }
-
-
+    public static Connection getConnection()
+    {
         return connection;
-        }
+    }
+
 }
