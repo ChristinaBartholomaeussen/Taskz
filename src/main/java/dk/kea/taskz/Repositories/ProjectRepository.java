@@ -105,16 +105,20 @@ public class ProjectRepository {
         }catch (SQLException e){
             System.out.println("Happened in ProjectRepository updateProjectEstimatedTime: " + e.getMessage());
         }
-
-
-
-
-
     }
 
+    public void updateWorkloadPerDay(double workloadPerDay, int projectID) {
+        String updateWorkloadPerDay = "UPDATE projects SET Workload_Per_Day = ? WHERE Project_ID = ?;";
 
+        try {
+            PreparedStatement preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(updateWorkloadPerDay);
+            preparedStatement.setDouble(1, workloadPerDay);
+            preparedStatement.setDouble(2, projectID);
 
-
-
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error happened in ProjectRepository updateWorkLoadPerDay: " + e.getMessage());
+        }
+    }
 
 }

@@ -2,6 +2,9 @@ package dk.kea.taskz.Services;
 
 import dk.kea.taskz.Models.Project;
 import dk.kea.taskz.Repositories.ProjectRepository;
+
+import java.text.DecimalFormat;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,16 +41,29 @@ public class ProjectService {
         projectRepository.deleteWholeProject(projectId);
     }
 
+    public void updateWorkloadPerDay(List<Project> projectList) {
 
+        double convertedDaysBetween = 0;
 
+        DecimalFormat df = new DecimalFormat("0.00");
 
+        for (Project project : projectList) {
 
+            long daysBetween = ChronoUnit.DAYS.between(project.getStartDate(), project.getDeadline());
 
+            long numberOfWeeks = daysBetween / 7;
 
+            daysBetween = daysBetween - (2 * numberOfWeeks);
 
+            convertedDaysBetween = (double)daysBetween;
 
+            double workloadPerDay =  project.getTotalEstimatedTime() / convertedDaysBetween ;
 
+            System.out.println(workloadPerDay);
 
+            //projectRepository.updateWorkloadPerDay(workloadPerDay, project.getProjectId());
+        }
+    }
 }
 
 
