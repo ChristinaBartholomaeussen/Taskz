@@ -29,15 +29,12 @@ public class MemberService
             {
                 return true;
             }
-
         
-
         return false;
     }
 
     public ArrayList<Member> getAllMembers()
     {
-		System.out.println("service");
     	return memberRepository.getAllMembersFromDB();
     }
 }
