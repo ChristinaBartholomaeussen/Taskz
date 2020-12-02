@@ -17,7 +17,9 @@ public class ProjectController {
 	ProjectService projectService = new ProjectService();
 	List<Project> projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();
 	boolean deadlineIsAfterStartDate = false;
+	int activeProjectIDToTest = 0; // This one is only for the header fragment rendering.
 	int activeProjectID = 0;
+	
 
 	/**
 	 * - OVO
@@ -36,6 +38,7 @@ public class ProjectController {
 
 
 		model.addAttribute("activeProjectID", activeProjectID);
+		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
 		model.addAttribute("popup", false);
 		model.addAttribute("projectList", projectList);
 		model.addAttribute("deletePopUp", false);
@@ -87,12 +90,11 @@ public class ProjectController {
 
 		String projectDeadline = projectData.getParameter("projectDeadline");
 		LocalDate convertedProjectDeadline = LocalDate.parse(projectDeadline);
-
+		
 		if (convertedProjectDeadline.compareTo(convertedProjectStartDate) < 0) {
 			deadlineIsAfterStartDate = true;
 			return "redirect:/newProject";
-		}
-		else {
+		} else {
 
 			Project newProject = new Project(projectData.getParameter("projectName"), convertedProjectStartDate, convertedProjectDeadline);
 
@@ -127,11 +129,19 @@ public class ProjectController {
 		return "redirect:/projects";
 	}
 	
+	@PostMapping("/postpopupDeleteProject")
+	public String postpopupDeleteProject(WebRequest data) {
+		activeProjectID = Integer.valueOf(data.getParameter("activeProjectId"));
+		return "redirect:/deletePopup";
+	}
+	
+	
 	@GetMapping("/deletePopup")
 	public String deletePopip(Model model) {
 		projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();
 
 		model.addAttribute("activeProjectID", activeProjectID);
+		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
 		model.addAttribute("popup", false);
 		model.addAttribute("projectList", projectList);
 		model.addAttribute("deletePopUp", true);

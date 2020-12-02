@@ -19,6 +19,7 @@ public class SubProjectController
 	@Autowired
 	TaskService taskService;
 
+	int activeProjectIDToTest = 1; // This one is only for the header fragment rendering.
 	int activeProjectID = -1;
 	String projectTotalEstimatedTime;
 
@@ -48,7 +49,7 @@ public class SubProjectController
 	public String subprojects(Model model)
 	{
 		if (activeProjectID == -1) {
-
+			System.out.println("Redirects to /projects. No valid project id");
 			return "redirect:/projects";
 		}
 		model.addAttribute("activeProjectID", activeProjectID);
@@ -57,6 +58,9 @@ public class SubProjectController
 		model.addAttribute("taskPopUp", false);
 		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProjectID));
 		model.addAttribute("deletePopUp", false);
+		model.addAttribute("stopScroll", false);
+		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
+		
 
 		return "subprojects";
 	}
@@ -72,6 +76,7 @@ public class SubProjectController
 		model.addAttribute("popup", true);
 		model.addAttribute("taskPopUp", false);
 		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProjectID));
+		model.addAttribute("stopScroll", true);
 		return "subprojects";
 	}
 
@@ -99,6 +104,7 @@ public class SubProjectController
 		model.addAttribute("taskPopUp", false);
 		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProjectID));
 		model.addAttribute("deletePopUp", true);
+		model.addAttribute("stopScroll", true);
 
 		return "subprojects";
 	}

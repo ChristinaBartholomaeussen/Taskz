@@ -43,6 +43,7 @@ public class TaskController {
 		model.addAttribute("subprojectsID", subprojectsID);
 		model.addAttribute("popup", false);
 		model.addAttribute("TaskPopUp", true);
+		model.addAttribute("stopScroll", true);
 		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(parentProject));
 		return "subprojects";
 	}

@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="styles.css">
     <title>SubProject Page</title>
 </head>
-<body>
+<body class="" th:classappend="${stopScroll} ? scrollNone : scroll">
 <div class="wrapper">
 
 	<!-- Header fragment -->
@@ -28,7 +28,7 @@
 					<div class="form-row">
 						<div class="form-group col-md-12">
 							<label for="inputFormSubProjectName">SubProject Name</label>
-							<input type="text" class="form-control" name="newSubProject" id="inputFormSubProjectName" placeholder="Enter Task Name" autocomplete="off" required>
+							<input type="text" class="form-control" name="newSubProject" id="inputFormSubProjectName" placeholder="Enter Subproject Name" autocomplete="off" required>
 						</div>
 					</div>
 					<button type="submit" class="btn btn-primary mx-auto">Create Project</button>
@@ -103,7 +103,7 @@
 							</select>
 						</div>
 					</div>
-					<button type="submit" class="btn btn-primary mx-auto">Create Project</button>
+					<button type="submit" class="btn btn-primary mx-auto">Create Task</button>
 					<a href="/subprojects" class="btn btn-danger mx-auto">Cancel</a>
 				</form>
 			</div>
@@ -119,16 +119,16 @@
 			<span class="text-info">You have no sub projects <a href="/newSubProject" class="btn btn-success">Create a Subproject</a></span>
 		</div>
 		
-		<div th:unless="${subprojectList.size() == 0}" class="subproject container border border-striped mx-auto my-4" th:each="subproject : ${subprojectList}">
+		<div th:unless="${subprojectList.size() == 0}" class="subproject container border border-striped p-2 mx-auto my-4" th:each="subproject : ${subprojectList}">
 			
 			
 			<div class="subproject d-flex">
 				<h4 class="text-center my-auto display-block" th:text="${subproject.getSubprojectName()}"></h4>
-				<a href="/deleteSubProjectPopUp" class="btn btn-danger">Delete</a>
+				<a href="/deleteSubProjectPopUp" class="btn btn-danger ml-auto">Delete</a>
 				
 				<!--#region deletePopUp -->
 				<div class="" th:classappend="${deletePopUp} ? display : none">
-					<a href="/subprojects" class="background-delete">
+					<a href="/subprojects" class="background">
 					</a>
 					<div class="popup relative">
 						<div class="float-right cross-container">

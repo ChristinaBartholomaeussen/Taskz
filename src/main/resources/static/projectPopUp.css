@@ -5,9 +5,10 @@
     margin-top: 5px;
 }
 
+
 .background {
 	width: 100vw;
-	height: 100vh;
+	height: 200vh;
 	overflow: hidden;
 	position: absolute;
 	left: 0;
@@ -16,6 +17,14 @@
 	background-color: rgba(0,0,0,0.7);
 	border: none;
 	cursor: default;
+}
+
+.scrollNone {
+	overflow: hidden;
+}
+
+.scroll {
+	overflow: auto;
 }
 
 .popup {

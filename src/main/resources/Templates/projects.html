@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="styles.css">
 	<title>Project Page</title>
 </head>
-<body>
+<body th:classappend="${popup ||deletePopUp} ? scrollNone : scroll">
 
 	<!-- Header fragment -->
 	<div th:replace="Fragments/header :: header"></div>
@@ -16,7 +16,7 @@
 		<main class="my-5">
 
 			<!--#region Popups-->
-			<div class="" th:classappend="${popup} ? display : none">
+			<div th:classappend="${popup} ? display : none">
 				<a href="/projects" class="background">
 				</a>
 				<div class="popup relative">
@@ -57,51 +57,60 @@
 			<!--#region Main table-->
 			<table class="table table-striped">
 				<thead>
-					<th class="text-center">Project Name</th>
-					<th class="text-center">Startdate</th>
-					<th class="text-center">Deadline</th>
-					<th class="text-center">Work Hours Per Day</th>
-					<th class="text-center">Total Estimated Time</th>
+					<th class="align-middle">Project Name</th>
+					<th class="align-middle">Startdate</th>
+					<th class="align-middle">Deadline</th>
+					<th class="align-middle">Work Hours Per Day</th>
+					<th class="align-middle">Total Estimated Time</th>
 					<th></th>
 					<th></th>
 				</thead>
 				<tbody>
 					<tr th:each="project : ${projectList}">
-						<td th:text="${project.getName}"/>
-						<td class="text-center" th:text="${project.getStartDate}"/>
-						<td class="text-center" th:text="${project.getDeadline}"/>
-						<td class="text-center" th:text="${project.getTotalWorkHoursPerDay}"/>
-						<td class="text-center" th:text="${project.getTotalEstimatedTime}"/>
-						<td><a href="/deletePopup" class="btn btn-danger">Delete</a></td>
-						<!--td><form method="post" action="/deleteProject"><button type="submit" name="projectId" th:value="${project.getProjectId}" class="btn btn-danger">Delete</button></form></td-->
+						<td class="align-middle" th:text="${project.getName}"/>
+						<td class="text-center align-middle" th:text="${project.getStartDate}"/>
+						<td class="text-center align-middle" th:text="${project.getDeadline}"/>
+						<td class="text-center align-middle" th:text="${project.getTotalWorkHoursPerDay}"/>
+						<td class="text-center align-middle" th:text="${project.getTotalEstimatedTime}"/>
+						<td>
+							<form th:method="post" action="/postpopupDeleteProject">
+								<input type="text" name="activeProjectId" class="none" th:value="${project.getProjectId}">
+								<button type="submit" class="btn btn-danger text-center align-middle mx-auto">Delete Project</button>
+							</form>
+						</td>
 						<td><form method="post" action="/postSubprojects"><button type="submit" name="projectId" th:value="${project.getProjectId}" class="btn btn-primary">See Project</button></form></td>
-						<div class="" th:classappend="${deletePopUp} ? display : none">
-							<a href="/projects" class="background-delete">
-							</a>
-							<div class="popup relative">
-								<div class="float-right cross-container">
-									<a href="/projects">
-										<span class="cross cross-one"></span>
-										<span class="cross cross-two"></span>
-									</a>
-								</div>
-
-								<form th:method="post" action="/deleteProject">
-									<p class="d-block mx-auto text-info">Are you sure you wanna delete the project?</p>
-									
-									<div class="d-flex">
-										<button type="submit" name="projectId" th:value="${project.getProjectId}" class="btn btn-danger">Delete</button>
-										<a href="/projects" class="btn btn-primary d-block ml-auto">Cancel</a>
-									</div>
-								</form>
-							</div>
-						</div>
+						
 					</tr>
 				</tbody>
 			</table>
+			<div class="" th:classappend="${deletePopUp} ? display : none">
+				<a href="/projects" class="background">
+				</a>
+				<div class="popup relative">
+					<div class="float-right cross-container">
+						<a href="/projects">
+							<span class="cross cross-one"></span>
+							<span class="cross cross-two"></span>
+						</a>
+					</div>
+
+					<form th:method="post" action="/deleteProject">
+						<p class="d-block mx-auto text-info">Are you sure you want to delete the project?</p>
+
+						<div class="d-flex">
+							<button type="submit" name="projectId" th:value="${activeProjectID}" class="btn btn-danger">Delete</button>
+							<a href="/projects" class="btn btn-primary d-block ml-auto">Cancel</a>
+						</div>
+					</form>
+				</div>
+			</div>
 			<a href="/newProject" class="btn btn-success">New Project</a>
 			<!--#endregion-->
 		</main>
 	</div>
+
+	<script>
+		
+	</script>
 </body>
 </html>
