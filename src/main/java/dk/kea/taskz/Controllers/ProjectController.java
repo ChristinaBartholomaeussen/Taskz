@@ -137,7 +137,7 @@ public class ProjectController {
 		return "redirect:/deletePopup";
 	}
 
-		projectService.updateWorkloadPerDay(projectList);
+
 
 	@GetMapping("/deletePopup")
 	public String deletePopip(Model model) {

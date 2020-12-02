@@ -112,7 +112,7 @@ public class ProjectRepository {
         String updateWorkloadPerDay = "UPDATE projects SET Workload_Per_Day = ? WHERE Project_ID = ?;";
 
         try {
-            PreparedStatement preparedStatement = ConnectionService.getInstance().establishConnection().prepareStatement(updateWorkloadPerDay);
+            PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(updateWorkloadPerDay);
             preparedStatement.setDouble(1, workloadPerDay);
             preparedStatement.setDouble(2, projectID);
 
