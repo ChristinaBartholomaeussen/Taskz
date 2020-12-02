@@ -21,9 +21,7 @@ public class ProjectRepository {
      */
     public List<Project> selectProjectFromDatabaseByIdNameDeadlineEstimatedTime() {
 
-        ProjectService projectService = new ProjectService();
 
-        int projectID = 0;
 
     String selectAllProjects = "SELECT Project_Id, Project_Name, Project_StartDate, Deadline, Project_Estimated_Time FROM projects";
 
@@ -38,7 +36,7 @@ public class ProjectRepository {
             while(rs.next())
             {
                 Project project = new Project(
-                        projectID = rs.getInt(1),
+                        rs.getInt(1),
                         rs.getString(2),
                         rs.getDate(3).toLocalDate(),
                         rs.getDate(4).toLocalDate(),
@@ -47,17 +45,13 @@ public class ProjectRepository {
 
 
                 allProjects.add(project);
-                projectService.calculateTotalEstimatedTimeForProject(projectID);
 
-                if(projectID == -1){
-                    return allProjects;
-                }
             }
 
     } catch (SQLException e) {
         System.out.println("Happened in ProjectRepository selectProjectFromDatabaseByIdNameDeadlineEstimatedTime: " + e.getMessage());
     }
-
+        updateProjectEstimatedTime();
         return allProjects;
     }
 
@@ -99,54 +93,32 @@ public class ProjectRepository {
     }
 
 
-    public List<Double> calculateEstimatedTimeForProject(int projectId){
+    public void updateProjectEstimatedTime(){
 
-        String calculate = "select tasks.Task_Estimated_Time from projects\n" +
-                "join subprojects on projects.Project_ID = subprojects.Project_ID\n" +
-                "left outer join tasks on subprojects.Subproject_ID = tasks.SubProject_ID\n" +
-                "where projects.Project_ID = ?";
-
-        List<Double> allTasksToCalculate = new ArrayList<>();
+        String updateTotalTime = "update projects p " +
+                "inner join (select subprojects.Project_ID, " +
+                "sum(subprojects.Subproject_Estimated_time) as mysum " +
+                "from subprojects group by " +
+                "subprojects.Project_ID) as s on p.Project_ID = s.Project_ID set p.Project_Estimated_Time" +
+                " = s.mysum where p.Project_ID = s.Project_ID";
 
         try{
-
-            PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(calculate);
-            preparedStatement.setInt(1, projectId);
-
-            ResultSet rs = preparedStatement.executeQuery();
-
-            while(rs.next()){
-                double i = rs.getDouble(1);
-
-                allTasksToCalculate.add(i);
-            }
-
+            PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(updateTotalTime);
+            preparedStatement.executeUpdate();
 
         }catch (SQLException e){
-            System.out.println("Happened in ProjectRepository calculateEstimatedTimeForProject: " + e.getMessage());
+            System.out.println("Happened in ProjectRepository updateProjectEstimatedTime: " + e.getMessage());
         }
 
-        return allTasksToCalculate;
-    }
 
 
 
-    public void insertTotalEstimatedTime(double sum, int projectId){
-
-            String updateTotalEstimatedTime = "update projects set Project_Estimated_Time = ? where project_ID = ?";
-
-            try{
-                PreparedStatement preparedStatement = connection.establishConnection().prepareStatement(updateTotalEstimatedTime);
-                preparedStatement.setDouble(1, sum);
-                preparedStatement.setInt(2, projectId);
-
-                preparedStatement.executeUpdate();
-
-            }catch (SQLException e){
-                System.out.println("Happened in ProjectRepository insertTotalEstimatedTime: " + e.getMessage());
-            }
 
     }
+
+
+
+
 
 
 }

@@ -49,19 +49,7 @@ public class ProjectService {
 
 
 
-    public void calculateTotalEstimatedTimeForProject(int projectId)
-    {
-        double sum  = 0;
 
-        List<Double> total = projectRepository.calculateEstimatedTimeForProject(projectId);
-
-        for(Double d : total){
-            sum += d;
-        }
-
-        projectRepository.insertTotalEstimatedTime(sum, projectId);
-
-    }
 
 
 
