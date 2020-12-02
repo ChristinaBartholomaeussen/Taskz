@@ -16,32 +16,28 @@ public class MemberService
 
     private List<Member> memberList;
 
-    private MemberService()
+    public MemberService()
     {
-        this.memberList = new ArrayList<>();
 
-        // Dummy code
-        memberList.add(new Member(1,"rune@taskz.com", "1234","Rune","Petersen"));
-        memberList.add(new Member(2,"oscar@taskz.com", "1234","Oscar","Otterstad"));
-        memberList.add(new Member(3,"frederik@taskz.com", "1234","Frederik","Meizner"));
-        memberList.add(new Member(4,"christina@taskz.com", "1234","Christina","BartXXX"));
     }
+
 
     public boolean verifyLogin(String username, String password)
     {
-        for(Member member : memberList)
+        for(Member member : getAllMembers())
             if(member.getEmail().equals(username) && member.getPassword().equals(password))
             {
                 return true;
             }
 
-        getAllMembers();
+        
 
         return false;
     }
 
-    public List<Member> getAllMembers()
+    public ArrayList<Member> getAllMembers()
     {
-        return memberRepository.getAllMembersFromDB();
+		System.out.println("service");
+    	return memberRepository.getAllMembersFromDB();
     }
 }

@@ -139,8 +139,6 @@ public class ProjectController {
 		return "redirect:/deletePopup";
 	}
 
-
-
 	@GetMapping("/deletePopup")
 	public String deletePopip(Model model) {
 		projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();

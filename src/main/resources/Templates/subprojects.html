@@ -96,11 +96,8 @@
 						<div class="col-md-6">
 							<label for="taskAssignMember">Assign team member:</label>
 							<select class="custom-select" id="taskAssignMember" name="TeamMembers" required>
-								<option value="" disabled selected hidden>Choose team member</option>
-								<option value="1">Frederik Meizner Petersen</option>
-								<option value="2">Christina Maria Bartholomæussen</option>
-								<option value="3">Rune Martin Bjerregaard Petersen</option>
-								<option value="4">Oscar Vinther Otterstad</option>
+								<option value="none" selected disabled hidden>Select a member</option>
+								<option  th:each="member : ${members}" th:value="${member.getMemberId}" th:text="${member.getFirstName}"></option>
 							</select>
 						</div>
 					</div>
