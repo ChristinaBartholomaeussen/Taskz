@@ -33,7 +33,8 @@ public class SubprojectService
 
         for(Subproject subproject : allAssociatedSubprojects)
             subproject.setTaskList(taskRepository.getAllAssociatedTasksToSubproject(subproject.getSubprojectId()));
-
+        
+        
         return allAssociatedSubprojects;
     }
     
