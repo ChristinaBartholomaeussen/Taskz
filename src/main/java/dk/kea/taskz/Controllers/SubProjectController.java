@@ -27,7 +27,6 @@ public class SubProjectController
 
 	int activeProjectIDToTest = 1; // This one is only for the header fragment rendering.
 	int activeProjectID = -1;
-	String projectTotalEstimatedTime;
 	boolean deadlineIsAfterStartDate = false;
 
 	/**

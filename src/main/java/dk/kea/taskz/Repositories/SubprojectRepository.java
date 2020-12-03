@@ -2,7 +2,6 @@ package dk.kea.taskz.Repositories;
 import dk.kea.taskz.Models.Subproject;
 import dk.kea.taskz.Services.ConnectionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-@Component
 public class SubprojectRepository
 {
 	@Autowired
