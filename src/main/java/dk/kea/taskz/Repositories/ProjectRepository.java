@@ -1,6 +1,7 @@
 package dk.kea.taskz.Repositories;
 import dk.kea.taskz.Models.Project;
 import dk.kea.taskz.Services.ConnectionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -12,13 +13,15 @@ import java.util.List;
 @Repository
 public class ProjectRepository {
 
+    @Autowired
+    SubprojectRepository subprojectRepository;
 
     PreparedStatement preparedStatement = null;
     /**
      * Henter alle projekter fra databasen
      * @return liste af alle projekter
      */
-    public List<Project> selectProjectFromDatabaseByIdNameDeadlineEstimatedTime()
+    public List<Project> getAllProjectsFromDatabase()
     {
         updateProjectEstimatedTime();
         String selectAllProjects = "SELECT Project_Id, Project_Name, Project_StartDate, Deadline, Workload_Per_Day, Project_Estimated_Time FROM projects";

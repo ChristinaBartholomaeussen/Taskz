@@ -1,10 +1,10 @@
 package dk.kea.taskz.Repositories;
 import dk.kea.taskz.Models.Member;
 import dk.kea.taskz.Services.ConnectionService;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 @Repository
 public class MemberRepository

@@ -3,7 +3,6 @@ package dk.kea.taskz.Controllers;
 import dk.kea.taskz.Models.Enums.Complexity;
 import dk.kea.taskz.Models.Enums.Priority;
 import dk.kea.taskz.Models.Enums.Status;
-import dk.kea.taskz.Models.Member;
 import dk.kea.taskz.Models.Task;
 import dk.kea.taskz.Services.MemberService;
 import dk.kea.taskz.Services.ProjectService;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 @Controller
 public class TaskController {
@@ -25,12 +23,15 @@ public class TaskController {
 	@Autowired
 	SubprojectService subprojectService;
 
-	ProjectService projectService = new ProjectService();
-	
-	TaskService taskService = new TaskService();
+	@Autowired
+	ProjectService projectService;
+
+	@Autowired
+	TaskService taskService;
 	
 	@Autowired
 	MemberService memberService;
+
 	int activeProjectIDToTest = 1; // This one is only for the header fragment rendering.
 	int subprojectsID = -1;
 	int parentProject = -1;

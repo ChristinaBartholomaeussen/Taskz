@@ -1,13 +1,15 @@
 package dk.kea.taskz.Services;
 import org.springframework.stereotype.Service;
 
+import org.springframework.stereotype.Component;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-@Service
-public class ConnectionService {
-
+@Component
+public class ConnectionService
+{
     /**
      * CMB
      * Static variable of connection which is null in the beginning
