@@ -138,7 +138,7 @@ public class SubProjectController
 			return "redirect:/projects";
 
 		model.addAttribute("activeProjectID", activeProjectID);
-		model.addAttribute("project", subprojectService.getParentProjectName(activeProjectID));
+		model.addAttribute("project", projectService.getProjectByProjectId(activeProjectID));
 		model.addAttribute("popup", false);
 		model.addAttribute("taskPopUp", false);
 		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProjectID));
