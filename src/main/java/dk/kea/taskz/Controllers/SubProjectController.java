@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
 
+import java.time.LocalDate;
+
 @Controller
 public class SubProjectController
 {
@@ -26,6 +28,7 @@ public class SubProjectController
 	int activeProjectIDToTest = 1; // This one is only for the header fragment rendering.
 	int activeProjectID = -1;
 	String projectTotalEstimatedTime;
+	boolean deadlineIsAfterStartDate = false;
 
 	/**
 	 * Postmapping der bliver ramt efter man tr
@@ -58,14 +61,14 @@ public class SubProjectController
 	public String subprojects(Model model)
 	{
 		if (activeProjectID == -1) {
-			System.out.println("Redirects to /projects. No valid project id");
 			return "redirect:/projects";
 		}
+
 		model.addAttribute("activeProjectID", activeProjectID);
 		model.addAttribute("project", projectService.getProjectByProjectId(activeProjectID));
 		model.addAttribute("popup", false);
 		model.addAttribute("taskPopUp", false);
-		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProjectID));
+		model.addAttribute("subprojectList", subprojectService.getAllAssociatedSubprojects(activeProjectID));
 		model.addAttribute("deletePopUp", false);
 		model.addAttribute("stopScroll", false);
 		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
@@ -91,6 +94,12 @@ public class SubProjectController
 		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProjectID));
 		model.addAttribute("stopScroll", true);
 		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
+
+		LocalDate date = LocalDate.now();
+
+		model.addAttribute("date", date);
+		model.addAttribute("deadlineIsAfterStartDate", deadlineIsAfterStartDate);
+
 		return "subprojects";
 	}
 
@@ -101,16 +110,26 @@ public class SubProjectController
 	 * @return
 	 */
 	@PostMapping("/postNewSubproject")
-	public String newSubproject(WebRequest data)
-	{
+	public String newSubproject(WebRequest data) {
 		if (activeProjectID == -1)
 			return "redirect:/projects";
 
-		String subProjectName = data.getParameter("newSubProject");
-		Subproject subproject = new Subproject(subProjectName, activeProjectID);
-		subprojectService.createSubproject(subproject);
+		String subprojectStartDate = data.getParameter("subprojectStartDate");
+		LocalDate convertedSubprojectStartDate = LocalDate.parse(subprojectStartDate);
 
-		return "redirect:/subprojects";
+		String subprojectDeadline = data.getParameter("subprojectDeadline");
+		LocalDate convertedSubprojectDeadline = LocalDate.parse(subprojectDeadline);
+
+		if (convertedSubprojectDeadline.compareTo(convertedSubprojectStartDate) < 0) {
+			deadlineIsAfterStartDate = true;
+			return "redirect:/newSubProject";
+		} else {
+			String subprojectName = data.getParameter("subprojectName");
+			Subproject subproject = new Subproject(subprojectName, activeProjectID, convertedSubprojectStartDate, convertedSubprojectDeadline);
+			subprojectService.createSubproject(subproject);
+
+			return "redirect:/subprojects";
+		}
 	}
 	
 	@GetMapping("/deleteSubProjectPopUp")

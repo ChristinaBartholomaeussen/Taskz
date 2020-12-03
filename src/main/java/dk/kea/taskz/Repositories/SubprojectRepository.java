@@ -19,20 +19,22 @@ public class SubprojectRepository
 
 	PreparedStatement preparedStatement = null;
 
-    public List<Subproject> getAllAssociatedSubprojects(int projectId)
-    {
+    public List<Subproject> getAllAssociatedSubprojects(int projectId) {
 		updateSubprojectEstimated();
         String getAllAssociatedSubprojectsSqlStatement = "SELECT * FROM taskz.subprojects WHERE Project_ID = " + projectId ;
         List<Subproject> subprojectList = new ArrayList<>();
-
-        try
-        {
+        try {
             preparedStatement = ConnectionService.getConnection().prepareStatement(getAllAssociatedSubprojectsSqlStatement);
             ResultSet rs = preparedStatement.executeQuery();
 
-            while(rs.next())
-            {
-                subprojectList.add(new Subproject(rs.getInt(1),rs.getInt(3),rs.getString(2)));
+            while(rs.next()) {
+				subprojectList.add(new Subproject(
+					rs.getInt(1),
+					rs.getInt(3),
+					rs.getString(2),
+					rs.getDate(6).toLocalDate(),
+					rs.getDate(7).toLocalDate()
+				));
             }
 
         }
@@ -45,14 +47,14 @@ public class SubprojectRepository
     }
     
     public void insertSubProjectIntoDB(Subproject subproject) {
-    	String insertSubProject = "INSERT INTO taskz.subprojects (Subproject_Name, Project_ID, Time_Spent, Subproject_Estimated_Time) VALUES (?, ?, ?, ?)";
+    	String insertSubProject = "INSERT INTO taskz.subprojects (Subproject_Name, Project_ID, Subproject_StartDate, Subproject_Deadline) VALUES (?, ?, ?, ?)";
     	
     	try {
     		preparedStatement = ConnectionService.getConnection().prepareStatement(insertSubProject);
     		preparedStatement.setString(1, subproject.getSubprojectName());
     		preparedStatement.setInt(2, subproject.getParentProjectId());
-    		preparedStatement.setInt(3, 0);
-    		preparedStatement.setDouble(4, 0.0);
+    		preparedStatement.setDate(3, java.sql.Date.valueOf(subproject.getSubprojectStartDate()));
+    		preparedStatement.setDate(4, java.sql.Date.valueOf(subproject.getSubprojectDeadline()));
 
     		preparedStatement.execute();
 		} catch (SQLException e) {
