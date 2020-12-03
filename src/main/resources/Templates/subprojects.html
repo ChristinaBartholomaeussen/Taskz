@@ -26,14 +26,29 @@
 					</a>
 				</div>
 				<form th:method="post" action="/postNewSubproject">
+
+					<div class="form-group" th:classappend="${deadlineIsAfterStartDate} ? display : none">
+						<span class="display-block bg-dark mx-auto col-md-12 p-3 text-white">Deadline can't be before start date</span>
+					</div>
 					<div class="form-row">
 						<div class="form-group col-md-12">
-							<label for="inputFormSubProjectName">SubProject Name</label>
-							<input type="text" class="form-control" name="newSubProject" id="inputFormSubProjectName" placeholder="Enter Subproject Name" autocomplete="off" required>
+							<label for="newSubprojectName">Subproject Name</label>
+							<input type="text" class="form-control" id="newSubprojectName" name="subprojectName" placeholder="Enter subproject Name" autocomplete="off" required>
 						</div>
 					</div>
-					<button type="submit" class="btn btn-primary mx-auto">Create Project</button>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="startDateSubprojectForm">Start Date:</label>
+							<input type="date" class="form-control" id="startDateSubprojectForm" name="subprojectStartDate" placeholder="Choose start date" th:attr="min=${date}" required>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="deadlineSubprojectForm">Deadline:</label>
+							<input type="date" class="form-control" id="deadlineSubprojectForm" name="subprojectDeadline" placeholder="Choose deadline" th:attr="min=${date}" required>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-primary mx-auto">Create subroject</button>
 					<a href="/subprojects" class="btn btn-danger mx-auto">Cancel</a>
+
 				</form>
 			</div>
 		</div>
