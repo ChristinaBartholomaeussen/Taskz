@@ -9,7 +9,6 @@ import java.util.List;
 @Repository
 public class MemberRepository
 {
-
 	PreparedStatement preparedStatement = null;
 	ArrayList<Member> memberList = new ArrayList<>();
 
@@ -27,7 +26,7 @@ public class MemberRepository
         }
         catch(Exception e)
         {
-            System.out.println("Error happend in member repository, getAllMembersFromDB" + e.getMessage());
+            System.out.println("Error happened in member repository, getAllMembersFromDB" + e.getMessage());
         }
         return memberList;
     }

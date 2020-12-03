@@ -1,6 +1,7 @@
 package dk.kea.taskz.Controllers;
 
 import dk.kea.taskz.Models.Subproject;
+import dk.kea.taskz.Services.ProjectService;
 import dk.kea.taskz.Services.SubprojectService;
 import dk.kea.taskz.Services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class SubProjectController
 {
 	@Autowired
 	SubprojectService subprojectService;
+
+	@Autowired
+	ProjectService projectService;
 
 	@Autowired
 	TaskService taskService;
@@ -42,7 +46,6 @@ public class SubProjectController
 		String id = data.getParameter("deleteSubProject");
 		subprojectService.deleteSubProject(Integer.valueOf(id));
 		return "redirect:/subprojects";
-		
 	}
 
 	/**
@@ -59,14 +62,13 @@ public class SubProjectController
 			return "redirect:/projects";
 		}
 		model.addAttribute("activeProjectID", activeProjectID);
-		model.addAttribute("projectName", subprojectService.getParentProjectName(activeProjectID));
+		model.addAttribute("project", projectService.getProjectByProjectId(activeProjectID));
 		model.addAttribute("popup", false);
 		model.addAttribute("taskPopUp", false);
 		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProjectID));
 		model.addAttribute("deletePopUp", false);
 		model.addAttribute("stopScroll", false);
 		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
-
 
 		return "subprojects";
 	}
@@ -85,6 +87,7 @@ public class SubProjectController
 
 		model.addAttribute("popup", true);
 		model.addAttribute("taskPopUp", false);
+		model.addAttribute("project", projectService.getProjectByProjectId(activeProjectID));
 		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProjectID));
 		model.addAttribute("stopScroll", true);
 		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
@@ -117,7 +120,7 @@ public class SubProjectController
 			return "redirect:/projects";
 
 		model.addAttribute("activeProjectID", activeProjectID);
-		model.addAttribute("projectName", subprojectService.getParentProjectName(activeProjectID));
+		model.addAttribute("project", subprojectService.getParentProjectName(activeProjectID));
 		model.addAttribute("popup", false);
 		model.addAttribute("taskPopUp", false);
 		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProjectID));

@@ -25,7 +25,6 @@ public class SubprojectRepository
         String getAllAssociatedSubprojectsSqlStatement = "SELECT * FROM taskz.subprojects WHERE Project_ID = " + projectId ;
         List<Subproject> subprojectList = new ArrayList<>();
 
-
         try
         {
             preparedStatement = ConnectionService.getConnection().prepareStatement(getAllAssociatedSubprojectsSqlStatement);
@@ -50,12 +49,11 @@ public class SubprojectRepository
     	
     	try {
     		preparedStatement = ConnectionService.getConnection().prepareStatement(insertSubProject);
-    		
     		preparedStatement.setString(1, subproject.getSubprojectName());
     		preparedStatement.setInt(2, subproject.getParentProjectId());
     		preparedStatement.setInt(3, 0);
     		preparedStatement.setDouble(4, 0.0);
-    		
+
     		preparedStatement.execute();
 		} catch (SQLException e) {
 			System.out.println("Error in SubProjectRepository. Method: createSubProject: " + e.getMessage());
@@ -91,7 +89,7 @@ public class SubprojectRepository
 				projectNameToReturn = resultSet.getString(1);
 			}
 		} catch (SQLException e) {
-			System.out.println("Klasse: ProjectRepository\nMethode: getProjectName\nError: " + e.getMessage());
+			System.out.println("Error happened in SubprojectRepository at getProjectName(): " + e.getMessage());
 		}
 
 		return projectNameToReturn;
@@ -110,7 +108,7 @@ public class SubprojectRepository
     			idToReturn = resultSet.getInt(1);
 			}
 		}catch (SQLException e) {
-			System.out.println("Klasse: ServiceRepository\nMethode: getParentProjectIdFromDB\n" + e.getMessage());
+			System.out.println("Error happened in SubprojectRepository at getParentProjectIdFromDB(): " + e.getMessage());
 		}
 
     	return idToReturn;
@@ -131,7 +129,7 @@ public class SubprojectRepository
 			preparedStatement.executeUpdate();
 		}catch (SQLException e){
 
-			System.out.println("Happened in ProjectRepository updateProjectEstimatedTime: " + e.getMessage());
+			System.out.println("Error happened in ProjectRepository updateProjectEstimatedTime: " + e.getMessage());
 
 		}
 

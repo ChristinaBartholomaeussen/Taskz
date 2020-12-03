@@ -8,7 +8,6 @@ public class TaskService {
 
 	TaskRepository taskRepository = new TaskRepository();
 
-
 	public void insertTask(Task task) {
 		taskRepository.insertNewTaskToDB(task);
 	}

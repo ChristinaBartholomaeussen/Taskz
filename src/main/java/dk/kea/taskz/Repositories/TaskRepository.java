@@ -15,9 +15,7 @@ import java.util.List;
 @Repository
 public class TaskRepository {
 
-
 	PreparedStatement preparedStatement = null;
-
 
 	/**
 	 *  - OVO
@@ -54,7 +52,6 @@ public class TaskRepository {
 			System.out.println(e.getMessage());
 		}
 
-		
 		return taskToReturn;
 	}
 
@@ -101,12 +98,9 @@ public class TaskRepository {
 
 			preparedStatement.execute();
 
-
-
 		} catch (SQLException e) {
 			System.out.println("Error happened in TaskRepository at insertNewTaskToDB" + e.getMessage());
 		}
-
 	}
 
 	/**
