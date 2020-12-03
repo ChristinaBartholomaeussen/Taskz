@@ -25,7 +25,6 @@ public class SubprojectRepository
         String getAllAssociatedSubprojectsSqlStatement = "SELECT * FROM taskz.subprojects WHERE Project_ID = " + projectId ;
         List<Subproject> subprojectList = new ArrayList<>();
 
-
         try
         {
             preparedStatement = ConnectionService.getConnection().prepareStatement(getAllAssociatedSubprojectsSqlStatement);
@@ -62,6 +61,7 @@ public class SubprojectRepository
 		}
 
 	}
+
 	
 	public void deleteSubProjectFromDB(int Subproject_ID) {
     	String deleteSubProjectFromDB = "DELETE FROM subprojects WHERE Subproject_ID = ?";

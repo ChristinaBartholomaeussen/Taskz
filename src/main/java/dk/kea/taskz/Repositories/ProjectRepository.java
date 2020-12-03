@@ -12,7 +12,6 @@ import java.util.List;
 @Repository
 public class ProjectRepository {
 
-    SubprojectRepository subprojectRepository = new SubprojectRepository();
 
     PreparedStatement preparedStatement = null;
     /**
@@ -78,6 +77,14 @@ public class ProjectRepository {
         }
     }
 
+    /**
+     * Method with JDBC query which deletes the chosen project with the specific projectId
+     * Preparestament to sent the string deleteQuery,
+     * set the parameterIndex at 1 to be our ptojectId and then execute it.
+     * When the project is deleted the subprojects and tasks which are connected through
+     * foreing keys will be deleted as well because of cascade in our database.
+     * @param projectId
+     */
     public void deleteWholeProject(int projectId){
 
         String deleteQuery = "delete from projects where Project_ID = ?";
@@ -93,6 +100,15 @@ public class ProjectRepository {
 
     }
 
+    /**
+     * Method with a string with our sql query.
+     * The query updates our projects table, joiner the subprojects on the primary key from projects
+     * and the foreign key in subprojects, selects the total sum for
+     * estimated time in subprojects, groups them by project_id because of foreign keys,
+     * then sets the value of estimated time for each project to be the sum of all subprojects, where
+     * the primary key in projects is == to the foreign key in subprojects.
+     * PrepareStatement to sent the query and then a executeUpdate method.
+     */
 
     public void updateProjectEstimatedTime(){
 
