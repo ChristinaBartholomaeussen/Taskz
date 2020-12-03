@@ -133,6 +133,19 @@ public class SubprojectRepository
 			System.out.println("Error happened in ProjectRepository updateProjectEstimatedTime: " + e.getMessage());
 
 		}
+	}
 
+	public void updateWorkloadPerDay(String workloadPerDay, int subprojectID) {
+		String updateWorkloadPerDay = "UPDATE projects SET Subproject_Workload_Per_Day = ? WHERE Subproject_ID = ?;";
+
+		try {
+			PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(updateWorkloadPerDay);
+			preparedStatement.setString(1, workloadPerDay);
+			preparedStatement.setDouble(2, subprojectID);
+
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Error happened in ProjectRepository updateWorkLoadPerDay: " + e.getMessage());
+		}
 	}
 }
