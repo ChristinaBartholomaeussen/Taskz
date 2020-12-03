@@ -1,8 +1,11 @@
 package dk.kea.taskz.Services;
+import org.springframework.stereotype.Component;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+@Component
 public class ConnectionService
 {
     private static Connection connection = null;

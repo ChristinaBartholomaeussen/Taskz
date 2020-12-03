@@ -2,6 +2,7 @@ package dk.kea.taskz.Services;
 
 import dk.kea.taskz.Models.Project;
 import dk.kea.taskz.Repositories.ProjectRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
@@ -10,8 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ProjectService {
-
+public class ProjectService
+{
+    @Autowired
     ProjectRepository projectRepository = new ProjectRepository();
 
     List<Project> projectList = new ArrayList<>();
@@ -20,9 +22,9 @@ public class ProjectService {
      * Henter listen fra Repository, som henter det specfikke ID, navn, deadline og estimeret time
      * @return
      */
-    public List<Project> getProjectByIdNameDeadlineEstimatedTime() {
+    public List<Project> getAllProjects() {
 
-        projectList = projectRepository.selectProjectFromDatabaseByIdNameDeadlineEstimatedTime();
+        projectList = projectRepository.getAllProjectsFromDatabase();
         return projectList;
     }
 
