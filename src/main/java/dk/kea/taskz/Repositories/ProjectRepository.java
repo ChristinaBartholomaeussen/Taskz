@@ -1,6 +1,7 @@
 package dk.kea.taskz.Repositories;
 import dk.kea.taskz.Models.Project;
 import dk.kea.taskz.Services.ConnectionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -12,25 +13,24 @@ import java.util.List;
 @Repository
 public class ProjectRepository {
 
-    SubprojectRepository subprojectRepository = new SubprojectRepository();
+    @Autowired
+    SubprojectRepository subprojectRepository;
 
     PreparedStatement preparedStatement = null;
     /**
      * Henter alle projekter fra databasen
      * @return liste af alle projekter
      */
-    public List<Project> selectProjectFromDatabaseByIdNameDeadlineEstimatedTime() {
-
+    public List<Project> getAllProjectsFromDatabase()
+    {
         updateProjectEstimatedTime();
+        String selectAllProjects = "SELECT Project_Id, Project_Name, Project_StartDate, Deadline, Workload_Per_Day, Project_Estimated_Time FROM projects";
 
-    String selectAllProjects = "SELECT Project_Id, Project_Name, Project_StartDate, Deadline, Workload_Per_Day, Project_Estimated_Time FROM projects";
-
-    List<Project> allProjects = new ArrayList<>();
+        List<Project> allProjects = new ArrayList<>();
 
         try {
             preparedStatement = ConnectionService.getConnection().prepareStatement(selectAllProjects);
             ResultSet rs = preparedStatement.executeQuery();
-
 
             while(rs.next())
             {
@@ -41,23 +41,19 @@ public class ProjectRepository {
                         rs.getDate(4).toLocalDate(),
                         rs.getString(5),
                         rs.getDouble(6)
-                        );
-
+                );
 
                 allProjects.add(project);
-
             }
 
-
-    } catch (SQLException e) {
-        System.out.println("Happened in ProjectRepository selectProjectFromDatabaseByIdNameDeadlineEstimatedTime: " + e.getMessage());
-    }
+        } catch (SQLException e) {
+            System.out.println("Happened in ProjectRepository selectProjectFromDatabaseByIdNameDeadlineEstimatedTime(): " + e.getMessage());
+        }
 
         return allProjects;
     }
 
-
-    public void insertProjectIntoDatabase(Project project){
+    public void insertProjectIntoDatabase(Project project) {
 
         String insertProjectIntoDatabasen =
                 "INSERT INTO projects(Project_Id, Project_Name, Project_StartDate, Deadline) " +
@@ -78,6 +74,14 @@ public class ProjectRepository {
         }
     }
 
+    /**
+     * Method with JDBC query which deletes the chosen project with the specific projectId
+     * Preparestament to sent the string deleteQuery,
+     * set the parameterIndex at 1 to be our ptojectId and then execute it.
+     * When the project is deleted the subprojects and tasks which are connected through
+     * foreing keys will be deleted as well because of cascade in our database.
+     * @param projectId
+     */
     public void deleteWholeProject(int projectId){
 
         String deleteQuery = "delete from projects where Project_ID = ?";
@@ -90,9 +94,17 @@ public class ProjectRepository {
         }catch (SQLException e){
             System.out.println("Happened in ProjectRepository deleteWholeProject: " + e.getMessage());
         }
-
     }
 
+    /**
+     * Method with a string with our sql query.
+     * The query updates our projects table, joiner the subprojects on the primary key from projects
+     * and the foreign key in subprojects, selects the total sum for
+     * estimated time in subprojects, groups them by project_id because of foreign keys,
+     * then sets the value of estimated time for each project to be the sum of all subprojects, where
+     * the primary key in projects is == to the foreign key in subprojects.
+     * PrepareStatement to sent the query and then a executeUpdate method.
+     */
 
     public void updateProjectEstimatedTime(){
 
@@ -126,4 +138,31 @@ public class ProjectRepository {
         }
     }
 
+    public Project getProjectByProjectId(int projectId)
+    {
+        String sqlQuery = "SELECT * FROM taskz.projects WHERE Project_ID = " + projectId;
+        Project project = new Project();
+
+        try
+        {
+            preparedStatement = ConnectionService.getConnection().prepareStatement(sqlQuery);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while(rs.next())
+            {
+                project.setProjectId(rs.getInt(1));
+                project.setName(rs.getString(2));
+                project.setStartDate(rs.getDate(3).toLocalDate());
+                project.setDeadline(rs.getDate(4).toLocalDate());
+                project.setTotalWorkHoursPerDay(rs.getString(5));
+                project.setTotalEstimatedTime(rs.getDouble(6));
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error happened in ProjectRepository at getProjectByProjectId()" + e);
+        }
+
+        return project;
+    }
 }

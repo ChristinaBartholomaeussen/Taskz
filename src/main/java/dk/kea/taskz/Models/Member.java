@@ -10,7 +10,6 @@ public class Member
 
     public Member()
     {
-        // Hello
     }
 
     public Member(String email, String password)

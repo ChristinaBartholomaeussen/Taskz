@@ -1,8 +1,6 @@
 package dk.kea.taskz.Controllers;
 
 import dk.kea.taskz.Models.Project;
-import dk.kea.taskz.Services.CompetanceService;
-import dk.kea.taskz.Services.MemberService;
 import dk.kea.taskz.Services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,11 +15,16 @@ import java.util.List;
 @Controller
 public class ProjectController {
 
-	ProjectService projectService = new ProjectService();
-	List<Project> projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();
-	boolean deadlineIsAfterStartDate = false;
-	int activeProjectIDToTest = 0; // This one is only for the header fragment rendering.
+	@Autowired
+	ProjectService projectService;
 
+	List<Project> projectList;
+	boolean deadlineIsAfterStartDate = false;
+
+	/**
+	 * Used only for the header fragment rendering.
+	 */
+	int activeProjectIDToTest = 0;
 
 	/**
 	 * Needs to be initialized, but the default value is -1.
@@ -29,8 +32,6 @@ public class ProjectController {
 	 * recieved from the LoginController mapping.
 	 */
 	int activeProjectID = -1;
-	
-	
 
 	/**
 	 * - OVO
@@ -44,10 +45,10 @@ public class ProjectController {
 	@GetMapping("/projects")
 	public String projects(Model model)
 	{
-		projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();
+		projectList = projectService.getAllProjects();
 
 		projectService.updateWorkloadPerDay(projectList);
-		
+
 		model.addAttribute("activeProjectID", activeProjectID);
 		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
 		model.addAttribute("popup", false);
@@ -75,7 +76,7 @@ public class ProjectController {
 	@PostMapping("/deleteProject")
 	public String deleteProject(WebRequest deleteProjectData) {
 
-		List<Project> projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();
+		List<Project> projectList = projectService.getAllProjects();
 
 		int projectToDeleteId = Integer.parseInt(deleteProjectData.getParameter("projectId"));
 
@@ -103,7 +104,7 @@ public class ProjectController {
 	public String newProject(Model model) {
 
 		model.addAttribute("popup", true);
-		model.addAttribute("projectList", projectList);
+		model.addAttribute("projectList", projectService.getAllProjects());
 
 		LocalDate date = LocalDate.now();
 
@@ -112,7 +113,6 @@ public class ProjectController {
 
 		return "projects";
 	}
-
 
 	/**
 	 * - FMP
@@ -154,14 +154,11 @@ public class ProjectController {
 
 	@GetMapping("/deletePopup")
 	public String deletePopip(Model model) {
-		projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();
-
 		model.addAttribute("activeProjectID", activeProjectID);
 		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
 		model.addAttribute("popup", false);
-		model.addAttribute("projectList", projectList);
+		model.addAttribute("projectList", projectService.getAllProjects());
 		model.addAttribute("deletePopUp", true);
 		return "projects";
 	}
-
 }

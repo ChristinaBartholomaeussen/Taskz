@@ -1,7 +1,6 @@
 package dk.kea.taskz.Controllers;
 
 import dk.kea.taskz.Services.MemberService;
-import dk.kea.taskz.Services.SubprojectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,9 +12,6 @@ public class LoginController
 {
     @Autowired
     private MemberService memberService;
-
-    @Autowired
-    private SubprojectService subprojectService;
 
     /**
      * The "root"-mapping which points to the login screen and shows login.html

@@ -16,17 +16,30 @@ public class Subproject
     private String subprojectName;
     private List<Task> taskList;
 
-    public Subproject(String subprojectName, int parentProjectId)
-    {
+    public Subproject(String subprojectName, int parentProjectId) {
         this.parentProjectId = parentProjectId;
         this.subprojectName = subprojectName;
     }
 
-    public Subproject(int subprojectId, int parentProjectId, String subprojectName)
-    {
+    public Subproject(int subprojectId, int parentProjectId, String subprojectName) {
         this.subprojectId = subprojectId;
         this.parentProjectId = parentProjectId;
         this.subprojectName = subprojectName;
+    }
+
+    public Subproject(String subprojectName, int parentProjectId, LocalDate subprojectStartDate, LocalDate subprojectDeadline) {
+        this.subprojectName = subprojectName;
+        this.parentProjectId = parentProjectId;
+        this.subprojectStartDate = subprojectStartDate;
+        this.subprojectDeadline = subprojectDeadline;
+    }
+
+    public Subproject(int subprojectId, int parentProjectId, String subprojectName, LocalDate subprojectStartDate, LocalDate subprojectDeadline) {
+        this.subprojectId = subprojectId;
+        this.parentProjectId = parentProjectId;
+        this.subprojectName = subprojectName;
+        this.subprojectStartDate = subprojectStartDate;
+        this.subprojectDeadline = subprojectDeadline;
     }
 
     public String getSubprojectName()

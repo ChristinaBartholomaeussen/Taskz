@@ -3,10 +3,10 @@ package dk.kea.taskz.Controllers;
 import dk.kea.taskz.Models.Enums.Complexity;
 import dk.kea.taskz.Models.Enums.Priority;
 import dk.kea.taskz.Models.Enums.Status;
-import dk.kea.taskz.Models.Member;
 import dk.kea.taskz.Models.Task;
-import dk.kea.taskz.Services.CompetanceService;
+import dk.kea.taskz.Services.CompetenceService;
 import dk.kea.taskz.Services.MemberService;
+import dk.kea.taskz.Services.ProjectService;
 import dk.kea.taskz.Services.SubprojectService;
 import dk.kea.taskz.Services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,26 +17,30 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 @Controller
 public class TaskController {
 
 	@Autowired
 	SubprojectService subprojectService;
-	
+
+	@Autowired
+	ProjectService projectService;
+
 	@Autowired
 	TaskService taskService;
-	
+
 	@Autowired
-	CompetanceService competanceService;
-	
+	CompetenceService competenceService;
+
 	@Autowired
 	MemberService memberService;
+
 	int activeProjectIDToTest = 1; // This one is only for the header fragment rendering.
 	int subprojectsID = -1;
 	int parentProject = -1;
-	
+
+
 	@PostMapping("/newTask")
 	public String newTaskPost(WebRequest data)
 	{
@@ -45,7 +49,30 @@ public class TaskController {
 		return "redirect:/newTask";
 	}
 	
-	
+	/**
+	 *  - OVO
+	 * Activates the pop up for new task.
+	 * @param model
+	 * @return subprojects
+	 */
+	@GetMapping("/newTask")
+	public String taskPopUp(Model model)
+	{
+
+		if(parentProject == -1)
+			return "redirect:/projects";
+
+		model.addAttribute("members", memberService.getAllMembers());
+		model.addAttribute("subprojectsID", subprojectsID);
+		model.addAttribute("popup", false);
+		model.addAttribute("TaskPopUp", true);
+		model.addAttribute("stopScroll", true);
+		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
+		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(parentProject));
+		model.addAttribute("project",projectService.getProjectByProjectId(parentProject));
+		return "subprojects";
+	}
+
 	/**
 	 *  - OVO
 	 *  Send from data to the database. To create an task.
@@ -63,12 +90,12 @@ public class TaskController {
 		String member = data.getParameter("TeamMembers");
 		String tag = data.getParameter("tags");
 		System.out.println(tag);
-		
-		
+
+
 
 		Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline),  Double.valueOf(estimatedTime), Status.ACTIVE, member, tag);
 
-		if(competanceService.calculateIfTaskIsWrongAssigned(Integer.parseInt(member), task)) {
+		if(competenceService.calculateIfTaskIsWrongAssigned(Integer.parseInt(member), task)) {
 			System.out.println("De er ikke egnet til dette");
 			return "redirect:/newTask";
 		}
@@ -91,27 +118,12 @@ public class TaskController {
 	}
 
 	/**
-	 *  - OVO 
-	 *  Retunere en enkelt task. Men methoden skal ikke se sådan her ud.
-	 *  Det her er bare et eksempel.
-	 */
-	
-	/*
-	@GetMapping("/getSingleTask")
-	public String getSingleTask() {
-		
-		System.out.println(taskService.getASpecificTask(3));
-		return "subprojects";
-	} */
-
-	/**
 	 * - FMP
 	 * Updates the status of a specific task, changing the display values of that element
 	 * Redirects to subprojects
 	 * @param data
 	 * @return
 	 */
-
 	@PostMapping("/postChangeStatus")
 	public String postChangeStatus(WebRequest data) {
 		int idTask = Integer.parseInt(data.getParameter("changeStatus"));
@@ -120,31 +132,4 @@ public class TaskController {
 
 		return "redirect:/subprojects";
 	}
-
-	/**
-	 *  - OVO
-	 * Activates the pop up for new task.
-	 * @param model
-	 * @return subprojects
-	 */
-
-	@GetMapping("/newTask")
-	public String taskPopUp(Model model)
-	{
-		ArrayList<String> competanceList = competanceService.getAllCompetances();
-		
-		if(parentProject == -1)
-			return "redirect:/projects";
-		model.addAttribute("members", memberService.getAllMembers());
-		model.addAttribute("subprojectsID", subprojectsID);
-		model.addAttribute("popup", false);
-		model.addAttribute("TaskPopUp", true);
-		model.addAttribute("stopScroll", true);
-		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
-		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(parentProject));
-		model.addAttribute("competances", competanceList);
-
-		return "subprojects";
-	}
-
 }

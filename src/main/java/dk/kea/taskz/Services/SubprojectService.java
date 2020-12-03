@@ -1,11 +1,14 @@
 package dk.kea.taskz.Services;
 
+import dk.kea.taskz.Models.Project;
 import dk.kea.taskz.Models.Subproject;
 import dk.kea.taskz.Repositories.SubprojectRepository;
 import dk.kea.taskz.Repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -45,6 +48,25 @@ public class SubprojectService
 	
 	public int getParentId(int id) {
     	return subprojectRepository.getParentProjectIdFromDB(id);
+    }
+
+    public void updateWorkloadPerDay(List<Subproject> subprojectList) {
+
+        double convertedDaysBetween = 0;
+
+        DecimalFormat df = new DecimalFormat("0.00");
+
+        for (Subproject subproject : subprojectList) {
+
+            long daysBetween = ChronoUnit.DAYS.between(subproject.getSubprojectStartDate(), subproject.getSubprojectDeadline());
+            long numberOfWeeks = daysBetween / 7;
+
+            daysBetween = daysBetween - (2 * numberOfWeeks);
+            convertedDaysBetween = (double)daysBetween;
+            double workloadPerDay =  subproject.getSubprojectTotalEstimatedTime() / convertedDaysBetween ;
+
+            subprojectRepository.updateWorkloadPerDay(df.format(workloadPerDay), subproject.getSubprojectId());
+        }
     }
 
 }

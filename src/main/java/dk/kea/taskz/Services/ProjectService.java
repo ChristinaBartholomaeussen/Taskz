@@ -2,27 +2,29 @@ package dk.kea.taskz.Services;
 
 import dk.kea.taskz.Models.Project;
 import dk.kea.taskz.Repositories.ProjectRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectService {
-
-    ProjectRepository projectRepository = new ProjectRepository();
+@Service
+public class ProjectService
+{
+    @Autowired
+    ProjectRepository projectRepository;
 
     List<Project> projectList = new ArrayList<>();
-
 
     /** Christina
      * Henter listen fra Repository, som henter det specfikke ID, navn, deadline og estimeret time
      * @return
      */
-    public List<Project> getProjectByIdNameDeadlineEstimatedTime() {
+    public List<Project> getAllProjects() {
 
-        projectList = projectRepository.selectProjectFromDatabaseByIdNameDeadlineEstimatedTime();
-
+        projectList = projectRepository.getAllProjectsFromDatabase();
         return projectList;
     }
 
@@ -33,7 +35,6 @@ public class ProjectService {
     public void addProjectToDatabase(Project project) {
 
         projectRepository.insertProjectIntoDatabase(project);
-
     }
 
     public void deleteProject(int projectId){
@@ -50,17 +51,19 @@ public class ProjectService {
         for (Project project : projectList) {
 
             long daysBetween = ChronoUnit.DAYS.between(project.getStartDate(), project.getDeadline());
-
             long numberOfWeeks = daysBetween / 7;
 
             daysBetween = daysBetween - (2 * numberOfWeeks);
-
             convertedDaysBetween = (double)daysBetween;
-
             double workloadPerDay =  project.getTotalEstimatedTime() / convertedDaysBetween ;
 
             projectRepository.updateWorkloadPerDay(df.format(workloadPerDay), project.getProjectId());
         }
+    }
+
+    public Project getProjectByProjectId(int activeProjectID)
+    {
+        return projectRepository.getProjectByProjectId(activeProjectID);
     }
 }
 

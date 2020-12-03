@@ -1,12 +1,24 @@
 package dk.kea.taskz.Services;
 import org.springframework.stereotype.Service;
+
+import org.springframework.stereotype.Component;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-@Service
-public class ConnectionService {
-
+@Component
+public class ConnectionService
+{
+    /**
+     * CMB
+     * Static variable of connection which is null in the beginning
+     * Static block of code with our url, user and password which tries to connect to out database with DriverManager,
+     * Static because we only need the information to be stored once in our memory
+     * Static method of Connection which returns the connection, which makes the navigation on our application faster,
+     * because we don't need to instance a new object of our class and then call the method with all the
+     * information every single time
+     */
 
     private static Connection connection = null;
 

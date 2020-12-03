@@ -2,7 +2,6 @@ package dk.kea.taskz.Repositories;
 import dk.kea.taskz.Models.Subproject;
 import dk.kea.taskz.Services.ConnectionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-@Component
 public class SubprojectRepository
 {
 	@Autowired
@@ -19,21 +17,22 @@ public class SubprojectRepository
 
 	PreparedStatement preparedStatement = null;
 
-    public List<Subproject> getAllAssociatedSubprojects(int projectId)
-    {
-		updateSubprojectEstimated();
+    public List<Subproject> getAllAssociatedSubprojects(int projectId) {
+
         String getAllAssociatedSubprojectsSqlStatement = "SELECT * FROM taskz.subprojects WHERE Project_ID = " + projectId ;
         List<Subproject> subprojectList = new ArrayList<>();
-
-
-        try
-        {
+        try {
             preparedStatement = ConnectionService.getConnection().prepareStatement(getAllAssociatedSubprojectsSqlStatement);
             ResultSet rs = preparedStatement.executeQuery();
-
-            while(rs.next())
-            {
-                subprojectList.add(new Subproject(rs.getInt(1),rs.getInt(3),rs.getString(2)));
+			updateSubprojectEstimated();
+            while(rs.next()) {
+				subprojectList.add(new Subproject(
+					rs.getInt(1),
+					rs.getInt(3),
+					rs.getString(2),
+					rs.getDate(6).toLocalDate(),
+					rs.getDate(7).toLocalDate()
+				));
             }
 
         }
@@ -42,27 +41,43 @@ public class SubprojectRepository
             System.out.println("Error happened in SubprojectRepository at getAllAssociatedSubprojects(): " + e);
         }
 
+        if(subprojectList.size() <= 0){
+        	String update = "update projects set projects.Project_Estimated_Time = 0 where projects.Project_id =?";
+
+        	try{
+				preparedStatement = ConnectionService.getConnection().prepareStatement(update);
+				preparedStatement.setInt(1, projectId);
+
+				preparedStatement.executeUpdate();
+			}catch (SQLException e){
+				System.out.println("Error");
+			}
+
+
+		}
         return subprojectList;
     }
+
+
     
     public void insertSubProjectIntoDB(Subproject subproject) {
-    	String insertSubProject = "INSERT INTO taskz.subprojects (Subproject_Name, Project_ID, Time_Spent, Subproject_Estimated_Time) VALUES (?, ?, ?, ?)";
+    	String insertSubProject = "INSERT INTO taskz.subprojects (Subproject_Name, Project_ID, Subproject_StartDate, Subproject_Deadline) VALUES (?, ?, ?, ?)";
     	
     	try {
     		preparedStatement = ConnectionService.getConnection().prepareStatement(insertSubProject);
-    		
     		preparedStatement.setString(1, subproject.getSubprojectName());
     		preparedStatement.setInt(2, subproject.getParentProjectId());
-    		preparedStatement.setInt(3, 0);
-    		preparedStatement.setDouble(4, 0.0);
-    		
+    		preparedStatement.setDate(3, java.sql.Date.valueOf(subproject.getSubprojectStartDate()));
+    		preparedStatement.setDate(4, java.sql.Date.valueOf(subproject.getSubprojectDeadline()));
+
     		preparedStatement.execute();
 		} catch (SQLException e) {
 			System.out.println("Error in SubProjectRepository. Method: createSubProject: " + e.getMessage());
 		}
 
 	}
-	
+
+
 	public void deleteSubProjectFromDB(int Subproject_ID) {
     	String deleteSubProjectFromDB = "DELETE FROM subprojects WHERE Subproject_ID = ?";
 
@@ -91,7 +106,7 @@ public class SubprojectRepository
 				projectNameToReturn = resultSet.getString(1);
 			}
 		} catch (SQLException e) {
-			System.out.println("Klasse: ProjectRepository\nMethode: getProjectName\nError: " + e.getMessage());
+			System.out.println("Error happened in SubprojectRepository at getProjectName(): " + e.getMessage());
 		}
 
 		return projectNameToReturn;
@@ -110,7 +125,7 @@ public class SubprojectRepository
     			idToReturn = resultSet.getInt(1);
 			}
 		}catch (SQLException e) {
-			System.out.println("Klasse: ServiceRepository\nMethode: getParentProjectIdFromDB\n" + e.getMessage());
+			System.out.println("Error happened in SubprojectRepository at getParentProjectIdFromDB(): " + e.getMessage());
 		}
 
     	return idToReturn;
@@ -129,11 +144,25 @@ public class SubprojectRepository
     	try{
     		preparedStatement = ConnectionService.getConnection().prepareStatement(updateTotalEstimatedTime);
 			preparedStatement.executeUpdate();
+
 		}catch (SQLException e){
 
-			System.out.println("Happened in ProjectRepository updateProjectEstimatedTime: " + e.getMessage());
+			System.out.println("Error happened in ProjectRepository updateProjectEstimatedTime: " + e.getMessage());
 
 		}
+	}
 
+	public void updateWorkloadPerDay(String workloadPerDay, int subprojectID) {
+		String updateWorkloadPerDay = "UPDATE projects SET Subproject_Workload_Per_Day = ? WHERE Subproject_ID = ?;";
+
+		try {
+			PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(updateWorkloadPerDay);
+			preparedStatement.setString(1, workloadPerDay);
+			preparedStatement.setDouble(2, subprojectID);
+
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Error happened in ProjectRepository updateWorkLoadPerDay: " + e.getMessage());
+		}
 	}
 }

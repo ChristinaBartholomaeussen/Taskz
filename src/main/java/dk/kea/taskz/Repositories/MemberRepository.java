@@ -1,6 +1,7 @@
 package dk.kea.taskz.Repositories;
 import dk.kea.taskz.Models.Member;
 import dk.kea.taskz.Services.ConnectionService;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.util.ArrayList;
@@ -8,12 +9,13 @@ import java.util.ArrayList;
 @Repository
 public class MemberRepository
 {
-
 	PreparedStatement preparedStatement = null;
-	ArrayList<Member> memberList = new ArrayList<>();
+
 
     public ArrayList<Member> getAllMembersFromDB()
     {
+        ArrayList<Member> memberList = new ArrayList<>();
+
         try
         {
             preparedStatement = ConnectionService.getConnection().prepareStatement("SELECT * FROM taskz.members");
@@ -26,28 +28,28 @@ public class MemberRepository
         }
         catch(Exception e)
         {
-            System.out.println("Error happend in member repository, getAllMembersFromDB" + e.getMessage());
+            System.out.println("Error happened in member repository, getAllMembersFromDB" + e.getMessage());
         }
         return memberList;
     }
     
-    public ArrayList<String> getAllMemeberCompetances(int Member_ID) {
-    	String getAllMembersCompetances = "SELECT Competance FROM taskz.competances WHERE Member_ID = " + Member_ID;
-    	ArrayList<String> competancesList = new ArrayList<>();
+    public ArrayList<String> getAllMemeberCompetences(int Member_ID) {
+    	String getAllMembersCompetences = "SELECT Competance FROM taskz.competances WHERE Member_ID = " + Member_ID;
+    	ArrayList<String> competencesList = new ArrayList<>();
     	
     	try {
-    		PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(getAllMembersCompetances);
+    		PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(getAllMembersCompetences);
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
-				competancesList.add(resultSet.getString(1));
+				competencesList.add(resultSet.getString(1));
 			}
     		
 		} catch (SQLException e){
-			System.out.println("Error happend in memberRepo: Method: getAllMemeberCompetances(), Error: " + e.getMessage());
+			System.out.println("Error happend in memberRepo: Method: getAllMemberCompetences(), Error: " + e.getMessage());
 		}
     	
     	
-    	return competancesList;
+    	return competencesList;
 	}
 }

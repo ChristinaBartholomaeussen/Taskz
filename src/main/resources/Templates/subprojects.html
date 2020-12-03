@@ -26,14 +26,29 @@
 					</a>
 				</div>
 				<form th:method="post" action="/postNewSubproject">
+
+					<div class="form-group" th:classappend="${deadlineIsAfterStartDate} ? display : none">
+						<span class="display-block bg-dark mx-auto col-md-12 p-3 text-white">Deadline can not be before start date</span>
+					</div>
 					<div class="form-row">
 						<div class="form-group col-md-12">
-							<label for="inputFormSubProjectName">SubProject Name</label>
-							<input type="text" class="form-control" name="newSubProject" id="inputFormSubProjectName" placeholder="Enter Subproject Name" autocomplete="off" required>
+							<label for="newSubprojectName">Subproject Name</label>
+							<input type="text" class="form-control" id="newSubprojectName" name="subprojectName" placeholder="Enter subproject Name" autocomplete="off" required>
 						</div>
 					</div>
-					<button type="submit" class="btn btn-primary mx-auto">Create Project</button>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="startDateSubprojectForm">Start Date:</label>
+							<input type="date" class="form-control" id="startDateSubprojectForm" name="subprojectStartDate" placeholder="Choose start date" th:attr="min=${date}" required>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="deadlineSubprojectForm">Deadline:</label>
+							<input type="date" class="form-control" id="deadlineSubprojectForm" name="subprojectDeadline" placeholder="Choose deadline" th:attr="min=${date}" required>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-primary mx-auto">Create subproject</button>
 					<a href="/subprojects" class="btn btn-danger mx-auto">Cancel</a>
+
 				</form>
 			</div>
 		</div>
@@ -106,7 +121,7 @@
 							<label for="tags">Choose a tag:</label>
 							<select name="tags" id="tags" class="custom-select">
 								<option value="none" selected disabled hidden>Select a Tag</option>
-								<option th:each="competance : ${competances}" th:value="${competance}" th:text="${competance}"></option>
+								<option th:each="competence : ${competences}" th:value="${competence}" th:text="${competence}"></option>
 							</select>
 						</div>
 					</div>
@@ -118,11 +133,21 @@
 		</div>
 		<!--#endregion -->
 
-		<a href="/projects">
-			<h2 class="ml-5 p-3" th:text="${projectName}"></h2>
-			<h2 class="ml-5 p-3" th:text="${projectTotalEstimatedTime}"></h2>
-		</a>
-		
+		<!--#region Project Info Bar-->
+		<table class="table mb-5" style="position: relative">
+			<thead>
+			<tr>
+				<th>Project Name: <b th:text="${project.getName()}"></b></th>
+				<th>Project Startdate: <b th:text="${project.getStartDate()}"></b></th>
+				<th>Project Deadline: <b th:text="${project.getDeadline()}"></b></th>
+				<th>Estimated Workhours: <b th:text="${project.getTotalEstimatedTime}"></b></th>
+				<th>Daily Workhours: <b th:text="${project.getTotalWorkHoursPerDay}"></b></th>
+			</tr>
+			</thead>
+		</table>
+		<!--#endregion -->
+
+		<!--#region Subproject Tables-->
 		<div th:if="${subprojectList.size() == 0}" class="container mx-auto">
 			<span class="text-info">You have no sub projects <a href="/newSubProject" class="btn btn-success">Create a Subproject</a></span>
 		</div>
@@ -132,6 +157,19 @@
 			
 			<div class="subproject d-flex">
 				<h4 class="text-center my-auto display-block" th:text="${subproject.getSubprojectName()}"></h4>
+				<tabel class="table table-striped" style="position: relative">
+					<thead>
+					<tr>
+						<th scope="col">Start Date</th>
+						<th scope="col">Deadline</th>
+						<th scope="col">Workload Per Day</th>
+						<th scope="col">Total Estimated Time</th>
+					</tr>
+					</thead>
+					<tbody>
+					
+					</tbody>
+				</tabel>
 				<a href="/deleteSubProjectPopUp" class="btn btn-danger ml-auto">Delete</a>
 				
 				<!--#region deletePopUp -->
@@ -146,7 +184,7 @@
 							</a>
 						</div>
 						<form th:method="post" action="/deleteSubProject">
-							<p class="d-block mx-auto text-info">Are you sure you wanna delete the subproject?</p>
+							<p class="d-block mx-auto text-info">Are you sure you want to delete the subproject?</p>
 							<input type="text" th:value="${subproject.getSubprojectId()}" name="deleteSubProject" class="hidden">
 							<div class="d-flex">
 								<button type="submit" class="btn btn-danger mx-1 p-2">Delete Subproject</button>
@@ -177,7 +215,12 @@
 						<td th:text="${task.taskName}"></td>
 						<td th:text="${task.getPriority}"></td>
 						<td th:text="${task.getComplexity}"></td>
-						<td th:text="${task.getMember}"></td>
+						<td th:switch="${task.getMember}">
+							<div th:case="1">RBP</div>
+							<div th:case="2">OVO</div>
+							<div th:case="3">FMP</div>
+							<div th:case="4">CB</div>
+						</td>
 						<td th:text="${task.getEstimatedTime}"></td>
 						<td th:text="${task.getDeadline}"></td>
 						<td th:text="${task.getTag}"></td>
@@ -200,6 +243,7 @@
 		<div class="container">
 			<a href="/newSubProject" class="btn btn-success mx-1 p-2 -auto">New Subproject</a>
 		</div>
+		<!--#endregion-->
     </main>
 </div>
 </body>
