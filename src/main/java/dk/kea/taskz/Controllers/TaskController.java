@@ -6,6 +6,7 @@ import dk.kea.taskz.Models.Enums.Status;
 import dk.kea.taskz.Models.Member;
 import dk.kea.taskz.Models.Task;
 import dk.kea.taskz.Services.MemberService;
+import dk.kea.taskz.Services.ProjectService;
 import dk.kea.taskz.Services.SubprojectService;
 import dk.kea.taskz.Services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ public class TaskController {
 
 	@Autowired
 	SubprojectService subprojectService;
+
+	ProjectService projectService = new ProjectService();
 	
 	TaskService taskService = new TaskService();
 	
@@ -59,6 +62,7 @@ public class TaskController {
 		model.addAttribute("stopScroll", true);
 		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
 		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(parentProject));
+		model.addAttribute("project",projectService.getProjectByProjectId(parentProject));
 		return "subprojects";
 	}
 
@@ -98,27 +102,12 @@ public class TaskController {
 	}
 
 	/**
-	 *  - OVO 
-	 *  Retunere en enkelt task. Men methoden skal ikke se sådan her ud.
-	 *  Det her er bare et eksempel.
-	 */
-	
-	/*
-	@GetMapping("/getSingleTask")
-	public String getSingleTask() {
-		
-		System.out.println(taskService.getASpecificTask(3));
-		return "subprojects";
-	} */
-
-	/**
 	 * - FMP
 	 * Updates the status of a specific task, changing the display values of that element
 	 * Redirects to subprojects
 	 * @param data
 	 * @return
 	 */
-
 	@PostMapping("/postChangeStatus")
 	public String postChangeStatus(WebRequest data) {
 		int idTask = Integer.parseInt(data.getParameter("changeStatus"));

@@ -18,18 +18,16 @@ public class ProjectRepository {
      * Henter alle projekter fra databasen
      * @return liste af alle projekter
      */
-    public List<Project> selectProjectFromDatabaseByIdNameDeadlineEstimatedTime() {
-
+    public List<Project> selectProjectFromDatabaseByIdNameDeadlineEstimatedTime()
+    {
         updateProjectEstimatedTime();
+        String selectAllProjects = "SELECT Project_Id, Project_Name, Project_StartDate, Deadline, Workload_Per_Day, Project_Estimated_Time FROM projects";
 
-    String selectAllProjects = "SELECT Project_Id, Project_Name, Project_StartDate, Deadline, Workload_Per_Day, Project_Estimated_Time FROM projects";
-
-    List<Project> allProjects = new ArrayList<>();
+        List<Project> allProjects = new ArrayList<>();
 
         try {
             preparedStatement = ConnectionService.getConnection().prepareStatement(selectAllProjects);
             ResultSet rs = preparedStatement.executeQuery();
-
 
             while(rs.next())
             {
@@ -40,23 +38,19 @@ public class ProjectRepository {
                         rs.getDate(4).toLocalDate(),
                         rs.getString(5),
                         rs.getDouble(6)
-                        );
-
+                );
 
                 allProjects.add(project);
-
             }
 
-
-    } catch (SQLException e) {
-        System.out.println("Happened in ProjectRepository selectProjectFromDatabaseByIdNameDeadlineEstimatedTime: " + e.getMessage());
-    }
+        } catch (SQLException e) {
+            System.out.println("Happened in ProjectRepository selectProjectFromDatabaseByIdNameDeadlineEstimatedTime(): " + e.getMessage());
+        }
 
         return allProjects;
     }
 
-
-    public void insertProjectIntoDatabase(Project project){
+    public void insertProjectIntoDatabase(Project project) {
 
         String insertProjectIntoDatabasen =
                 "INSERT INTO projects(Project_Id, Project_Name, Project_StartDate, Deadline) " +
@@ -97,7 +91,6 @@ public class ProjectRepository {
         }catch (SQLException e){
             System.out.println("Happened in ProjectRepository deleteWholeProject: " + e.getMessage());
         }
-
     }
 
     /**
@@ -142,4 +135,31 @@ public class ProjectRepository {
         }
     }
 
+    public Project getProjectByProjectId(int projectId)
+    {
+        String sqlQuery = "SELECT * FROM taskz.projects WHERE Project_ID = " + projectId;
+        Project project = new Project();
+
+        try
+        {
+            preparedStatement = ConnectionService.getConnection().prepareStatement(sqlQuery);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while(rs.next())
+            {
+                project.setProjectId(rs.getInt(1));
+                project.setName(rs.getString(2));
+                project.setStartDate(rs.getDate(3).toLocalDate());
+                project.setDeadline(rs.getDate(4).toLocalDate());
+                project.setTotalWorkHoursPerDay(rs.getString(5));
+                project.setTotalEstimatedTime(rs.getDouble(6));
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error happened in ProjectRepository at getProjectByProjectId()" + e);
+        }
+
+        return project;
+    }
 }

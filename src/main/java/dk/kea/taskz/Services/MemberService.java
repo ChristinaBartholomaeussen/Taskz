@@ -21,7 +21,6 @@ public class MemberService
 
     }
 
-
     public boolean verifyLogin(String username, String password)
     {
         for(Member member : getAllMembers())
