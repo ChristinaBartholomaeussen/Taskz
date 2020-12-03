@@ -191,7 +191,12 @@
 						<td th:text="${task.taskName}"></td>
 						<td th:text="${task.getPriority}"></td>
 						<td th:text="${task.getComplexity}"></td>
-						<td th:text="${task.getMember}"></td>
+						<td th:switch="${task.getMember}">
+							<div th:case="1">RBP</div>
+							<div th:case="2">OVO</div>
+							<div th:case="3">FMP</div>
+							<div th:case="4">CB</div>
+						</td>
 						<td th:text="${task.getEstimatedTime}"></td>
 						<td th:text="${task.getDeadline}"></td>
 						<td th:if="${task.getStatus == T(dk.kea.taskz.Models.Enums.Status).ACTIVE}">
