@@ -32,4 +32,24 @@ public class MemberRepository
         }
         return memberList;
     }
+    
+    public ArrayList<String> getAllMemeberCompetences(int Member_ID) {
+    	String getAllMembersCompetences = "SELECT Competance FROM taskz.competances WHERE Member_ID = " + Member_ID;
+    	ArrayList<String> competencesList = new ArrayList<>();
+    	
+    	try {
+    		PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(getAllMembersCompetences);
+
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				competencesList.add(resultSet.getString(1));
+			}
+    		
+		} catch (SQLException e){
+			System.out.println("Error happend in memberRepo: Method: getAllMemberCompetences(), Error: " + e.getMessage());
+		}
+    	
+    	
+    	return competencesList;
+	}
 }

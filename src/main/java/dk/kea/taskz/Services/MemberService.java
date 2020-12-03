@@ -28,8 +28,7 @@ public class MemberService
         return false;
     }
 
-    public ArrayList<Member> getAllMembers()
-    {
-    	return memberRepository.getAllMembersFromDB();
-    }
+    public ArrayList<Member> getAllMembers() { return memberRepository.getAllMembersFromDB(); }
+
+    public ArrayList<String> getAllCompetence(int id) {return memberRepository.getAllMemeberCompetences(id);}
 }
