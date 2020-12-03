@@ -116,6 +116,16 @@
 							</select>
 						</div>
 					</div>
+					<div class="form-row my-2">
+						<div class="col-md-6 mb-2">
+							<label for="tags">Choose a tag:</label>
+							<select name="tags" id="tags" class="custom-select">
+								<option value="none" selected disabled hidden>Select a Tag</option>
+								<option th:each="competence : ${competences}" th:value="${competence}" th:text="${competence}"></option>
+							</select>
+						</div>
+					</div>
+					
 					<button type="submit" class="btn btn-primary mx-auto">Create Task</button>
 					<a href="/subprojects" class="btn btn-danger mx-auto">Cancel</a>
 				</form>
@@ -196,6 +206,7 @@
 						<th scope="col">Members</th>
 						<th scope="col">Estimated</th>
 						<th scope="col">Deadline</th>
+						<th scope="col">Tag</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -212,6 +223,7 @@
 						</td>
 						<td th:text="${task.getEstimatedTime}"></td>
 						<td th:text="${task.getDeadline}"></td>
+						<td th:text="${task.getTag}"></td>
 						<td th:if="${task.getStatus == T(dk.kea.taskz.Models.Enums.Status).ACTIVE}">
 							<form method="post" action="/postChangeStatus"><button type="submit" class="btn btn-primary mx-1 p-2 ml-auto" name="changeStatus" th:value="${task.getTaskId}">Complete</button></form></td>
 						<td th:if="${task.getStatus == T(dk.kea.taskz.Models.Enums.Status).COMPLETED}">

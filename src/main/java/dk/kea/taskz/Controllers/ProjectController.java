@@ -16,7 +16,7 @@ import java.util.List;
 public class ProjectController {
 
 	@Autowired
-	ProjectService projectService = new ProjectService();
+	ProjectService projectService;
 
 	List<Project> projectList;
 	boolean deadlineIsAfterStartDate = false;
@@ -57,6 +57,37 @@ public class ProjectController {
 
 		return "projects";
 	}
+
+
+
+
+
+
+	/**
+	 * - FMP/RBP
+	 * Postmapping for 'delete project'
+	 * Henter en liste over alle projekter, hvorefter den henter projectId fra objektet
+	 * Herefter looper vi igennem listen, og forsøger at finde, hvor projektId'et matcher med det projektId, vi gerne vil slette
+	 * Hvis det er fundet sletter metoden projektet fra databasen
+	 * @param deleteProjectData
+	 * @return
+	 */
+
+	@PostMapping("/deleteProject")
+	public String deleteProject(WebRequest deleteProjectData) {
+
+		List<Project> projectList = projectService.getAllProjects();
+
+		int projectToDeleteId = Integer.parseInt(deleteProjectData.getParameter("projectId"));
+
+		for(Project project : projectList)
+			if(project.getProjectId() == projectToDeleteId) {
+				projectService.deleteProject(projectToDeleteId);
+			}
+
+		return "redirect:/projects";
+	}
+
 
 	/**
 	 * - OVO
@@ -115,31 +146,6 @@ public class ProjectController {
 		}
 	}
 
-	/**
-	 * - FMP/RBP
-	 * Postmapping for 'delete project'
-	 * Henter en liste over alle projekter, hvorefter den henter projectId fra objektet
-	 * Herefter looper vi igennem listen, og forsøger at finde, hvor projektId'et matcher med det projektId, vi gerne vil slette
-	 * Hvis det er fundet sletter metoden projektet fra databasen
-	 * @param deleteProjectData
-	 * @return
-	 */
-
-	@PostMapping("/deleteProject")
-	public String deleteProject(WebRequest deleteProjectData) {
-
-		projectList = projectService.getAllProjects();
-
-		int projectToDeleteId = Integer.parseInt(deleteProjectData.getParameter("projectId"));
-
-		for(Project project : projectList)
-			if(project.getProjectId() == projectToDeleteId) {
-				projectService.deleteProject(projectToDeleteId);
-			}
-
-		return "redirect:/projects";
-	}
-	
 	@PostMapping("/postpopupDeleteProject")
 	public String postpopupDeleteProject(WebRequest data) {
 		activeProjectID = Integer.valueOf(data.getParameter("activeProjectId"));

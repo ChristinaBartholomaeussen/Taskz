@@ -4,6 +4,7 @@ import dk.kea.taskz.Models.Enums.Complexity;
 import dk.kea.taskz.Models.Enums.Priority;
 import dk.kea.taskz.Models.Enums.Status;
 import dk.kea.taskz.Models.Task;
+import dk.kea.taskz.Services.CompetenceService;
 import dk.kea.taskz.Services.MemberService;
 import dk.kea.taskz.Services.ProjectService;
 import dk.kea.taskz.Services.SubprojectService;
@@ -28,7 +29,10 @@ public class TaskController {
 
 	@Autowired
 	TaskService taskService;
-	
+
+	@Autowired
+	CompetenceService competenceService;
+
 	@Autowired
 	MemberService memberService;
 
@@ -36,7 +40,7 @@ public class TaskController {
 	int subprojectsID = -1;
 	int parentProject = -1;
 
-	
+
 	@PostMapping("/newTask")
 	public String newTaskPost(WebRequest data)
 	{
@@ -84,8 +88,17 @@ public class TaskController {
 		String estimatedTime = data.getParameter("estimatedTime");
 		String deadline = data.getParameter("deadline");
 		String member = data.getParameter("TeamMembers");
+		String tag = data.getParameter("tags");
+		System.out.println(tag);
 
-		Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline),  Double.valueOf(estimatedTime), Status.ACTIVE, member);
+
+
+		Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline),  Double.valueOf(estimatedTime), Status.ACTIVE, member, tag);
+
+		if(competenceService.calculateIfTaskIsWrongAssigned(Integer.parseInt(member), task)) {
+			System.out.println("De er ikke egnet til dette");
+			return "redirect:/newTask";
+		}
 		taskService.insertTask(task);
 		
 		return "redirect:/subprojects";
@@ -119,5 +132,4 @@ public class TaskController {
 
 		return "redirect:/subprojects";
 	}
-
 }

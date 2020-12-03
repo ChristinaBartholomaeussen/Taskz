@@ -42,7 +42,9 @@ public class TaskRepository {
 						resultSet.getDate(6).toLocalDate(), 
 						resultSet.getDouble(7), 
 						Status.values()[resultSet.getInt(8)],
-						resultSet.getString(9)
+						resultSet.getString(9),
+						resultSet.getString(10),
+						resultSet.getInt(11)
 				);
 
 			}
@@ -80,7 +82,7 @@ public class TaskRepository {
 	 * @param task
 	 */
 	public void insertNewTaskToDB(Task task) {
-		String insertTaskSQL = "INSERT INTO taskz.tasks(Task_ID, SubProject_ID, Task_Name, Priority, Complexity, Task_Deadline, Task_Estimated_Time, Status, Member) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)";
+		String insertTaskSQL = "INSERT INTO taskz.tasks(Task_ID, SubProject_ID, Task_Name, Priority, Complexity, Task_Deadline, Task_Estimated_Time, Status, Member, Tag) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?, ?)";
 
 		int id = getLatestIdFromDB() + 1;
 		try {
@@ -94,6 +96,7 @@ public class TaskRepository {
 			preparedStatement.setDouble(7, task.getEstimatedTime());
 			preparedStatement.setInt(8, task.getStatus().ordinal());
 			preparedStatement.setString(9,task.getMember());
+			preparedStatement.setString(10, task.getTag());
 
 			preparedStatement.execute();
 
@@ -140,7 +143,9 @@ public class TaskRepository {
 						rs.getDate(6).toLocalDate(),
 						rs.getDouble(7),
 						Status.values()[rs.getInt(8)],
-						rs.getString(9)));
+						rs.getString(9),
+						rs.getString(10),
+						rs.getInt(11)));
 			}
 
 		}
@@ -214,4 +219,37 @@ public class TaskRepository {
 			}
 		}
 	}
+	
+	public void upDateIsDifficult(int id) {
+		String updateQuery = "UPDATE tasks SET Is_Difficult = ? WHERE Task_ID = ?";
+		
+		try {
+			PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(updateQuery);
+			preparedStatement.setInt(1, 1);
+			preparedStatement.setInt(2, id);
+			
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Class: TaskRepo, Method: upDateIsDifficult(int id), Error: " + e.getMessage());
+		}
+		
+	}
+	
+	public void setATaskToRelocateResources() {
+		String setToDifficult = "SELECT DISTINCT Task_ID, Is_Difficult FROM taskz.tasks INNER JOIN taskz.competances ON tasks.Tag=competances.Competance WHERE Member <> Member_ID";
+		
+		try {
+			PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(setToDifficult);
+			
+			ResultSet resultSet = preparedStatement.executeQuery();
+			
+			while(resultSet.next()) {
+				upDateIsDifficult(resultSet.getInt(1));
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("Class: TaskRepo, Method: setATaskToRelocateResources(), Error: " + e.getMessage());
+		}
+	}
+	
 }

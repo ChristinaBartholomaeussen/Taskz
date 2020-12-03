@@ -14,7 +14,7 @@ import java.util.List;
 public class ProjectService
 {
     @Autowired
-    ProjectRepository projectRepository = new ProjectRepository();
+    ProjectRepository projectRepository;
 
     List<Project> projectList = new ArrayList<>();
 
