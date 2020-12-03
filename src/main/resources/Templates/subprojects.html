@@ -28,7 +28,7 @@
 				<form th:method="post" action="/postNewSubproject">
 
 					<div class="form-group" th:classappend="${deadlineIsAfterStartDate} ? display : none">
-						<span class="display-block bg-dark mx-auto col-md-12 p-3 text-white">Deadline can't be before start date</span>
+						<span class="display-block bg-dark mx-auto col-md-12 p-3 text-white">Deadline can not be before start date</span>
 					</div>
 					<div class="form-row">
 						<div class="form-group col-md-12">
@@ -46,7 +46,7 @@
 							<input type="date" class="form-control" id="deadlineSubprojectForm" name="subprojectDeadline" placeholder="Choose deadline" th:attr="min=${date}" required>
 						</div>
 					</div>
-					<button type="submit" class="btn btn-primary mx-auto">Create subroject</button>
+					<button type="submit" class="btn btn-primary mx-auto">Create subproject</button>
 					<a href="/subprojects" class="btn btn-danger mx-auto">Cancel</a>
 
 				</form>
@@ -161,7 +161,7 @@
 							</a>
 						</div>
 						<form th:method="post" action="/deleteSubProject">
-							<p class="d-block mx-auto text-info">Are you sure you wanna delete the subproject?</p>
+							<p class="d-block mx-auto text-info">Are you sure you want to delete the subproject?</p>
 							<input type="text" th:value="${subproject.getSubprojectId()}" name="deleteSubProject" class="hidden">
 							<div class="d-flex">
 								<button type="submit" class="btn btn-danger mx-1 p-2">Delete Subproject</button>
