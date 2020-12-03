@@ -1,7 +1,10 @@
 package dk.kea.taskz.Controllers;
 
 import dk.kea.taskz.Models.Project;
+import dk.kea.taskz.Services.CompetanceService;
+import dk.kea.taskz.Services.MemberService;
 import dk.kea.taskz.Services.ProjectService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +22,15 @@ public class ProjectController {
 	boolean deadlineIsAfterStartDate = false;
 	int activeProjectIDToTest = 0; // This one is only for the header fragment rendering.
 
+
 	/**
 	 * Needs to be initialized, but the default value is -1.
 	 * If we hit a breakpoint here and the value still is -1, we know there is no activeproject
 	 * recieved from the LoginController mapping.
 	 */
 	int activeProjectID = -1;
+	
+	
 
 	/**
 	 * - OVO
@@ -41,7 +47,7 @@ public class ProjectController {
 		projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();
 
 		projectService.updateWorkloadPerDay(projectList);
-
+		
 		model.addAttribute("activeProjectID", activeProjectID);
 		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
 		model.addAttribute("popup", false);
@@ -50,6 +56,37 @@ public class ProjectController {
 
 		return "projects";
 	}
+
+
+
+
+
+
+	/**
+	 * - FMP/RBP
+	 * Postmapping for 'delete project'
+	 * Henter en liste over alle projekter, hvorefter den henter projectId fra objektet
+	 * Herefter looper vi igennem listen, og forsøger at finde, hvor projektId'et matcher med det projektId, vi gerne vil slette
+	 * Hvis det er fundet sletter metoden projektet fra databasen
+	 * @param deleteProjectData
+	 * @return
+	 */
+
+	@PostMapping("/deleteProject")
+	public String deleteProject(WebRequest deleteProjectData) {
+
+		List<Project> projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();
+
+		int projectToDeleteId = Integer.parseInt(deleteProjectData.getParameter("projectId"));
+
+		for(Project project : projectList)
+			if(project.getProjectId() == projectToDeleteId) {
+				projectService.deleteProject(projectToDeleteId);
+			}
+
+		return "redirect:/projects";
+	}
+
 
 	/**
 	 * - OVO
@@ -75,6 +112,7 @@ public class ProjectController {
 
 		return "projects";
 	}
+
 
 	/**
 	 * - FMP
@@ -108,31 +146,6 @@ public class ProjectController {
 		}
 	}
 
-	/**
-	 * - FMP/RBP
-	 * Postmapping for 'delete project'
-	 * Henter en liste over alle projekter, hvorefter den henter projectId fra objektet
-	 * Herefter looper vi igennem listen, og forsøger at finde, hvor projektId'et matcher med det projektId, vi gerne vil slette
-	 * Hvis det er fundet sletter metoden projektet fra databasen
-	 * @param deleteProjectData
-	 * @return
-	 */
-
-	@PostMapping("/deleteProject")
-	public String deleteProject(WebRequest deleteProjectData) {
-
-		List<Project> projectList = projectService.getProjectByIdNameDeadlineEstimatedTime();
-
-		int projectToDeleteId = Integer.parseInt(deleteProjectData.getParameter("projectId"));
-
-		for(Project project : projectList)
-			if(project.getProjectId() == projectToDeleteId) {
-				projectService.deleteProject(projectToDeleteId);
-			}
-
-		return "redirect:/projects";
-	}
-	
 	@PostMapping("/postpopupDeleteProject")
 	public String postpopupDeleteProject(WebRequest data) {
 		activeProjectID = Integer.valueOf(data.getParameter("activeProjectId"));
@@ -150,4 +163,5 @@ public class ProjectController {
 		model.addAttribute("deletePopUp", true);
 		return "projects";
 	}
+
 }

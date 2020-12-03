@@ -71,25 +71,7 @@ public class SubProjectController
 		return "subprojects";
 	}
 
-	/**
-	 *  - OVO
-	 * Åbner newtask pop up vinduet.
-	 * @param model
-	 * @return
-	 */
-	@GetMapping("/newSubProject")
-	public String subprojectsPopUp(Model model)
-	{
-		if (activeProjectID == -1)
-			return "redirect:/projects";
 
-		model.addAttribute("popup", true);
-		model.addAttribute("taskPopUp", false);
-		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProjectID));
-		model.addAttribute("stopScroll", true);
-		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
-		return "subprojects";
-	}
 
 	/**
 	 * - OVO
@@ -109,13 +91,36 @@ public class SubProjectController
 
 		return "redirect:/subprojects";
 	}
-	
+
+
+	/**
+	 *  - OVO
+	 * Åbner newtask pop up vinduet.
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/newSubProject")
+	public String subprojectsPopUp(Model model)
+	{
+		if (activeProjectID == -1)
+			return "redirect:/projects";
+		activeProjectIDToTest = 1;
+
+		model.addAttribute("popup", true);
+		model.addAttribute("taskPopUp", false);
+		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProjectID));
+		model.addAttribute("stopScroll", true);
+		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
+		return "subprojects";
+	}
+
 	@GetMapping("/deleteSubProjectPopUp")
 	public String deleteSubProjectPopUp(Model model)
 	{
 		if (activeProjectID == -1)
 			return "redirect:/projects";
 
+		activeProjectIDToTest = 1;
 		model.addAttribute("activeProjectID", activeProjectID);
 		model.addAttribute("projectName", subprojectService.getParentProjectName(activeProjectID));
 		model.addAttribute("popup", false);
@@ -123,7 +128,9 @@ public class SubProjectController
 		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProjectID));
 		model.addAttribute("deletePopUp", true);
 		model.addAttribute("stopScroll", true);
+		
 
 		return "subprojects";
 	}
+	
 }

@@ -5,6 +5,7 @@ import dk.kea.taskz.Models.Enums.Priority;
 import dk.kea.taskz.Models.Enums.Status;
 import dk.kea.taskz.Models.Member;
 import dk.kea.taskz.Models.Task;
+import dk.kea.taskz.Services.CompetanceService;
 import dk.kea.taskz.Services.MemberService;
 import dk.kea.taskz.Services.SubprojectService;
 import dk.kea.taskz.Services.TaskService;
@@ -24,7 +25,11 @@ public class TaskController {
 	@Autowired
 	SubprojectService subprojectService;
 	
-	TaskService taskService = new TaskService();
+	@Autowired
+	TaskService taskService;
+	
+	@Autowired
+	CompetanceService competanceService;
 	
 	@Autowired
 	MemberService memberService;
@@ -40,28 +45,7 @@ public class TaskController {
 		return "redirect:/newTask";
 	}
 	
-	/**
-	 *  - OVO
-	 * Activates the pop up for new task.
-	 * @param model
-	 * @return subprojects
-	 */
-	@GetMapping("/newTask")
-	public String taskPopUp(Model model)
-	{
-		if(parentProject == -1)
-			return "redirect:/projects";
-
-		model.addAttribute("members", memberService.getAllMembers());
-		model.addAttribute("subprojectsID", subprojectsID);
-		model.addAttribute("popup", false);
-		model.addAttribute("TaskPopUp", true);
-		model.addAttribute("stopScroll", true);
-		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
-		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(parentProject));
-		return "subprojects";
-	}
-
+	
 	/**
 	 *  - OVO
 	 *  Send from data to the database. To create an task.
@@ -77,8 +61,17 @@ public class TaskController {
 		String estimatedTime = data.getParameter("estimatedTime");
 		String deadline = data.getParameter("deadline");
 		String member = data.getParameter("TeamMembers");
+		String tag = data.getParameter("tags");
+		System.out.println(tag);
+		
+		
 
-		Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline),  Double.valueOf(estimatedTime), Status.ACTIVE, member);
+		Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline),  Double.valueOf(estimatedTime), Status.ACTIVE, member, tag);
+
+		if(competanceService.calculateIfTaskIsWrongAssigned(Integer.parseInt(member), task)) {
+			System.out.println("De er ikke egnet til dette");
+			return "redirect:/newTask";
+		}
 		taskService.insertTask(task);
 		
 		return "redirect:/subprojects";
@@ -126,6 +119,32 @@ public class TaskController {
 		taskService.updateTaskStatus(idTask);
 
 		return "redirect:/subprojects";
+	}
+
+	/**
+	 *  - OVO
+	 * Activates the pop up for new task.
+	 * @param model
+	 * @return subprojects
+	 */
+
+	@GetMapping("/newTask")
+	public String taskPopUp(Model model)
+	{
+		ArrayList<String> competanceList = competanceService.getAllCompetances();
+		
+		if(parentProject == -1)
+			return "redirect:/projects";
+		model.addAttribute("members", memberService.getAllMembers());
+		model.addAttribute("subprojectsID", subprojectsID);
+		model.addAttribute("popup", false);
+		model.addAttribute("TaskPopUp", true);
+		model.addAttribute("stopScroll", true);
+		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
+		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(parentProject));
+		model.addAttribute("competances", competanceList);
+
+		return "subprojects";
 	}
 
 }

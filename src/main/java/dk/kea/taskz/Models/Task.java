@@ -5,7 +5,6 @@ import dk.kea.taskz.Models.Enums.Status;
 import dk.kea.taskz.Models.Enums.Priority;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class Task
 {
@@ -18,13 +17,15 @@ public class Task
 	private Enum<Priority> priority;
 	private Enum<Complexity> complexity;
 	private String member;
+	private String tag; 
+	private int isDifficult;
 
 	public Task() {
 
 	}
 
     public Task(int taskId, int parentSubProjectId, String taskName, Enum<Priority> priority, Enum<Complexity> complexity,
-				LocalDate deadline, double estimatedTime, Enum<Status> status, String member)
+				LocalDate deadline, double estimatedTime, Enum<Status> status, String member, String tag, int isDifficult)
     {
         this.taskId = taskId;
         this.parentSubProjectId = parentSubProjectId;
@@ -35,11 +36,28 @@ public class Task
         this.priority = priority;
         this.complexity = complexity;
         this.member = member;
+		this.tag = tag;
+		this.isDifficult = isDifficult;
+        
 	}
 
 
 	public Task(int parentSubProjectId, String taskName, Enum<Priority> priority, Enum<Complexity> complexity, LocalDate deadline, double estimatedTime,
-				Enum<Status> status, String member)
+				 Enum<Status> status, String member)
+{
+	this.taskId = taskId;
+	this.parentSubProjectId = parentSubProjectId;
+	this.taskName = taskName;
+	this.deadline = deadline;
+	this.estimatedTime = estimatedTime;
+	this.status = status;
+	this.priority = priority;
+	this.complexity = complexity;
+	this.member = member;
+}
+
+	public Task(int parentSubProjectId, String taskName, Enum<Priority> priority, Enum<Complexity> complexity, LocalDate deadline, double estimatedTime,
+				Enum<Status> status, String member, String tag)
 	{
 		this.taskId = taskId;
 		this.parentSubProjectId = parentSubProjectId;
@@ -50,8 +68,10 @@ public class Task
 		this.priority = priority;
 		this.complexity = complexity;
 		this.member = member;
+		this.tag = tag;
+		
 	}
-	
+
 
 
 	public String getTaskName() {
@@ -125,7 +145,15 @@ public class Task
 	public void setParentSubProjectId(int parentSubProjectId) {
 		this.parentSubProjectId = parentSubProjectId;
 	}
-	
+
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		tag = tag;
+	}
+
 	@Override
 	public String toString() {
     	return "Sub project id: " + parentSubProjectId + "\nTask name: " + taskName + "\nPrio: " + priority + "\nComplexity: " + complexity + "\ndeadline: " + deadline + "\nestimatidtime: " + estimatedTime + "\nStatus: " + status;

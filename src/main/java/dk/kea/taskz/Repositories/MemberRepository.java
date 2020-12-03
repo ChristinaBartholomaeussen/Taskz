@@ -4,7 +4,6 @@ import dk.kea.taskz.Services.ConnectionService;
 import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 @Repository
 public class MemberRepository
@@ -31,4 +30,24 @@ public class MemberRepository
         }
         return memberList;
     }
+    
+    public ArrayList<String> getAllMemeberCompetances(int Member_ID) {
+    	String getAllMembersCompetances = "SELECT Competance FROM taskz.competances WHERE Member_ID = " + Member_ID;
+    	ArrayList<String> competancesList = new ArrayList<>();
+    	
+    	try {
+    		PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(getAllMembersCompetances);
+
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				competancesList.add(resultSet.getString(1));
+			}
+    		
+		} catch (SQLException e){
+			System.out.println("Error happend in memberRepo: Method: getAllMemeberCompetances(), Error: " + e.getMessage());
+		}
+    	
+    	
+    	return competancesList;
+	}
 }

@@ -11,9 +11,8 @@ import java.util.List;
 @Service
 public class MemberService
 {
-    @Autowired
-    MemberRepository memberRepository;
-
+    MemberRepository memberRepository = new MemberRepository();
+	
     private List<Member> memberList;
 
     public MemberService()
@@ -33,8 +32,7 @@ public class MemberService
         return false;
     }
 
-    public ArrayList<Member> getAllMembers()
-    {
-    	return memberRepository.getAllMembersFromDB();
-    }
+    public ArrayList<Member> getAllMembers() { return memberRepository.getAllMembersFromDB(); }
+    
+    public ArrayList<String> getAllCompetance(int id) {return memberRepository.getAllMemeberCompetances(id);}
 }
