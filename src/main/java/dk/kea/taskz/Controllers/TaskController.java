@@ -35,6 +35,7 @@ public class TaskController {
 	int activeProjectIDToTest = 1; // This one is only for the header fragment rendering.
 	int subprojectsID = -1;
 	int parentProject = -1;
+
 	
 	@PostMapping("/newTask")
 	public String newTaskPost(WebRequest data)
@@ -53,6 +54,7 @@ public class TaskController {
 	@GetMapping("/newTask")
 	public String taskPopUp(Model model)
 	{
+
 		if(parentProject == -1)
 			return "redirect:/projects";
 

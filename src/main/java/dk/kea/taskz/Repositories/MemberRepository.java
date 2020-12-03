@@ -10,10 +10,12 @@ import java.util.ArrayList;
 public class MemberRepository
 {
 	PreparedStatement preparedStatement = null;
-	ArrayList<Member> memberList = new ArrayList<>();
+
 
     public ArrayList<Member> getAllMembersFromDB()
     {
+        ArrayList<Member> memberList = new ArrayList<>();
+
         try
         {
             preparedStatement = ConnectionService.getConnection().prepareStatement("SELECT * FROM taskz.members");

@@ -18,13 +18,13 @@ public class SubprojectRepository
 	PreparedStatement preparedStatement = null;
 
     public List<Subproject> getAllAssociatedSubprojects(int projectId) {
-		updateSubprojectEstimated();
+
         String getAllAssociatedSubprojectsSqlStatement = "SELECT * FROM taskz.subprojects WHERE Project_ID = " + projectId ;
         List<Subproject> subprojectList = new ArrayList<>();
         try {
             preparedStatement = ConnectionService.getConnection().prepareStatement(getAllAssociatedSubprojectsSqlStatement);
             ResultSet rs = preparedStatement.executeQuery();
-
+			updateSubprojectEstimated();
             while(rs.next()) {
 				subprojectList.add(new Subproject(
 					rs.getInt(1),
@@ -41,8 +41,24 @@ public class SubprojectRepository
             System.out.println("Error happened in SubprojectRepository at getAllAssociatedSubprojects(): " + e);
         }
 
+        if(subprojectList.size() <= 0){
+        	String update = "update projects set projects.Project_Estimated_Time = 0 where projects.Project_id =?";
+
+        	try{
+				preparedStatement = ConnectionService.getConnection().prepareStatement(update);
+				preparedStatement.setInt(1, projectId);
+
+				preparedStatement.executeUpdate();
+			}catch (SQLException e){
+				System.out.println("Error");
+			}
+
+
+		}
         return subprojectList;
     }
+
+
     
     public void insertSubProjectIntoDB(Subproject subproject) {
     	String insertSubProject = "INSERT INTO taskz.subprojects (Subproject_Name, Project_ID, Subproject_StartDate, Subproject_Deadline) VALUES (?, ?, ?, ?)";
@@ -128,6 +144,7 @@ public class SubprojectRepository
     	try{
     		preparedStatement = ConnectionService.getConnection().prepareStatement(updateTotalEstimatedTime);
 			preparedStatement.executeUpdate();
+
 		}catch (SQLException e){
 
 			System.out.println("Error happened in ProjectRepository updateProjectEstimatedTime: " + e.getMessage());
