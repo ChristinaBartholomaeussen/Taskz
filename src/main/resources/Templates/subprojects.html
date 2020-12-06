@@ -127,8 +127,8 @@
 						<div class="col-md-6">
 							<label for="taskAssignMember">Assign team member:</label>
 							<select class="custom-select" id="taskAssignMember" name="TeamMembers" required>
-								<option value="none" selected disabled hidden>Select a member</option>
-								<option  th:each="member : ${members}" th:value="${member.getMemberId}" th:text="${member.getFirstName}"></option>
+								<option value="" selected hidden disabled >Select a member</option>
+								<option th:each="member : ${members}" th:value="${member.getMemberId}" th:text="${member.getFirstName}"></option>
 							</select>
 						</div>
 					</div>
@@ -136,7 +136,7 @@
 						<div class="col-md-6 mb-2">
 							<label for="tags">Choose a tag:</label>
 							<select name="tags" id="tags" class="custom-select" required>
-								<option value="none" selected disabled hidden>Select a Tag</option>
+								<option value="" selected disabled hidden>Select a Tag</option>
 								<option th:each="competence : ${competences}" th:value="${competence}" th:text="${competence}"></option>
 							</select>
 						</div>
