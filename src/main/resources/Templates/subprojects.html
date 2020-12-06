@@ -135,7 +135,7 @@
 					<div class="form-row my-2">
 						<div class="col-md-6 mb-2">
 							<label for="tags">Choose a tag:</label>
-							<select name="tags" id="tags" class="custom-select">
+							<select name="tags" id="tags" class="custom-select" required>
 								<option value="none" selected disabled hidden>Select a Tag</option>
 								<option th:each="competence : ${competences}" th:value="${competence}" th:text="${competence}"></option>
 							</select>
@@ -156,7 +156,6 @@
 		
 		<div th:unless="${subprojectList.size() == 0}" class="subproject container border border-striped p-2 mx-auto my-4" th:each="subproject : ${subprojectList}">
 			
-			
 			<div class="subproject d-flex">
 				<h4 class="text-center my-auto display-block" th:text="${subproject.getSubprojectName()}"></h4>
 				<tabel class="table table-striped" style="position: relative">
@@ -172,8 +171,10 @@
 					
 					</tbody>
 				</tabel>
-				<a href="/deleteSubProjectPopUp" class="btn btn-danger ml-auto">Delete</a>
-				
+				<form method="post" action="/deleteSubProjectPopUp">
+					<button type="submit" class="btn btn-danger ml-auto" th:value="${subproject.getSubprojectId()}" name="subprojectToDelete">Delete</button>
+				</form>
+
 				<!--#region deletePopUp -->
 				<div class="" th:classappend="${deletePopUp} ? display : none">
 					<a href="/subprojects" class="background">
@@ -187,7 +188,7 @@
 						</div>
 						<form th:method="post" action="/deleteSubProject">
 							<p class="d-block mx-auto text-info">Are you sure you want to delete the subproject?</p>
-							<input type="text" th:value="${subproject.getSubprojectId()}" name="deleteSubProject" class="hidden">
+							<input type="text" th:value="${subprojectToDelete}" name="deleteSubProject" class="hidden">
 							<div class="d-flex">
 								<button type="submit" class="btn btn-danger mx-1 p-2">Delete Subproject</button>
 								<a href="/subprojects" class="btn btn-primary ml-auto">Cancel</a>
