@@ -91,4 +91,8 @@ public class SubprojectService
             subprojectRepository.updateWorkloadPerDay(df.format(workloadPerDay), subproject.getSubprojectId());
         }
     }
+
+    public void updateSubprojectTotalEstimatedTime() {
+        subprojectRepository.updateSubprojectEstimated();
+    }
 }

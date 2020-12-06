@@ -3,6 +3,8 @@ package dk.kea.taskz.Controllers;
 import dk.kea.taskz.Models.Enums.Complexity;
 import dk.kea.taskz.Models.Enums.Priority;
 import dk.kea.taskz.Models.Enums.Status;
+import dk.kea.taskz.Models.Project;
+import dk.kea.taskz.Models.Subproject;
 import dk.kea.taskz.Models.Task;
 import dk.kea.taskz.Services.CompetenceService;
 import dk.kea.taskz.Services.MemberService;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class TaskController {
@@ -41,6 +45,8 @@ public class TaskController {
 	int activeProjectID = 1;
 	int parentProject = -1;
 
+	List<Subproject> subprojectList = new ArrayList<>();
+	List<Project> projectList = new ArrayList<>();
 
 	@PostMapping("/newTask")
 	public String newTaskPost(WebRequest data)
@@ -108,6 +114,19 @@ public class TaskController {
 	public String deleteTask(WebRequest data) {
 		int idTask = Integer.parseInt(data.getParameter("deleteTask"));
 		taskService.deleteTask(idTask);
+
+		subprojectService.updateSubprojectTotalEstimatedTime();
+
+		subprojectList = subprojectService.getAllSubprojects();
+
+		subprojectService.updateWorkloadPerDay(subprojectList);
+
+		projectService.updateProjectEstimatedTime();
+
+		projectList = projectService.getAllProjects();
+
+		projectService.updateWorkloadPerDay(projectList);
+
 		return "redirect:/subprojects";
 	}
 

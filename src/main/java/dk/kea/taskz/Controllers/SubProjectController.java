@@ -1,5 +1,6 @@
 package dk.kea.taskz.Controllers;
 
+import dk.kea.taskz.Models.Project;
 import dk.kea.taskz.Models.Subproject;
 import dk.kea.taskz.Services.ProjectService;
 import dk.kea.taskz.Services.SubprojectService;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class SubProjectController
@@ -28,6 +31,9 @@ public class SubProjectController
 	int activeProjectIDToTest = 1; // This one is only for the header fragment rendering.
 	int activeProjectID = -1;
 	boolean deadlineIsAfterStartDate = false;
+
+	List<Subproject> subprojectList = new ArrayList<>();
+	List<Project> projectList = new ArrayList<>();
 
 	/**
 	 * Postmapping der bliver ramt efter man tr
@@ -54,6 +60,19 @@ public class SubProjectController
 	{
 		String id = data.getParameter("deleteSubProject");
 		subprojectService.deleteSubProject(Integer.valueOf(id));
+
+		subprojectService.updateSubprojectTotalEstimatedTime();
+
+		subprojectList = subprojectService.getAllSubprojects();
+
+		subprojectService.updateWorkloadPerDay(subprojectList);
+
+		projectService.updateProjectEstimatedTime();
+
+		projectList = projectService.getAllProjects();
+
+		projectService.updateWorkloadPerDay(projectList);
+
 		return "redirect:/subprojects";
 	}
 
