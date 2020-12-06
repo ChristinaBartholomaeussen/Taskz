@@ -1,5 +1,7 @@
 package dk.kea.taskz.Models;
 
+import java.util.ArrayList;
+
 public class Member
 {
     private int memberId;
@@ -7,6 +9,7 @@ public class Member
     private String password;
     private String firstName;
     private String lastName;
+    private ArrayList<String> competance;
 
     public Member()
     {
@@ -47,7 +50,15 @@ public class Member
         return lastName;
     }
 
-    @Override
+	public ArrayList<String> getCompetance() {
+		return competance;
+	}
+
+	public void setCompetance(ArrayList<String> competance) {
+		this.competance = competance;
+	}
+
+	@Override
 	public String toString() {
     	return "MEMBER";
 	}

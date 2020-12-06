@@ -15,7 +15,7 @@
 	<!--#endregion-->
 	<main>
 		<!--#region Project Info Bar-->
-		<table class="table mb-5" style="position: relative">
+		<table class="table mb-5" >
 			<thead>
 			<tr>
 				<th>Project Name: <b th:text="${project.getName()}"></b></th>
@@ -28,6 +28,8 @@
 			<!--th:block th:each="task : ${subproject.getTaskList}" th:if="${task.getIsDifficult}">
 				<p>haaaaaalo</p>
 			</th:block -->
+			
+	
 		</table>
 		<!--#endregion -->
 		<!--#region Popup Subproject -->
@@ -207,12 +209,18 @@
 						<th scope="col">Estimated</th>
 						<th scope="col">Deadline</th>
 						<th scope="col">Tag</th>
+						<th scope="col"></th>
+						<th scope="col"></th>
+						<th scope="col"></th>
 					</tr>
 				</thead>
 				<tbody>
 				<!--td th:if="${task.getIsDifficult}" class="bg-warning">There is a person on this task who might not have the right skill set.</td-->
-					<tr th:each="task : ${subproject.getTaskList}" class="relative" th:classappend="${task.getIsDifficult} ? table-danger">
+					<tr th:each="task : ${subproject.getTaskList}" class="relative" >
+						
+						<!--td th:if="${task.getIsDifficult}">Limited efficienty</td-->
 						<td th:text="${task.getStatus}"></td>
+						<!--td th:unless="${task.getIsDifficult == 1}" th:text="${task.getStatus}"></td-->
 						<td th:text="${task.taskName}"></td>
 						<td th:text="${task.getPriority}"></td>
 						<td th:text="${task.getComplexity}"></td>
@@ -225,11 +233,14 @@
 						<td th:text="${task.getEstimatedTime}"></td>
 						<td th:text="${task.getDeadline}"></td>
 						<td th:text="${task.getTag}"></td>
+						<td th:if="${task.getIsDifficult}" class="bg-info text-center">Limited efficiency</td>
+						<td th:unless="${task.getIsDifficult}"> </td>
 						<td th:if="${task.getStatus == T(dk.kea.taskz.Models.Enums.Status).ACTIVE}">
 							<form method="post" action="/postChangeStatus"><button type="submit" class="btn btn-primary mx-1 p-2 ml-auto" name="changeStatus" th:value="${task.getTaskId}">Complete</button></form></td>
 						<td th:if="${task.getStatus == T(dk.kea.taskz.Models.Enums.Status).COMPLETED}">
 							<form method="post" action="/postChangeStatus"><button type="submit" class="btn btn-secondary mx-1 p-2 ml-auto" name="changeStatus" th:value="${task.getTaskId}">Reactivate</button></form></td>
 						<td><form method="post" action="/deleteTask"><button type="submit" class="btn btn-danger mx-1 p-2 ml-auto" name="deleteTask" th:value="${task.getTaskId}">Delete</button></form></td>
+
 					</tr>
 				</tbody>
 			</table>

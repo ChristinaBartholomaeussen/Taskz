@@ -4,6 +4,8 @@ import dk.kea.taskz.Repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class TaskService {
 
@@ -27,4 +29,10 @@ public class TaskService {
 	public void updateTaskStatus(int idTask) {
 		taskRepository.updateTaskStatus(idTask);
 	}
+	
+	/*
+	//taskRepository.getAllAssociatedTasksToSubproject(subproject.getSubprojectId())
+	public List<Task> getAllTasks(int projectId) {
+		return taskRepository.getAllAssociatedTasksToSubproject();
+	} */
 }

@@ -16,22 +16,8 @@ public class CompetenceService
 	@Autowired
 	CompetenceRepository competenceRepository;
 	
-	@Autowired
-	MemberService memberService;
-	
-	@Autowired
-	TaskRepository taskRepository;
-	
 	public ArrayList<String> getAllCompetences() {
 		return competenceRepository.getAllCompetencesOnceFromDB();
 	}
 	
-	public boolean calculateIfTaskIsWrongAssigned(int memberId, Task task) {
-
-		if (task.getComplexity() == Complexity.HARD || task.getComplexity() == Complexity.VERY_HARD) {
-			taskRepository.setATaskToRelocateResources();
-			return true;
-		}
-		return false;
-	}
 }
