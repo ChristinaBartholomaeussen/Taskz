@@ -41,7 +41,14 @@ public class SubProjectController
 
 		return "redirect:/subprojects";
 	}
-	
+
+	/**
+	 * Postmapping der modtager et subproject id fra subprojects.html og sender dette id videre til subproject repository,
+	 * som sletter det tilhørende subproject og tasks fra databasen.
+	 * /RBP
+	 * @param data
+	 * @return
+	 */
 	@PostMapping("/deleteSubProject")
 	public String deleteSubProject(WebRequest data)
 	{
@@ -132,6 +139,13 @@ public class SubProjectController
 		}
 	}
 
+	/**
+	 * Postmapping der både modtager et subprojectId som der er blevet trykket på "Delete" ved og derefter sætter Model
+	 * attributter som kan tilgås via HTML.
+	 * @param model
+	 * @param data
+	 * @return
+	 */
 	@PostMapping("/deleteSubProjectPopUp")
 	public String deleteSubProjectPopUp(Model model, WebRequest data)
 	{

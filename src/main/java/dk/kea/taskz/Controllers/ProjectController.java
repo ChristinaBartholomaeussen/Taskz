@@ -69,11 +69,6 @@ public class ProjectController {
 		return "projects";
 	}
 
-
-
-
-
-
 	/**
 	 * - FMP/RBP
 	 * Postmapping for 'delete project'
@@ -83,7 +78,6 @@ public class ProjectController {
 	 * @param deleteProjectData
 	 * @return
 	 */
-
 	@PostMapping("/deleteProject")
 	public String deleteProject(WebRequest deleteProjectData) {
 
@@ -98,7 +92,6 @@ public class ProjectController {
 
 		return "redirect:/projects";
 	}
-
 
 	/**
 	 * - OVO
@@ -157,12 +150,25 @@ public class ProjectController {
 		}
 	}
 
+	/**
+	 * Postmapping der modtager et Integer fra projects.html, som bruges til at designere det aktive project
+	 * og derefter redirectes videre til deleteProjectPopup-mappingen som bruger det aktive project ID til at vide hvilket
+	 * project der er "peget" på og skal slettes
+	 * deleteProjectPopup-get
+	 * @param data
+	 * @return
+	 */
 	@PostMapping("/postpopupDeleteProject")
 	public String postpopupDeleteProject(WebRequest data) {
 		activeProjectID = Integer.valueOf(data.getParameter("activeProjectId"));
 		return "redirect:/deletePopup";
 	}
 
+	/**
+	 * Mapping der har det aktive projekt id
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/deletePopup")
 	public String deletePopip(Model model) {
 		model.addAttribute("activeProjectID", activeProjectID);
