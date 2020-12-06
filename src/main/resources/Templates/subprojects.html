@@ -215,12 +215,9 @@
 					</tr>
 				</thead>
 				<tbody>
-				<!--td th:if="${task.getIsDifficult}" class="bg-warning">There is a person on this task who might not have the right skill set.</td-->
 					<tr th:each="task : ${subproject.getTaskList}" class="relative" >
 						
-						<!--td th:if="${task.getIsDifficult}">Limited efficienty</td-->
 						<td th:text="${task.getStatus}"></td>
-						<!--td th:unless="${task.getIsDifficult == 1}" th:text="${task.getStatus}"></td-->
 						<td th:text="${task.taskName}"></td>
 						<td th:text="${task.getPriority}"></td>
 						<td th:text="${task.getComplexity}"></td>
