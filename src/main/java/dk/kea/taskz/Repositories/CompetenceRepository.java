@@ -14,7 +14,7 @@ public class CompetenceRepository
 	
 	
 	public ArrayList<String> getAllCompetencesOnceFromDB() {
-		String listOfCompetences = "SELECT DISTINCT Competance FROM taskz.competances";
+		String listOfCompetences = "SELECT DISTINCT Competence FROM taskz.competences";
 		ArrayList<String> competencesList = new ArrayList<>();
 		
 		try {
