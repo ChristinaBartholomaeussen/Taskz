@@ -34,7 +34,7 @@ public class MemberRepository
     }
     
     public ArrayList<String> getAllMemeberCompetences(int Member_ID) {
-    	String getAllMembersCompetences = "SELECT Competance FROM taskz.competances WHERE Member_ID = " + Member_ID;
+    	String getAllMembersCompetences = "SELECT Competence FROM taskz.competences WHERE Member_ID = " + Member_ID;
     	ArrayList<String> competencesList = new ArrayList<>();
     	
     	try {
