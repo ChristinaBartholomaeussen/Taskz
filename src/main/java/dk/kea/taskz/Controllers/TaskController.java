@@ -38,6 +38,7 @@ public class TaskController {
 
 	int activeProjectIDToTest = 1; // This one is only for the header fragment rendering.
 	int subprojectsID = -1;
+	int activeProjectID = 1;
 	int parentProject = -1;
 
 
@@ -70,6 +71,7 @@ public class TaskController {
 		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
 		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(parentProject));
 		model.addAttribute("project",projectService.getProjectByProjectId(parentProject));
+		model.addAttribute("competences", competenceService.getAllCompetences());
 		return "subprojects";
 	}
 
@@ -89,16 +91,12 @@ public class TaskController {
 		String deadline = data.getParameter("deadline");
 		String member = data.getParameter("TeamMembers");
 		String tag = data.getParameter("tags");
-		System.out.println(tag);
+
 
 
 
 		Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline),  Double.valueOf(estimatedTime), Status.ACTIVE, member, tag);
-
-		if(competenceService.calculateIfTaskIsWrongAssigned(Integer.parseInt(member), task)) {
-			System.out.println("De er ikke egnet til dette");
-			return "redirect:/newTask";
-		}
+		
 		taskService.insertTask(task);
 		
 		return "redirect:/subprojects";

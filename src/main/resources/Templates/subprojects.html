@@ -14,6 +14,22 @@
 	<div th:replace="Fragments/header :: header"></div>
 	<!--#endregion-->
 	<main>
+		<!--#region Project Info Bar-->
+		<table class="table mb-5" style="position: relative">
+			<thead>
+			<tr>
+				<th>Project Name: <b th:text="${project.getName()}"></b></th>
+				<th>Project Startdate: <b th:text="${project.getStartDate()}"></b></th>
+				<th>Project Deadline: <b th:text="${project.getDeadline()}"></b></th>
+				<th>Estimated Workhours: <b th:text="${project.getTotalEstimatedTime}"></b></th>
+				<th>Daily Workhours: <b th:text="${project.getTotalWorkHoursPerDay}"></b></th>
+			</tr>
+			</thead>
+			<!--th:block th:each="task : ${subproject.getTaskList}" th:if="${task.getIsDifficult}">
+				<p>haaaaaalo</p>
+			</th:block -->
+		</table>
+		<!--#endregion -->
 		<!--#region Popup Subproject -->
 		<div class="" th:classappend="${popup} ? display : none">
 			<a href="/subprojects" class="background">
@@ -132,21 +148,7 @@
 			</div>
 		</div>
 		<!--#endregion -->
-
-		<!--#region Project Info Bar-->
-		<table class="table mb-5" style="position: relative">
-			<thead>
-			<tr>
-				<th>Project Name: <b th:text="${project.getName()}"></b></th>
-				<th>Project Startdate: <b th:text="${project.getStartDate()}"></b></th>
-				<th>Project Deadline: <b th:text="${project.getDeadline()}"></b></th>
-				<th>Estimated Workhours: <b th:text="${project.getTotalEstimatedTime}"></b></th>
-				<th>Daily Workhours: <b th:text="${project.getTotalWorkHoursPerDay}"></b></th>
-			</tr>
-			</thead>
-		</table>
-		<!--#endregion -->
-
+		
 		<!--#region Subproject Tables-->
 		<div th:if="${subprojectList.size() == 0}" class="container mx-auto">
 			<span class="text-info">You have no sub projects <a href="/newSubProject" class="btn btn-success">Create a Subproject</a></span>
@@ -210,7 +212,8 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="task : ${subproject.getTaskList}">
+				<!--td th:if="${task.getIsDifficult}" class="bg-warning">There is a person on this task who might not have the right skill set.</td-->
+					<tr th:each="task : ${subproject.getTaskList}" class="relative" th:classappend="${task.getIsDifficult} ? table-danger">
 						<td th:text="${task.getStatus}"></td>
 						<td th:text="${task.taskName}"></td>
 						<td th:text="${task.getPriority}"></td>

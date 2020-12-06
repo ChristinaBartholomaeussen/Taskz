@@ -236,7 +236,12 @@ public class TaskRepository {
 	}
 	
 	public void setATaskToRelocateResources() {
-		String setToDifficult = "SELECT DISTINCT Task_ID, Is_Difficult FROM taskz.tasks INNER JOIN taskz.competences ON tasks.Tag=competences.Competence WHERE Member <> Member_ID";
+		String setToDifficult = "SELECT DISTINCT Task_ID, Is_Difficult \n" +
+				"FROM taskz.tasks \n" +
+				"INNER JOIN taskz.competences ON tasks.Tag=competences.Competence \n" +
+				"WHERE Member <> Member_ID \n" +
+				"AND tasks.Complexity>=3\n" +
+				"AND tasks.Priority>=2";
 		
 		try {
 			PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(setToDifficult);

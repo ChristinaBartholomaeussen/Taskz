@@ -154,6 +154,10 @@ public class Task
 		tag = tag;
 	}
 
+	public int getIsDifficult() {
+		return isDifficult;
+	}
+
 	@Override
 	public String toString() {
     	return "Sub project id: " + parentSubProjectId + "\nTask name: " + taskName + "\nPrio: " + priority + "\nComplexity: " + complexity + "\ndeadline: " + deadline + "\nestimatidtime: " + estimatedTime + "\nStatus: " + status;
