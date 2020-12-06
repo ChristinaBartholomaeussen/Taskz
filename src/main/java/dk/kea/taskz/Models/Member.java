@@ -9,7 +9,7 @@ public class Member
     private String password;
     private String firstName;
     private String lastName;
-    private ArrayList<String> competance;
+	private String competance;
 
     public Member()
     {
@@ -50,11 +50,11 @@ public class Member
         return lastName;
     }
 
-	public ArrayList<String> getCompetance() {
+	public String getCompetance() {
 		return competance;
 	}
 
-	public void setCompetance(ArrayList<String> competance) {
+	public void setCompetance(String competance) {
 		this.competance = competance;
 	}
 

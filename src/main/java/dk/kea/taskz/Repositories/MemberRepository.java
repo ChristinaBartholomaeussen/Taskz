@@ -25,6 +25,10 @@ public class MemberRepository
             	memberList.add(new Member(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
 			}
 
+			for (Member member : memberList) {
+				setMemberCompetance(member);
+			}
+
         }
         catch(Exception e)
         {
@@ -51,5 +55,27 @@ public class MemberRepository
     	
     	
     	return competencesList;
+	}
+	
+	public void setMemberCompetance(Member member) {
+    	String placeHolder = "";
+    	String getCompetanceToMemberFromDB = "SELECT Competence, competences.Member_ID, members.First_Name\n" +
+				"FROM taskz.competences\n" +
+				"INNER JOIN taskz.members ON competences.Member_ID=members.Member_ID\n" +
+				"WHERE competences.Member_ID = " + member.getMemberId();
+    	
+    	try {
+    		PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(getCompetanceToMemberFromDB);
+    		ResultSet resultSet = preparedStatement.executeQuery();
+    		
+    		while(resultSet.next()) {
+    			placeHolder += resultSet.getString(1) + " ";
+			}
+    		
+    		member.setCompetance(placeHolder);
+    		
+		} catch(SQLException e) {
+			System.out.println("Klasse: MemberRepository, Methode: setMemberCompetance(int Member_ID), Error: " + e.getMessage());
+		}
 	}
 }

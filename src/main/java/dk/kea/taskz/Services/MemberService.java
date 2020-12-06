@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class MemberService
@@ -17,6 +18,10 @@ public class MemberService
     {
     }
 
+    public ArrayList<Member> getAllMembers() {
+    	return memberRepository.getAllMembersFromDB();
+	}
+    
     public boolean verifyLogin(String username, String password)
     {
         for(Member member : getAllMembers())
@@ -27,8 +32,5 @@ public class MemberService
         
         return false;
     }
-
-    public ArrayList<Member> getAllMembers() { return memberRepository.getAllMembersFromDB(); }
-
     public ArrayList<String> getAllCompetence(int id) {return memberRepository.getAllMemberCompetences(id);}
 }

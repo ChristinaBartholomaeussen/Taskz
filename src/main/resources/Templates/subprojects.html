@@ -130,7 +130,7 @@
 							<label for="taskAssignMember">Assign team member:</label>
 							<select class="custom-select" id="taskAssignMember" name="TeamMembers" required>
 								<option value="" selected hidden disabled >Select a member</option>
-								<option th:each="member : ${members}" th:value="${member.getMemberId}" th:text="${member.getFirstName}"></option>
+								<option th:each="member : ${members}" th:value="${member.getMemberId}" th:text="${member.getFirstName} + ' (' + ${member.getCompetance} + ')'"></option>
 							</select>
 						</div>
 					</div>
