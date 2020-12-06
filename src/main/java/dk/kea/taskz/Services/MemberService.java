@@ -30,5 +30,5 @@ public class MemberService
 
     public ArrayList<Member> getAllMembers() { return memberRepository.getAllMembersFromDB(); }
 
-    public ArrayList<String> getAllCompetence(int id) {return memberRepository.getAllMemeberCompetences(id);}
+    public ArrayList<String> getAllCompetence(int id) {return memberRepository.getAllMemberCompetences(id);}
 }

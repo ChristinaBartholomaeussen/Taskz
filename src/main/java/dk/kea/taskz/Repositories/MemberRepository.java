@@ -33,7 +33,7 @@ public class MemberRepository
         return memberList;
     }
     
-    public ArrayList<String> getAllMemeberCompetences(int Member_ID) {
+    public ArrayList<String> getAllMemberCompetences(int Member_ID) {
     	String getAllMembersCompetences = "SELECT Competence FROM taskz.competences WHERE Member_ID = " + Member_ID;
     	ArrayList<String> competencesList = new ArrayList<>();
     	

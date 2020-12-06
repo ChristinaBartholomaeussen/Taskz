@@ -132,13 +132,17 @@ public class SubProjectController
 		}
 	}
 
-	@GetMapping("/deleteSubProjectPopUp")
-	public String deleteSubProjectPopUp(Model model)
+	@PostMapping("/deleteSubProjectPopUp")
+	public String deleteSubProjectPopUp(Model model, WebRequest data)
 	{
 		if (activeProjectID == -1)
 			return "redirect:/projects";
 
+		String subprojectToDelete = data.getParameter("subprojectToDelete");
+
 		activeProjectIDToTest = 1;
+
+		model.addAttribute("subprojectToDelete", subprojectToDelete);
 		model.addAttribute("activeProjectID", activeProjectID);
 		model.addAttribute("project", projectService.getProjectByProjectId(activeProjectID));
 		model.addAttribute("popup", false);

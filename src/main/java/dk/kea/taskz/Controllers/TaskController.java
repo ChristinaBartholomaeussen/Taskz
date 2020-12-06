@@ -59,7 +59,6 @@ public class TaskController {
 	@GetMapping("/newTask")
 	public String taskPopUp(Model model)
 	{
-
 		if(parentProject == -1)
 			return "redirect:/projects";
 
@@ -91,9 +90,6 @@ public class TaskController {
 		String deadline = data.getParameter("deadline");
 		String member = data.getParameter("TeamMembers");
 		String tag = data.getParameter("tags");
-
-
-
 
 		Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline),  Double.valueOf(estimatedTime), Status.ACTIVE, member, tag);
 		
