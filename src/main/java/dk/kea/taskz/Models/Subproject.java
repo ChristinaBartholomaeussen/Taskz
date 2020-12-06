@@ -1,7 +1,5 @@
 package dk.kea.taskz.Models;
 
-import org.apache.tomcat.jni.Local;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -10,7 +8,7 @@ public class Subproject
 	private int subprojectId;
     private int parentProjectId;
     private double subprojectTotalEstimatedTime;
-    private double subprojectWorkloadPerDay;
+    private String subprojectWorkloadPerDay;
     private LocalDate subprojectStartDate;
     private LocalDate subprojectDeadline;
     private String subprojectName;
@@ -34,12 +32,14 @@ public class Subproject
         this.subprojectDeadline = subprojectDeadline;
     }
 
-    public Subproject(int subprojectId, int parentProjectId, String subprojectName, LocalDate subprojectStartDate, LocalDate subprojectDeadline) {
+    public Subproject(int subprojectId, String subprojectName, int parentProjectId, double subprojectTotalEstimatedTime, LocalDate subprojectStartDate, LocalDate subprojectDeadline, String subprojectWorkloadPerDay) {
         this.subprojectId = subprojectId;
         this.parentProjectId = parentProjectId;
         this.subprojectName = subprojectName;
         this.subprojectStartDate = subprojectStartDate;
         this.subprojectDeadline = subprojectDeadline;
+        this.subprojectWorkloadPerDay = subprojectWorkloadPerDay;
+        this.subprojectTotalEstimatedTime = subprojectTotalEstimatedTime;
     }
 
     public String getSubprojectName()
@@ -73,11 +73,11 @@ public class Subproject
         this.subprojectTotalEstimatedTime = subprojectTotalEstimatedTime;
     }
 
-    public double getSubprojectWorkloadPerDay() {
+    public String getSubprojectWorkloadPerDay() {
         return subprojectWorkloadPerDay;
     }
 
-    public void setSubprojectWorkloadPerDay(double subprojectWorkloadPerDay) {
+    public void setSubprojectWorkloadPerDay(String subprojectWorkloadPerDay) {
         this.subprojectWorkloadPerDay = subprojectWorkloadPerDay;
     }
 

@@ -1,7 +1,9 @@
 package dk.kea.taskz.Controllers;
 
 import dk.kea.taskz.Models.Project;
+import dk.kea.taskz.Models.Subproject;
 import dk.kea.taskz.Services.ProjectService;
+import dk.kea.taskz.Services.SubprojectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +20,12 @@ public class ProjectController {
 	@Autowired
 	ProjectService projectService;
 
+	@Autowired
+	SubprojectService subprojectService;
+
 	List<Project> projectList;
+
+	List<Subproject> subprojectList;
 	boolean deadlineIsAfterStartDate = false;
 
 	/**
@@ -48,6 +55,10 @@ public class ProjectController {
 		projectList = projectService.getAllProjects();
 
 		projectService.updateWorkloadPerDay(projectList);
+
+		subprojectList = subprojectService.getAllSubprojects();
+
+		subprojectService.updateWorkloadPerDay(subprojectList);
 
 		model.addAttribute("activeProjectID", activeProjectID);
 		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);

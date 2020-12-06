@@ -27,11 +27,13 @@ public class SubprojectRepository
 			updateSubprojectEstimated();
             while(rs.next()) {
 				subprojectList.add(new Subproject(
-					rs.getInt(1),
-					rs.getInt(3),
-					rs.getString(2),
-					rs.getDate(6).toLocalDate(),
-					rs.getDate(7).toLocalDate()
+						rs.getInt(1),
+						rs.getString(2),
+						rs.getInt(3),
+						rs.getDouble(5),
+						rs.getDate(6).toLocalDate(),
+						rs.getDate(7).toLocalDate(),
+						rs.getString(8)
 				));
             }
 
@@ -153,7 +155,7 @@ public class SubprojectRepository
 	}
 
 	public void updateWorkloadPerDay(String workloadPerDay, int subprojectID) {
-		String updateWorkloadPerDay = "UPDATE projects SET Subproject_Workload_Per_Day = ? WHERE Subproject_ID = ?;";
+		String updateWorkloadPerDay = "UPDATE subprojects SET Subproject_Workload_Per_Day = ? WHERE Subproject_ID = ?;";
 
 		try {
 			PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(updateWorkloadPerDay);
@@ -164,5 +166,32 @@ public class SubprojectRepository
 		} catch (SQLException e) {
 			System.out.println("Error happened in ProjectRepository updateWorkLoadPerDay: " + e.getMessage());
 		}
+	}
+
+	public List<Subproject> selectAllSubprojects() {
+    	String selectAllSubprojects = "SELECT Subproject_ID, Subproject_Name, Project_ID, Subproject_Estimated_Time, Subproject_StartDate, Subproject_Deadline, Subproject_Workload_Per_Day FROM subprojects";
+
+    	List<Subproject> allSubprojects = new ArrayList<>();
+
+    	try {
+    		preparedStatement = ConnectionService.getConnection().prepareStatement(selectAllSubprojects);
+    		ResultSet rs = preparedStatement.executeQuery();
+
+    		while (rs.next()) {
+    			Subproject subproject = new Subproject(
+						rs.getInt(1),
+						rs.getString(2),
+						rs.getInt(3),
+						rs.getDouble(4),
+						rs.getDate(5).toLocalDate(),
+						rs.getDate(6).toLocalDate(),
+						rs.getString(7)
+				);
+    			allSubprojects.add(subproject);
+			}
+		} catch (SQLException e) {
+			System.out.println("Error happened in subprojectRepository selectAllSubprojects: " + e.getMessage());
+		}
+    	return allSubprojects;
 	}
 }

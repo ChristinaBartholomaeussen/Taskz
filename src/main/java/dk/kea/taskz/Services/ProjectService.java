@@ -42,6 +42,13 @@ public class ProjectService
         projectRepository.deleteWholeProject(projectId);
     }
 
+    /**
+     * Opdaterer workload_per_day i databasen, udfra den arrayList, vi får fra getAllProjects()
+     * Den henter Total_Estimated_Time fra projektet og beregner Work_Hours_Per_Day
+     * Beregningen tager samtidigt højde for, at en arbejdsuge er 5 dage
+     * @param projectList
+     */
+
     public void updateWorkloadPerDay(List<Project> projectList) {
 
         double convertedDaysBetween = 0;

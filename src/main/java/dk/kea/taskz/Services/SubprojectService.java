@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,6 +20,8 @@ public class SubprojectService
 
     @Autowired
     TaskRepository taskRepository;
+
+    List<Subproject> subprojectList = new ArrayList<>();
 
     /**
      * Makes a call to the subProjectRepository with the projectId parameter, to return a list with subprojects associated to the
@@ -50,6 +53,26 @@ public class SubprojectService
     	return subprojectRepository.getParentProjectIdFromDB(id);
     }
 
+    /**
+     * - FMP
+     * Henter en arrayList af alle subprojekter
+     * @return
+     */
+
+    public List<Subproject> getAllSubprojects() {
+        subprojectList = subprojectRepository.selectAllSubprojects();
+
+        return subprojectList;
+    }
+
+    /**
+     * - FMP
+     * Opdaterer workload_per_day i databasen, udfra den arrayList, vi får fra getAllSubprojects()
+     * Den henter Total_Estimated_Time fra subprojektet og beregner Work_Hours_Per_Day
+     * Beregningen tager samtidigt højde for, at en arbejdsuge er 5 dage
+     * @param subprojectList
+     */
+
     public void updateWorkloadPerDay(List<Subproject> subprojectList) {
 
         double convertedDaysBetween = 0;
@@ -68,5 +91,4 @@ public class SubprojectService
             subprojectRepository.updateWorkloadPerDay(df.format(workloadPerDay), subproject.getSubprojectId());
         }
     }
-
 }
