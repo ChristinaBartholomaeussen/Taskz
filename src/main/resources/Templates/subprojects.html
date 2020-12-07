@@ -5,6 +5,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="projectPopUp.css">
 	<link rel="stylesheet" href="styles.css">
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     <title>SubProject Page</title>
 </head>
 <body class="" th:classappend="${stopScroll} ? scrollNone : scroll">
@@ -28,7 +30,7 @@
 			<!--th:block th:each="task : ${subproject.getTaskList}" th:if="${task.getIsDifficult}">
 				<p>haaaaaalo</p>
 			</th:block -->
-			
+
 	
 		</table>
 		<!--#endregion -->
@@ -150,18 +152,24 @@
 			</div>
 		</div>
 		<!--#endregion -->
-		
 		<!--#region Subproject Tables-->
 		<div th:if="${subprojectList.size() == 0}" class="container mx-auto">
 			<span class="text-info">You have no sub projects <a href="/newSubProject" class="btn btn-success">Create a Subproject</a></span>
 		</div>
 		
-		<div th:unless="${subprojectList.size() == 0}" class="subproject container border border-striped p-2 mx-auto my-4" th:each="subproject : ${subprojectList}">
+		<div th:unless="${subprojectList.size() == 0}" class="subproject container border border-striped p-2 mx-auto my-4" th:each="subproject,i : ${subprojectList}">
 			
 			<div class="subproject d-flex">
 				<tabel class="table" style="position: relative">
 					<thead>
 					<tr>
+						<th>
+							<a class="btn btn-light btn-sm active" aria-pressed="true" data-toggle="collapse" th:href="'#collapse' + ${i.index}" role="button" aria-expanded="false" aria-controls="collapse">
+								<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrows-collapse" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+									<path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zm7-8a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 4.293V.5A.5.5 0 0 1 8 0zm-.5 11.707l-1.146 1.147a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 11.707V15.5a.5.5 0 0 1-1 0v-3.793z"/>
+								</svg>
+							</a>
+						</th>
 						<th>Subproject Name: <b th:text="${subproject.getSubprojectName()}"></b></th>
 						<th>Startdate: <b th:text="${subproject.getSubprojectStartDate()}"></b> </th>
 						<th>Deadline: <b th:text="${subproject.getSubprojectDeadline()}"></b></th>
@@ -198,49 +206,53 @@
 				<!-- #endregion -->
 				
 			</div>
-			<table class="table table-striped" style="position: relative">
-				<thead>
-					<tr>
-						<th scope="col">Status</th>
-						<th scope="col">Task Name</th>
-						<th scope="col">Priority</th>
-						<th scope="col">Complexity</th>
-						<th scope="col">Members</th>
-						<th scope="col">Estimated</th>
-						<th scope="col">Deadline</th>
-						<th scope="col">Tag</th>
-						<th scope="col"></th>
-						<th scope="col"></th>
-						<th scope="col"></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="task : ${subproject.getTaskList}" class="relative" >
-						
-						<td th:text="${task.getStatus}"></td>
-						<td th:text="${task.taskName}"></td>
-						<td th:text="${task.getPriority}"></td>
-						<td th:text="${task.getComplexity}"></td>
-						<td th:switch="${task.getMember}">
-							<div th:case="1">RBP</div>
-							<div th:case="2">OVO</div>
-							<div th:case="3">FMP</div>
-							<div th:case="4">CB</div>
-						</td>
-						<td th:text="${task.getEstimatedTime}"></td>
-						<td th:text="${task.getDeadline}"></td>
-						<td th:text="${task.getTag}"></td>
-						<td th:if="${task.getIsDifficult}" class="bg-info text-center">Limited efficiency</td>
-						<td th:unless="${task.getIsDifficult}"> </td>
-						<td th:if="${task.getStatus == T(dk.kea.taskz.Models.Enums.Status).ACTIVE}">
-							<form method="post" action="/postChangeStatus"><button type="submit" class="btn btn-primary mx-1 p-2 ml-auto" name="changeStatus" th:value="${task.getTaskId}">Complete</button></form></td>
-						<td th:if="${task.getStatus == T(dk.kea.taskz.Models.Enums.Status).COMPLETED}">
-							<form method="post" action="/postChangeStatus"><button type="submit" class="btn btn-secondary mx-1 p-2 ml-auto" name="changeStatus" th:value="${task.getTaskId}">Reactivate</button></form></td>
-						<td><form method="post" action="/deleteTask"><button type="submit" class="btn btn-danger mx-1 p-2 ml-auto" name="deleteTask" th:value="${task.getTaskId}">Delete</button></form></td>
+			<div class="collapse show" th:id="'collapse' + ${i.index}" >
+				<div class="card card-body">
+					<table class="table table-striped" style="position: relative">
+						<thead>
+							<tr>
+								<th scope="col">Status</th>
+								<th scope="col">Task Name</th>
+								<th scope="col">Priority</th>
+								<th scope="col">Complexity</th>
+								<th scope="col">Members</th>
+								<th scope="col">Estimated</th>
+								<th scope="col">Deadline</th>
+								<th scope="col">Tag</th>
+								<th scope="col"></th>
+								<th scope="col"></th>
+								<th scope="col"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="task : ${subproject.getTaskList}" class="relative" >
 
-					</tr>
-				</tbody>
-			</table>
+								<td th:text="${task.getStatus}"></td>
+								<td th:text="${task.taskName}"></td>
+								<td th:text="${task.getPriority}"></td>
+								<td th:text="${task.getComplexity}"></td>
+								<td th:switch="${task.getMember}">
+									<div th:case="1">RBP</div>
+									<div th:case="2">OVO</div>
+									<div th:case="3">FMP</div>
+									<div th:case="4">CB</div>
+								</td>
+								<td th:text="${task.getEstimatedTime}"></td>
+								<td th:text="${task.getDeadline}"></td>
+								<td th:text="${task.getTag}"></td>
+								<td th:if="${task.getIsDifficult}" class="bg-info text-center">Limited efficiency</td>
+								<td th:unless="${task.getIsDifficult}"> </td>
+								<td th:if="${task.getStatus == T(dk.kea.taskz.Models.Enums.Status).ACTIVE}">
+									<form method="post" action="/postChangeStatus"><button type="submit" class="btn btn-primary mx-1 p-2 ml-auto" name="changeStatus" th:value="${task.getTaskId}">Complete</button></form></td>
+								<td th:if="${task.getStatus == T(dk.kea.taskz.Models.Enums.Status).COMPLETED}">
+									<form method="post" action="/postChangeStatus"><button type="submit" class="btn btn-secondary mx-1 p-2 ml-auto" name="changeStatus" th:value="${task.getTaskId}">Reactivate</button></form></td>
+								<td><form method="post" action="/deleteTask"><button type="submit" class="btn btn-danger mx-1 p-2 ml-auto" name="deleteTask" th:value="${task.getTaskId}">Delete</button></form></td>
+
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 			<div class="d-flex">
 				<form th:method="post" action="/newTask">
 					<input type="text" th:value="${subproject.getSubprojectId()}" name="subprojectsID" class="hidden">
