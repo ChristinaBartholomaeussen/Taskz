@@ -14,6 +14,9 @@ public class Subproject
     private String subprojectName;
     private List<Task> taskList;
 
+    public Subproject(){
+
+    }
     public Subproject(String subprojectName, int parentProjectId) {
         this.parentProjectId = parentProjectId;
         this.subprojectName = subprojectName;
@@ -50,6 +53,10 @@ public class Subproject
     public List<Task> getTaskList()
     {
         return taskList;
+    }
+
+    public void setSubprojectId(int subprojectId){
+        this.subprojectId = subprojectId;
     }
 
 	public int getSubprojectId() {

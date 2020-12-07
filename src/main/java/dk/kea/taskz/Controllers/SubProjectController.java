@@ -5,6 +5,7 @@ import dk.kea.taskz.Models.Subproject;
 import dk.kea.taskz.Services.ProjectService;
 import dk.kea.taskz.Services.SubprojectService;
 import dk.kea.taskz.Services.TaskService;
+import dk.kea.taskz.Services.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,8 +29,11 @@ public class SubProjectController
 	@Autowired
 	TaskService taskService;
 
+	@Autowired
+	TimeService timeService;
+
 	int activeProjectIDToTest = 1; // This one is only for the header fragment rendering.
-	int activeProjectID = -1;
+	static int activeProjectID = -1;
 	boolean deadlineIsAfterStartDate = false;
 
 	List<Subproject> subprojectList = new ArrayList<>();
@@ -146,15 +150,23 @@ public class SubProjectController
 		String subprojectDeadline = data.getParameter("subprojectDeadline");
 		LocalDate convertedSubprojectDeadline = LocalDate.parse(subprojectDeadline);
 
+
+
 		if (convertedSubprojectDeadline.compareTo(convertedSubprojectStartDate) < 0) {
 			deadlineIsAfterStartDate = true;
 			return "redirect:/newSubProject";
 		} else {
 			String subprojectName = data.getParameter("subprojectName");
 			Subproject subproject = new Subproject(subprojectName, activeProjectID, convertedSubprojectStartDate, convertedSubprojectDeadline);
-			subprojectService.createSubproject(subproject);
 
-			return "redirect:/subprojects";
+			if(timeService.isSubprojectStartDateAndDeadlingBetweenProject(projectService.getProjectByProjectId(activeProjectID), subproject) == false){
+				return "redirect:/newSubProject";
+			}
+			else{
+				subprojectService.createSubproject(subproject);
+				return "redirect:/subprojects";
+			}
+
 		}
 	}
 
