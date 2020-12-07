@@ -6,11 +6,7 @@ import dk.kea.taskz.Models.Enums.Status;
 import dk.kea.taskz.Models.Project;
 import dk.kea.taskz.Models.Subproject;
 import dk.kea.taskz.Models.Task;
-import dk.kea.taskz.Services.CompetenceService;
-import dk.kea.taskz.Services.MemberService;
-import dk.kea.taskz.Services.ProjectService;
-import dk.kea.taskz.Services.SubprojectService;
-import dk.kea.taskz.Services.TaskService;
+import dk.kea.taskz.Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,6 +35,9 @@ public class TaskController {
 
 	@Autowired
 	MemberService memberService;
+
+	@Autowired
+	TimeService timeService;
 
 	int activeProjectIDToTest = 1; // This one is only for the header fragment rendering.
 	int subprojectsID = -1;
@@ -98,7 +97,7 @@ public class TaskController {
 		String tag = data.getParameter("tags");
 
 		Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline),  Double.valueOf(estimatedTime), Status.ACTIVE, member, tag);
-		
+
 		taskService.insertTask(task);
 
 		subprojectService.updateSubprojectTotalEstimatedTime();
@@ -112,8 +111,17 @@ public class TaskController {
 		projectList = projectService.getAllProjects();
 
 		projectService.updateWorkloadPerDay(projectList);
-		
-		return "redirect:/subprojects";
+
+
+		if(timeService.isTaskDeadlingBetweenSubprojectStartDateAndDeadline(subprojectService.getSubprojectStartDateDeadline(subprojectsID), task) == false){
+
+			return "redirect:/newTask";
+		}
+		else{
+			taskService.insertTask(task);
+			return "redirect:/subprojects";
+		}
+
 	}
 
 	/**

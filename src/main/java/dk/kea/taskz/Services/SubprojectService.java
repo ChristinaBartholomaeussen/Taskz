@@ -95,4 +95,8 @@ public class SubprojectService
     public void updateSubprojectTotalEstimatedTime() {
         subprojectRepository.updateSubprojectEstimated();
     }
+
+    public Subproject getSubprojectStartDateDeadline(int subprojectId){
+        return subprojectRepository.getSubprojectStartDateAndDeadlineById(subprojectId);
+    }
 }

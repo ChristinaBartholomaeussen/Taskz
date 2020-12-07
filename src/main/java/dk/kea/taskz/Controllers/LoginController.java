@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
 
+
 @Controller
 public class LoginController
 {
+
     @Autowired
     private MemberService memberService;
 
@@ -23,6 +25,8 @@ public class LoginController
     {
         return "login";
     }
+
+
 
     /**
      * The postmapping that will be used after we press the Login-button from login.html.
@@ -45,5 +49,7 @@ public class LoginController
 
         return "redirect:/login";
     }
+
+
 
 }
