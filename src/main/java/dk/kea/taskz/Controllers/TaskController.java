@@ -100,6 +100,18 @@ public class TaskController {
 		Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline),  Double.valueOf(estimatedTime), Status.ACTIVE, member, tag);
 		
 		taskService.insertTask(task);
+
+		subprojectService.updateSubprojectTotalEstimatedTime();
+
+		subprojectList = subprojectService.getAllSubprojects();
+
+		subprojectService.updateWorkloadPerDay(subprojectList);
+
+		projectService.updateProjectEstimatedTime();
+
+		projectList = projectService.getAllProjects();
+
+		projectService.updateWorkloadPerDay(projectList);
 		
 		return "redirect:/subprojects";
 	}
