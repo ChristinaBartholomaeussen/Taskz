@@ -263,7 +263,7 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="d-flex">
+				<div class="d-flex mt-3">
 					<form th:method="post" action="/newTask">
 						<input type="text" th:value="${subproject.getSubprojectId()}" name="subprojectsID" class="hidden">
 						<button type="submit" class="btn btn-success mx-1 p-2 ml-auto float-left">New Task</button>
@@ -271,7 +271,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="container">
+		<div class="container mt-2">
 			<a href="/newSubProject" class="btn btn-success mx-1 p-2 -auto">New Subproject</a>
 		</div>
 		<!--#endregion-->
