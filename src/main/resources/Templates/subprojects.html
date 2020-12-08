@@ -153,28 +153,42 @@
 		
 		<div th:each="subproject,i : ${subprojectList}" th:unless="${subprojectList.size() == 0}" class="container-fluid border p-2 my-4">
 
-			<div class="subproject d-flex">
-				<tabel class="table" style="position: relative" >
+			<div class="subproject">
+				<table class="table table-light-grey" style="position: relative" >
 					<thead>
-					<tr>
-						<th>
-							<a class="btn btn-light btn-sm active" aria-pressed="true" data-toggle="collapse" th:href="'#collapse' + ${i.index}" role="button" aria-expanded="false" aria-controls="collapse">
-								<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrows-collapse" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-									<path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zm7-8a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 4.293V.5A.5.5 0 0 1 8 0zm-.5 11.707l-1.146 1.147a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 11.707V15.5a.5.5 0 0 1-1 0v-3.793z"/>
-								</svg>
-							</a>
-						</th>
-						<th>Subproject Name: <b th:text="${subproject.getSubprojectName()}"></b></th>
-						<th>Startdate: <b th:text="${subproject.getSubprojectStartDate()}"></b> </th>
-						<th>Deadline: <b th:text="${subproject.getSubprojectDeadline()}"></b></th>
-						<th>Estimated Hours: <b th:text="${subproject.getSubprojectTotalEstimatedTime()}"></b></th>
-						<th>Daily Workhours: <b th:text="${subproject.getSubprojectWorkloadPerDay()}"></b></th>
-					</tr>
+						<tr>
+							<th>
+								<a class="btn btn-light btn-sm active" aria-pressed="true" data-toggle="collapse" th:href="'#collapse' + ${i.index}" role="button" aria-expanded="false" aria-controls="collapse">
+									<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrows-collapse" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+										<path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zm7-8a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 4.293V.5A.5.5 0 0 1 8 0zm-.5 11.707l-1.146 1.147a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 11.707V15.5a.5.5 0 0 1-1 0v-3.793z"/>
+									</svg>
+								</a>
+							</th>
+							<th>Subproject Name:</th>
+							<th>Startdate:</th>
+							<th>Deadline:</th>
+							<th>Estimated Hours:</th>
+							<th>Daily Workhours: </th>
+							<th>
+								<form method="post" action="/deleteSubProjectPopUp">
+									<button type="submit" class="btn btn-danger ml-auto" th:value="${subproject.getSubprojectId()}" name="subprojectToDelete">Delete</button>
+								</form>
+							</th>
+						</tr>
 					</thead>
-				</tabel>
-				<form method="post" action="/deleteSubProjectPopUp">
-					<button type="submit" class="btn btn-danger ml-auto" th:value="${subproject.getSubprojectId()}" name="subprojectToDelete">Delete</button>
-				</form>
+					<tbody>
+						<tr>
+							<td></td>
+							<td th:text="${subproject.getSubprojectName()}"></td>
+							<td th:text="${subproject.getSubprojectStartDate()}"></td>
+							<td th:text="${subproject.getSubprojectDeadline()}"></td>
+							<td th:text="${subproject.getSubprojectTotalEstimatedTime()}"></td>
+							<td th:text="${subproject.getSubprojectWorkloadPerDay()}"></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+				
 
 				<!--#region deletePopUp -->
 				<div class="" th:classappend="${deletePopUp} ? display : none">
@@ -201,6 +215,9 @@
 				
 			</div>
 			<div class="collapse show" th:id="'collapse' + ${i.index}" >
+				<div class="row">
+					
+				</div>
 				<div class="card card-body">
 					<table class="table table-striped" style="position: relative">
 						<thead>
