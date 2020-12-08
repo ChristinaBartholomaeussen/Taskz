@@ -12,7 +12,7 @@
 
 	<main class="container">
 
-		<h1 th:text="|Hallo ${member.getFirstName}|" ></h1>
+		<h1 th:text="|Hey! ${member.getFirstName} this is your today list:|" ></h1>
 		
 		<div class="row my-3">
 			<div class="col-md-6">
@@ -20,7 +20,7 @@
 				<p th:text="|Your Competence: ${member.getCompetance}|"></p>
 			</div>
 
-			<div class="col-md-6">
+			<div class="col-md-6"  th:if="${tasks.size}">
 				<p th:text="|Total tasks: ${tasks.size}|"></p>
 				<p>Task you might need to focus on: </p>
 				<table class="table">
@@ -52,7 +52,7 @@
 			</div>
 		</div>
 		
-		<div class="my-4">
+		<div class="my-4" th:if="${tasks.size}">
 			<div class="row">
 				<h4>To do:</h4>
 				<table class="table table-striped" style="position: relative">
@@ -98,6 +98,9 @@
 					</tbody>
 				</table>				
 			</div>
+		</div>
+		<div  th:unless="${tasks.size}">
+			<p class="bg-success p-3 text-center text-white">You have no active tasks</p>
 		</div>
 		
 	</main>
