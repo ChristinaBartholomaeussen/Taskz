@@ -18,7 +18,7 @@ public class Task
 	private Enum<Priority> priority;
 	private Enum<Complexity> complexity;
 	private String member;
-	private String tag; 
+	private String skill;
 	private int isDifficult;
 
 	public Task() {
@@ -26,7 +26,7 @@ public class Task
 	}
 
     public Task(int taskId, int parentSubProjectId, String taskName, Enum<Priority> priority, Enum<Complexity> complexity,
-				LocalDate deadline, double estimatedTime, Enum<Status> status, String member, String tag, int isDifficult)
+				LocalDate deadline, double estimatedTime, Enum<Status> status, String member, String skill, int isDifficult)
     {
         this.taskId = taskId;
         this.parentSubProjectId = parentSubProjectId;
@@ -37,7 +37,7 @@ public class Task
         this.priority = priority;
         this.complexity = complexity;
         this.member = member;
-		this.tag = tag;
+		this.skill = skill;
 		this.isDifficult = isDifficult;
         
 	}
@@ -58,7 +58,7 @@ public class Task
 }
 
 	public Task(int parentSubProjectId, String taskName, Enum<Priority> priority, Enum<Complexity> complexity, LocalDate deadline, double estimatedTime,
-				Enum<Status> status, String member, String tag)
+				Enum<Status> status, String member, String skill)
 	{
 		this.taskId = taskId;
 		this.parentSubProjectId = parentSubProjectId;
@@ -69,7 +69,7 @@ public class Task
 		this.priority = priority;
 		this.complexity = complexity;
 		this.member = member;
-		this.tag = tag;
+		this.skill = skill;
 		
 	}
 
@@ -147,12 +147,12 @@ public class Task
 		this.parentSubProjectId = parentSubProjectId;
 	}
 
-	public String getTag() {
-		return tag;
+	public String getSkill() {
+		return skill;
 	}
 
-	public void setTag(String tag) {
-		tag = tag;
+	public void setSkill(String skill) {
+		skill = skill;
 	}
 
 	public int getIsDifficult() {

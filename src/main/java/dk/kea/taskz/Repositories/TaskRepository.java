@@ -82,7 +82,7 @@ public class TaskRepository {
 	 * @param task
 	 */
 	public void insertNewTaskToDB(Task task) {
-		String insertTaskSQL = "INSERT INTO taskz.tasks(Task_ID, SubProject_ID, Task_Name, Priority, Complexity, Task_Deadline, Task_Estimated_Time, Status, Member, Tag) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?, ?)";
+		String insertTaskSQL = "INSERT INTO taskz.tasks(Task_ID, SubProject_ID, Task_Name, Priority, Complexity, Task_Deadline, Task_Estimated_Time, Status, Member, Skill) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?, ?)";
 
 		int id = getLatestIdFromDB() + 1;
 		try {
@@ -96,7 +96,7 @@ public class TaskRepository {
 			preparedStatement.setDouble(7, task.getEstimatedTime());
 			preparedStatement.setInt(8, task.getStatus().ordinal());
 			preparedStatement.setString(9,task.getMember());
-			preparedStatement.setString(10, task.getTag());
+			preparedStatement.setString(10, task.getSkill());
 
 			preparedStatement.execute();
 
@@ -238,7 +238,7 @@ public class TaskRepository {
 	public void setATaskToRelocateResources() {
 		String setToDifficult = "SELECT DISTINCT Task_ID, Is_Difficult \n" +
 				"FROM taskz.tasks \n" +
-				"INNER JOIN taskz.competences ON tasks.Tag=competences.Competence \n" +
+				"INNER JOIN taskz.competences ON tasks.Skill=competences.Competence \n" +
 				"WHERE Member <> Member_ID \n" +
 				"AND tasks.Complexity>=3\n" +
 				"AND tasks.Priority>=2";

@@ -94,9 +94,9 @@ public class TaskController {
 		String estimatedTime = data.getParameter("estimatedTime");
 		String deadline = data.getParameter("deadline");
 		String member = data.getParameter("TeamMembers");
-		String tag = data.getParameter("tags");
+		String skill = data.getParameter("skills");
 
-		Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline),  Double.valueOf(estimatedTime), Status.ACTIVE, member, tag);
+		Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline),  Double.valueOf(estimatedTime), Status.ACTIVE, member, skill);
 
 		subprojectService.updateSubprojectTotalEstimatedTime();
 
