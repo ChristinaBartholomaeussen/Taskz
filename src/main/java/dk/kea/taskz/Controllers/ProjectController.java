@@ -31,7 +31,7 @@ public class ProjectController {
 	/**
 	 * Used only for the header fragment rendering.
 	 */
-	int activeProjectIDToTest = 0;
+	int headerDisplayFlag = 0;
 
 	/**
 	 * Needs to be initialized, but the default value is -1.
@@ -61,7 +61,7 @@ public class ProjectController {
 		subprojectService.updateWorkloadPerDay(subprojectList);
 
 		model.addAttribute("activeProjectID", activeProjectID);
-		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
+		model.addAttribute("activeProjectIDToTest", headerDisplayFlag);
 		model.addAttribute("popup", false);
 		model.addAttribute("projectList", projectList);
 		model.addAttribute("deletePopUp", false);
@@ -172,7 +172,7 @@ public class ProjectController {
 	@GetMapping("/deletePopup")
 	public String deletePopip(Model model) {
 		model.addAttribute("activeProjectID", activeProjectID);
-		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
+		model.addAttribute("activeProjectIDToTest", headerDisplayFlag);
 		model.addAttribute("popup", false);
 		model.addAttribute("projectList", projectService.getAllProjects());
 		model.addAttribute("deletePopUp", true);

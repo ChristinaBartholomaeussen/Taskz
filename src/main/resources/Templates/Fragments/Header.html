@@ -14,10 +14,10 @@
 		<span class="ml-auto mr-4">
 			<a href="/profile" class="btn btn-success ml-auto">My Profile</a>
 		</span>
-		<span th:if="${activeProjectIDToTest}">
+		<span th:if="${headerDisplayFlag}">
 			<a href="/newSubProject" class="btn btn-success">New Subproject</a>
 		</span>
-		<span th:unless="${activeProjectIDToTest}">
+		<span th:unless="${headerDisplayFlag}">
 			<a href="/newProject" class="btn btn-success">New Project</a>
 		</span>
 		<span class="ml-4">
