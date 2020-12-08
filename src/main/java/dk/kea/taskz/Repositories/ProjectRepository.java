@@ -47,7 +47,7 @@ public class ProjectRepository {
             }
 
         } catch (SQLException e) {
-            System.out.println("Happened in ProjectRepository selectProjectFromDatabaseByIdNameDeadlineEstimatedTime(): " + e.getMessage());
+            System.out.println("Happened in ProjectRepository getAllProjectsFromDatabase(): " + e.getMessage());
         }
 
         return allProjects;
