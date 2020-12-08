@@ -123,18 +123,15 @@ public class TaskRepository {
 		}
 	}
 
-	public List<Task> getAllAssociatedTasksToSubproject(int subprojectId)
-	{
+	public List<Task> getAllAssociatedTasksToSubproject(int subprojectId) {
 		String getAllAssociatedTasksToSubproject = "SELECT * FROM taskz.tasks WHERE SubProject_ID = " + subprojectId;
 		List<Task> taskList = new ArrayList<>();
 
-		try
-		{
+		try {
 			preparedStatement = ConnectionService.getConnection().prepareStatement(getAllAssociatedTasksToSubproject);
 			ResultSet rs = preparedStatement.executeQuery();
 
-			while(rs.next())
-			{
+			while(rs.next()) {
 				taskList.add(new Task(
 						rs.getInt(1),
 						rs.getInt(2),
@@ -148,7 +145,6 @@ public class TaskRepository {
 						rs.getString(10),
 						rs.getInt(11)));
 			}
-
 		}
 		catch(Exception e)
 		{
@@ -321,5 +317,7 @@ public class TaskRepository {
 		}
 		return task;
 	}
+
+
 	
 }

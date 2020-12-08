@@ -12,6 +12,7 @@ public class Project
     private LocalDate deadline;
     private String totalWorkHoursPerDay;
     private double totalEstimatedTime;
+    private double completedTime;
     private List<Subproject> associatedSubprojects;
 
     public Project(){
@@ -41,6 +42,17 @@ public class Project
         this.startDate = startDate;
         this.deadline = deadline;
         this.totalWorkHoursPerDay = totalWorkHoursPerDay;
+        this.totalEstimatedTime = totalEstimatedTime;
+        this.associatedSubprojects = new ArrayList<>();
+    }
+
+    public Project(int projectId, String name, LocalDate startDate, LocalDate deadline, String totalWorkHoursPerDay, double completedTime, double totalEstimatedTime) {
+        this.projectId = projectId;
+        this.name = name;
+        this.startDate = startDate;
+        this.deadline = deadline;
+        this.totalWorkHoursPerDay = totalWorkHoursPerDay;
+        this.completedTime = completedTime;
         this.totalEstimatedTime = totalEstimatedTime;
         this.associatedSubprojects = new ArrayList<>();
     }
@@ -91,6 +103,14 @@ public class Project
 
     public void setTotalEstimatedTime(double totalEstimatedTime) {
         this.totalEstimatedTime = totalEstimatedTime;
+    }
+
+    public double getCompletedTime() {
+        return completedTime;
+    }
+
+    public void setCompletedTime(double completedTime) {
+        this.completedTime = completedTime;
     }
 
     @Override

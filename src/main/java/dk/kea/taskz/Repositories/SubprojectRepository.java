@@ -53,7 +53,8 @@ public class SubprojectRepository
 						rs.getDouble(5),
 						rs.getDate(6).toLocalDate(),
 						rs.getDate(7).toLocalDate(),
-						rs.getString(8)
+						rs.getString(8),
+						rs.getDouble(9)
 				));
             }
 
@@ -175,7 +176,7 @@ public class SubprojectRepository
 	}
 
 	public void updateWorkloadPerDay(String workloadPerDay, int subprojectID) {
-		String updateWorkloadPerDay = "UPDATE subprojects SET Subproject_Workload_Per_Day = ? WHERE Subproject_ID = ?;";
+		String updateWorkloadPerDay = "UPDATE subprojects SET Subproject_Workload_Per_Day = ? WHERE Subproject_ID = ?";
 
 		try {
 			PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(updateWorkloadPerDay);
@@ -213,5 +214,20 @@ public class SubprojectRepository
 			System.out.println("Error happened in subprojectRepository selectAllSubprojects: " + e.getMessage());
 		}
     	return allSubprojects;
+	}
+
+	public void updateSubprojectCompletedTime(double preliminaryCompletedTime, int subprojectID) {
+		String updateSubprojectCompletedTime = "UPDATE subprojects SET Subproject_Completed_Time = ? WHERE Subproject_ID = ?";
+
+		try {
+			preparedStatement = ConnectionService.getConnection().prepareStatement(updateSubprojectCompletedTime);
+			preparedStatement.setDouble(1, preliminaryCompletedTime);
+			preparedStatement.setInt(2, subprojectID);
+
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Error happened in subprojectRepository updateSubprojectCompletedTime: " + e.getMessage());
+		}
+
 	}
 }

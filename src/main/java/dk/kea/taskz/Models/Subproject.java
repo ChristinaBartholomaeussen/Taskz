@@ -8,6 +8,7 @@ public class Subproject
 	private int subprojectId;
     private int parentProjectId;
     private double subprojectTotalEstimatedTime;
+    private double subprojectCompletedTime;
     private String subprojectWorkloadPerDay;
     private LocalDate subprojectStartDate;
     private LocalDate subprojectDeadline;
@@ -43,6 +44,17 @@ public class Subproject
         this.subprojectDeadline = subprojectDeadline;
         this.subprojectWorkloadPerDay = subprojectWorkloadPerDay;
         this.subprojectTotalEstimatedTime = subprojectTotalEstimatedTime;
+    }
+
+    public Subproject(int subprojectId, String subprojectName, int parentProjectId, double subprojectTotalEstimatedTime, LocalDate subprojectStartDate, LocalDate subprojectDeadline, String subprojectWorkloadPerDay, double subprojectCompletedTime) {
+        this.subprojectId = subprojectId;
+        this.parentProjectId = parentProjectId;
+        this.subprojectName = subprojectName;
+        this.subprojectStartDate = subprojectStartDate;
+        this.subprojectDeadline = subprojectDeadline;
+        this.subprojectWorkloadPerDay = subprojectWorkloadPerDay;
+        this.subprojectTotalEstimatedTime = subprojectTotalEstimatedTime;
+        this.subprojectCompletedTime = subprojectCompletedTime;
     }
 
     public String getSubprojectName()
@@ -106,5 +118,13 @@ public class Subproject
 
     public void setSubprojectName(String subprojectName) {
         this.subprojectName = subprojectName;
+    }
+
+    public double getSubprojectCompletedTime() {
+        return subprojectCompletedTime;
+    }
+
+    public void setSubprojectCompletedTime(double subprojectCompletedTime) {
+        this.subprojectCompletedTime = subprojectCompletedTime;
     }
 }

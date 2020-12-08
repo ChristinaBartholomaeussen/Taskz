@@ -1,7 +1,9 @@
 package dk.kea.taskz.Services;
 
+import dk.kea.taskz.Models.Enums.Status;
 import dk.kea.taskz.Models.Project;
 import dk.kea.taskz.Models.Subproject;
+import dk.kea.taskz.Models.Task;
 import dk.kea.taskz.Repositories.SubprojectRepository;
 import dk.kea.taskz.Repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +32,7 @@ public class SubprojectService
       * @param projectId
      * @return
      */
-    public List<Subproject> getAllAssociatedSubprojects(int projectId)
-    {
+    public List<Subproject> getAllAssociatedSubprojects(int projectId) {
         List<Subproject> allAssociatedSubprojects = subprojectRepository.getAllAssociatedSubprojects(projectId);
 
         for(Subproject subproject : allAssociatedSubprojects)
@@ -39,6 +40,27 @@ public class SubprojectService
         
         taskRepository.setATaskToRelocateResources();
         return allAssociatedSubprojects;
+    }
+
+    public void updateSubprojectCompletedTime(int projectId) {
+        List<Subproject> allAssociatedSubprojects = subprojectRepository.getAllAssociatedSubprojects(projectId);
+
+        double preliminaryCompletedTime = 0;
+
+        for (Subproject subproject : allAssociatedSubprojects) {
+            List<Task> associatedTasks = new ArrayList<>();
+
+            associatedTasks = taskRepository.getAllAssociatedTasksToSubproject(subproject.getSubprojectId());
+
+            for(Task task : associatedTasks) {
+                if (task.getStatus() == Status.COMPLETED) {
+                    preliminaryCompletedTime = preliminaryCompletedTime + task.getEstimatedTime();
+                }
+            }
+            subprojectRepository.updateSubprojectCompletedTime(preliminaryCompletedTime, subproject.getSubprojectId());
+
+            preliminaryCompletedTime = 0;
+        }
     }
     
     public void createSubproject(Subproject subproject){

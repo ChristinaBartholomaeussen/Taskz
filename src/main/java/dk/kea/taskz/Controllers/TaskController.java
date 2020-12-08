@@ -98,25 +98,25 @@ public class TaskController {
 
 		Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline),  Double.valueOf(estimatedTime), Status.ACTIVE, member, skill);
 
-		subprojectService.updateSubprojectTotalEstimatedTime();
-
-		subprojectList = subprojectService.getAllSubprojects();
-
-		subprojectService.updateWorkloadPerDay(subprojectList);
-
-		projectService.updateProjectEstimatedTime();
-
-		projectList = projectService.getAllProjects();
-
-		projectService.updateWorkloadPerDay(projectList);
-
-
 		if(timeService.isTaskDeadlingBetweenSubprojectStartDateAndDeadline(subprojectService.getSubprojectStartDateDeadline(subprojectsID), task) == false){
 
 			return "redirect:/newTask";
 		}
 		else{
 			taskService.insertTask(task);
+
+			subprojectService.updateSubprojectTotalEstimatedTime();
+
+			subprojectList = subprojectService.getAllSubprojects();
+
+			subprojectService.updateWorkloadPerDay(subprojectList);
+
+			projectService.updateProjectEstimatedTime();
+
+			projectList = projectService.getAllProjects();
+
+			projectService.updateWorkloadPerDay(projectList);
+
 			return "redirect:/subprojects";
 		}
 
@@ -144,22 +144,6 @@ public class TaskController {
 		projectList = projectService.getAllProjects();
 
 		projectService.updateWorkloadPerDay(projectList);
-
-		return "redirect:/subprojects";
-	}
-
-	/**
-	 * - FMP
-	 * Updates the status of a specific task, changing the display values of that element
-	 * Redirects to subprojects
-	 * @param data
-	 * @return
-	 */
-	@PostMapping("/postChangeStatus")
-	public String postChangeStatus(WebRequest data) {
-		int idTask = Integer.parseInt(data.getParameter("changeStatus"));
-
-		taskService.updateTaskStatus(idTask);
 
 		return "redirect:/subprojects";
 	}

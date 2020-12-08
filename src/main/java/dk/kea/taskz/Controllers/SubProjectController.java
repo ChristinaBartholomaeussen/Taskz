@@ -2,6 +2,7 @@ package dk.kea.taskz.Controllers;
 
 import dk.kea.taskz.Models.Project;
 import dk.kea.taskz.Models.Subproject;
+import dk.kea.taskz.Models.Task;
 import dk.kea.taskz.Services.ProjectService;
 import dk.kea.taskz.Services.SubprojectService;
 import dk.kea.taskz.Services.TaskService;
@@ -38,6 +39,7 @@ public class SubProjectController
 
 	List<Subproject> subprojectList = new ArrayList<>();
 	List<Project> projectList = new ArrayList<>();
+	List<Task> taskList = new ArrayList<>();
 
 	/**
 	 * Postmapping der bliver ramt efter man tr
@@ -202,6 +204,24 @@ public class SubProjectController
 	@PostMapping("/postSeeSubproject")
 	public String seeSubProject(WebRequest data) {
 		activeProjectID = subprojectService.getParentId(Integer.valueOf(data.getParameter("subprojectId")));
+		return "redirect:/subprojects";
+	}
+
+	/**
+	 * - FMP
+	 * Updates the status of a specific task, changing the display values of that element
+	 * Redirects to subprojects
+	 * @param data
+	 * @return
+	 */
+	@PostMapping("/postChangeStatus")
+	public String postChangeStatus(WebRequest data) {
+		int idTask = Integer.parseInt(data.getParameter("changeStatus"));
+
+		taskService.updateTaskStatus(idTask);
+
+		subprojectService.updateSubprojectCompletedTime(activeProjectID);
+
 		return "redirect:/subprojects";
 	}
 }
