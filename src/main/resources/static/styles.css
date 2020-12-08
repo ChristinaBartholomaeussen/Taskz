@@ -14,3 +14,8 @@ a:hover {
 a {
 	color: black;
 }
+@media (min-width: 1400px) {
+	.container-fluid{
+		width: 1600px;
+	}
+}

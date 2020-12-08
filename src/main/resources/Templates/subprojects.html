@@ -67,7 +67,7 @@
 		</div>
 		<!--#endregion-->
 		<!--#region Popup Task -->
-				<div class="" th:classappend="${TaskPopUp} ? display : none">
+		<div class="" th:classappend="${TaskPopUp} ? display : none">
 			<a href="/subprojects" class="background">
 			</a>
 			<div class="popup relative">
@@ -144,23 +144,17 @@
 				</form>
 			</div>
 		</div>
-		</div>
 
-
-
-
-
-		</div>
 		<!--#endregion -->
 		<!--#region Subproject Tables-->
 		<div th:if="${subprojectList.size() == 0}" class="container mx-auto">
 			<span class="text-info">You have no sub projects <a href="/newSubProject" class="btn btn-success">Create a Subproject</a></span>
 		</div>
 		
-		<div th:each="subproject,i : ${subprojectList}" th:unless="${subprojectList.size() == 0}" class="subproject container border border-striped p-2 mx-auto my-4" >
-			
+		<div th:each="subproject,i : ${subprojectList}" th:unless="${subprojectList.size() == 0}" class="container-fluid border p-2 my-4">
+
 			<div class="subproject d-flex">
-				<tabel class="table" style="position: relative">
+				<tabel class="table" style="position: relative" >
 					<thead>
 					<tr>
 						<th>
