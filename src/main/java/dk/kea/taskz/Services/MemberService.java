@@ -22,6 +22,10 @@ public class MemberService
     	return memberRepository.getAllMembersFromDB();
 	}
     
+	public Member getSingleMember(int id) {
+    	return memberRepository.getSingleMEmberFromDBWthID(id);
+	}
+	
     public boolean verifyLogin(String username, String password)
     {
         for(Member member : getAllMembers())
@@ -33,4 +37,8 @@ public class MemberService
         return false;
     }
     public ArrayList<String> getAllCompetence(int id) {return memberRepository.getAllMemberCompetences(id);}
+    
+    public int getId(String Email, String Password) {
+    	return memberRepository.getActiveUserIDFromDB(Email, Password);
+	}
 }

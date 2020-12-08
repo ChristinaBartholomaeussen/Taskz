@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -255,6 +256,70 @@ public class TaskRepository {
 		} catch (SQLException e) {
 			System.out.println("Class: TaskRepo, Method: setATaskToRelocateResources(), Error: " + e.getMessage());
 		}
+	}
+	
+	
+	public ArrayList<Task> getAllTaskToOneMember(int Member) {
+		String getAllTaskQuerryString = "SELECT * FROM taskz.tasks WHERE Status = 0 AND Member = " + Member;
+		ArrayList<Task> taskList = new ArrayList<>();
+		
+		try {
+			PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(getAllTaskQuerryString);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			
+			while(resultSet.next()) {
+				taskList.add(new Task(resultSet.getInt(1),
+						resultSet.getInt(2),
+						resultSet.getString(3),
+						Priority.values()[resultSet.getInt(4)],
+						Complexity.values()[resultSet.getInt(5)],
+						resultSet.getDate(6).toLocalDate(),
+						resultSet.getDouble(7),
+						Status.values()[resultSet.getInt(8)],
+						resultSet.getString(9),
+						resultSet.getString(10),
+						resultSet.getInt(11)));
+			};
+			
+			
+		} catch (SQLException e) {
+			System.out.println("Klasse: TaskRepo, Methode: getAllTaskToOneMember, Error: " +e.getMessage());
+		}
+		
+		return taskList;
+	}
+	
+	public Task getEarliestDeadLineFromDB(int Member) {
+		String selectTask = " SELECT  * FROM taskz.tasks \n" +
+				" WHERE Member = ? \n" +
+				" AND Status = 0 \n" +
+				" ORDER BY Task_Deadline\n" +
+				" LIMIT 1";
+		Task task = null;
+		try {
+			PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(selectTask);
+			preparedStatement.setInt(1, Member);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			
+			while (resultSet.next()) {
+				task = new Task(resultSet.getInt(1),
+						resultSet.getInt(2),
+						resultSet.getString(3),
+						Priority.values()[resultSet.getInt(4)],
+						Complexity.values()[resultSet.getInt(5)],
+						resultSet.getDate(6).toLocalDate(),
+						resultSet.getDouble(7),
+						Status.values()[resultSet.getInt(8)],
+						resultSet.getString(9),
+						resultSet.getString(10),
+						resultSet.getInt(11));
+			}
+			
+			
+		} catch (SQLException e) {
+			System.out.println("Klasse: TaskRepo, methode: getEarliestDeadLine, Error: " + e.getMessage());
+		}
+		return task;
 	}
 	
 }

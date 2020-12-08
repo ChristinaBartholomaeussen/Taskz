@@ -30,9 +30,12 @@ public class TaskService {
 		taskRepository.updateTaskStatus(idTask);
 	}
 	
-	/*
-	//taskRepository.getAllAssociatedTasksToSubproject(subproject.getSubprojectId())
-	public List<Task> getAllTasks(int projectId) {
-		return taskRepository.getAllAssociatedTasksToSubproject();
-	} */
+	
+	public ArrayList<Task> getAllTasks(int id) {
+		return taskRepository.getAllTaskToOneMember(id);
+	} 
+	
+	public Task getEarlistDeadline(int id) {
+		return taskRepository.getEarliestDeadLineFromDB(id);
+	}
 }

@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 
 @Controller
 public class LoginController
@@ -38,12 +41,17 @@ public class LoginController
      * @return
      */
     @PostMapping("/postLogin")
-	public String postLogin(WebRequest data)
+	public String postLogin(WebRequest data, HttpServletResponse response)
     {
         String username = data.getParameter("username");
         String password = data.getParameter("password");
+
+        
+		
         
         if(memberService.verifyLogin(username,password)) {
+			Cookie ck = new Cookie("id", Integer.toString(memberService.getId(username, password)));
+			response.addCookie(ck);
             return "redirect:/projects";
 		}
 

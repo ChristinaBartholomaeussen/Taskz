@@ -22,7 +22,7 @@ public class MemberRepository
             ResultSet rs = preparedStatement.executeQuery();
 
             while(rs.next()) {
-            	memberList.add(new Member(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
+            	memberList.add(new Member(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
 			}
 
 			for (Member member : memberList) {
@@ -59,7 +59,7 @@ public class MemberRepository
 	
 	public void setMemberCompetance(Member member) {
     	String placeHolder = "";
-    	String getCompetanceToMemberFromDB = "SELECT Competence, competences.Member_ID, members.First_Name\n" +
+    	String getCompetanceToMemberFromDB = "SELECT Competence\n" +
 				"FROM taskz.competences\n" +
 				"INNER JOIN taskz.members ON competences.Member_ID=members.Member_ID\n" +
 				"WHERE competences.Member_ID = " + member.getMemberId();
@@ -77,5 +77,49 @@ public class MemberRepository
 		} catch(SQLException e) {
 			System.out.println("Klasse: MemberRepository, Methode: setMemberCompetance(int Member_ID), Error: " + e.getMessage());
 		}
+	}
+	
+	public Member getSingleMEmberFromDBWthID(int Member_ID) {
+    	String getMemberQuery = "SELECT * from Taskz.members WHERE Member_ID = ?";
+    	Member memb = new Member();
+    	
+    	try {
+    		
+    	PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(getMemberQuery);
+    	preparedStatement.setInt(1, Member_ID);
+    	
+    	ResultSet resultSet = preparedStatement.executeQuery();
+    	
+    	while(resultSet.next()) {
+    		memb = new Member(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getString(6));
+    		setMemberCompetance(memb);
+			return memb;
+		}
+    		
+    	
+		} catch (SQLException e) {
+			System.out.println("Klasse: MemberRepo, Methode: getSingleMemberFRomDBWithID(), Error: " + e.getMessage());
+		}
+    	return memb;
+	}
+	
+	public int getActiveUserIDFromDB(String Email, String Password) {
+    	String getIdQuerry = "SELECT Member_ID FROM taskz.members WHERE Email = ? AND Password = ?";
+    	int id = 0;
+    	try {
+    		PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(getIdQuerry);
+    		preparedStatement.setString(1, Email);
+    		preparedStatement.setString(2, Password);
+    		
+    		ResultSet resultSet = preparedStatement.executeQuery();
+    		
+    		while (resultSet.next()) {
+    			id = resultSet.getInt(1);
+			}
+		} catch (SQLException e) {
+			System.out.println("Klasse: MemberRepo, Methode: getActiveUserIDFromDB(), Error: " + e.getMessage());
+		}
+    	
+    	return id;
 	}
 }

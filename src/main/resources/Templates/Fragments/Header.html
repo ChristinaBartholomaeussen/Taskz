@@ -11,10 +11,13 @@
 	<header th:fragment="header" class="d-flex justify-content-between text-light p-3">
 		<a href="/projects" class="text-light ml-2"><h1>Taskz</h1></a>
 		
-		<span th:if="${activeProjectIDToTest}" class="ml-auto">
-			<a href="/newSubProject" class="btn btn-success ml-auto">New Subproject</a>
+		<span class="ml-auto mr-4">
+			<a href="/profile" class="btn btn-success ml-auto">My Profile</a>
 		</span>
-		<span th:unless="${activeProjectIDToTest}" class="ml-auto">
+		<span th:if="${activeProjectIDToTest}">
+			<a href="/newSubProject" class="btn btn-success">New Subproject</a>
+		</span>
+		<span th:unless="${activeProjectIDToTest}">
 			<a href="/newProject" class="btn btn-success">New Project</a>
 		</span>
 		<span class="ml-4">

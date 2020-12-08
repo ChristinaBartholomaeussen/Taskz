@@ -24,6 +24,16 @@ public class Task
 	public Task() {
 
 	}
+	
+	public Task(int taskId, String taskName, Priority priority, Complexity complexity, LocalDate deadline, double estimatedTime, String skill) {
+		this.taskId = taskId;
+		this.taskName = taskName;
+		this.priority = priority;
+		this.complexity = complexity;
+		this.deadline = deadline;
+		this.estimatedTime = estimatedTime;
+		this.skill = skill;
+	}
 
     public Task(int taskId, int parentSubProjectId, String taskName, Enum<Priority> priority, Enum<Complexity> complexity,
 				LocalDate deadline, double estimatedTime, Enum<Status> status, String member, String skill, int isDifficult)

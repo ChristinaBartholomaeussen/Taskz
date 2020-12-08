@@ -198,4 +198,10 @@ public class SubProjectController
 
 		return "subprojects";
 	}
+
+	@PostMapping("/postSeeSubproject")
+	public String seeSubProject(WebRequest data) {
+		activeProjectID = subprojectService.getParentId(Integer.valueOf(data.getParameter("subprojectId")));
+		return "redirect:/subprojects";
+	}
 }

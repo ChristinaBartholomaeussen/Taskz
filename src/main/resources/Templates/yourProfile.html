@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Profile</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="projectPopUp.css">
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+	<div th:replace="Fragments/header :: header"></div>
+
+	<main class="container">
+
+		<h1 th:text="|Hallo ${member.getFirstName}|" ></h1>
+		
+		<div class="row my-3">
+			<div class="col-md-6">
+				<p th:text="|Your jobtitle: ${member.getJobTitle}|"></p>
+				<p th:text="|Your Competence: ${member.getCompetance}|"></p>
+			</div>
+
+			<div class="col-md-6">
+				<p th:text="|Total tasks: ${tasks.size}|"></p>
+				<p>Task you might need to focus on: </p>
+				<table class="table">
+					<thead>
+						<th scope="col">Task Name</th>
+						<th scope="col">Estimated Time</th>
+						<th scope="col">Priority</th>
+						<th scope="col">Complexity</th>
+						<th scope="col">DeadLine</th>
+						<th scope="col">Skill</th>
+						<th></th>
+					</thead>
+					<tbody>
+						<tr>
+							<td th:text="${earliestDeadLine.getTaskName}"></td>
+							<td th:text="${earliestDeadLine.getEstimatedTime}"></td>
+							<td th:text="${earliestDeadLine.getPriority}"></td>
+							<td th:text="${earliestDeadLine.getComplexity}"></td>
+							<td th:text="${earliestDeadLine.getDeadline}"></td>
+							<td th:text="${earliestDeadLine.getSkill}"></td>
+							<td>
+								<form th:method="post" th:action="postSeeSubproject">
+									<button class="btn btn-primary" th:value="${earliestDeadLine.getParentSubProjectId}" name="subprojectId">See Project</button>
+								</form>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+		<div class="my-4">
+			<div class="row">
+				<h4>To do:</h4>
+				<table class="table table-striped" style="position: relative">
+					<thead>
+					<tr>
+						<th scope="col">Status</th>
+						<th scope="col">Task Name</th>
+						<th scope="col">Priority</th>
+						<th scope="col">Complexity</th>
+						<th scope="col">Members</th>
+						<th scope="col">Estimated</th>
+						<th scope="col">Deadline</th>
+						<th scope="col">Skill</th>
+						<th scope="col"></th>
+						<th scope="col"></th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr th:each="task : ${tasks}" class="relative" >
+
+						<td th:text="${task.getStatus}"></td>
+						<td th:text="${task.taskName}"></td>
+						<td th:text="${task.getPriority}"></td>
+						<td th:text="${task.getComplexity}"></td>
+						<td th:switch="${task.getMember}">
+							<div th:case="1">RBP</div>
+							<div th:case="2">OVO</div>
+							<div th:case="3">FMP</div>
+							<div th:case="4">CB</div>
+						</td>
+						<td th:text="${task.getEstimatedTime}"></td>
+						<td th:text="${task.getDeadline}"></td>
+						<td th:text="${task.getSkill}"></td>
+						<td th:if="${task.getIsDifficult}" class="bg-info text-center">Limited efficiency</td>
+						<td th:unless="${task.getIsDifficult}"> </td>
+						<td>
+							<form th:method="post" th:action="postSeeSubproject">
+								<button class="btn btn-primary" th:value="${task.getParentSubProjectId}" name="subprojectId">See Project</button>
+							</form>
+						</td>
+
+					</tr>
+					</tbody>
+				</table>				
+			</div>
+		</div>
+		
+	</main>
+	
+
+</body>
+</html>
