@@ -71,7 +71,7 @@
 						<td class="text-center align-middle" th:text="${project.getStartDate}"/>
 						<td class="text-center align-middle" th:text="${project.getDeadline}"/>
 						<td class="text-center align-middle" th:text="${project.getTotalWorkHoursPerDay}"/>
-						<td class="text-center align-middle" th:text="${project.getTotalEstimatedTime}"/>
+						<td class="text-center align-middle"/><span th:text="${project.getCompletedTime()}"></span> / <span th:text="${project.getTotalEstimatedTime}"></span>
 						<td>
 							<form th:method="post" action="/postpopupDeleteProject">
 								<input type="text" name="activeProjectId" class="none" th:value="${project.getProjectId}">
