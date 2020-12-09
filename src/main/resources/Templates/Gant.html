@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>GANT CHART</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="projectPopUp.css">
+	<link rel="stylesheet" href="styles.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+        google.charts.load('current', {'packages':['gantt']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        // Unused by nice to have for (maybe) later implementation
+        function daysToMilliseconds(days)
+        {
+            return days * 24 * 60 * 60 * 1000;
+        }
+
+        function drawChart() {
+
+            var projects = [[${projects}]];
+            console.log(projects);
+
+            var data = new google.visualization.DataTable();
+
+            data.addColumn('string', 'Task ID');
+            data.addColumn('string', 'Task Name');
+            data.addColumn('string', 'Resource');
+            data.addColumn('date', 'Start Date');
+            data.addColumn('date', 'End Date');
+            data.addColumn('number', 'Duration');
+            data.addColumn('number', 'Percent Complete');
+            data.addColumn('string', 'Dependencies');
+
+            for (var project = 0; project < projects.length; project++)
+            {
+                let projectStartDate = Date.parse(projects[project].startDate);
+                let projectDeadLine = Date.parse(projects[project].deadline);
+                let subprojects = projects[project].associatedSubprojects;
+
+                let totalAmountOfTasksInProject = 0;
+                let completedTasksInProject = 0;
+                let projectCompletion = 0;
+
+                for(let subproject = 0; subproject < subprojects.length;subproject++)
+                {
+                    let tasks = subprojects[subproject].taskList;
+
+                    totalAmountOfTasksInProject += tasks.length;
+
+                    for(let task = 0; task < tasks.length;task++)
+                        if(tasks[task].status === "COMPLETED")
+                            completedTasksInProject++;
+                }
+
+                projectCompletion = (completedTasksInProject * 100) / totalAmountOfTasksInProject;
+
+                data.addRows
+                ([
+                    [projects[project].projectId.toString(), "PROJECT: " + projects[project].name, null, new Date(projectStartDate), new Date(projectDeadLine), null, projectCompletion, null]
+                ]);
+
+                for(let subproject = 0; subproject < subprojects.length; subproject++)
+                {
+                    let subprojectStartDate = Date.parse(subprojects[subproject].subprojectStartDate);
+                    let subprojectDeadlline = Date.parse(subprojects[subproject].subprojectDeadline);
+                    let tasks = subprojects[subproject].taskList;
+                    let subprojectCompletion = 0;
+
+                    if(tasks.length != 0)
+                    {
+                        let completedTasks = 0;
+                        for(let task = 0; task < tasks.length;task++)
+                            if(tasks[task].status === 'COMPLETED')
+                                completedTasks++;
+
+                        if(completedTasks === tasks.length)
+                            subprojectCompletion = 100;
+                        else
+                            subprojectCompletion = (completedTasks * 100) / tasks.length;
+                    }
+
+                    data.addRows
+                    ([
+                        [subprojects[subproject].subprojectId.toString(), 'SUBPROJECT: ' + subprojects[subproject].subprojectName,projects[project].name, new Date(subprojectStartDate), new Date(subprojectDeadlline), null, subprojectCompletion, null]
+                    ]);
+
+                    for(let task = 0; task < tasks.length;task++)
+                    {
+                        let dateNow = Date.now();
+                        let taskDeadline = Date.parse(tasks[task].deadline);
+                        let isCompleted = tasks[task].status == "ACTIVE" ? 0 : 100;
+
+                        data.addRows
+                        ([
+                            [tasks[task].taskId.toString(), 'TASK: ' + tasks[task].taskName,projects[project].name,new Date(dateNow),new Date(taskDeadline),null,isCompleted,null]
+                        ]);
+                    }
+                }
+            }
+
+            const options = {
+                gantt:
+                    {
+                        sortTasks: false
+                    },
+                hAxis:
+                    {
+                        format: 'M/d/yy',
+                        gridlines: {count: 15}
+                    },
+                height: data.getNumberOfRows() * 50
+            };
+
+            const chart = new google.visualization.Gantt(document.getElementById('chart_div'));
+
+            chart.draw(data, options);
+        }
+    </script>
+</head>
+<body>
+	<div th:replace="Fragments/header :: header"></div>
+	<div id="chart_div"></div>
+</body>
+</html>

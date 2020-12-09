@@ -113,6 +113,16 @@ public class Project
         this.completedTime = completedTime;
     }
 
+    public List<Subproject> getAssociatedSubprojects()
+    {
+        return associatedSubprojects;
+    }
+
+    public void setAssociatedSubprojects(List<Subproject> associatedSubprojects)
+    {
+        this.associatedSubprojects = associatedSubprojects;
+    }
+
     @Override
     public String toString() {
         return "Project{" +
