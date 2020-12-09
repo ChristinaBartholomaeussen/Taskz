@@ -35,4 +35,10 @@ public class DiagramController
 
         return "/Gant";
     }
+    
+    @GetMapping("/GantSubProject")
+	public String gantSubProject(Model model) {
+    	
+    	return "gantSubProject";
+	}
 }
