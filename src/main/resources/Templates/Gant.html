@@ -37,25 +37,27 @@
                 let projectStartDate = Date.parse(projects[project].startDate);
                 let projectDeadLine = Date.parse(projects[project].deadline);
                 let subprojects = projects[project].associatedSubprojects;
+
+                let totalAmountOfTasksInProject = 0;
+                let completedTasksInProject = 0;
                 let projectCompletion = 0;
 
-                let completedSubprojectCounter = 0;
-
-                for(var subproject = 0; subproject < subprojects.length; subproject++)
+                for(let subproject = 0; subproject < subprojects.length;subproject++)
                 {
-                    let completedTasksCounter = 0;
+                    let tasks = subprojects[subproject].taskList;
 
-                    if(subprojects[subproject].taskList.length != 0)
-                    {
-                        for(let task = 0; task < subprojects[subproject].taskList.length; task++)
-                            if(subprojects[subproject].taskList[task].status === 'COMPLETED')
-                                completedTasksCounter++
-                    }
+                    totalAmountOfTasksInProject += tasks.length;
+
+                    for(let task = 0; task < tasks.length;task++)
+                        if(tasks[task].status === "COMPLETED")
+                            completedTasksInProject++;
                 }
+
+                projectCompletion = (completedTasksInProject * 100) / totalAmountOfTasksInProject;
 
                 data.addRows
                 ([
-                    [projects[project].projectId.toString(), "PROJECT: " + projects[project].name, null, new Date(projectStartDate), new Date(projectDeadLine), null, 0, null]
+                    [projects[project].projectId.toString(), "PROJECT: " + projects[project].name, null, new Date(projectStartDate), new Date(projectDeadLine), null, projectCompletion, null]
                 ]);
 
                 for(let subproject = 0; subproject < subprojects.length; subproject++)
@@ -94,6 +96,7 @@
                             [tasks[task].taskId.toString(), 'TASK: ' + tasks[task].taskName,project.toString(),new Date(dateNow),new Date(taskDeadline),null,isCompleted,null]
                         ]);
                     }
+
                 }
             }
 
