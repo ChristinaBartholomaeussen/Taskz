@@ -19,6 +19,7 @@
         function drawChart() {
 
             var projects = [[${projects}]];
+            console.log(projects);
 
             var data = new google.visualization.DataTable();
 
@@ -31,8 +32,6 @@
             data.addColumn('number', 'Percent Complete');
             data.addColumn('string', 'Dependencies');
 
-            console.log(projects);
-
             for (var project = 0; project < projects.length; project++)
             {
                 let projectStartDate = Date.parse(projects[project].startDate);
@@ -40,14 +39,23 @@
                 let subprojects = projects[project].associatedSubprojects;
                 let projectCompletion = 0;
 
-                if(subprojects.length != 0)
+                let completedSubprojectCounter = 0;
+
+                for(var subproject = 0; subproject < subprojects.length; subproject++)
                 {
-                    let completedSubprojects = 0;
+                    let completedTasksCounter = 0;
+
+                    if(subprojects[subproject].taskList.length != 0)
+                    {
+                        for(let task = 0; task < subprojects[subproject].taskList.length; task++)
+                            if(subprojects[subproject].taskList[task].status === 'COMPLETED')
+                                completedTasksCounter++
+                    }
                 }
 
                 data.addRows
                 ([
-                    [projects[project].projectId.toString(), "PROJECT: " + projects[project].name, null, new Date(projectStartDate), new Date(projectDeadLine), null, 100, null]
+                    [projects[project].projectId.toString(), "PROJECT: " + projects[project].name, null, new Date(projectStartDate), new Date(projectDeadLine), null, 0, null]
                 ]);
 
                 for(let subproject = 0; subproject < subprojects.length; subproject++)
@@ -83,7 +91,7 @@
 
                         data.addRows
                         ([
-                            [tasks[task].taskId.toString(), 'TASK: ' + tasks[task].taskName,subproject.toString(),new Date(dateNow),new Date(taskDeadline),null,isCompleted,null]
+                            [tasks[task].taskId.toString(), 'TASK: ' + tasks[task].taskName,project.toString(),new Date(dateNow),new Date(taskDeadline),null,isCompleted,null]
                         ]);
                     }
                 }
