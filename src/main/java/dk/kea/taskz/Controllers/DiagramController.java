@@ -21,9 +21,6 @@ public class DiagramController
     @Autowired
     SubprojectService subprojectService;
 
-    @Autowired
-    TaskService taskService;
-
     @GetMapping("/Gant")
     public String gant(Model model)
     {
