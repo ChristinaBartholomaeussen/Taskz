@@ -23,7 +23,7 @@
 				<th>Project Name: <b th:text="${project.getName()}"></b></th>
 				<th>Project Startdate: <b th:text="${project.getStartDate()}"></b></th>
 				<th>Project Deadline: <b th:text="${project.getDeadline()}"></b></th>
-				<th>Estimated Workhours: <b th:text="${project.getTotalEstimatedTime}"></b></th>
+				<th>Estimated Workhours: <b th:text="${project.getCompletedTime()}"></b><b>/</b><b th:text="${project.getTotalEstimatedTime}"></b></th>
 				<th>Daily Workhours: <b th:text="${project.getTotalWorkHoursPerDay}"></b></th>
 			</tr>
 			</thead>

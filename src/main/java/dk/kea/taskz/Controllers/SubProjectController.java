@@ -222,6 +222,8 @@ public class SubProjectController
 
 		subprojectService.updateSubprojectCompletedTime(activeProjectID);
 
+		projectService.updateProjectCompletedTime(activeProjectID);
+
 		return "redirect:/subprojects";
 	}
 }

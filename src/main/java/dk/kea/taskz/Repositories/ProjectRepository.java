@@ -156,6 +156,7 @@ public class ProjectRepository {
                 project.setDeadline(rs.getDate(4).toLocalDate());
                 project.setTotalWorkHoursPerDay(rs.getString(5));
                 project.setTotalEstimatedTime(rs.getDouble(6));
+                project.setCompletedTime(rs.getDouble(7));
             }
         }
         catch(Exception e)
@@ -164,5 +165,19 @@ public class ProjectRepository {
         }
 
         return project;
+    }
+
+    public void updateProjectCompletedTime(double preliminaryCompletedTime, int projectID) {
+        String updateProjectCompletedTime = "UPDATE projects SET Project_Completed_Time = ? WHERE Project_ID = ?";
+
+        try {
+            preparedStatement = ConnectionService.getConnection().prepareStatement(updateProjectCompletedTime);
+            preparedStatement.setDouble(1, preliminaryCompletedTime);
+            preparedStatement.setInt(2, projectID);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error happened in ProjectRepository at updateProjectCompletedTime()" + e.getMessage());
+        }
     }
 }
