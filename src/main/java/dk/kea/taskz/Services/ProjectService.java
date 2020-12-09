@@ -67,7 +67,7 @@ public class ProjectService
 
             daysBetween = daysBetween - (2 * numberOfWeeks);
             convertedDaysBetween = (double)daysBetween;
-            double workloadPerDay =  project.getTotalEstimatedTime() / convertedDaysBetween ;
+            double workloadPerDay =  (project.getTotalEstimatedTime() - project.getCompletedTime()) / convertedDaysBetween;
 
             projectRepository.updateWorkloadPerDay(df.format(workloadPerDay), project.getProjectId());
         }

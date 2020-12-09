@@ -24,7 +24,7 @@ public class ProjectRepository {
     public List<Project> getAllProjectsFromDatabase()
     {
         updateProjectEstimatedTime();
-        String selectAllProjects = "SELECT Project_Id, Project_Name, Project_StartDate, Deadline, Workload_Per_Day, Project_Estimated_Time FROM projects";
+        String selectAllProjects = "SELECT Project_Id, Project_Name, Project_StartDate, Deadline, Workload_Per_Day, Project_Estimated_Time, Project_Completed_Time FROM projects";
 
         List<Project> allProjects = new ArrayList<>();
 
@@ -40,7 +40,8 @@ public class ProjectRepository {
                         rs.getDate(3).toLocalDate(),
                         rs.getDate(4).toLocalDate(),
                         rs.getString(5),
-                        rs.getDouble(6)
+                        rs.getDouble(6),
+                        rs.getDouble(7)
                 );
 
                 allProjects.add(project);

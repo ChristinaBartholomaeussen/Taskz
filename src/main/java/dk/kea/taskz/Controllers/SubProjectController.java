@@ -224,6 +224,14 @@ public class SubProjectController
 
 		projectService.updateProjectCompletedTime(activeProjectID);
 
+		subprojectList = subprojectService.getAllSubprojects();
+
+		subprojectService.updateWorkloadPerDay(subprojectList);
+
+		projectList = projectService.getAllProjects();
+
+		projectService.updateWorkloadPerDay(projectList);
+
 		return "redirect:/subprojects";
 	}
 }
