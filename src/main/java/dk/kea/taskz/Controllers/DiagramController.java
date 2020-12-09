@@ -23,7 +23,7 @@ public class DiagramController
 
     int activeProjectID = -1;
 
-    @GetMapping("/Gantt")
+    @GetMapping("/gantt")
     public String gant(Model model)
     {
         List<Project> allProjects = projectService.getAllProjects();
@@ -38,10 +38,10 @@ public class DiagramController
         return "/gantt";
     }
     
-    @PostMapping("/GantSubProjectPost")
+    @PostMapping("/GanttSubProjectPost")
 	public String gantSubProjectPost(WebRequest data) {
 		activeProjectID = Integer.valueOf(data.getParameter("activeProjectIDdada"));
-		return "redirect:/GantSubProject";
+		return "redirect:/ganttSubProject";
 	}
 
 
