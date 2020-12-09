@@ -23,7 +23,7 @@
 				<th>Project Name: <b th:text="${project.getName()}"></b></th>
 				<th>Project Startdate: <b th:text="${project.getStartDate()}"></b></th>
 				<th>Project Deadline: <b th:text="${project.getDeadline()}"></b></th>
-				<th>Estimated Workhours: <b th:text="${project.getTotalEstimatedTime}"></b></th>
+				<th>Estimated Workhours: <b th:text="${project.getCompletedTime()}"></b><b>/</b><b th:text="${project.getTotalEstimatedTime}"></b></th>
 				<th>Daily Workhours: <b th:text="${project.getTotalWorkHoursPerDay}"></b></th>
 			</tr>
 			</thead>
@@ -182,7 +182,7 @@
 						<td th:text="${subproject.getSubprojectName()}"></td>
 						<td th:text="${subproject.getSubprojectStartDate()}"></td>
 						<td th:text="${subproject.getSubprojectDeadline()}"></td>
-						<td th:text="${subproject.getSubprojectTotalEstimatedTime()}"></td>
+						<td><span th:text="${subproject.getSubprojectCompletedTime()}"></span> / <span th:text="${subproject.getSubprojectTotalEstimatedTime()}"></span></td>
 						<td th:text="${subproject.getSubprojectWorkloadPerDay()}"></td>
 						<td></td>
 					</tr>

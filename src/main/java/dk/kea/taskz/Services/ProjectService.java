@@ -1,7 +1,9 @@
 package dk.kea.taskz.Services;
 
 import dk.kea.taskz.Models.Project;
+import dk.kea.taskz.Models.Subproject;
 import dk.kea.taskz.Repositories.ProjectRepository;
+import dk.kea.taskz.Repositories.SubprojectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,9 @@ public class ProjectService
 {
     @Autowired
     ProjectRepository projectRepository;
+
+    @Autowired
+    SubprojectRepository subprojectRepository;
 
     List<Project> projectList = new ArrayList<>();
 
@@ -62,7 +67,7 @@ public class ProjectService
 
             daysBetween = daysBetween - (2 * numberOfWeeks);
             convertedDaysBetween = (double)daysBetween;
-            double workloadPerDay =  project.getTotalEstimatedTime() / convertedDaysBetween ;
+            double workloadPerDay =  (project.getTotalEstimatedTime() - project.getCompletedTime()) / convertedDaysBetween;
 
             projectRepository.updateWorkloadPerDay(df.format(workloadPerDay), project.getProjectId());
         }
@@ -75,6 +80,18 @@ public class ProjectService
 
     public void updateProjectEstimatedTime() {
         projectRepository.updateProjectEstimatedTime();
+    }
+
+    public void updateProjectCompletedTime(int projectID) {
+        List<Subproject> subprojectList = subprojectRepository.getAllAssociatedSubprojects(projectID);
+
+        double projectPreliminaryCompletedTime = 0;
+
+        for (Subproject subproject : subprojectList) {
+            projectPreliminaryCompletedTime = projectPreliminaryCompletedTime + subproject.getSubprojectCompletedTime();
+        }
+
+        projectRepository.updateProjectCompletedTime(projectPreliminaryCompletedTime, projectID);
     }
 }
 

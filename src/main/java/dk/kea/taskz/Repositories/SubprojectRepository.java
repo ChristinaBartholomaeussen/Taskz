@@ -190,7 +190,7 @@ public class SubprojectRepository
 	}
 
 	public List<Subproject> selectAllSubprojects() {
-    	String selectAllSubprojects = "SELECT Subproject_ID, Subproject_Name, Project_ID, Subproject_Estimated_Time, Subproject_StartDate, Subproject_Deadline, Subproject_Workload_Per_Day FROM subprojects";
+    	String selectAllSubprojects = "SELECT Subproject_ID, Subproject_Name, Project_ID, Subproject_Estimated_Time, Subproject_StartDate, Subproject_Deadline, Subproject_Workload_Per_Day, Subproject_Completed_Time FROM subprojects";
 
     	List<Subproject> allSubprojects = new ArrayList<>();
 
@@ -206,7 +206,8 @@ public class SubprojectRepository
 						rs.getDouble(4),
 						rs.getDate(5).toLocalDate(),
 						rs.getDate(6).toLocalDate(),
-						rs.getString(7)
+						rs.getString(7),
+						rs.getDouble(8)
 				);
     			allSubprojects.add(subproject);
 			}

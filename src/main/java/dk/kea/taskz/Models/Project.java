@@ -46,7 +46,7 @@ public class Project
         this.associatedSubprojects = new ArrayList<>();
     }
 
-    public Project(int projectId, String name, LocalDate startDate, LocalDate deadline, String totalWorkHoursPerDay, double completedTime, double totalEstimatedTime) {
+    public Project(int projectId, String name, LocalDate startDate, LocalDate deadline, String totalWorkHoursPerDay, double totalEstimatedTime, double completedTime) {
         this.projectId = projectId;
         this.name = name;
         this.startDate = startDate;
