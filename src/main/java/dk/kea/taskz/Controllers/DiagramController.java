@@ -1,14 +1,14 @@
 package dk.kea.taskz.Controllers;
 
 import dk.kea.taskz.Models.Project;
-import dk.kea.taskz.Models.Subproject;
 import dk.kea.taskz.Services.ProjectService;
 import dk.kea.taskz.Services.SubprojectService;
-import dk.kea.taskz.Services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.context.request.WebRequest;
 
 import java.util.List;
 
@@ -20,6 +20,8 @@ public class DiagramController
 
     @Autowired
     SubprojectService subprojectService;
+
+    int activeProjectID = -1;
 
     @GetMapping("/Gant")
     public String gant(Model model)
@@ -36,9 +38,17 @@ public class DiagramController
         return "/gantt";
     }
     
+    @PostMapping("/GantSubProjectPost")
+	public String gantSubProjectPost(WebRequest data) {
+		activeProjectID = Integer.valueOf(data.getParameter("activeProjectIDdada"));
+		return "redirect:/GantSubProject";
+	}
+
+
     @GetMapping("/GantSubProject")
 	public String gantSubProject(Model model) {
     	
+    	model.addAttribute("subprojectsList", subprojectService.getAllAssociatedSubprojects(activeProjectID));
     	return "ganttSubProject";
 	}
 }

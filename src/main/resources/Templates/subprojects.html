@@ -30,6 +30,11 @@
 			</tr>
 			</thead>
 		</table>
+		<div >
+			<form th:method="post" action="/GantSubProjectPost">
+				<button type="submit" th:value="${activeProjectID}" name="activeProjectIDdada" class="btn btn-success ml-auto">Gant Chart</button>
+			</form>
+		</div>
 		<!--#endregion -->
 		<!--#region Popup Subproject -->
 		<div class="" th:classappend="${popup} ? display : none">
