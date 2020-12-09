@@ -33,12 +33,12 @@ public class DiagramController
 
         model.addAttribute("projects",allProjects);
 
-        return "/Gant";
+        return "/gantt";
     }
     
     @GetMapping("/GantSubProject")
 	public String gantSubProject(Model model) {
     	
-    	return "gantSubProject";
+    	return "ganttSubProject";
 	}
 }
