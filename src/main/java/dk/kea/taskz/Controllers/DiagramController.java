@@ -38,14 +38,14 @@ public class DiagramController
         return "/gantt";
     }
     
-    @PostMapping("/GanttSubProjectPost")
+    @PostMapping("/ganttSubProjectPost")
 	public String gantSubProjectPost(WebRequest data) {
 		activeProjectID = Integer.valueOf(data.getParameter("activeProjectIDdada"));
 		return "redirect:/ganttSubProject";
 	}
 
 
-    @GetMapping("/GantSubProject")
+    @GetMapping("/ganttSubProject")
 	public String gantSubProject(Model model) {
     	
     	model.addAttribute("subprojectsList", subprojectService.getAllAssociatedSubprojects(activeProjectID));
