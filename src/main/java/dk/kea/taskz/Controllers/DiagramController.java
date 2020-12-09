@@ -23,7 +23,7 @@ public class DiagramController
 
     int activeProjectID = -1;
 
-    @GetMapping("/Gant")
+    @GetMapping("/Gantt")
     public String gant(Model model)
     {
         List<Project> allProjects = projectService.getAllProjects();
