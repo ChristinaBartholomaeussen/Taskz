@@ -115,6 +115,8 @@ public class ProjectController {
 		model.addAttribute("date", date);
 		model.addAttribute("deadlineIsAfterStartDate", deadlineIsAfterStartDate);
 
+
+
 		return "projects";
 	}
 

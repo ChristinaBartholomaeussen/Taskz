@@ -10,26 +10,33 @@ import java.time.LocalDate;
 @Service
 public class TimeService {
 
-   public boolean isSubprojectStartDateAndDeadlingBetweenProject(Project project, Subproject subproject){
+   public boolean isSubprojectStartDateAndDeadlineBetweenProject(Project project, LocalDate startdate, LocalDate deadline){
 
-       if(subproject.getSubprojectStartDate().isBefore(project.getStartDate()) || subproject.getSubprojectDeadline().isAfter(project.getDeadline()))
+       if(startdate.isBefore(project.getStartDate()) || deadline.isAfter(project.getDeadline()))
        {
-           System.out.println("fejl");
+
            return false;
        }
-       System.out.println("OK");
+
        return true;
     }
 
-    public boolean isTaskDeadlingBetweenSubprojectStartDateAndDeadline(Subproject subproject, Task task){
+    public boolean isTaskDeadlineBetweenSubprojectStartDateAndDeadline(Subproject subproject, LocalDate deadline){
 
-       if(task.getDeadline().isAfter(subproject.getSubprojectStartDate()) && task.getDeadline().isBefore(subproject.getSubprojectDeadline())){
-           System.out.println("task OK");
+       if(deadline.isAfter(subproject.getSubprojectStartDate()) && deadline.isBefore(subproject.getSubprojectDeadline())){
+
            return true;
-
         }
-        System.out.println("fejl i task");
+
         return false;
+    }
+
+    public boolean isDeadlineBeforeStartDate(LocalDate startdate, LocalDate deadline){
+
+       if(startdate.isBefore(deadline)){
+           return true;
+       }
+       return false;
     }
 
 }

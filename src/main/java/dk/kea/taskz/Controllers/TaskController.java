@@ -41,6 +41,7 @@ public class TaskController {
 
 	int activeProjectIDToTest = 1; // This one is only for the header fragment rendering.
 	int subprojectsID = -1;
+	static int activeParentIDToTest = 1;
 	int activeProjectID = 1;
 	int parentProject = -1;
 
@@ -76,6 +77,7 @@ public class TaskController {
 		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(parentProject));
 		model.addAttribute("project",projectService.getProjectByProjectId(parentProject));
 		model.addAttribute("competences", competenceService.getAllCompetences());
+
 		return "subprojects";
 	}
 
@@ -87,36 +89,32 @@ public class TaskController {
 	 */
 	@PostMapping("/newTaskData")
 	public String newTaskData(WebRequest data) {
+
+		subprojectList = subprojectService.getAllSubprojects();
+		subprojectService.updateWorkloadPerDay(subprojectList);
+		projectList = projectService.getAllProjects();
+
 		String subprojectId = data.getParameter("subProjectId");
 		String taskName = data.getParameter("taskName");
 		int priority = Integer.parseInt(data.getParameter("priority"));
 		int complexity = Integer.parseInt(data.getParameter("complexity"));
 		String estimatedTime = data.getParameter("estimatedTime");
 		String deadline = data.getParameter("deadline");
+		LocalDate convertDeadlineToLocalDate = LocalDate.parse(deadline);
 		String member = data.getParameter("TeamMembers");
 		String skill = data.getParameter("skills");
 
-		Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline),  Double.valueOf(estimatedTime), Status.ACTIVE, member, skill);
 
-		if(timeService.isTaskDeadlingBetweenSubprojectStartDateAndDeadline(subprojectService.getSubprojectStartDateDeadline(subprojectsID), task) == false){
+		if(timeService.isTaskDeadlineBetweenSubprojectStartDateAndDeadline(subprojectService.getSubprojectStartDateDeadline(subprojectsID), convertDeadlineToLocalDate) == false){
 
 			return "redirect:/newTask";
 		}
 		else{
+			Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline),  Double.valueOf(estimatedTime), Status.ACTIVE, member, skill);
 			taskService.insertTask(task);
-
 			subprojectService.updateSubprojectTotalEstimatedTime();
-
-			subprojectList = subprojectService.getAllSubprojects();
-
-			subprojectService.updateWorkloadPerDay(subprojectList);
-
 			projectService.updateProjectEstimatedTime();
-
-			projectList = projectService.getAllProjects();
-
 			projectService.updateWorkloadPerDay(projectList);
-
 			return "redirect:/subprojects";
 		}
 

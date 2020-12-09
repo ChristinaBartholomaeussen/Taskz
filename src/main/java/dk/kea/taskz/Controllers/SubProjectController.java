@@ -127,11 +127,6 @@ public class SubProjectController
 		model.addAttribute("stopScroll", true);
 		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
 
-		LocalDate date = LocalDate.now();
-
-		model.addAttribute("date", date);
-		model.addAttribute("deadlineIsAfterStartDate", deadlineIsAfterStartDate);
-
 		return "subprojects";
 	}
 
@@ -152,24 +147,20 @@ public class SubProjectController
 		String subprojectDeadline = data.getParameter("subprojectDeadline");
 		LocalDate convertedSubprojectDeadline = LocalDate.parse(subprojectDeadline);
 
+		String subprojectName = data.getParameter("subprojectName");
 
+		if(timeService.isSubprojectStartDateAndDeadlineBetweenProject(projectService.getProjectByProjectId(activeProjectID), convertedSubprojectStartDate, convertedSubprojectDeadline) == false
+			|| timeService.isDeadlineBeforeStartDate(convertedSubprojectStartDate, convertedSubprojectDeadline) == false){
 
-		if (convertedSubprojectDeadline.compareTo(convertedSubprojectStartDate) < 0) {
-			deadlineIsAfterStartDate = true;
 			return "redirect:/newSubProject";
-		} else {
-			String subprojectName = data.getParameter("subprojectName");
-			Subproject subproject = new Subproject(subprojectName, activeProjectID, convertedSubprojectStartDate, convertedSubprojectDeadline);
-
-			if(timeService.isSubprojectStartDateAndDeadlingBetweenProject(projectService.getProjectByProjectId(activeProjectID), subproject) == false){
-				return "redirect:/newSubProject";
-			}
-			else{
-				subprojectService.createSubproject(subproject);
-				return "redirect:/subprojects";
-			}
-
 		}
+
+		else{
+			Subproject subproject = new Subproject(subprojectName, activeProjectID, convertedSubprojectStartDate, convertedSubprojectDeadline);
+			subprojectService.createSubproject(subproject);
+			return "redirect:/subprojects";
+		}
+
 	}
 
 	/**

@@ -12,6 +12,7 @@ public class TaskService {
 	@Autowired
 	TaskRepository taskRepository;
 
+
 	public void insertTask(Task task) {
 		taskRepository.insertNewTaskToDB(task);
 	}
