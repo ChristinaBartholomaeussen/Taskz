@@ -240,7 +240,7 @@
 
 								<td th:text="${task.getStatus}"></td>
 								<td th:text="${task.taskName}"></td>
-								<td th:text="|${task.getPriority} ! ! ${task.getPriority}|"></td>
+								<td th:text="|${task.getPriority}"></td>
 								<td th:text="${task.getComplexity}"></td>
 								<td th:switch="${task.getMember}">
 									<div th:case="1">RBP</div>
