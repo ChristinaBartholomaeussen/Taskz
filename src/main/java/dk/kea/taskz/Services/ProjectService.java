@@ -29,6 +29,7 @@ public class ProjectService
      */
     public List<Project> getAllProjects() {
 
+
         projectList = projectRepository.getAllProjectsFromDatabase();
         return projectList;
     }

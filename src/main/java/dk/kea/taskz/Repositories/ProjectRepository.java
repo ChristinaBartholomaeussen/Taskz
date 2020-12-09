@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,6 @@ public class ProjectRepository {
     {
         updateProjectEstimatedTime();
         String selectAllProjects = "SELECT Project_Id, Project_Name, Project_StartDate, Deadline, Workload_Per_Day, Project_Estimated_Time, Project_Completed_Time FROM projects";
-
         List<Project> allProjects = new ArrayList<>();
 
         try {
@@ -45,6 +45,7 @@ public class ProjectRepository {
                 );
 
                 allProjects.add(project);
+
             }
 
         } catch (SQLException e) {
@@ -181,4 +182,5 @@ public class ProjectRepository {
             System.out.println("Error happened in ProjectRepository at updateProjectCompletedTime()" + e.getMessage());
         }
     }
+
 }

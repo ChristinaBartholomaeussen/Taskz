@@ -4,6 +4,7 @@ import dk.kea.taskz.Models.Project;
 import dk.kea.taskz.Models.Subproject;
 import dk.kea.taskz.Services.ProjectService;
 import dk.kea.taskz.Services.SubprojectService;
+import dk.kea.taskz.Services.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,9 @@ public class ProjectController {
 
 	@Autowired
 	SubprojectService subprojectService;
+
+	@Autowired
+	TimeService timeService;
 
 	List<Project> projectList;
 
@@ -53,11 +57,8 @@ public class ProjectController {
 	public String projects(Model model)
 	{
 		projectList = projectService.getAllProjects();
-
 		projectService.updateWorkloadPerDay(projectList);
-
 		subprojectList = subprojectService.getAllSubprojects();
-
 		subprojectService.updateWorkloadPerDay(subprojectList);
 
 		model.addAttribute("activeProjectID", activeProjectID);
@@ -110,13 +111,6 @@ public class ProjectController {
 		model.addAttribute("popup", true);
 		model.addAttribute("projectList", projectService.getAllProjects());
 
-		LocalDate date = LocalDate.now();
-
-		model.addAttribute("date", date);
-		model.addAttribute("deadlineIsAfterStartDate", deadlineIsAfterStartDate);
-
-
-
 		return "projects";
 	}
 
@@ -134,20 +128,16 @@ public class ProjectController {
 	public String postNewProject(WebRequest projectData) {
 
 		String projectStartDate = projectData.getParameter("projectStartDate");
-		LocalDate convertedProjectStartDate = LocalDate.parse(projectStartDate);
-
 		String projectDeadline = projectData.getParameter("projectDeadline");
-		LocalDate convertedProjectDeadline = LocalDate.parse(projectDeadline);
 
-		if (convertedProjectDeadline.compareTo(convertedProjectStartDate) < 0) {
-			deadlineIsAfterStartDate = true;
+
+		if (timeService.isDeadlineBeforeStartDate(LocalDate.parse(projectStartDate), LocalDate.parse(projectDeadline)) == false) {
 			return "redirect:/newProject";
+
 		} else {
 
-			Project newProject = new Project(projectData.getParameter("projectName"), convertedProjectStartDate, convertedProjectDeadline);
-
+			Project newProject = new Project(projectData.getParameter("projectName"), LocalDate.parse(projectStartDate), LocalDate.parse(projectDeadline));
 			projectService.addProjectToDatabase(newProject);
-
 			return "redirect:/projects";
 		}
 	}

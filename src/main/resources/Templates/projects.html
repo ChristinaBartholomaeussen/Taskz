@@ -17,9 +17,12 @@
 
 			<!--#region Popups-->
 			<div th:classappend="${popup} ? display : none">
+
 				<a href="/projects" class="background">
 				</a>
+
 				<div class="popup relative">
+
 					<div class="float-right cross-container">
 						<a href="/projects">
 							<span class="cross cross-one"></span>
@@ -28,10 +31,6 @@
 					</div>
 
 					<form th:method="post" action="/postNewProject">
-						<div class="form-group" th:classappend="${deadlineIsAfterStartDate} ? display : none">
-							<span class="display-block bg-dark mx-auto col-md-12 p-3 text-white">Deadline can't be before start date</span>
-						</div>
-
 							<div class="form-row">
 								<div class="form-group col-md-12">
 									<label for="inputFormProjectName">Project Name</label>
@@ -48,11 +47,12 @@
 									<input type="date" class="form-control" id="deadlineProjectForm" name="projectDeadline" placeholder="Choose deadline" th:attr="min=${date}" required>
 								</div>
 							</div>
-							<button type="submit" class="btn btn-primary mx-auto">Create Project</button>
+							<input id="projectButton" type="submit" class="btn btn-primary mx-auto" value="Create Project">
 						<a href="/projects" class="btn btn-danger mx-auto">Cancel</a>
 					</form>
 					</div>
 				</div>
+
 			<!--#endregion-->
 
 			<!--#region Main table-->
@@ -79,7 +79,8 @@
 								<button type="submit" class="btn btn-danger text-center align-middle mx-auto">Delete Project</button>
 							</form>
 						</td>
-						<td><form method="post" action="/postSubprojects"><button type="submit" name="projectId" th:value="${project.getProjectId}" class="btn btn-primary">See Project</button></form></td>
+						<td>
+					<form method="post" action="/postSubprojects"><button type="submit" name="projectId" th:value="${project.getProjectId}" class="btn btn-primary">See Project</button></form></td>
 						
 					</tr>
 				</tbody>
@@ -109,9 +110,20 @@
 			<!--#endregion-->
 		</main>
 	</div>
+	<script type="text/javascript" th:inline="javascript">
 
-	<script>
-		
+		document.getElementById("projectButton").addEventListener("click", () =>
+		{
+			var projectStart = document.getElementById("startDateProjectForm").value;
+			var projectDeadline = document.getElementById("deadlineProjectForm").value;
+
+			if (projectStart >= projectDeadline) {
+				window.alert("Deadline cannot be before start date");
+				return false;
+			}
+		});
+
+
 	</script>
 </body>
 </html>
