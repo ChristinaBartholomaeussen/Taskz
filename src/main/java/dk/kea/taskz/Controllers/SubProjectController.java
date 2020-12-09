@@ -69,15 +69,11 @@ public class SubProjectController
 
 		subprojectService.updateSubprojectTotalEstimatedTime();
 
-		subprojectList = subprojectService.getAllSubprojects();
-
-		subprojectService.updateWorkloadPerDay(subprojectList);
+		subprojectService.updateWorkloadPerDay(subprojectService.getAllAssociatedSubprojectsWithoutTasks(activeProjectID));
 
 		projectService.updateProjectEstimatedTime();
 
-		projectList = projectService.getAllProjects();
-
-		projectService.updateWorkloadPerDay(projectList);
+		projectService.updateWorkloadPerDayV2(projectService.getProjectByProjectId(activeProjectID));
 
 		return "redirect:/subprojects";
 	}
@@ -215,13 +211,9 @@ public class SubProjectController
 
 		projectService.updateProjectCompletedTime(activeProjectID);
 
-		subprojectList = subprojectService.getAllSubprojects();
+		subprojectService.updateWorkloadPerDay(subprojectService.getAllAssociatedSubprojectsWithoutTasks(activeProjectID));
 
-		subprojectService.updateWorkloadPerDay(subprojectList);
-
-		projectList = projectService.getAllProjects();
-
-		projectService.updateWorkloadPerDay(projectList);
+		projectService.updateWorkloadPerDayV2(projectService.getProjectByProjectId(activeProjectID));
 
 		return "redirect:/subprojects";
 	}

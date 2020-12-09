@@ -49,9 +49,10 @@ public class ProjectService
     }
 
     /**
-     * Opdaterer workload_per_day i databasen, udfra den arrayList, vi får fra getAllProjects()
-     * Den henter Total_Estimated_Time fra projektet og beregner Work_Hours_Per_Day
-     * Beregningen tager samtidigt højde for, at en arbejdsuge er 5 dage
+     * - FMP
+     * Updates Workload_Per_Day in the database, based on the arrayList we get from getAllProjects()
+     * Collects Total_Estimated_Time from the project and calculates Work_Hours_Per_Day
+     * The calculation accounts for a business week eg. 5 days
      * @param projectList
      */
 
@@ -74,6 +75,22 @@ public class ProjectService
         }
     }
 
+    public void updateWorkloadPerDayV2(Project project) {
+
+        double convertedDaysBetween = 0;
+
+        DecimalFormat df = new DecimalFormat("0.00");
+
+        long daysBetween = ChronoUnit.DAYS.between(project.getStartDate(), project.getDeadline());
+        long numberOfWeeks = daysBetween / 7;
+
+        daysBetween = daysBetween - (2 * numberOfWeeks);
+        convertedDaysBetween = (double)daysBetween;
+        double workloadPerDay =  (project.getTotalEstimatedTime() - project.getCompletedTime()) / convertedDaysBetween;
+
+        projectRepository.updateWorkloadPerDay(df.format(workloadPerDay), project.getProjectId());
+    }
+
     public Project getProjectByProjectId(int activeProjectID)
     {
         return projectRepository.getProjectByProjectId(activeProjectID);
@@ -82,6 +99,13 @@ public class ProjectService
     public void updateProjectEstimatedTime() {
         projectRepository.updateProjectEstimatedTime();
     }
+
+    /**
+     * - FMP
+     * Calculates the completed hours of a project as a total of all the subprojects completed time
+     * Updates Workload_Per_Day in the database for the active project
+     * @param projectID
+     */
 
     public void updateProjectCompletedTime(int projectID) {
         List<Subproject> subprojectList = subprojectRepository.getAllAssociatedSubprojects(projectID);
