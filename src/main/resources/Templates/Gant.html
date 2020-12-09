@@ -19,6 +19,8 @@
         function drawChart() {
 
             var projects = [[${projects}]];
+            console.log(projects);
+
             var data = new google.visualization.DataTable();
 
             data.addColumn('string', 'Task ID');
@@ -85,13 +87,22 @@
 
                     for(let task = 0; task < tasks.length;task++)
                     {
-                        let dateNow = Date.now();
                         let taskDeadline = Date.parse(tasks[task].deadline);
-                        let isCompleted = tasks[task].status == "ACTIVE" ? 0 : 100;
+                        let taskEstimatedStartDate = new Date(taskDeadline);
+                        taskEstimatedStartDate.setDate(taskEstimatedStartDate.getDate() - tasks[task].estimatedTime / 8);
+
+                        let subStartdate = new Date(subprojectStartDate);
+
+                        if(taskEstimatedStartDate < subStartdate)
+                        {
+                            taskEstimatedStartDate = subStartdate;
+                        }
+
+                        let taskCompletion = tasks[task].status == "ACTIVE" ? 0 : 100;
 
                         data.addRows
                         ([
-                            [tasks[task].taskId.toString(), 'TASK: ' + tasks[task].taskName,projects[project].name,new Date(dateNow),new Date(taskDeadline),null,isCompleted,null]
+                            [tasks[task].taskId.toString(), 'TASK: ' + tasks[task].taskName,projects[project].name,taskEstimatedStartDate,new Date(taskDeadline),null,taskCompletion,null]
                         ]);
                     }
                 }
