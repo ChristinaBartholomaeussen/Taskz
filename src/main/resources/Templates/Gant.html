@@ -8,7 +8,9 @@
         google.charts.load('current', {'packages':['gantt']});
         google.charts.setOnLoadCallback(drawChart);
 
-        function daysToMilliseconds(days) {
+        // Unused by nice to have for (maybe) later implementation
+        function daysToMilliseconds(days)
+        {
             return days * 24 * 60 * 60 * 1000;
         }
 
@@ -34,7 +36,12 @@
                 let projectStartDate = Date.parse(projects[project].startDate);
                 let projectDeadLine = Date.parse(projects[project].deadline);
                 let subprojects = projects[project].associatedSubprojects;
-                let completedSubprojects = 0;
+                let projectCompletion = 0;
+
+                if(subprojects.length != 0)
+                {
+                    let completedSubprojects = 0;
+                }
 
                 data.addRows
                 ([
@@ -46,28 +53,24 @@
                     let subprojectStartDate = Date.parse(subprojects[subproject].subprojectStartDate);
                     let subprojectDeadlline = Date.parse(subprojects[subproject].subprojectDeadline);
                     let tasks = subprojects[subproject].taskList;
-                    let completion = 0;
+                    let subprojectCompletion = 0;
 
                     if(tasks.length != 0)
                     {
                         let completedTasks = 0;
                         for(let task = 0; task < tasks.length;task++)
-                        {
-                            if(tasks[task].status == 'COMPLETED')
-                            {
+                            if(tasks[task].status === 'COMPLETED')
                                 completedTasks++;
-                            }
-                        }
-                        completion = tasks.length / completedTasks * 100;
-                        console.log("Tasks length: " + tasks.length + " completed tasks: " + completedTasks);
+
+                        if(completedTasks === tasks.length)
+                            subprojectCompletion = 100;
+                        else
+                            subprojectCompletion = (completedTasks * 100) / tasks.length;
                     }
-
-                    console.log("Completion: " + completion);
-
 
                     data.addRows
                     ([
-                        [subprojects[subproject].subprojectId.toString(), 'SUBPROJECT: ' + subprojects[subproject].subprojectName,project.toString(), new Date(subprojectStartDate), new Date(subprojectDeadlline), null, completion, null]
+                        [subprojects[subproject].subprojectId.toString(), 'SUBPROJECT: ' + subprojects[subproject].subprojectName,project.toString(), new Date(subprojectStartDate), new Date(subprojectDeadlline), null, subprojectCompletion, null]
                     ]);
 
                     for(let task = 0; task < tasks.length;task++)
@@ -81,7 +84,6 @@
                             [tasks[task].taskId.toString(), 'TASK: ' + tasks[task].taskName,subproject.toString(),new Date(dateNow),new Date(taskDeadline),null,isCompleted,null]
                         ]);
                     }
-
                 }
             }
 
