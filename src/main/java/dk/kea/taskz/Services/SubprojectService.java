@@ -42,25 +42,11 @@ public class SubprojectService
         return allAssociatedSubprojects;
     }
 
-    public void updateSubprojectCompletedTime(int projectId) {
-        List<Subproject> allAssociatedSubprojects = subprojectRepository.getAllAssociatedSubprojects(projectId);
+    public List<Subproject> getAllAssociatedSubprojectsWithoutTasks(int projectID) {
 
-        double preliminaryCompletedTime = 0;
+        List<Subproject> allAssociatedSubprojects = subprojectRepository.getAllAssociatedSubprojects(projectID);
 
-        for (Subproject subproject : allAssociatedSubprojects) {
-            List<Task> associatedTasks = new ArrayList<>();
-
-            associatedTasks = taskRepository.getAllAssociatedTasksToSubproject(subproject.getSubprojectId());
-
-            for(Task task : associatedTasks) {
-                if (task.getStatus() == Status.COMPLETED) {
-                    preliminaryCompletedTime = preliminaryCompletedTime + task.getEstimatedTime();
-                }
-            }
-            subprojectRepository.updateSubprojectCompletedTime(preliminaryCompletedTime, subproject.getSubprojectId());
-
-            preliminaryCompletedTime = 0;
-        }
+        return allAssociatedSubprojects;
     }
     
     public void createSubproject(Subproject subproject){
@@ -90,9 +76,9 @@ public class SubprojectService
 
     /**
      * - FMP
-     * Opdaterer workload_per_day i databasen, udfra den arrayList, vi får fra getAllSubprojects()
-     * Den henter Total_Estimated_Time fra subprojektet og beregner Work_Hours_Per_Day
-     * Beregningen tager samtidigt højde for, at en arbejdsuge er 5 dage
+     * Updates Workload_Per_Day in the database, based of an arrayList we get from getAllSubprojects()
+     * Collects Total_Estimated_Time from the subproject and calculates Work_Hours_Per_Day
+     * The calculation accounts for a business week eg. 5 days
      * @param subprojectList
      */
 
@@ -112,6 +98,34 @@ public class SubprojectService
             double workloadPerDay =  (subproject.getSubprojectTotalEstimatedTime() - subproject.getSubprojectCompletedTime()) / convertedDaysBetween;
 
             subprojectRepository.updateWorkloadPerDay(df.format(workloadPerDay), subproject.getSubprojectId());
+        }
+    }
+
+    /**
+     * - FMP
+     * Calculates subprojects total completed time based of individual tasks completed time
+     * Updates Workload_Per_Day in the database per subproject
+     * @param projectId
+     */
+
+    public void updateSubprojectCompletedTime(int projectId) {
+        List<Subproject> allAssociatedSubprojects = subprojectRepository.getAllAssociatedSubprojects(projectId);
+
+        double preliminaryCompletedTime = 0;
+
+        for (Subproject subproject : allAssociatedSubprojects) {
+            List<Task> associatedTasks = new ArrayList<>();
+
+            associatedTasks = taskRepository.getAllAssociatedTasksToSubproject(subproject.getSubprojectId());
+
+            for(Task task : associatedTasks) {
+                if (task.getStatus() == Status.COMPLETED) {
+                    preliminaryCompletedTime = preliminaryCompletedTime + task.getEstimatedTime();
+                }
+            }
+            subprojectRepository.updateSubprojectCompletedTime(preliminaryCompletedTime, subproject.getSubprojectId());
+
+            preliminaryCompletedTime = 0;
         }
     }
 

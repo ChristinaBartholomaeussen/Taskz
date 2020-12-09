@@ -90,10 +90,6 @@ public class TaskController {
 	@PostMapping("/newTaskData")
 	public String newTaskData(WebRequest data) {
 
-		subprojectList = subprojectService.getAllSubprojects();
-		subprojectService.updateWorkloadPerDay(subprojectList);
-		projectList = projectService.getAllProjects();
-
 		String subprojectId = data.getParameter("subProjectId");
 		String taskName = data.getParameter("taskName");
 		int priority = Integer.parseInt(data.getParameter("priority"));
@@ -112,9 +108,15 @@ public class TaskController {
 		else{
 			Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline),  Double.valueOf(estimatedTime), Status.ACTIVE, member, skill);
 			taskService.insertTask(task);
+
 			subprojectService.updateSubprojectTotalEstimatedTime();
+			subprojectList = subprojectService.getAllSubprojects();
+			subprojectService.updateWorkloadPerDay(subprojectList);
+
 			projectService.updateProjectEstimatedTime();
+			projectList = projectService.getAllProjects();
 			projectService.updateWorkloadPerDay(projectList);
+
 			return "redirect:/subprojects";
 		}
 
