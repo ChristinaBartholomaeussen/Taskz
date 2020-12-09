@@ -28,8 +28,6 @@ public class DiagramController
     public String gant(Model model)
     {
         List<Project> allProjects = projectService.getAllProjects();
-        Project project = projectService.getProjectByProjectId(44);
-        project.setAssociatedSubprojects(subprojectService.getAllAssociatedSubprojects(44));
 
         for(Project p : allProjects)
         {
@@ -37,26 +35,7 @@ public class DiagramController
         }
 
         model.addAttribute("projects",allProjects);
-        model.addAttribute("project",projectService.getProjectByProjectId(44));
 
         return "/Gant";
-    }
-
-    @GetMapping("/Timeline")
-    public String timeline(Model model)
-    {
-        List<Project> allProjects = projectService.getAllProjects();
-        Project project = projectService.getProjectByProjectId(44);
-        project.setAssociatedSubprojects(subprojectService.getAllAssociatedSubprojects(44));
-
-        for(Project p : allProjects)
-        {
-            p.setAssociatedSubprojects(subprojectService.getAllAssociatedSubprojects(p.getProjectId()));
-        }
-
-        model.addAttribute("projects",allProjects);
-        model.addAttribute("project",projectService.getProjectByProjectId(44));
-
-        return "/Timeline";
     }
 }
