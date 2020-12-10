@@ -77,10 +77,15 @@ function drawChart() {
 
 			data.addRows
 			([
-				[tasks[task].taskId.toString(), 'TASK: ' + tasks[task].taskName, subprojects[i].subprojectId.toString(), new Date(taskEstimatedStartDate) ,new Date(taskDeadline), null ,taskCompletion, null]
+				[tasks[task].taskId.toString(), 'TASK: ' + tasks[task].taskName, subprojects[i].subprojectId.toString(), new Date(taskEstimatedStartDate), new Date(taskDeadline), null, taskCompletion, null]
 			]);
 		}
 	}
+
+	let trackHeight = 40;
+
+	console.log(data.getNumberOfRows() * trackHeight);
+
 	const options = {
 		gantt:
 			{
@@ -92,8 +97,11 @@ function drawChart() {
 				format: 'M/d/yy',
 				gridlines: {count: 15}
 			},
-		height: data.getNumberOfRows() * 50,
-		width: 1000
+		height: data.getNumberOfRows() * trackHeight + 30,
+		width: 1000,
+		gantt: {
+			trackHeight: trackHeight
+		}
 	};
 
 	const chart = new google.visualization.Gantt(document.getElementById('chart_div'));
