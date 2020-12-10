@@ -57,12 +57,13 @@ public class TaskController {
 	 * @return
 	 */
 	@PostMapping("/newTask")
-	public String newTaskPost(WebRequest data) {
+	public String newTaskPost(WebRequest data)
+	{
 		subprojectsID = Integer.parseInt(data.getParameter("subprojectsID"));
 		parentProject = subprojectService.getParentId(subprojectsID);
 		return "redirect:/newTask";
 	}
-
+	
 	/**
 	 *  - OVO
 	 * Activates the pop up for new task.
@@ -134,6 +135,8 @@ public class TaskController {
 	/**
 	 *  - OVO
 	 *  Deletes a task from the database.
+	 *  - FMP
+	 *  Updates Workload_Per_Day based of the new changes introduced by the newly deleted task
 	 * @param data
 	 * @return
 	 */
