@@ -36,7 +36,7 @@ function drawChart() {
 
 	data.addRows
 	([
-		[project.projectId.toString(),'[' + project.name + ']',null,projectStartdate,projectDeadline,null,projectCompletion,null]
+		[project.projectId.toString(),'[ ' + project.name + ' ]',null,projectStartdate,projectDeadline,null,projectCompletion,null]
 	]);
 
 	for (let i = 0; i < subprojects.length; i++) {
