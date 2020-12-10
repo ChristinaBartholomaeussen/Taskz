@@ -11,8 +11,6 @@ import java.util.ArrayList;
 @Repository
 public class CompetenceRepository
 {
-	
-	
 	public ArrayList<String> getAllCompetencesOnceFromDB() {
 		String listOfCompetences = "SELECT DISTINCT Competence FROM taskz.competences";
 		ArrayList<String> competencesList = new ArrayList<>();
@@ -26,7 +24,7 @@ public class CompetenceRepository
 				competencesList.add(resultSet.getString(1));
 			}
 		} catch (SQLException e) {
-			System.out.println("Klasse: CompetencesRepository\nMethode: getAllCompetencesOnceFromDB()\nError: " +e.getMessage());
+			System.out.println("Class: CompetencesRepository\nMethod: getAllCompetencesOnceFromDB()\nError: " +e.getMessage());
 		}
 		return competencesList;
 	}
