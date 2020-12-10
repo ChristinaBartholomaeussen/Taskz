@@ -90,21 +90,26 @@ public class SubprojectRepository
     		preparedStatement = ConnectionService.getConnection().prepareStatement(insertSubProject);
     		preparedStatement.setString(1, subproject.getSubprojectName());
     		preparedStatement.setInt(2, subproject.getParentProjectId());
-    		preparedStatement.setDate(3, java.sql.Date.valueOf(subproject.getSubprojectStartDate()));
-    		preparedStatement.setDate(4, java.sql.Date.valueOf(subproject.getSubprojectDeadline()));
+			preparedStatement.setDate(3, java.sql.Date.valueOf(subproject.getSubprojectStartDate()));
+			preparedStatement.setDate(4, java.sql.Date.valueOf(subproject.getSubprojectDeadline()));
 
-    		preparedStatement.execute();
+			preparedStatement.execute();
 		} catch (SQLException e) {
 			System.out.println("Error in SubProjectRepository. Method: createSubProject: " + e.getMessage());
 		}
 
 	}
 
-
+	/**
+	 * - OVO
+	 * Deletes a single subproject from the database with use of a ID.
+	 *
+	 * @param Subproject_ID
+	 */
 	public void deleteSubProjectFromDB(int Subproject_ID) {
-    	String deleteSubProjectFromDB = "DELETE FROM subprojects WHERE Subproject_ID = ?";
+		String deleteSubProjectFromDB = "DELETE FROM subprojects WHERE Subproject_ID = ?";
 
-    	try {
+		try {
 			preparedStatement = ConnectionService.getConnection().prepareStatement(deleteSubProjectFromDB);
 			preparedStatement.setInt(1, Subproject_ID);
 

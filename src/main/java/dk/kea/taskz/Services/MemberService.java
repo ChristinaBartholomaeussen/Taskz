@@ -9,36 +9,67 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class MemberService
-{
-    @Autowired
-    MemberRepository memberRepository;
+public class MemberService {
+	@Autowired
+	MemberRepository memberRepository;
 
-    public MemberService()
-    {
-    }
-
-    public ArrayList<Member> getAllMembers() {
-    	return memberRepository.getAllMembersFromDB();
+	public MemberService() {
 	}
-    
+
+	/**
+	 * - OVO returns all members
+	 *
+	 * @return
+	 */
+	public ArrayList<Member> getAllMembers() {
+		return memberRepository.getAllMembersFromDB();
+	}
+
+	/**
+	 * Get a single member from the database
+	 *
+	 * @param id
+	 * @return
+	 */
 	public Member getSingleMember(int id) {
-    	return memberRepository.getSingleMEmberFromDBWthID(id);
+		return memberRepository.getSingleMEmberFromDBWthID(id);
 	}
-	
-    public boolean verifyLogin(String username, String password)
-    {
-        for(Member member : getAllMembers())
-            if(member.getEmail().equals(username) && member.getPassword().equals(password))
-            {
-                return true;
-            }
-        
-        return false;
-    }
-    public ArrayList<String> getAllCompetence(int id) {return memberRepository.getAllMemberCompetences(id);}
-    
-    public int getId(String Email, String Password) {
-    	return memberRepository.getActiveUserIDFromDB(Email, Password);
+
+	/**
+	 * -Rune
+	 *
+	 * @param username
+	 * @param password
+	 * @return
+	 */
+	public boolean verifyLogin(String username, String password) {
+		for (Member member : getAllMembers())
+			if (member.getEmail().equals(username) && member.getPassword().equals(password)) {
+				return true;
+			}
+
+		return false;
+	}
+
+	/**
+	 * - OVO
+	 * Gets all competenece
+	 *
+	 * @param id
+	 * @return
+	 */
+	public ArrayList<String> getAllCompetence(int id) {
+		return memberRepository.getAllMemberCompetences(id);
+	}
+
+	/**
+	 * Get ID with email and password
+	 *
+	 * @param Email
+	 * @param Password
+	 * @return
+	 */
+	public int getId(String Email, String Password) {
+		return memberRepository.getActiveUserIDFromDB(Email, Password);
 	}
 }

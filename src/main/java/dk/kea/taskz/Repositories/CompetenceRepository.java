@@ -9,17 +9,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 @Repository
-public class CompetenceRepository
-{
+public class CompetenceRepository {
+
+
+	/**
+	 * - OVO Gets all the competences from the database
+	 *
+	 * @return
+	 */
 	public ArrayList<String> getAllCompetencesOnceFromDB() {
 		String listOfCompetences = "SELECT DISTINCT Competence FROM taskz.competences";
 		ArrayList<String> competencesList = new ArrayList<>();
-		
+
 		try {
 			PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(listOfCompetences);
-	
+
 			ResultSet resultSet = preparedStatement.executeQuery();
-			
+
 			while (resultSet.next()) {
 				competencesList.add(resultSet.getString(1));
 			}

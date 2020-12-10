@@ -84,40 +84,46 @@ public class ProjectService
 
     public void updateWorkloadPerDayV2(Project project) {
 
-        double convertedDaysBetween = 0;
+		double convertedDaysBetween = 0;
 
-        DecimalFormat df = new DecimalFormat("0.00");
+		DecimalFormat df = new DecimalFormat("0.00");
 
-        long daysBetween = ChronoUnit.DAYS.between(project.getStartDate(), project.getDeadline());
-        long numberOfWeeks = daysBetween / 7;
+		long daysBetween = ChronoUnit.DAYS.between(project.getStartDate(), project.getDeadline());
+		long numberOfWeeks = daysBetween / 7;
 
-        daysBetween = daysBetween - (2 * numberOfWeeks);
-        convertedDaysBetween = (double)daysBetween;
-        double workloadPerDay =  (project.getTotalEstimatedTime() - project.getCompletedTime()) / convertedDaysBetween;
+		daysBetween = daysBetween - (2 * numberOfWeeks);
+		convertedDaysBetween = (double) daysBetween;
+		double workloadPerDay = (project.getTotalEstimatedTime() - project.getCompletedTime()) / convertedDaysBetween;
 
-        projectRepository.updateWorkloadPerDay(df.format(workloadPerDay), project.getProjectId());
-    }
+		projectRepository.updateWorkloadPerDay(df.format(workloadPerDay), project.getProjectId());
+	}
 
-    public Project getProjectByProjectId(int activeProjectID)
-    {
-        return projectRepository.getProjectByProjectId(activeProjectID);
-    }
+	/**
+	 * - OVO gets active project ID
+	 *
+	 * @param activeProjectID
+	 * @return
+	 */
+	public Project getProjectByProjectId(int activeProjectID) {
+		return projectRepository.getProjectByProjectId(activeProjectID);
+	}
 
-    public void updateProjectEstimatedTime() {
-        projectRepository.updateProjectEstimatedTime();
-    }
+	public void updateProjectEstimatedTime() {
+		projectRepository.updateProjectEstimatedTime();
+	}
 
-    /**
-     * - FMP
-     * Calculates the completed hours of a project as a total of all the subprojects completed time
-     * Updates Workload_Per_Day in the database for the active project
-     * @param projectID
-     */
+	/**
+	 * - FMP
+	 * Calculates the completed hours of a project as a total of all the subprojects completed time
+	 * Updates Workload_Per_Day in the database for the active project
+	 *
+	 * @param projectID
+	 */
 
-    public void updateProjectCompletedTime(int projectID) {
-        List<Subproject> subprojectList = subprojectRepository.getAllAssociatedSubprojects(projectID);
+	public void updateProjectCompletedTime(int projectID) {
+		List<Subproject> subprojectList = subprojectRepository.getAllAssociatedSubprojects(projectID);
 
-        double projectPreliminaryCompletedTime = 0;
+		double projectPreliminaryCompletedTime = 0;
 
         for (Subproject subproject : subprojectList) {
             projectPreliminaryCompletedTime = projectPreliminaryCompletedTime + subproject.getSubprojectCompletedTime();

@@ -58,7 +58,9 @@ public class TaskRepository {
 	}
 
 	/**
+	 * - OVO
 	 * Gets the latest id from the database
+	 *
 	 * @return
 	 */
 	public int getLatestIdFromDB() {

@@ -10,14 +10,18 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
 @Service
-public class CompetenceService
-{
-	
+public class CompetenceService {
+
 	@Autowired
 	CompetenceRepository competenceRepository;
-	
+
+	/**
+	 * returns all the competences
+	 *
+	 * @return
+	 */
 	public ArrayList<String> getAllCompetences() {
 		return competenceRepository.getAllCompetencesOnceFromDB();
 	}
-	
+
 }
