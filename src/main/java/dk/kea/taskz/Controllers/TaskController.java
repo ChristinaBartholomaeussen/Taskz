@@ -84,6 +84,8 @@ public class TaskController {
 	/**
 	 *  - OVO
 	 *  Send from data to the database. To create an task.
+	 *  - FMP
+	 *  Updates Workload_Per_Day based of the new changes introduced by the newly created task
 	 * @param data
 	 * @return
 	 */

@@ -55,9 +55,11 @@ public class SubProjectController
 	}
 
 	/**
+	 * - RBP
 	 * Postmapping der modtager et subproject id fra subprojects.html og sender dette id videre til subproject repository,
 	 * som sletter det tilhørende subproject og tasks fra databasen.
-	 * /RBP
+	 * - FMP
+	 * Updates Workload_Per_Day from new Estimated_Time values because of the deletion of the subproject
 	 * @param data
 	 * @return
 	 */
@@ -196,8 +198,8 @@ public class SubProjectController
 
 	/**
 	 * - FMP
-	 * Updates the status of a specific task, changing the display values of that element
-	 * Redirects to subprojects
+	 * Updates the status of a specific task, changing the calculation for completedTime and Workload_Per_Day
+	 * Updates Workload_Per_Day based of the newly updated values
 	 * @param data
 	 * @return
 	 */

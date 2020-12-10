@@ -126,20 +126,6 @@ public class ProjectRepository {
         }
     }
 
-    public void updateWorkloadPerDay(String workloadPerDay, int projectID) {
-        String updateWorkloadPerDay = "UPDATE projects SET Workload_Per_Day = ? WHERE Project_ID = ?;";
-
-        try {
-            PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(updateWorkloadPerDay);
-            preparedStatement.setString(1, workloadPerDay);
-            preparedStatement.setDouble(2, projectID);
-
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Error happened in ProjectRepository updateWorkLoadPerDay: " + e.getMessage());
-        }
-    }
-
     public Project getProjectByProjectId(int projectId)
     {
         String sqlQuery = "SELECT * FROM taskz.projects WHERE Project_ID = " + projectId;
@@ -169,6 +155,14 @@ public class ProjectRepository {
         return project;
     }
 
+    /**
+     * - FMP
+     * Updates column Project_Completed_Time in the database based of a projectID
+     * The update value preliminaryTime represents the completed amount of hours within a project
+     * @param preliminaryCompletedTime
+     * @param projectID
+     */
+
     public void updateProjectCompletedTime(double preliminaryCompletedTime, int projectID) {
         String updateProjectCompletedTime = "UPDATE projects SET Project_Completed_Time = ? WHERE Project_ID = ?";
 
@@ -183,4 +177,26 @@ public class ProjectRepository {
         }
     }
 
+    /**
+     * - FMP
+     * Updates column Workload_Per_Day in the database based of a projectID
+     * The update value workloadPerDay represents the hours you would need to fill, to get the project completed
+     * on time
+     * @param workloadPerDay
+     * @param projectID
+     */
+
+    public void updateWorkloadPerDay(String workloadPerDay, int projectID) {
+        String updateWorkloadPerDay = "UPDATE projects SET Workload_Per_Day = ? WHERE Project_ID = ?;";
+
+        try {
+            PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(updateWorkloadPerDay);
+            preparedStatement.setString(1, workloadPerDay);
+            preparedStatement.setDouble(2, projectID);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error happened in ProjectRepository updateWorkLoadPerDay: " + e.getMessage());
+        }
+    }
 }

@@ -49,11 +49,13 @@ public class ProjectController {
 	 * Getmapping for project.
 	 * Sets different addtributes, så the subproject page reacts right.
 	 * - FMP
-	 * Sætter en model attribute, til og hente en liste af alle projekter fra databasen.
+	 * Updates Workload_Per_Day for projects and subprojects to insure that the displayed information is updated
+	 * and accurate
 	 *
 	 * @param model
 	 * @return projects
 	 */
+
 	@GetMapping("/projects")
 	public String projects(Model model)
 	{
@@ -72,11 +74,11 @@ public class ProjectController {
 	}
 
 	/**
-	 * - FMP/RBP
+	 * - RBP
 	 * Postmapping for 'delete project'
-	 * Henter en liste over alle projekter, hvorefter den henter projectId fra objektet
-	 * Herefter looper vi igennem listen, og forsøger at finde, hvor projektId'et matcher med det projektId, vi gerne vil slette
-	 * Hvis det er fundet sletter metoden projektet fra databasen
+	 * -FMP
+	 * Gets a list of all projects, then collects the associated projectID from the project we wish to delete
+	 * Loops through the list and removes the project if the projectID matches any of the projectID's in the list
 	 * @param deleteProjectData
 	 * @return
 	 */
@@ -100,10 +102,6 @@ public class ProjectController {
 	 * En ny getmapping som bliver kaldt af "New Projects" linket i project siden.
 	 * Egentlig returnere den projekt siden igen, men også sætter boolean til true.
 	 * Det gør at popup bliver aktiv.
-	 * - FMP
-	 * Tilføjet date attribute, såfremt at minimums datoen bliver sat til i dag.
-	 * Tilføjet deadLineIsAfterStartDate, for at undgå at deadline bliver sat før start datoen
-	 * @param model
 	 * @return projects
 	 */
 	@GetMapping("/newProject")
@@ -118,9 +116,8 @@ public class ProjectController {
 	/**
 	 * - FMP
 	 * Postmapping for 'create new project'
-	 * Sender et projekt objekt til databasen, hvori objektet bliver gemt
-	 * Konvertering fra html date datatype (String) til LocalDate
-	 * If skal sikre at man ikke sætter deadline, før projekt start, dette udløser en pop up, med en fejlbesked
+	 * Inserts a project into the database
+	 * Checks the start date and deadline of the project, to insure that out rules are met
 	 * @param projectData
 	 * @return redirect:/projects
 	 */
@@ -151,6 +148,7 @@ public class ProjectController {
 	 * @param data
 	 * @return
 	 */
+
 	@PostMapping("/postpopupDeleteProject")
 	public String postpopupDeleteProject(WebRequest data) {
 		activeProjectID = Integer.valueOf(data.getParameter("activeProjectId"));
