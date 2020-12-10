@@ -36,7 +36,7 @@ function drawChart() {
 
 	data.addRows
 	([
-		[project.projectId.toString(),'PROJECT' + project.name,null,projectStartdate,projectDeadline,null,projectCompletion,null]
+		[project.projectId.toString(),'[' + project.name + ']',null,projectStartdate,projectDeadline,null,projectCompletion,null]
 	]);
 
 	for (let i = 0; i < subprojects.length; i++) {
@@ -57,7 +57,7 @@ function drawChart() {
 
 		data.addRows
 		([
-			[subprojects[i].subprojectId.toString(), 'SUBPROJECT: ' + subprojects[i].subprojectName,  null, subprojectStartDate, deadline, null, subprojectCompletion, null]
+			[subprojects[i].subprojectId.toString(), 'SUBPROJECT: ' + subprojects[i].subprojectName,  subprojects[i].subprojectName, subprojectStartDate, deadline, null, subprojectCompletion, null]
 		]);
 
 		for(let task = 0; task < tasks.length; task++)
@@ -77,7 +77,7 @@ function drawChart() {
 
 			data.addRows
 			([
-				[tasks[task].taskId.toString(), 'TASK: ' + tasks[task].taskName, subprojects[i].name, new Date(taskEstimatedStartDate) ,new Date(taskDeadline), null ,taskCompletion, null]
+				[tasks[task].taskId.toString(), 'TASK: ' + tasks[task].taskName, subprojects[i].subprojectName, new Date(taskEstimatedStartDate) ,new Date(taskDeadline), null ,taskCompletion, null]
 			]);
 		}
 	}
