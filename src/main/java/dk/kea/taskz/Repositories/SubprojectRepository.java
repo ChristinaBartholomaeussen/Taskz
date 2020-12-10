@@ -175,19 +175,11 @@ public class SubprojectRepository
 		}
 	}
 
-	public void updateWorkloadPerDay(String workloadPerDay, int subprojectID) {
-		String updateWorkloadPerDay = "UPDATE subprojects SET Subproject_Workload_Per_Day = ? WHERE Subproject_ID = ?";
-
-		try {
-			PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(updateWorkloadPerDay);
-			preparedStatement.setString(1, workloadPerDay);
-			preparedStatement.setDouble(2, subprojectID);
-
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println("Error happened in ProjectRepository updateWorkLoadPerDay: " + e.getMessage());
-		}
-	}
+	/**
+	 * - FMP
+	 * Creates an arrayList of all the subprojects in the database
+	 * @return
+	 */
 
 	public List<Subproject> selectAllSubprojects() {
     	String selectAllSubprojects = "SELECT Subproject_ID, Subproject_Name, Project_ID, Subproject_Estimated_Time, Subproject_StartDate, Subproject_Deadline, Subproject_Workload_Per_Day, Subproject_Completed_Time FROM subprojects";
@@ -217,6 +209,14 @@ public class SubprojectRepository
     	return allSubprojects;
 	}
 
+	/**
+	 * - FMP
+	 * Updates column Subproject_Completed_Time in the database based of a subprojectID
+	 * The update value preliminaryTime represents the completed amount of hours within a subproject
+	 * @param preliminaryCompletedTime
+	 * @param subprojectID
+	 */
+
 	public void updateSubprojectCompletedTime(double preliminaryCompletedTime, int subprojectID) {
 		String updateSubprojectCompletedTime = "UPDATE subprojects SET Subproject_Completed_Time = ? WHERE Subproject_ID = ?";
 
@@ -229,6 +229,28 @@ public class SubprojectRepository
 		} catch (SQLException e) {
 			System.out.println("Error happened in subprojectRepository updateSubprojectCompletedTime: " + e.getMessage());
 		}
+	}
 
+	/**
+	 * - FMP
+	 * Updates column Subproject_Workload_Per_Day in the database based of a subprojectID
+	 * The update value workloadPerDay represents the hours you would need to fill to get the subproject completed
+	 * on time
+	 * @param workloadPerDay
+	 * @param subprojectID
+	 */
+
+	public void updateWorkloadPerDay(String workloadPerDay, int subprojectID) {
+		String updateWorkloadPerDay = "UPDATE subprojects SET Subproject_Workload_Per_Day = ? WHERE Subproject_ID = ?";
+
+		try {
+			PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(updateWorkloadPerDay);
+			preparedStatement.setString(1, workloadPerDay);
+			preparedStatement.setDouble(2, subprojectID);
+
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Error happened in ProjectRepository updateWorkLoadPerDay: " + e.getMessage());
+		}
 	}
 }

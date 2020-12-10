@@ -183,7 +183,7 @@ public class TaskRepository {
 
 	/**
 	 * - FMP
-	 * Updates a single task Status, with the goal of changing the task's display values on /subprojects
+	 * Updates a single task status based of the current value of the associated task
 	 * @param idTask
 	 */
 

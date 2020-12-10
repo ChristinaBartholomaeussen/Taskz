@@ -23,7 +23,7 @@ public class TaskService {
 
 	/**
 	 * - FMP
-	 * Service layer update task status vehicle
+	 * Vehicle for updating task status
 	 * @param idTask
 	 */
 

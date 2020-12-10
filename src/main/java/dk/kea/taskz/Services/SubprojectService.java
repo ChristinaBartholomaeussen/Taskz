@@ -63,7 +63,7 @@ public class SubprojectService
 
     /**
      * - FMP
-     * Henter en arrayList af alle subprojekter
+     * Gets an arrayList of all subprojects in the database
      * @return
      */
 

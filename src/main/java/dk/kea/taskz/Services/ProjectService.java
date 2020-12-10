@@ -75,6 +75,13 @@ public class ProjectService
         }
     }
 
+    /**
+     * - FMP
+     * Same as the method above, just getting a single object from an activeProjectID instead
+     * Used where possible to minimize load times
+     * @param project
+     */
+
     public void updateWorkloadPerDayV2(Project project) {
 
         double convertedDaysBetween = 0;

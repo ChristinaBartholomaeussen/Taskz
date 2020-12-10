@@ -180,7 +180,7 @@ public class ProjectRepository {
     /**
      * - FMP
      * Updates column Workload_Per_Day in the database based of a projectID
-     * The update value workloadPerDay represents the hours you would need to fill, to get the project completed
+     * The update value workloadPerDay represents the hours you would need to fill to get the project completed
      * on time
      * @param workloadPerDay
      * @param projectID
