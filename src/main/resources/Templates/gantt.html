@@ -51,7 +51,8 @@
                             completedTasksInProject++;
                 }
 
-                projectCompletion = (completedTasksInProject * 100) / totalAmountOfTasksInProject;
+                if(totalAmountOfTasksInProject != 0)
+                    projectCompletion = (completedTasksInProject * 100) / totalAmountOfTasksInProject;
 
                 data.addRows
                 ([
