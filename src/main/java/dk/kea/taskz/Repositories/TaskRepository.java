@@ -269,7 +269,6 @@ public class TaskRepository {
 	public ArrayList<Task> getAllTaskToOneMember(int memberId) {
 
 		String firstName = memberRepository.getSingleMEmberFromDBWthID(memberId).getFirstName();
-		System.out.println(firstName);
 
 		String getAllTaskQuerryString = "select * from tasks inner join members on tasks.member = members.first_name where status = 0 and tasks.member = ?";
 
@@ -303,16 +302,21 @@ public class TaskRepository {
 		return taskList;
 	}
 	
-	public Task getEarliestDeadLineFromDB(int member) {
+	public Task getEarliestDeadLineFromDB(int memberId) {
+
+		String firstName = memberRepository.getSingleMEmberFromDBWthID(memberId).getFirstName();
+
 		String selectTask = " SELECT  * FROM taskz.tasks \n" +
 				" WHERE Member = ? \n" +
 				" AND Status = 0 \n" +
 				" ORDER BY Task_Deadline\n" +
 				" LIMIT 1";
+
 		Task task = null;
+
 		try {
 			preparedStatement = ConnectionService.getConnection().prepareStatement(selectTask);
-			preparedStatement.setInt(1, member);
+			preparedStatement.setString(1, firstName);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			
 			while (resultSet.next()) {
