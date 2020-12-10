@@ -20,6 +20,7 @@ public class DiagramController
 
     @Autowired
     SubprojectService subprojectService;
+    
 
     int activeProjectID = -1;
 
@@ -48,6 +49,8 @@ public class DiagramController
     @GetMapping("/ganttSubProject")
 	public String gantSubProject(Model model) {
     	
+    	model.addAttribute("activeProject", projectService.getProjectByProjectId(activeProjectID));
+		System.out.println(projectService.getProjectByProjectId(activeProjectID));
     	model.addAttribute("subprojectsList", subprojectService.getAllAssociatedSubprojects(activeProjectID));
     	return "ganttSubProject";
 	}
