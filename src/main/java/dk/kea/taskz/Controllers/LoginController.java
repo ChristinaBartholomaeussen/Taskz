@@ -29,9 +29,7 @@ public class LoginController
         return "login";
     }
 
-
-
-    /**
+	/**
      * The postmapping that will be used after we press the Login-button from login.html.
      * Declares two variables, username and password which are sent to the service, which gets a list from the
      * database of all the users.

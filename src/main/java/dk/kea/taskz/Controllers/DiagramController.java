@@ -21,9 +21,6 @@ public class DiagramController
     @Autowired
     SubprojectService subprojectService;
     
-
-    int activeProjectID = -1;
-
     @GetMapping("/gantt")
     public String gant(Model model)
     {
@@ -38,20 +35,4 @@ public class DiagramController
 
         return "/gantt";
     }
-    
-    @PostMapping("/ganttSubProjectPost")
-	public String gantSubProjectPost(WebRequest data) {
-		activeProjectID = Integer.valueOf(data.getParameter("activeProjectIDdada"));
-		return "redirect:/ganttSubProject";
-	}
-
-
-    @GetMapping("/ganttSubProject")
-	public String gantSubProject(Model model) {
-    	
-    	model.addAttribute("activeProject", projectService.getProjectByProjectId(activeProjectID));
-		System.out.println(projectService.getProjectByProjectId(activeProjectID));
-    	model.addAttribute("subprojectsList", subprojectService.getAllAssociatedSubprojects(activeProjectID));
-    	return "ganttSubProject";
-	}
 }

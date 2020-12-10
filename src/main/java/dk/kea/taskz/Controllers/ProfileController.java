@@ -25,16 +25,24 @@ public class ProfileController {
 
 	int activeUserId = -1;
 
+	/**
+	 * - OVO
+	 * A GetMapping for Profile. It checks whether a cookie matches a member id, and then loads the right data.
+	 *
+	 * @param model
+	 * @param request
+	 * @return "userProfile"
+	 */
 	@GetMapping("/profile")
 	public String yourProfile(Model model, HttpServletRequest request) {
-		
+
 		Cookie[] ck = request.getCookies();
 		for (Cookie cookie : ck) {
 			if (cookie.getName().equals("id")) {
 				activeUserId = Integer.parseInt(cookie.getValue());
 			}
 		}
-		
+
 		model.addAttribute("member", memberService.getSingleMember(activeUserId));
 		model.addAttribute("tasks", taskService.getAllTasks(activeUserId));
 		model.addAttribute("earliestDeadLine", taskService.getEarlistDeadline(activeUserId));

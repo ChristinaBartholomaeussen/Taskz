@@ -46,10 +46,11 @@ public class ProjectController {
 
 	/**
 	 * - OVO
-	 * Getmapping for project. 
-	 * Sætter en model attribute med en boolean som styre om popup html skal være aktiv
+	 * Getmapping for project.
+	 * Sets different addtributes, så the subproject page reacts right.
 	 * - FMP
 	 * Sætter en model attribute, til og hente en liste af alle projekter fra databasen.
+	 *
 	 * @param model
 	 * @return projects
 	 */
