@@ -77,13 +77,14 @@ function drawChart() {
 
 			data.addRows
 			([
-				[tasks[task].taskId.toString(), 'TASK: ' + tasks[task].taskName, subprojects[i].subprojectName, new Date(taskEstimatedStartDate) ,new Date(taskDeadline), null ,taskCompletion, null]
+				[tasks[task].taskId.toString(), 'TASK: ' + tasks[task].taskName, subprojects[i].subprojectId.toString(), new Date(taskEstimatedStartDate) ,new Date(taskDeadline), null ,taskCompletion, null]
 			]);
 		}
 	}
 	const options = {
 		gantt:
 			{
+				criticalPathEnabled: false,
 				sortTasks: false
 			},
 		hAxis:

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Your Profile</title>
+    <title>User Profile</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="projectPopUp.css">
 	<link rel="stylesheet" href="styles.css">
@@ -12,17 +12,17 @@
 
 	<main class="container">
 
-		<h1 th:text="|Hey! ${member.getFirstName} this is your today list:|" ></h1>
+		<h1 th:text="|${member.getFirstName + ' ' + member.getLastName}|" ></h1>
 		
 		<div class="row my-3">
 			<div class="col-md-6">
-				<p th:text="|Your jobtitle: ${member.getJobTitle}|"></p>
-				<p th:text="|Your Competence: ${member.getCompetance}|"></p>
+				<p th:text="|Jobtitle: ${member.getJobTitle}|"></p>
+				<p th:text="|Competence: ${member.getCompetance}|"></p>
 			</div>
 
 			<div class="col-md-6"  th:if="${tasks.size}">
-				<p th:text="|Total tasks: ${tasks.size}|"></p>
-				<p>Task you might need to focus on: </p>
+				<p th:text="|Tasks: ${tasks.size}|"></p>
+				<p>Assigned tasks: </p>
 				<table class="table">
 					<thead>
 						<th scope="col">Task Name</th>

@@ -39,7 +39,7 @@ public class ProfileController {
 		model.addAttribute("tasks", taskService.getAllTasks(activeUserId));
 		model.addAttribute("earliestDeadLine", taskService.getEarlistDeadline(activeUserId));
 
-		return "yourProfile";
+		return "userProfile";
 	}
 
 
