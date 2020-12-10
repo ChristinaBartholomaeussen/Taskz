@@ -10,66 +10,67 @@ import java.util.List;
 
 @Service
 public class MemberService {
-	@Autowired
-	MemberRepository memberRepository;
+    @Autowired
+    MemberRepository memberRepository;
 
-	public MemberService() {
-	}
+    public MemberService() {
+    }
 
-	/**
-	 * - OVO returns all members
-	 *
-	 * @return
-	 */
-	public ArrayList<Member> getAllMembers() {
-		return memberRepository.getAllMembersFromDB();
-	}
+    /**
+     * - OVO returns all members
+     *
+     * @return
+     */
+    public ArrayList<Member> getAllMembers() {
+        return memberRepository.getAllMembersFromDB();
+    }
 
-	/**
-	 * Get a single member from the database
-	 *
-	 * @param id
-	 * @return
-	 */
-	public Member getSingleMember(int id) {
-		return memberRepository.getSingleMEmberFromDBWthID(id);
-	}
+    /**
+     * Get a single member from the database
+     *
+     * @param id
+     * @return
+     */
+    public Member getSingleMember(int id) {
+        return memberRepository.getSingleMEmberFromDBWthID(id);
+    }
 
-	/**
-	 * -Rune
-	 *
-	 * @param username
-	 * @param password
-	 * @return
-	 */
-	public boolean verifyLogin(String username, String password) {
-		for (Member member : getAllMembers())
-			if (member.getEmail().equals(username) && member.getPassword().equals(password)) {
-				return true;
-			}
+    /**
+     * -Rune
+     *
+     * @param username
+     * @param password
+     * @return
+     */
+    public boolean verifyLogin(String username, String password) {
+        for (Member member : getAllMembers())
+            if (member.getEmail().equals(username) && member.getPassword().equals(password)) {
+                return true;
+            }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * - OVO
-	 * Gets all competenece
-	 *
-	 * @param id
-	 * @return
-	 */
-	public ArrayList<String> getAllCompetence(int id) {
-		return memberRepository.getAllMemberCompetences(id);
-	}
+    /**
+     * Get ID with email and password
+     *
+     * @param Email
+     * @param Password
+     * @return
+     */
+    public int getId(String Email, String Password) {
+        return memberRepository.getActiveUserIDFromDB(Email, Password);
+    }
+        /**
+         * - OVO
+         * Gets all competenece
+         *
+         * @param id
+         * @return
+         */
+        public ArrayList<String> getAllCompetence(int id)
+        {return memberRepository.getAllMemberCompetences(id);}
 
-	/**
-	 * Get ID with email and password
-	 *
-	 * @param Email
-	 * @param Password
-	 * @return
-	 */
-	public int getId(String Email, String Password) {
-		return memberRepository.getActiveUserIDFromDB(Email, Password);
-	}
-}
+
+    }
+

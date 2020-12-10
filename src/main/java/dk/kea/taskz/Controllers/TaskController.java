@@ -3,6 +3,7 @@ package dk.kea.taskz.Controllers;
 import dk.kea.taskz.Models.Enums.Complexity;
 import dk.kea.taskz.Models.Enums.Priority;
 import dk.kea.taskz.Models.Enums.Status;
+import dk.kea.taskz.Models.Member;
 import dk.kea.taskz.Models.Project;
 import dk.kea.taskz.Models.Subproject;
 import dk.kea.taskz.Models.Task;
@@ -107,7 +108,7 @@ public class TaskController {
 		String estimatedTime = data.getParameter("estimatedTime");
 		String deadline = data.getParameter("deadline");
 		LocalDate convertDeadlineToLocalDate = LocalDate.parse(deadline);
-		String member = data.getParameter("TeamMembers");
+		String teamMember = data.getParameter("TeamMembers");
 		String skill = data.getParameter("skills");
 
 
@@ -116,7 +117,7 @@ public class TaskController {
 			return "redirect:/newTask";
 		}
 		else{
-			Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline),  Double.valueOf(estimatedTime), Status.ACTIVE, member, skill);
+			Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline),  Double.valueOf(estimatedTime), Status.ACTIVE, teamMember, skill);
 			taskService.insertTask(task);
 
 			subprojectService.updateSubprojectTotalEstimatedTime();

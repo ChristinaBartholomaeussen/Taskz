@@ -2,8 +2,10 @@ package dk.kea.taskz.Repositories;
 import dk.kea.taskz.Models.Enums.Complexity;
 import dk.kea.taskz.Models.Enums.Priority;
 import dk.kea.taskz.Models.Enums.Status;
+import dk.kea.taskz.Models.Member;
 import dk.kea.taskz.Models.Task;
 import dk.kea.taskz.Services.ConnectionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,6 +19,9 @@ public class TaskRepository {
 
 	PreparedStatement preparedStatement = null;
 
+	@Autowired
+	MemberRepository memberRepository;
+
 	/**
 	 *  - OVO
 	 *  Returns a specific task from the database. Uses the ID to search for it.
@@ -24,7 +29,7 @@ public class TaskRepository {
 	 * @return
 	 */
 	public Task getASpecificTaskFromDB(int Task_ID) {
-		String selectTask = " SELECT * FROM taskz.tasks WHERE Task_ID = ?";
+		String selectTask = "SELECT * FROM taskz.tasks WHERE Task_ID = ?";
 		Task taskToReturn = new Task();
 		
 		try {
@@ -85,7 +90,7 @@ public class TaskRepository {
 	 * @param task
 	 */
 	public void insertNewTaskToDB(Task task) {
-		String insertTaskSQL = "INSERT INTO taskz.tasks(Task_ID, SubProject_ID, Task_Name, Priority, Complexity, Task_Deadline, Task_Estimated_Time, Status, Member, Skill) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?, ?)";
+		String insertTaskSQL = "INSERT INTO taskz.tasks(Task_ID, SubProject_ID, Task_Name, Priority, Complexity, Task_Deadline, Task_Estimated_Time, Status, Member, Skill_description) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?)";
 
 		int id = getLatestIdFromDB() + 1;
 		try {
@@ -104,7 +109,7 @@ public class TaskRepository {
 			preparedStatement.execute();
 
 		} catch (SQLException e) {
-			System.out.println("Error happened in TaskRepository at insertNewTaskToDB" + e.getMessage());
+			System.out.println("Error happened in TaskRepository at insertNewTaskToDB" + e);
 		}
 	}
 
@@ -223,7 +228,7 @@ public class TaskRepository {
 		String updateQuery = "UPDATE tasks SET Is_Difficult = ? WHERE Task_ID = ?";
 		
 		try {
-			PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(updateQuery);
+			preparedStatement = ConnectionService.getConnection().prepareStatement(updateQuery);
 			preparedStatement.setInt(1, 1);
 			preparedStatement.setInt(2, id);
 			
@@ -235,15 +240,19 @@ public class TaskRepository {
 	}
 	
 	public void setATaskToRelocateResources() {
-		String setToDifficult = "SELECT DISTINCT Task_ID, Is_Difficult \n" +
-				"FROM taskz.tasks \n" +
-				"INNER JOIN taskz.competences ON tasks.Skill=competences.Competence \n" +
-				"WHERE Member <> Member_ID \n" +
-				"AND tasks.Complexity>=3\n" +
-				"AND tasks.Priority>=2";
+		String setToDifficult = "select t.task_id, t.is_Difficult\n" +
+				"from tasks t\n" +
+				"inner join skills s on t.Skill_description = s.skill_description\n" +
+				"inner join members m on t.member = m.first_name\n" +
+				"inner join members_competence mc on m.member_id = mc.membermember_id\n" +
+				"inner join competences c on mc.competencecompetence_id = c.competence_id\n" +
+				"where  s.skill_description <> c.competence\n" +
+				"and t.complexity>=3\n" +
+				"and t.priority>=2\n" +
+				"group by t.task_id";
 		
 		try {
-			PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(setToDifficult);
+			preparedStatement = ConnectionService.getConnection().prepareStatement(setToDifficult);
 			
 			ResultSet resultSet = preparedStatement.executeQuery();
 			
@@ -257,12 +266,19 @@ public class TaskRepository {
 	}
 	
 	
-	public ArrayList<Task> getAllTaskToOneMember(int Member) {
-		String getAllTaskQuerryString = "SELECT * FROM taskz.tasks WHERE Status = 0 AND Member = " + Member;
+	public ArrayList<Task> getAllTaskToOneMember(int memberId) {
+
+		String firstName = memberRepository.getSingleMEmberFromDBWthID(memberId).getFirstName();
+		System.out.println(firstName);
+
+		String getAllTaskQuerryString = "select * from tasks inner join members on tasks.member = members.first_name where status = 0 and tasks.member = ?";
+
 		ArrayList<Task> taskList = new ArrayList<>();
 		
 		try {
-			PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(getAllTaskQuerryString);
+			preparedStatement = ConnectionService.getConnection().prepareStatement(getAllTaskQuerryString);
+			preparedStatement.setString(1, firstName);
+
 			ResultSet resultSet = preparedStatement.executeQuery();
 			
 			while(resultSet.next()) {
@@ -287,7 +303,7 @@ public class TaskRepository {
 		return taskList;
 	}
 	
-	public Task getEarliestDeadLineFromDB(int Member) {
+	public Task getEarliestDeadLineFromDB(int member) {
 		String selectTask = " SELECT  * FROM taskz.tasks \n" +
 				" WHERE Member = ? \n" +
 				" AND Status = 0 \n" +
@@ -295,8 +311,8 @@ public class TaskRepository {
 				" LIMIT 1";
 		Task task = null;
 		try {
-			PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(selectTask);
-			preparedStatement.setInt(1, Member);
+			preparedStatement = ConnectionService.getConnection().prepareStatement(selectTask);
+			preparedStatement.setInt(1, member);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			
 			while (resultSet.next()) {
@@ -319,6 +335,8 @@ public class TaskRepository {
 		}
 		return task;
 	}
+
+
 
 
 	

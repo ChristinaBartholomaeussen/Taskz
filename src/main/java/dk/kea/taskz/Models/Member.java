@@ -10,11 +10,12 @@ public class Member
     private String firstName;
     private String lastName;
 	private String competance;
-	private String jobTitle;
+	private int jobTitle;
 
     public Member()
     {
     }
+
 
     public Member(String email, String password)
     {
@@ -22,7 +23,7 @@ public class Member
         this.password = password;
     }
 
-    public Member(int memberId, String email, String password, String firstName, String lastName, String jobTitle)
+    public Member(int memberId, String email, String password, String firstName, String lastName, int jobTitle)
     {
         this.memberId = memberId;
         this.email = email;
@@ -60,11 +61,11 @@ public class Member
 		this.competance = competance;
 	}
 
-	public String getJobTitle() {
+	public int getJobTitle() {
 		return jobTitle;
 	}
 
-	public void setJobTitle(String jobTitle) {
+	public void setJobTitle(int jobTitle) {
 		this.jobTitle = jobTitle;
 	}
 

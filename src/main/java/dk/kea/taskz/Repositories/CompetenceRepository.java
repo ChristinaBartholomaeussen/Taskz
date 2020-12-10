@@ -9,21 +9,24 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 @Repository
-public class CompetenceRepository {
-
+public class CompetenceRepository
+{
+	PreparedStatement preparedStatement = null;
 
 	/**
 	 * - OVO Gets all the competences from the database
 	 *
 	 * @return
 	 */
-	public ArrayList<String> getAllCompetencesOnceFromDB() {
-		String listOfCompetences = "SELECT DISTINCT Competence FROM taskz.competences";
+	public ArrayList<String> getAllSkillsFromDB() {
+
+		String listOfCompetences = "SELECT competence FROM competences";
+
 		ArrayList<String> competencesList = new ArrayList<>();
 
 		try {
-			PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(listOfCompetences);
-
+			preparedStatement = ConnectionService.getConnection().prepareStatement(listOfCompetences);
+	
 			ResultSet resultSet = preparedStatement.executeQuery();
 
 			while (resultSet.next()) {

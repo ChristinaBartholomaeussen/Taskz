@@ -3,12 +3,15 @@ package dk.kea.taskz.Models;
 import dk.kea.taskz.Models.Enums.Complexity;
 import dk.kea.taskz.Models.Enums.Status;
 import dk.kea.taskz.Models.Enums.Priority;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 
 
 public class Task
 {
+
+
     private int taskId;
 	private int parentSubProjectId;
     private String taskName;

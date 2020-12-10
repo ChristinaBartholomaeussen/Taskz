@@ -24,19 +24,26 @@ public class MemberRepository {
 			preparedStatement = ConnectionService.getConnection().prepareStatement("SELECT * FROM taskz.members");
 			ResultSet rs = preparedStatement.executeQuery();
 
-			while (rs.next()) {
-				memberList.add(new Member(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+            while(rs.next()) {
+            	memberList.add(new Member(rs.getInt(1),
+						rs.getString(2),
+						rs.getString(3),
+						rs.getString(4),
+						rs.getString(5),
+						rs.getInt(6)));
 			}
 
 			for (Member member : memberList) {
 				setMemberCompetance(member);
 			}
 
-		} catch (Exception e) {
-			System.out.println("Error happened in member repository, getAllMembersFromDB" + e.getMessage());
-		}
-		return memberList;
-	}
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error happened in member repository, getAllMembersFromDB" + e.getMessage());
+        }
+        return memberList;
+    }
 
 	/**
 	 * - OVO
@@ -45,12 +52,14 @@ public class MemberRepository {
 	 * @param Member_ID
 	 * @return
 	 */
-	public ArrayList<String> getAllMemberCompetences(int Member_ID) {
-		String getAllMembersCompetences = "SELECT Competence FROM taskz.competences WHERE Member_ID = " + Member_ID;
-		ArrayList<String> competencesList = new ArrayList<>();
+    
+    public ArrayList<String> getAllMemberCompetences(int Member_ID) {
+    	String getAllMembersCompetences = "SELECT Competence FROM taskz.competences WHERE Member_ID = " + Member_ID;
 
-		try {
-			PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(getAllMembersCompetences);
+    	ArrayList<String> competencesList = new ArrayList<>();
+    	
+    	try {
+    		preparedStatement = ConnectionService.getConnection().prepareStatement(getAllMembersCompetences);
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
@@ -72,18 +81,20 @@ public class MemberRepository {
 	 * @param member
 	 */
 	public void setMemberCompetance(Member member) {
-		String placeHolder = "";
-		String getCompetanceToMemberFromDB = "SELECT Competence\n" +
-				"FROM taskz.competences\n" +
-				"INNER JOIN taskz.members ON competences.Member_ID=members.Member_ID\n" +
-				"WHERE competences.Member_ID = " + member.getMemberId();
+    	String placeHolder = "";
 
-		try {
-			PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(getCompetanceToMemberFromDB);
-			ResultSet resultSet = preparedStatement.executeQuery();
-
-			while (resultSet.next()) {
-				placeHolder += resultSet.getString(1) + " ";
+    	String getCompetanceToMemberFromDB = "select competences.competence\n" +
+				"from competences\n" +
+				"left outer join members_competence on competences.competence_id = members_competence.competencecompetence_id\n" +
+				"left outer join members on members_competence.membermember_id = members.member_id\n" +
+				"where members.member_id =" + member.getMemberId();
+    	
+    	try {
+    		preparedStatement = ConnectionService.getConnection().prepareStatement(getCompetanceToMemberFromDB);
+    		ResultSet resultSet = preparedStatement.executeQuery();
+    		
+    		while(resultSet.next()) {
+    			placeHolder += resultSet.getString(1) + " ";
 			}
 
 			member.setCompetance(placeHolder);
@@ -101,19 +112,24 @@ public class MemberRepository {
 	 * @return
 	 */
 	public Member getSingleMEmberFromDBWthID(int Member_ID) {
-		String getMemberQuery = "SELECT * from Taskz.members WHERE Member_ID = ?";
-		Member memb = new Member();
-
-		try {
-
-			PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(getMemberQuery);
-			preparedStatement.setInt(1, Member_ID);
-
-			ResultSet resultSet = preparedStatement.executeQuery();
+    	String getMemberQuery = "SELECT * from Taskz.members WHERE Member_ID = ?";
+    	Member memb = new Member();
+    	
+    	try {
+    		
+    	preparedStatement = ConnectionService.getConnection().prepareStatement(getMemberQuery);
+    	preparedStatement.setInt(1, Member_ID);
+    	
+    	ResultSet resultSet = preparedStatement.executeQuery();
     	
     	while(resultSet.next()) {
-    		memb = new Member(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getString(6));
-			setMemberCompetance(memb);
+    		memb = new Member(resultSet.getInt(1),
+					resultSet.getString(2),
+					resultSet.getString(3),
+					resultSet.getString(4),
+					resultSet.getString(5),
+					resultSet.getInt(6));
+    		setMemberCompetance(memb);
 			return memb;
 		}
 
@@ -133,12 +149,12 @@ public class MemberRepository {
 	 * @return
 	 */
 	public int getActiveUserIDFromDB(String Email, String Password) {
-		String getIdQuerry = "SELECT Member_ID FROM taskz.members WHERE Email = ? AND Password = ?";
-		int id = 0;
-		try {
-			PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(getIdQuerry);
-			preparedStatement.setString(1, Email);
-			preparedStatement.setString(2, Password);
+    	String getIdQuerry = "SELECT Member_ID FROM taskz.members WHERE Email = ? AND Password = ?";
+    	int id = 0;
+    	try {
+    		preparedStatement = ConnectionService.getConnection().prepareStatement(getIdQuerry);
+    		preparedStatement.setString(1, Email);
+    		preparedStatement.setString(2, Password);
     		
     		ResultSet resultSet = preparedStatement.executeQuery();
     		
@@ -151,4 +167,5 @@ public class MemberRepository {
     	
     	return id;
 	}
+
 }

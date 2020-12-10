@@ -32,8 +32,9 @@ public class TaskService {
 	}
 	
 	
-	public ArrayList<Task> getAllTasks(int id) {
-		return taskRepository.getAllTaskToOneMember(id);
+	public ArrayList<Task> getAllTasks(int memberId) {
+
+		return taskRepository.getAllTaskToOneMember(memberId);
 	} 
 	
 	public Task getEarlistDeadline(int id) {
