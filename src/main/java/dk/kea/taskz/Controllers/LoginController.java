@@ -44,9 +44,6 @@ public class LoginController
         String username = data.getParameter("username");
         String password = data.getParameter("password");
 
-        
-		
-        
         if(memberService.verifyLogin(username,password)) {
 			Cookie ck = new Cookie("id", Integer.toString(memberService.getId(username, password)));
 			response.addCookie(ck);
