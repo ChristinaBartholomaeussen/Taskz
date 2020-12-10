@@ -20,13 +20,13 @@
 		<!--#region Project Info Bar-->
 		<table class="table mb-1" >
 			<thead>
-			<tr>
-				<th>Project Name: <b th:text="${project.getName()}"></b></th>
-				<th>Project Startdate: <b th:text="${project.getStartDate()}"></b></th>
-				<th>Project Deadline: <b th:text="${project.getDeadline()}"></b></th>
-				<th>Estimated Workhours: <b th:text="${project.getCompletedTime()}"></b><b>/</b><b th:text="${project.getTotalEstimatedTime}"></b></th>
-				<th>Daily Workhours: <b th:text="${project.getTotalWorkHoursPerDay}"></b></th>
-			</tr>
+				<tr>
+					<th>Project Name: <b th:text="${project.getName()}"></b></th>
+					<th>Project Startdate: <b th:text="${project.getStartDate()}"></b></th>
+					<th>Project Deadline: <b th:text="${project.getDeadline()}"></b></th>
+					<th>Estimated Workhours: <b th:text="${project.getCompletedTime()}"></b><b>/</b><b th:text="${project.getTotalEstimatedTime}"></b></th>
+					<th>Daily Workhours: <b th:text="${project.getTotalWorkHoursPerDay}"></b></th>
+				</tr>
 			</thead>
 		</table>
 		<div class="text-center mb-1">
@@ -233,7 +233,7 @@
 							<th scope="col">Task Name</th>
 							<th scope="col">Priority</th>
 							<th scope="col">Complexity</th>
-							<th scope="col">Members</th>
+							<th scope="col">Member</th>
 							<th scope="col">Estimated</th>
 							<th scope="col">Deadline</th>
 							<th scope="col">Skill</th>

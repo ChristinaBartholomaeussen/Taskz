@@ -57,7 +57,7 @@ function drawChart() {
 
 		data.addRows
 		([
-			[subprojects[i].subprojectId.toString(), 'SUBPROJECT: ' + subprojects[i].subprojectName,  subprojects[i].subprojectName, subprojectStartDate, deadline, null, subprojectCompletion, null]
+			[subprojects[i].subprojectId.toString(), 'SUBPROJECT: ' + subprojects[i].subprojectName,  null, subprojectStartDate, deadline, null, subprojectCompletion, null]
 		]);
 
 		for(let task = 0; task < tasks.length; task++)
@@ -77,14 +77,10 @@ function drawChart() {
 
 			data.addRows
 			([
-				[tasks[task].taskId.toString(), 'TASK: ' + tasks[task].taskName, subprojects[i].subprojectId.toString(), new Date(taskEstimatedStartDate), new Date(taskDeadline), null, taskCompletion, null]
+				[tasks[task].taskId.toString(), 'TASK: ' + tasks[task].taskName, subprojects[i].subprojectName, new Date(taskEstimatedStartDate), new Date(taskDeadline), null, taskCompletion, null]
 			]);
 		}
 	}
-
-	let trackHeight = 40;
-
-	console.log(data.getNumberOfRows() * trackHeight);
 
 	const options = {
 		gantt:
@@ -97,11 +93,8 @@ function drawChart() {
 				format: 'M/d/yy',
 				gridlines: {count: 15}
 			},
-		height: data.getNumberOfRows() * trackHeight + 30,
-		width: 1000,
-		gantt: {
-			trackHeight: trackHeight
-		}
+		height: data.getNumberOfRows() * 50,
+		width: 1000
 	};
 
 	const chart = new google.visualization.Gantt(document.getElementById('chart_div'));
