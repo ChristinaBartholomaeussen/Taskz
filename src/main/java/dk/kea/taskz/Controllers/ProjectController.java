@@ -99,9 +99,12 @@ public class ProjectController {
 
 	/**
 	 * - OVO
+	 * A Getmapping which take care of "new Project" and sets a model attribute to  become true, så the popup works.
+	 * <p>
 	 * En ny getmapping som bliver kaldt af "New Projects" linket i project siden.
-	 * Egentlig returnere den projekt siden igen, men også sætter boolean til true.
+	 * Egentlig returnere denb projekt siden igen, men også sætter boolean til true.
 	 * Det gør at popup bliver aktiv.
+	 *
 	 * @return projects
 	 */
 	@GetMapping("/newProject")

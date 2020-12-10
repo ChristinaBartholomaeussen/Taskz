@@ -82,9 +82,11 @@ public class SubProjectController
 
 	/**
 	 * - OVO
-	 *  Sætter getmapping på subprojects
+	 * A GetMapping for subprojects.
+	 * has a bunch of model.addAttribute, which is used to load differing things, when needed.
+	 *
 	 * @param model
-	 * @return
+	 * @return "subprojects"
 	 */
 	@GetMapping("/subprojects")
 	public String subprojects(Model model)
@@ -107,9 +109,10 @@ public class SubProjectController
 
 	/**
 	 *  - OVO
-	 * Åbner newtask pop up vinduet.
+	 * Has the same model.addAttributes as above, but chances "popup" to be true
+	 * Which let thymeleaf render the popup
 	 * @param model
-	 * @return
+	 * @return "subprojects"
 	 */
 	@GetMapping("/newSubProject")
 	public String subprojectsPopUp(Model model)
@@ -130,9 +133,9 @@ public class SubProjectController
 
 	/**
 	 * - OVO
-	 * Loader data ind fra new project
+	 * Creates the subproject
 	 * @param data
-	 * @return
+	 * @return "redirect:/subprojects"
 	 */
 	@PostMapping("/postNewSubproject")
 	public String newSubproject(WebRequest data) {
@@ -162,8 +165,9 @@ public class SubProjectController
 	}
 
 	/**
-	 * Postmapping der både modtager et subprojectId som der er blevet trykket på "Delete" ved og derefter sætter Model
-	 * attributter som kan tilgås via HTML.
+	 * - OVO 
+	 * 	PostMapping that takes in a WebRequest and Model. it gets the specific ID for the subproject to delete
+	 * 	And then loads all the background attributes.
 	 * @param model
 	 * @param data
 	 * @return
@@ -183,13 +187,21 @@ public class SubProjectController
 		model.addAttribute("project", projectService.getProjectByProjectId(activeProjectID));
 		model.addAttribute("popup", false);
 		model.addAttribute("taskPopUp", false);
-		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProjectID));
+		model.addAttribute("subprojectList", subprojectService.getAllAssociatedSubprojects(activeProjectID));
 		model.addAttribute("deletePopUp", true);
 		model.addAttribute("stopScroll", true);
 
 		return "subprojects";
 	}
 
+	/**
+	 * - OVO
+	 * Gets the redirect from project.html
+	 * And then recives the activeProjectID and sets it globally in the subprojectController
+	 *
+	 * @param data
+	 * @return
+	 */
 	@PostMapping("/postSeeSubproject")
 	public String seeSubProject(WebRequest data) {
 		activeProjectID = subprojectService.getParentId(Integer.valueOf(data.getParameter("subprojectId")));

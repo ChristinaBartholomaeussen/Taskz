@@ -48,14 +48,21 @@ public class TaskController {
 	List<Subproject> subprojectList = new ArrayList<>();
 	List<Project> projectList = new ArrayList<>();
 
+
+	/**
+	 * - OVO
+	 * Gets both the paren project Id, and the subproject Id, and sets them globally.
+	 *
+	 * @param data
+	 * @return
+	 */
 	@PostMapping("/newTask")
-	public String newTaskPost(WebRequest data)
-	{
+	public String newTaskPost(WebRequest data) {
 		subprojectsID = Integer.parseInt(data.getParameter("subprojectsID"));
 		parentProject = subprojectService.getParentId(subprojectsID);
 		return "redirect:/newTask";
 	}
-	
+
 	/**
 	 *  - OVO
 	 * Activates the pop up for new task.
@@ -126,7 +133,7 @@ public class TaskController {
 
 	/**
 	 *  - OVO
-	 *  Sletter en task fra databasen.
+	 *  Deletes a task from the database.
 	 * @param data
 	 * @return
 	 */
