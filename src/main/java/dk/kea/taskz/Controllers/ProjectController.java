@@ -170,4 +170,6 @@ public class ProjectController {
 		model.addAttribute("deletePopUp", true);
 		return "projects";
 	}
+
+
 }

@@ -22,6 +22,13 @@ public class Project
         this.name = name;
     }
 
+    public Project(LocalDate startDate, LocalDate deadline, double totalEstimatedTime, double completedTime) {
+        this.startDate = startDate;
+        this.deadline = deadline;
+        this.totalEstimatedTime = totalEstimatedTime;
+        this.completedTime= completedTime;
+    }
+
     public Project(String name, LocalDate startDate, LocalDate deadline) {
         this.name = name;
         this.startDate = startDate;
@@ -126,12 +133,14 @@ public class Project
     @Override
     public String toString() {
         return "Project{" +
-                "idProject=" + projectId +
+                "projectId=" + projectId +
                 ", name='" + name + '\'' +
                 ", startDate=" + startDate +
                 ", deadline=" + deadline +
-                ", totalWorkHoursPerDay=" + totalWorkHoursPerDay +
+                ", totalWorkHoursPerDay='" + totalWorkHoursPerDay + '\'' +
                 ", totalEstimatedTime=" + totalEstimatedTime +
+                ", completedTime=" + completedTime +
+                ", associatedSubprojects=" + associatedSubprojects +
                 '}';
     }
 }
