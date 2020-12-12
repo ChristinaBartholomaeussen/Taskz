@@ -1,16 +1,23 @@
 package dk.kea.taskz.Models;
 
+import dk.kea.taskz.Services.MemberService;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class Member
 {
+    @Autowired
+    MemberService memberService;
+
     private int memberId;
     private String email;
     private String password;
     private String firstName;
     private String lastName;
-	private String competance;
-	private int jobTitle;
+	private String competence;
+	private String jobTitle;
 
     public Member()
     {
@@ -23,13 +30,24 @@ public class Member
         this.password = password;
     }
 
-    public Member(int memberId, String email, String password, String firstName, String lastName, int jobTitle)
+    public Member(int memberId, String email, String password, String firstName, String lastName, String jobTitle)
     {
         this.memberId = memberId;
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.jobTitle = jobTitle;
+    }
+
+    public Member(int memberId, String email, String password, String firstName, String lastName, String competences, String jobTitle)
+    {
+        this.memberId = memberId;
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.competence = competences;
         this.jobTitle = jobTitle;
     }
 
@@ -53,19 +71,20 @@ public class Member
         return lastName;
     }
 
-	public String getCompetance() {
-		return competance;
+	public String getCompetence() {
+		return competence;
 	}
 
-	public void setCompetance(String competance) {
-		this.competance = competance;
+	public void setCompetence(String competences) {
+
+		this.competence = competences;
 	}
 
-	public int getJobTitle() {
+	public String getJobTitle() {
 		return jobTitle;
 	}
 
-	public void setJobTitle(int jobTitle) {
+	public void setJobTitle(String jobTitle) {
 		this.jobTitle = jobTitle;
 	}
 
@@ -73,5 +92,5 @@ public class Member
 	public String toString() {
     	return "MEMBER";
 	}
-    
+
 }

@@ -13,5 +13,4 @@ public class TaskzApplication {
         SpringApplication.run(TaskzApplication.class, args);
     }
 
-
 }

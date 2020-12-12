@@ -35,6 +35,18 @@ public class MemberService {
         return memberRepository.getSingleMEmberFromDBWthID(id);
     }
 
+    public String getMember(String teammember){
+
+        String competences = "";
+
+        for(Member m : getAllMembers())
+
+            if(m.getFirstName().equals(teammember)){
+                competences = m.getCompetence();
+        }
+       return competences;
+    }
+
     /**
      * -Rune
      *
@@ -65,11 +77,26 @@ public class MemberService {
          * - OVO
          * Gets all competenece
          *
-         * @param id
+         * @param
          * @return
          */
-        public ArrayList<String> getAllCompetence(int id)
-        {return memberRepository.getAllMemberCompetences(id);}
+        public void setCompetenceForAllMembers(){
+
+            List<Member> members = getAllMembers();
+
+            for(Member m : members){
+                System.out.println(m.getFirstName() + " " + m.getCompetence());
+            }
+
+        }
+
+
+
+
+
+
+
+
 
 
     }

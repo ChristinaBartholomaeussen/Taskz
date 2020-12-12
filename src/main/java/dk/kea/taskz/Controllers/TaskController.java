@@ -3,7 +3,6 @@ package dk.kea.taskz.Controllers;
 import dk.kea.taskz.Models.Enums.Complexity;
 import dk.kea.taskz.Models.Enums.Priority;
 import dk.kea.taskz.Models.Enums.Status;
-import dk.kea.taskz.Models.Member;
 import dk.kea.taskz.Models.Project;
 import dk.kea.taskz.Models.Subproject;
 import dk.kea.taskz.Models.Task;
@@ -32,7 +31,7 @@ public class TaskController {
 	TaskService taskService;
 
 	@Autowired
-	CompetenceService competenceService;
+	SkillService skillService;
 
 	@Autowired
 	MemberService memberService;
@@ -50,6 +49,7 @@ public class TaskController {
 	List<Project> projectList = new ArrayList<>();
 
 
+
 	/**
 	 * - OVO
 	 * Gets both the paren project Id, and the subproject Id, and sets them globally.
@@ -60,6 +60,7 @@ public class TaskController {
 	@PostMapping("/newTask")
 	public String newTaskPost(WebRequest data)
 	{
+
 		subprojectsID = Integer.parseInt(data.getParameter("subprojectsID"));
 		parentProject = subprojectService.getParentId(subprojectsID);
 		return "redirect:/newTask";
@@ -85,7 +86,10 @@ public class TaskController {
 		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
 		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(parentProject));
 		model.addAttribute("project",projectService.getProjectByProjectId(parentProject));
-		model.addAttribute("competences", competenceService.getAllCompetences());
+		model.addAttribute("skills", skillService.getListOfSkills());
+
+
+
 
 		return "subprojects";
 	}
@@ -109,6 +113,7 @@ public class TaskController {
 		String deadline = data.getParameter("deadline");
 		LocalDate convertDeadlineToLocalDate = LocalDate.parse(deadline);
 		String teamMember = data.getParameter("TeamMembers");
+
 		String skill = data.getParameter("skills");
 
 
@@ -118,6 +123,7 @@ public class TaskController {
 		}
 		else{
 			Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline),  Double.valueOf(estimatedTime), Status.ACTIVE, teamMember, skill);
+
 			taskService.insertTask(task);
 
 			subprojectService.updateSubprojectTotalEstimatedTime();

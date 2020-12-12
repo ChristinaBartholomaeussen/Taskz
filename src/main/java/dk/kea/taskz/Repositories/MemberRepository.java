@@ -1,13 +1,14 @@
 package dk.kea.taskz.Repositories;
 import dk.kea.taskz.Models.Member;
 import dk.kea.taskz.Services.ConnectionService;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.util.ArrayList;
 
+
 @Repository
 public class MemberRepository {
+
 	PreparedStatement preparedStatement = null;
 
 
@@ -18,126 +19,82 @@ public class MemberRepository {
 	 * @return
 	 */
 	public ArrayList<Member> getAllMembersFromDB() {
+
 		ArrayList<Member> memberList = new ArrayList<>();
 
 		try {
-			preparedStatement = ConnectionService.getConnection().prepareStatement("SELECT * FROM taskz.members");
+			preparedStatement = ConnectionService.getConnection().prepareStatement("select m.member_id, m.email, " +
+					"m.password, m.first_name, m.last_name, group_concat(Distinct c.competence SEPARATOR ' , ' ) as competence," +
+					"j.jobtitle_description\n" +
+					"from members m\n" +
+					"left outer join jobtitles j on m.jobtitle_id = j.jobtitle_id\n" +
+					"left outer join members_competence mc on m.member_id = mc.membermember_id\n" +
+					"left outer join competences c on mc.competencecompetence_id = c.competence_id\n" +
+					"group by m.member_id");
+
 			ResultSet rs = preparedStatement.executeQuery();
 
-            while(rs.next()) {
-            	memberList.add(new Member(rs.getInt(1),
+			while (rs.next()) {
+				Member member = new Member(
+						rs.getInt(1),
 						rs.getString(2),
 						rs.getString(3),
 						rs.getString(4),
 						rs.getString(5),
-						rs.getInt(6)));
+						rs.getString(6),
+						rs.getString(7)
+				);
+				memberList.add(member);
 			}
 
-			for (Member member : memberList) {
-				setMemberCompetance(member);
-			}
-
-        }
-        catch(Exception e)
-        {
-            System.out.println("Error happened in member repository, getAllMembersFromDB" + e.getMessage());
-        }
-        return memberList;
-    }
-
-	/**
-	 * - OVO
-	 * Gets one members skills / competence
-	 *
-	 * @param Member_ID
-	 * @return
-	 */
-    
-    public ArrayList<String> getAllMemberCompetences(int Member_ID) {
-    	String getAllMembersCompetences = "SELECT Competence FROM taskz.competences WHERE Member_ID = " + Member_ID;
-
-    	ArrayList<String> competencesList = new ArrayList<>();
-    	
-    	try {
-    		preparedStatement = ConnectionService.getConnection().prepareStatement(getAllMembersCompetences);
-
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				competencesList.add(resultSet.getString(1));
-			}
-
-		} catch (SQLException e) {
-			System.out.println("Error happend in memberRepo: Method: getAllMemberCompetences(), Error: " + e.getMessage());
+		} catch (Exception e) {
+			System.out.println("Error happened in member repository, getAllMembersFromDB" + e.getMessage());
 		}
-
-
-		return competencesList;
+		return memberList;
 	}
 
-	/**
-	 * - OVO
-	 * Sets a specific members skill / competence
-	 *
-	 * @param member
-	 */
-	public void setMemberCompetance(Member member) {
-    	String placeHolder = "";
-
-    	String getCompetanceToMemberFromDB = "select competences.competence\n" +
-				"from competences\n" +
-				"left outer join members_competence on competences.competence_id = members_competence.competencecompetence_id\n" +
-				"left outer join members on members_competence.membermember_id = members.member_id\n" +
-				"where members.member_id =" + member.getMemberId();
-    	
-    	try {
-    		preparedStatement = ConnectionService.getConnection().prepareStatement(getCompetanceToMemberFromDB);
-    		ResultSet resultSet = preparedStatement.executeQuery();
-    		
-    		while(resultSet.next()) {
-    			placeHolder += resultSet.getString(1) + " ";
-			}
-
-			member.setCompetance(placeHolder);
-
-		} catch (SQLException e) {
-			System.out.println("Klasse: MemberRepository, Methode: setMemberCompetance(int Member_ID), Error: " + e.getMessage());
-		}
-	}
 
 	/**
 	 * -OVO
 	 * Gets a single member from the database withe the ID
 	 *
-	 * @param Member_ID
+	 * @param member_ID
 	 * @return
 	 */
-	public Member getSingleMEmberFromDBWthID(int Member_ID) {
-    	String getMemberQuery = "SELECT * from Taskz.members WHERE Member_ID = ?";
-    	Member memb = new Member();
-    	
+	public Member getSingleMEmberFromDBWthID(int member_ID) {
+
+		Member member = new Member();
+
+    	String getMemberQuery = "select m.member_id, m.email, m.password, m.first_name, m.last_name, group_concat(Distinct c.competence SEPARATOR ' , ' ) as competence, j.jobtitle_description\n" +
+				"from members m\n" +
+				"left outer join jobtitles j on m.jobtitle_id = j.jobtitle_id\n" +
+				"left outer join members_competence mc on m.member_id = mc.membermember_id\n" +
+				"left outer join competences c on mc.competencecompetence_id = c.competence_id\n" +
+				"where m.member_id = ?";
+
     	try {
     		
     	preparedStatement = ConnectionService.getConnection().prepareStatement(getMemberQuery);
-    	preparedStatement.setInt(1, Member_ID);
+    	preparedStatement.setInt(1, member_ID);
     	
     	ResultSet resultSet = preparedStatement.executeQuery();
     	
     	while(resultSet.next()) {
-    		memb = new Member(resultSet.getInt(1),
+    		member = new Member(
+    				resultSet.getInt(1),
 					resultSet.getString(2),
 					resultSet.getString(3),
 					resultSet.getString(4),
 					resultSet.getString(5),
-					resultSet.getInt(6));
-    		setMemberCompetance(memb);
-			return memb;
+					resultSet.getString(6),
+					resultSet.getString(7));
 		}
 
 
 		} catch (SQLException e) {
 			System.out.println("Klasse: MemberRepo, Methode: getSingleMemberFRomDBWithID(), Error: " + e.getMessage());
 		}
-		return memb;
+		return member;
 	}
 
 	/**

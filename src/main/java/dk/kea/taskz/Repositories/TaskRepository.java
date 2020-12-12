@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +67,7 @@ public class TaskRepository {
 	 *
 	 * @return
 	 */
-	public int getLatestIdFromDB() {
+	/*public int getLatestIdFromDB() {
 		try {
 			preparedStatement = ConnectionService.getConnection().prepareStatement("SELECT * FROM taskz.tasks ORDER BY Task_ID DESC LIMIT 1;");
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -82,7 +81,7 @@ public class TaskRepository {
 		}
 		
 		return 404;
-	}
+	}*/
 
 	/**
 	 *  - OVO
@@ -90,12 +89,14 @@ public class TaskRepository {
 	 * @param task
 	 */
 	public void insertNewTaskToDB(Task task) {
+
 		String insertTaskSQL = "INSERT INTO taskz.tasks(Task_ID, SubProject_ID, Task_Name, Priority, Complexity, Task_Deadline, Task_Estimated_Time, Status, Member, Skill_description) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?)";
 
-		int id = getLatestIdFromDB() + 1;
+		//int id = getLatestIdFromDB() + 1;
+
 		try {
 			preparedStatement = ConnectionService.getConnection().prepareStatement(insertTaskSQL);
-			preparedStatement.setInt(1, id);
+			preparedStatement.setInt(1, task.getTaskId());
 			preparedStatement.setInt(2, task.getParentSubProjectId());
 			preparedStatement.setString(3, task.getTaskName());
 			preparedStatement.setInt(4, task.getPriority().ordinal());
@@ -107,6 +108,8 @@ public class TaskRepository {
 			preparedStatement.setString(10, task.getSkill());
 
 			preparedStatement.execute();
+
+			setATaskToRelocateResources(task.getMember());
 
 		} catch (SQLException e) {
 			System.out.println("Error happened in TaskRepository at insertNewTaskToDB" + e);
@@ -239,25 +242,30 @@ public class TaskRepository {
 		
 	}
 	
-	public void setATaskToRelocateResources() {
-		String setToDifficult = "select t.task_id, t.is_Difficult\n" +
-				"from tasks t\n" +
-				"inner join skills s on t.Skill_description = s.skill_description\n" +
-				"inner join members m on t.member = m.first_name\n" +
-				"inner join members_competence mc on m.member_id = mc.membermember_id\n" +
-				"inner join competences c on mc.competencecompetence_id = c.competence_id\n" +
-				"where  s.skill_description <> c.competence\n" +
-				"and t.complexity>=3\n" +
-				"and t.priority>=2\n" +
-				"group by t.task_id";
+	public void setATaskToRelocateResources(String teammember) {
+
+
+		String taskSkill = null;
+		int taskId = -1;
+
+		String setToDifficult = "select tasks.task_id, tasks.skill_description\n" +
+				"from tasks\n" +
+				"where tasks.complexity>=3 \n" +
+				"and tasks.priority>=2";
 		
 		try {
 			preparedStatement = ConnectionService.getConnection().prepareStatement(setToDifficult);
-			
-			ResultSet resultSet = preparedStatement.executeQuery();
-			
-			while(resultSet.next()) {
-				upDateIsDifficult(resultSet.getInt(1));
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while (rs.next()){
+				taskId = rs.getInt(1);
+				taskSkill = rs.getString(2);
+			}
+
+			for(Member member : memberRepository.getAllMembersFromDB()){
+				if(member.getFirstName().equals(teammember) && !member.getCompetence().contains(taskSkill)){
+					upDateIsDifficult(taskId);
+				}
 			}
 			
 		} catch (SQLException e) {

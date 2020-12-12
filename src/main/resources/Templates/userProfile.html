@@ -17,7 +17,7 @@
 		<div class="row my-3">
 			<div class="col-md-6">
 				<p th:text="|Jobtitle: ${member.getJobTitle}|"></p>
-				<p th:text="|Competence: ${member.getCompetance}|"></p>
+				<p th:text="|Competence: ${member.getCompetence}|"></p>
 			</div>
 
 			<div class="col-md-6"  th:if="${tasks.size}">
@@ -77,17 +77,12 @@
 						<td th:text="${task.taskName}"></td>
 						<td th:text="${task.getPriority}"></td>
 						<td th:text="${task.getComplexity}"></td>
-						<td th:switch="${task.getMember}">
-							<div th:case="1">RBP</div>
-							<div th:case="2">OVO</div>
-							<div th:case="3">FMP</div>
-							<div th:case="4">CB</div>
-						</td>
+						<td th:text="${task.getMember}"></td>
 						<td th:text="${task.getEstimatedTime}"></td>
 						<td th:text="${task.getDeadline}"></td>
 						<td th:text="${task.getSkill}"></td>
-						<td th:if="${task.getIsDifficult}" class="bg-info text-center">Limited efficiency</td>
-						<td th:unless="${task.getIsDifficult}"> </td>
+						<td th:if="${task.getIsDifficult}" class="bg-warning text-center">Limited efficiency</td>
+						<td th:unless="${task.getIsDifficult}" class="text-center">Good</td>
 						<td>
 							<form th:method="post" th:action="postSeeSubproject">
 								<button class="btn btn-primary" th:value="${task.getParentSubProjectId}" name="subprojectId">See Project</button>
