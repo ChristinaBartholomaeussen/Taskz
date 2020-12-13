@@ -67,14 +67,12 @@ public class SubProjectController
 	public String deleteSubProject(WebRequest data)
 	{
 		String id = data.getParameter("deleteSubProject");
+
 		subprojectService.deleteSubProject(Integer.valueOf(id));
-
 		subprojectService.updateSubprojectTotalEstimatedTime();
-
 		subprojectService.updateWorkloadPerDay(subprojectService.getAllAssociatedSubprojectsWithoutTasks(activeProjectID));
 
 		projectService.updateProjectEstimatedTime();
-
 		projectService.updateWorkloadPerDayV2(projectService.getProjectByProjectId(activeProjectID));
 
 		return "redirect:/subprojects";

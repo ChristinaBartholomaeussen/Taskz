@@ -52,7 +52,10 @@ public class SubprojectService
     	subprojectRepository.insertSubProjectIntoDB(subproject);
 	}
 	
-	public void deleteSubProject(int id) {subprojectRepository.deleteSubProjectFromDB(id);}
+	public void deleteSubProject(int id)
+    {
+        subprojectRepository.deleteSubProjectFromDB(id);
+    }
 	
 	public String getParentProjectName(int id) {return subprojectRepository.getParentProjectNameFromDB(id);}
 	
