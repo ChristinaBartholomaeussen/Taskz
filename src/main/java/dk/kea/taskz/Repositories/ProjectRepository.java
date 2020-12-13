@@ -57,12 +57,12 @@ public class ProjectRepository {
 
     public void insertProjectIntoDatabase(Project project) {
 
-        String insertProjectIntoDatabasen =
+        String insertProjectIntoDatabase =
                 "INSERT INTO projects(Project_Id, Project_Name, Project_StartDate, Deadline) " +
                         "VALUES (?, ?, ?, ?)";
 
         try{
-            preparedStatement = ConnectionService.getConnection().prepareStatement(insertProjectIntoDatabasen);
+            preparedStatement = ConnectionService.getConnection().prepareStatement(insertProjectIntoDatabase);
             preparedStatement.setInt(1, project.getProjectId());
             preparedStatement.setString(2, project.getName());
             preparedStatement.setDate(3, java.sql.Date.valueOf(project.getStartDate()));
