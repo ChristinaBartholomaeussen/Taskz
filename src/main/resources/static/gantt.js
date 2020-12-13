@@ -93,7 +93,7 @@ function drawChart() {
 				format: 'M/d/yy',
 				gridlines: {count: 15}
 			},
-		height: data.getNumberOfRows() * 50,
+		height: data.getNumberOfRows() * 50 + 50,
 		width: 1000
 	};
 
