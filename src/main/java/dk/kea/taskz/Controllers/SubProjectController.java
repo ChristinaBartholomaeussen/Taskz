@@ -152,12 +152,11 @@ public class SubProjectController
 				|| timeService.isDeadlineBeforeStartDate(convertedSubprojectStartDate, convertedSubprojectDeadline) == false || subprojectName.equals(" ")) {
 
 			return "redirect:/newSubProject";
-		} else {
-			Subproject subproject = new Subproject(subprojectName, activeProjectID, convertedSubprojectStartDate, convertedSubprojectDeadline);
-			subprojectService.createSubproject(subproject);
-			return "redirect:/subprojects";
 		}
 
+		Subproject subproject = new Subproject(subprojectName, activeProjectID, convertedSubprojectStartDate, convertedSubprojectDeadline);
+		subprojectService.createSubproject(subproject);
+		return "redirect:/subprojects";
 	}
 
 	/**
@@ -227,6 +226,4 @@ public class SubProjectController
 
 		return "redirect:/subprojects";
 	}
-
-
 }
