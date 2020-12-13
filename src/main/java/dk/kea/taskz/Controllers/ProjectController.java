@@ -132,7 +132,7 @@ public class ProjectController {
 		String projectDeadline = projectData.getParameter("projectDeadline");
 
 
-		if (timeService.isDeadlineBeforeStartDate(LocalDate.parse(projectStartDate), LocalDate.parse(projectDeadline)) == false) {
+		if (timeService.isDeadlineBeforeStartDate(LocalDate.parse(projectStartDate), LocalDate.parse(projectDeadline)) == false || projectData.getParameter("projectName").equals(" ")) {
 			return "redirect:/newProject";
 
 		} else {

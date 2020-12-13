@@ -116,10 +116,14 @@
 		{
 			var projectStart = document.getElementById("startDateProjectForm").value;
 			var projectDeadline = document.getElementById("deadlineProjectForm").value;
+			const inputFormProjectName = document.querySelector('#inputFormProjectName');
+
+			if (inputFormProjectName.value === ' ') {
+				window.alert("Not a valid name. Try again");
+			}
 
 			if (projectStart >= projectDeadline) {
 				window.alert("Deadline cannot be before start date");
-				return false;
 			}
 		});
 

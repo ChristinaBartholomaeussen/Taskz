@@ -51,7 +51,6 @@ public class TaskRepository {
 						resultSet.getString(10),
 						resultSet.getInt(11)
 				);
-
 			}
 			
 		} catch (SQLException e) {

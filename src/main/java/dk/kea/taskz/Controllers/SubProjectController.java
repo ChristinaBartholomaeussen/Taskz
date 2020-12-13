@@ -148,13 +148,11 @@ public class SubProjectController
 
 		String subprojectName = data.getParameter("subprojectName");
 
-		if(timeService.isSubprojectStartDateAndDeadlineBetweenProject(projectService.getProjectByProjectId(activeProjectID), convertedSubprojectStartDate, convertedSubprojectDeadline) == false
-			|| timeService.isDeadlineBeforeStartDate(convertedSubprojectStartDate, convertedSubprojectDeadline) == false){
+		if (timeService.isSubprojectStartDateAndDeadlineBetweenProject(projectService.getProjectByProjectId(activeProjectID), convertedSubprojectStartDate, convertedSubprojectDeadline) == false
+				|| timeService.isDeadlineBeforeStartDate(convertedSubprojectStartDate, convertedSubprojectDeadline) == false || subprojectName.equals(" ")) {
 
 			return "redirect:/newSubProject";
-		}
-
-		else{
+		} else {
 			Subproject subproject = new Subproject(subprojectName, activeProjectID, convertedSubprojectStartDate, convertedSubprojectDeadline);
 			subprojectService.createSubproject(subproject);
 			return "redirect:/subprojects";

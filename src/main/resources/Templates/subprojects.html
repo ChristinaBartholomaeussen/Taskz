@@ -59,7 +59,8 @@
 					<div class="form-row">
 						<div class="form-group col-md-12">
 							<label for="newSubprojectName">Subproject Name</label>
-							<input type="text" class="form-control" id="newSubprojectName" name="subprojectName" placeholder="Enter subproject Name" autocomplete="off" required>
+							<input type="text" class="form-control" id="newSubprojectName" name="subprojectName"
+								   placeholder="Enter subproject Name" autocomplete="off" required>
 						</div>
 					</div>
 					<div class="form-row">
@@ -311,22 +312,22 @@
 	});
 
 
-	document.getElementById("subprojectButton").addEventListener("click", () =>
-	{
+	document.getElementById("subprojectButton").addEventListener("click", () => {
 
 		var pStart = [[${project.startDate}]];
 		var pDead = [[${project.deadline}]];
 
 		var subStart = document.getElementById("startDateSubprojectForm").value;
 		var subDeadLine = document.getElementById("deadlineSubprojectForm").value;
+		const newSubprojectName = document.querySelector('#newSubprojectName');
 
+		if (newSubprojectName.value === " ") {
+			window.alert("Not a valid subproject name. Try again");
+		}
 		if (subStart >= subDeadLine) {
 			window.alert("Deadline cannot be before start date");
-			return false;
-		}
-		else if(subStart <= pStart || subDeadLine >= pDead){
+		} else if (subStart <= pStart || subDeadLine >= pDead) {
 			alert("Must be between project");
-			return false;
 		}
 	});
 
