@@ -223,13 +223,18 @@ public class SubprojectRepository
 	 * @param subprojectID
 	 */
 
-	public void updateSubprojectCompletedTime(double preliminaryCompletedTime, int subprojectID) {
-		String updateSubprojectCompletedTime = "UPDATE subprojects SET Subproject_Completed_Time = ? WHERE Subproject_ID = ?";
+	public void updateSubprojectCompletedTime(int subprojectID) {
+
+		String updateSubprojectCompletedTime = "update subprojects s\n" +
+				"left outer join (select tasks.subproject_id, sum(tasks.task_estimated_time) as mysum\n" +
+				"from tasks where tasks.status = 1 group by tasks.subproject_id) as t\n" +
+				"on s.subproject_id = t.subproject_id\n" +
+				"set s.subproject_completed_time = t.mysum\n" +
+				"where s.subproject_id = ?";
 
 		try {
 			preparedStatement = ConnectionService.getConnection().prepareStatement(updateSubprojectCompletedTime);
-			preparedStatement.setDouble(1, preliminaryCompletedTime);
-			preparedStatement.setInt(2, subprojectID);
+			preparedStatement.setInt(1, subprojectID);
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {

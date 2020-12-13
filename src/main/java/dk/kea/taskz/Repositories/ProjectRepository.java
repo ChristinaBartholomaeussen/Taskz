@@ -163,13 +163,18 @@ public class ProjectRepository {
      * @param projectID
      */
 
-    public void updateProjectCompletedTime(double preliminaryCompletedTime, int projectID) {
-        String updateProjectCompletedTime = "UPDATE projects SET Project_Completed_Time = ? WHERE Project_ID = ?";
+    public void updateProjectCompletedTime(int projectID) {
+
+        String updateProjectCompletedTime = "update projects p\n" +
+                "left outer join (select subprojects.project_id, sum(subprojects.Subproject_Completed_Time) as mysum\n" +
+                "from subprojects group by subprojects.Project_ID) as s\n" +
+                "on p.project_id = s.project_id\n" +
+                "set p.project_completed_time = s.mysum\n" +
+                "where p.project_id = ?";
 
         try {
             preparedStatement = ConnectionService.getConnection().prepareStatement(updateProjectCompletedTime);
-            preparedStatement.setDouble(1, preliminaryCompletedTime);
-            preparedStatement.setInt(2, projectID);
+            preparedStatement.setInt(1, projectID);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

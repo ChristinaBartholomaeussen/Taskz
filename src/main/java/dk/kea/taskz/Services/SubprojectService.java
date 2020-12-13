@@ -23,6 +23,10 @@ public class SubprojectService
     @Autowired
     TaskRepository taskRepository;
 
+    @Autowired
+    TaskService taskService;
+
+
     List<Subproject> subprojectList = new ArrayList<>();
 
     /**
@@ -110,26 +114,17 @@ public class SubprojectService
      * @param projectId
      */
 
-    public void updateSubprojectCompletedTime(int projectId) {
-        List<Subproject> allAssociatedSubprojects = subprojectRepository.getAllAssociatedSubprojects(projectId);
+    public void updateSubprojectCompletedTime(int projectId){
 
-        double preliminaryCompletedTime = 0;
+        List<Subproject> subprojects = getAllSubprojects();
 
-        for (Subproject subproject : allAssociatedSubprojects) {
-            List<Task> associatedTasks = new ArrayList<>();
-
-            associatedTasks = taskRepository.getAllAssociatedTasksToSubproject(subproject.getSubprojectId());
-
-            for(Task task : associatedTasks) {
-                if (task.getStatus() == Status.COMPLETED) {
-                    preliminaryCompletedTime = preliminaryCompletedTime + task.getEstimatedTime();
-                }
+        for(Subproject s : subprojects){
+            if(s.getParentProjectId() == projectId){
+                subprojectRepository.updateSubprojectCompletedTime(s.getSubprojectId());
             }
-            subprojectRepository.updateSubprojectCompletedTime(preliminaryCompletedTime, subproject.getSubprojectId());
-
-            preliminaryCompletedTime = 0;
         }
     }
+
 
     public void updateSubprojectTotalEstimatedTime(int subprojectId) {
         subprojectRepository.updateSubprojectEstimated(subprojectId);

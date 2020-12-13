@@ -122,15 +122,7 @@ public class ProjectService
 	 */
 
 	public void updateProjectCompletedTime(int projectID) {
-		List<Subproject> subprojectList = subprojectRepository.getAllAssociatedSubprojects(projectID);
-
-		double projectPreliminaryCompletedTime = 0;
-
-        for (Subproject subproject : subprojectList) {
-            projectPreliminaryCompletedTime = projectPreliminaryCompletedTime + subproject.getSubprojectCompletedTime();
-        }
-
-        projectRepository.updateProjectCompletedTime(projectPreliminaryCompletedTime, projectID);
+	    projectRepository.updateProjectCompletedTime(projectID);
     }
 }
 

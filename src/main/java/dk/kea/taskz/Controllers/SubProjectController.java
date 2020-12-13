@@ -52,6 +52,7 @@ public class SubProjectController
 	 */
 	@GetMapping("/subprojects")
 	public String subprojects(Model model, HttpServletRequest request) {
+
 		int activeUserId = cookieService.getActiveUserId(request);
 
 		if (activeUserId == -1) {
@@ -71,6 +72,7 @@ public class SubProjectController
 		model.addAttribute("deletePopUp", false);
 		model.addAttribute("stopScroll", false);
 		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
+
 
 		return "subprojects";
 	}
@@ -110,37 +112,6 @@ public class SubProjectController
 		projectService.updateWorkloadPerDayV2(projectService.getProjectByProjectId(activeProjectID));
 
 		return "redirect:/subprojects";
-	}
-
-	/**
-	 * - OVO
-	 * A GetMapping for subprojects.
-	 * has a bunch of model.addAttribute, which is used to load differing things, when needed.
-	 *
-	 * @param model
-	 * @return "subprojects"
-	 */
-	@GetMapping("/subprojects")
-	public String subprojects(Model model)
-	{
-
-
-		if (activeProjectID == -1) {
-			return "redirect:/projects";
-		}
-
-		model.addAttribute("activeProjectID", activeProjectID);
-		model.addAttribute("project", projectService.getProjectByProjectId(activeProjectID));
-		model.addAttribute("popup", false);
-		model.addAttribute("taskPopUp", false);
-		model.addAttribute("subprojectList", subprojectService.getAllAssociatedSubprojects(activeProjectID));
-		model.addAttribute("deletePopUp", false);
-		model.addAttribute("stopScroll", false);
-		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
-
-		projectService.updateProjectEstimatedTime(activeProjectID);
-
-		return "subprojects";
 	}
 
 	/**
@@ -237,6 +208,7 @@ public class SubProjectController
 	 */
 	@PostMapping("/postOpenSubproject")
 	public String seeSubProject(WebRequest data) {
+
 		activeProjectID = subprojectService.getParentId(Integer.valueOf(data.getParameter("subprojectId")));
 		return "redirect:/subprojects";
 	}
@@ -254,7 +226,8 @@ public class SubProjectController
 
 		taskService.updateTaskStatus(idTask);
 
-		subprojectService.updateSubprojectCompletedTime(activeProjectID);
+		subprojectService.updateSubprojectCompletedTime(activeProjectID); //Virker
+
 
 		projectService.updateProjectCompletedTime(activeProjectID);
 

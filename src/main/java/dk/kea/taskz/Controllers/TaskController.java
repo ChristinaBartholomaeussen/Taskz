@@ -89,8 +89,6 @@ public class TaskController {
 		model.addAttribute("skills", skillService.getListOfSkills());
 
 
-
-
 		return "subprojects";
 	}
 
@@ -126,7 +124,12 @@ public class TaskController {
 
 			taskService.insertTask(task);
 
-			subprojectService.updateSubprojectTotalEstimatedTime(Integer.valueOf(subprojectId));
+			subprojectService.updateSubprojectTotalEstimatedTime(Integer.valueOf(subprojectId)); // virker
+			subprojectService.updateSubprojectCompletedTime(Integer.valueOf(subprojectId)); //virker
+
+			projectService.updateProjectEstimatedTime(parentProject);
+			projectService.updateProjectCompletedTime(activeProjectID);
+
 			subprojectList = subprojectService.getAllSubprojects();
 			subprojectService.updateWorkloadPerDay(subprojectList);
 
@@ -155,13 +158,14 @@ public class TaskController {
 
 		taskService.deleteTask(idTask);
 
-		subprojectService.updateSubprojectTotalEstimatedTime(subprojectsID);
-		projectService.updateProjectEstimatedTime(parentProject);
+		subprojectService.updateSubprojectTotalEstimatedTime(subprojectsID); //Virker
+		projectService.updateProjectEstimatedTime(parentProject); //Virker
+		subprojectService.updateSubprojectCompletedTime(parentProject); //Virker
+		projectService.updateProjectCompletedTime(parentProject);
 
 		subprojectService.updateWorkloadPerDay(subprojectList);
 
 		projectService.updateAllProjectsWorkloadPerDay();
-
 
 
 
