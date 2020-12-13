@@ -84,12 +84,26 @@ public class TaskRepository {
 			preparedStatement.setString(10, task.getSkill());
 
 			preparedStatement.execute();
-
 			setATaskToRelocateResources(task.getMember(), task.getTaskId());
 
 		} catch (SQLException e) {
 			System.out.println("Error happened in TaskRepository at insertNewTaskToDB" + e);
 		}
+	}
+
+	public void upDateIsDifficult(int id) {
+		String updateQuery = "UPDATE tasks SET Is_Difficult = ? WHERE Task_ID = ?";
+
+		try {
+			preparedStatement = ConnectionService.getConnection().prepareStatement(updateQuery);
+			preparedStatement.setInt(1, 1);
+			preparedStatement.setInt(2, id);
+
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Class: TaskRepo, Method: upDateIsDifficult(int id), Error: " + e.getMessage());
+		}
+
 	}
 
 	/**
@@ -202,26 +216,11 @@ public class TaskRepository {
 			}
 		}
 	}
-	
-	public void upDateIsDifficult(int id) {
-		String updateQuery = "UPDATE tasks SET Is_Difficult = ? WHERE Task_ID = ?";
-		
-		try {
-			preparedStatement = ConnectionService.getConnection().prepareStatement(updateQuery);
-			preparedStatement.setInt(1, 1);
-			preparedStatement.setInt(2, id);
-			
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println("Class: TaskRepo, Method: upDateIsDifficult(int id), Error: " + e.getMessage());
-		}
-		
-	}
+
 	
 	public void setATaskToRelocateResources(String teammember, int taskId) {
 
 		String taskSkill = null;
-
 
 		String setToDifficult = "select tasks.task_id, tasks.skill_description\n" +
 				"from tasks\n" +

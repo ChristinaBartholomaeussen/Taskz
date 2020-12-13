@@ -287,7 +287,52 @@
 	//Gets the data from thymeleaf, and passes it along to another document
 	const project = [[${project}]];
 	const subprojects = [[${subprojectList}]];
+
+	document.getElementById("taskButton").addEventListener("click", () => {
+		var startdate;
+		var deadline;
+
+		var subprojectID = [[${subprojectsID}]];
+		var list = [[${subprojectList}]];
+
+		var taskD = document.getElementById("taskDeadline").value;
+
+		for(var i = 0; i < list.length; i++){
+			if(list[i].subprojectId === subprojectID){
+				startdate = list[i].subprojectStartDate;
+				deadline = list[i].subprojectDeadline;
+			}
+		}
+
+		if(taskD <= startdate || taskD >= deadline) {
+			alert("Must be between subproject");
+			return false;
+		}
+	});
+
+
+	document.getElementById("subprojectButton").addEventListener("click", () =>
+	{
+
+		var pStart = [[${project.startDate}]];
+		var pDead = [[${project.deadline}]];
+
+		var subStart = document.getElementById("startDateSubprojectForm").value;
+		var subDeadLine = document.getElementById("deadlineSubprojectForm").value;
+
+		if (subStart >= subDeadLine) {
+			window.alert("Deadline cannot be before start date");
+			return false;
+		}
+		else if(subStart <= pStart || subDeadLine >= pDead){
+			alert("Must be between project");
+			return false;
+		}
+	});
+
 </script>
+
+
 <script type="text/javascript" th:src="@{/gantt.js}"></script>
 
 </body>
