@@ -103,15 +103,45 @@ public class SubProjectController
 		String id = data.getParameter("deleteSubProject");
 
 		subprojectService.deleteSubProject(Integer.valueOf(id));
-		subprojectService.updateSubprojectTotalEstimatedTime();
+		subprojectService.updateSubprojectTotalEstimatedTime(Integer.valueOf(id));
 		subprojectService.updateWorkloadPerDay(subprojectService.getAllAssociatedSubprojectsWithoutTasks(activeProjectID));
 
-		projectService.updateProjectEstimatedTime();
+		projectService.updateProjectEstimatedTime(activeProjectID);
 		projectService.updateWorkloadPerDayV2(projectService.getProjectByProjectId(activeProjectID));
 
 		return "redirect:/subprojects";
 	}
 
+	/**
+	 * - OVO
+	 * A GetMapping for subprojects.
+	 * has a bunch of model.addAttribute, which is used to load differing things, when needed.
+	 *
+	 * @param model
+	 * @return "subprojects"
+	 */
+	@GetMapping("/subprojects")
+	public String subprojects(Model model)
+	{
+
+
+		if (activeProjectID == -1) {
+			return "redirect:/projects";
+		}
+
+		model.addAttribute("activeProjectID", activeProjectID);
+		model.addAttribute("project", projectService.getProjectByProjectId(activeProjectID));
+		model.addAttribute("popup", false);
+		model.addAttribute("taskPopUp", false);
+		model.addAttribute("subprojectList", subprojectService.getAllAssociatedSubprojects(activeProjectID));
+		model.addAttribute("deletePopUp", false);
+		model.addAttribute("stopScroll", false);
+		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
+
+		projectService.updateProjectEstimatedTime(activeProjectID);
+
+		return "subprojects";
+	}
 
 	/**
 	 *  - OVO

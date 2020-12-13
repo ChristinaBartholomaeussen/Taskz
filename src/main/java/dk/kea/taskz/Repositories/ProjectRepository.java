@@ -24,7 +24,6 @@ public class ProjectRepository {
      */
     public List<Project> getAllProjectsFromDatabase()
     {
-        updateProjectEstimatedTime();
         String selectAllProjects = "SELECT Project_Id, Project_Name, Project_StartDate, Deadline, Workload_Per_Day, Project_Estimated_Time, Project_Completed_Time FROM projects";
         List<Project> allProjects = new ArrayList<>();
 
@@ -108,17 +107,18 @@ public class ProjectRepository {
      * PrepareStatement to sent the query and then a executeUpdate method.
      */
 
-    public void updateProjectEstimatedTime(){
+    public void updateProjectEstimatedTime(int projectId){
 
         String updateTotalTime = "update projects p " +
                 "inner join (select subprojects.Project_ID, " +
                 "sum(subprojects.Subproject_Estimated_time) as mysum " +
                 "from subprojects group by " +
                 "subprojects.Project_ID) as s on p.Project_ID = s.Project_ID set p.Project_Estimated_Time" +
-                " = s.mysum where p.Project_ID = s.Project_ID";
+                " = s.mysum where p.Project_ID = ?";
 
         try{
             preparedStatement = ConnectionService.getConnection().prepareStatement(updateTotalTime);
+            preparedStatement.setInt(1, projectId);
             preparedStatement.executeUpdate();
 
         }catch (SQLException e){

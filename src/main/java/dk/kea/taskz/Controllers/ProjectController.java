@@ -84,6 +84,7 @@ public class ProjectController {
 		model.addAttribute("projectList", projectList);
 		model.addAttribute("deletePopUp", false);
 
+
 		return "projects";
 	}
 

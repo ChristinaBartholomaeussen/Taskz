@@ -126,11 +126,10 @@ public class TaskController {
 
 			taskService.insertTask(task);
 
-			subprojectService.updateSubprojectTotalEstimatedTime();
+			subprojectService.updateSubprojectTotalEstimatedTime(Integer.valueOf(subprojectId));
 			subprojectList = subprojectService.getAllSubprojects();
 			subprojectService.updateWorkloadPerDay(subprojectList);
 
-			projectService.updateProjectEstimatedTime();
 			projectService.updateAllProjectsWorkloadPerDay();
 
 			return "redirect:/subprojects";
@@ -148,15 +147,23 @@ public class TaskController {
 	 */
 	@PostMapping("/deleteTask")
 	public String deleteTask(WebRequest data) {
+
+		subprojectList = subprojectService.getAllSubprojects();
+		projectList = projectService.getAllProjects();
+
 		int idTask = Integer.parseInt(data.getParameter("deleteTask"));
+
 		taskService.deleteTask(idTask);
 
-		subprojectService.updateSubprojectTotalEstimatedTime();
-		subprojectList = subprojectService.getAllSubprojects();
+		subprojectService.updateSubprojectTotalEstimatedTime(subprojectsID);
+		projectService.updateProjectEstimatedTime(parentProject);
+
 		subprojectService.updateWorkloadPerDay(subprojectList);
 
-		projectService.updateProjectEstimatedTime();
 		projectService.updateAllProjectsWorkloadPerDay();
+
+
+
 
 		return "redirect:/subprojects";
 	}

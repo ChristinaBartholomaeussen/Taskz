@@ -109,8 +109,8 @@ public class ProjectService
 		return projectRepository.getProjectByProjectId(activeProjectID);
 	}
 
-	public void updateProjectEstimatedTime() {
-		projectRepository.updateProjectEstimatedTime();
+	public void updateProjectEstimatedTime(int projectId) {
+		projectRepository.updateProjectEstimatedTime(projectId);
 	}
 
 	/**

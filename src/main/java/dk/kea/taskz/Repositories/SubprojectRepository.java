@@ -44,7 +44,7 @@ public class SubprojectRepository
         try {
             preparedStatement = ConnectionService.getConnection().prepareStatement(getAllAssociatedSubprojectsSqlStatement);
             ResultSet rs = preparedStatement.executeQuery();
-			updateSubprojectEstimated();
+
             while(rs.next()) {
 				subprojectList.add(new Subproject(
 						rs.getInt(1),
@@ -114,7 +114,7 @@ public class SubprojectRepository
 			preparedStatement.setInt(1, Subproject_ID);
 
 			preparedStatement.execute();
-			projectRepository.updateProjectEstimatedTime();
+
 
 		} catch (SQLException e) {
 			System.out.println("Klasse: SubprojectRepository\nMethode: deleteSubProject()\nError: " + e.getMessage());
@@ -160,17 +160,18 @@ public class SubprojectRepository
 	}
 
 
-	public void updateSubprojectEstimated(){
+	public void updateSubprojectEstimated(int subprojectId){
 
     	String updateTotalEstimatedTime = "update subprojects s\n" +
-				"right outer join (select tasks.SubProject_ID, sum(tasks.Task_Estimated_Time) as mysum\n" +
-				"\t\tfrom tasks group by tasks.SubProject_ID) as t\n" +
-				"        on s.Subproject_ID = t.SubProject_ID\n" +
-				"\t\tset s.Subproject_Estimated_Time = t.mysum\n" +
-				"        where s.Subproject_ID = t.SubProject_ID";
+				"left outer join (select tasks.subproject_id, coalesce(sum(tasks.task_estimated_time), 0) as mysum\n" +
+				"from tasks group by tasks.subproject_id) as t\n" +
+				"  on s.subproject_id = t.subproject_id\n" +
+				"  set s.subproject_estimated_time = t.mysum\n" +
+				"where s.subproject_id = ?";
 
     	try{
     		preparedStatement = ConnectionService.getConnection().prepareStatement(updateTotalEstimatedTime);
+    		preparedStatement.setInt(1, subprojectId);
 			preparedStatement.executeUpdate();
 
 		}catch (SQLException e){
