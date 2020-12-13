@@ -131,8 +131,7 @@ public class TaskController {
 			subprojectService.updateWorkloadPerDay(subprojectList);
 
 			projectService.updateProjectEstimatedTime();
-			projectList = projectService.getAllProjects();
-			projectService.updateWorkloadPerDay(projectList);
+			projectService.updateAllProjectsWorkloadPerDay();
 
 			return "redirect:/subprojects";
 		}
@@ -157,8 +156,7 @@ public class TaskController {
 		subprojectService.updateWorkloadPerDay(subprojectList);
 
 		projectService.updateProjectEstimatedTime();
-		projectList = projectService.getAllProjects();
-		projectService.updateWorkloadPerDay(projectList);
+		projectService.updateAllProjectsWorkloadPerDay();
 
 		return "redirect:/subprojects";
 	}

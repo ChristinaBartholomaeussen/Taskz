@@ -53,10 +53,11 @@ public class ProjectService
      * Updates Workload_Per_Day in the database, based on the arrayList we get from getAllProjects()
      * Collects Total_Estimated_Time from the project and calculates Work_Hours_Per_Day
      * The calculation accounts for a business week eg. 5 days
-     * @param projectList
      */
 
-    public void updateWorkloadPerDay(List<Project> projectList) {
+    public void updateAllProjectsWorkloadPerDay() {
+
+        List<Project> projectList = getAllProjects();
 
         double convertedDaysBetween = 0;
 

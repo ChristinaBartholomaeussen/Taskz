@@ -61,9 +61,8 @@ public class ProjectController {
 	@GetMapping("/projects")
 	public String projects(Model model)
 	{
-
 		projectList = projectService.getAllProjects();
-		projectService.updateWorkloadPerDay(projectList);
+		projectService.updateAllProjectsWorkloadPerDay();
 		subprojectList = subprojectService.getAllSubprojects();
 		subprojectService.updateWorkloadPerDay(subprojectList);
 
