@@ -62,37 +62,13 @@ public class TaskRepository {
 	}
 
 	/**
-	 * - OVO
-	 * Gets the latest id from the database
-	 *
-	 * @return
-	 */
-	/*public int getLatestIdFromDB() {
-		try {
-			preparedStatement = ConnectionService.getConnection().prepareStatement("SELECT * FROM taskz.tasks ORDER BY Task_ID DESC LIMIT 1;");
-			ResultSet resultSet = preparedStatement.executeQuery();
-
-			while(resultSet.next()) {
-				return resultSet.getInt(1);
-			}
-			
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-		
-		return 404;
-	}*/
-
-	/**
 	 *  - OVO
 	 *  Creates a task from the database.
 	 * @param task
 	 */
 	public void insertNewTaskToDB(Task task) {
 
-		String insertTaskSQL = "INSERT INTO taskz.tasks(Task_ID, SubProject_ID, Task_Name, Priority, Complexity, Task_Deadline, Task_Estimated_Time, Status, Member, Skill_description) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?)";
-
-		//int id = getLatestIdFromDB() + 1;
+		String insertTaskSQL = "INSERT INTO tasks(Task_ID, SubProject_ID, Task_Name, Priority, Complexity, Task_Deadline, Task_Estimated_Time, Status, Member, Skill_description) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?)";
 
 		try {
 			preparedStatement = ConnectionService.getConnection().prepareStatement(insertTaskSQL);
@@ -109,7 +85,7 @@ public class TaskRepository {
 
 			preparedStatement.execute();
 
-			setATaskToRelocateResources(task.getMember());
+			setATaskToRelocateResources(task.getMember(), task.getTaskId());
 
 		} catch (SQLException e) {
 			System.out.println("Error happened in TaskRepository at insertNewTaskToDB" + e);
@@ -242,11 +218,10 @@ public class TaskRepository {
 		
 	}
 	
-	public void setATaskToRelocateResources(String teammember) {
-
+	public void setATaskToRelocateResources(String teammember, int taskId) {
 
 		String taskSkill = null;
-		int taskId = -1;
+
 
 		String setToDifficult = "select tasks.task_id, tasks.skill_description\n" +
 				"from tasks\n" +
