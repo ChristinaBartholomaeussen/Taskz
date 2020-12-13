@@ -326,7 +326,7 @@
 		}
 		if (subStart >= subDeadLine) {
 			window.alert("Deadline cannot be before start date");
-		} else if (subStart <= pStart || subDeadLine >= pDead) {
+		} else if (subStart < pStart || subDeadLine > pDead) {
 			alert("Must be between project");
 		}
 	});

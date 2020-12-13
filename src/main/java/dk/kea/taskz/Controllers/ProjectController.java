@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -59,6 +61,7 @@ public class ProjectController {
 	@GetMapping("/projects")
 	public String projects(Model model)
 	{
+
 		projectList = projectService.getAllProjects();
 		projectService.updateWorkloadPerDay(projectList);
 		subprojectList = subprojectService.getAllSubprojects();
@@ -112,6 +115,7 @@ public class ProjectController {
 
 		model.addAttribute("popup", true);
 		model.addAttribute("projectList", projectService.getAllProjects());
+
 
 		return "projects";
 	}
