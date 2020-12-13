@@ -3,10 +3,7 @@ package dk.kea.taskz.Controllers;
 import dk.kea.taskz.Models.Project;
 import dk.kea.taskz.Models.Subproject;
 import dk.kea.taskz.Models.Task;
-import dk.kea.taskz.Services.ProjectService;
-import dk.kea.taskz.Services.SubprojectService;
-import dk.kea.taskz.Services.TaskService;
-import dk.kea.taskz.Services.TimeService;
+import dk.kea.taskz.Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +30,9 @@ public class SubProjectController
 
 	@Autowired
 	TimeService timeService;
+
+	@Autowired
+	CookieService cookieService;
 
 	int activeProjectIDToTest = 1; // This one is only for the header fragment rendering.
 	static int activeProjectID = -1;
@@ -87,8 +88,14 @@ public class SubProjectController
 	 * @return "subprojects"
 	 */
 	@GetMapping("/subprojects")
-	public String subprojects(Model model)
-	{
+	public String subprojects(Model model, HttpServletRequest request) {
+		int activeUserId = cookieService.getActiveUserId(request);
+
+		if (activeUserId == -1) {
+			return "redirect:/login";
+		}
+
+
 		if (activeProjectID == -1) {
 			return "redirect:/projects";
 		}
@@ -197,7 +204,7 @@ public class SubProjectController
 	 * @param data
 	 * @return
 	 */
-	@PostMapping("/postSeeSubproject")
+	@PostMapping("/postOpenSubproject")
 	public String seeSubProject(WebRequest data) {
 		activeProjectID = subprojectService.getParentId(Integer.valueOf(data.getParameter("subprojectId")));
 		return "redirect:/subprojects";

@@ -2,6 +2,7 @@ package dk.kea.taskz.Controllers;
 
 import dk.kea.taskz.Models.Project;
 import dk.kea.taskz.Models.Subproject;
+import dk.kea.taskz.Services.CookieService;
 import dk.kea.taskz.Services.ProjectService;
 import dk.kea.taskz.Services.SubprojectService;
 import dk.kea.taskz.Services.TimeService;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
@@ -28,6 +31,9 @@ public class ProjectController {
 
 	@Autowired
 	TimeService timeService;
+
+	@Autowired
+	CookieService cookieService;
 
 	List<Project> projectList;
 
@@ -59,8 +65,14 @@ public class ProjectController {
 	 */
 
 	@GetMapping("/projects")
-	public String projects(Model model)
-	{
+	public String projects(Model model, HttpServletRequest request) {
+		int activeUserId = cookieService.getActiveUserId(request);
+
+		if (activeUserId == -1) {
+			return "redirect:/login";
+		}
+
+
 		projectList = projectService.getAllProjects();
 		projectService.updateAllProjectsWorkloadPerDay();
 		subprojectList = subprojectService.getAllSubprojects();
@@ -114,7 +126,6 @@ public class ProjectController {
 
 		model.addAttribute("popup", true);
 		model.addAttribute("projectList", projectService.getAllProjects());
-
 
 		return "projects";
 	}

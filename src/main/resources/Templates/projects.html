@@ -80,7 +80,12 @@
 							</form>
 						</td>
 						<td>
-					<form method="post" action="/postSubprojects"><button type="submit" name="projectId" th:value="${project.getProjectId}" class="btn btn-primary">See Project</button></form></td>
+							<form method="post" action="/postSubprojects">
+								<button type="submit" name="projectId" th:value="${project.getProjectId}"
+										class="btn btn-primary">Open Project
+								</button>
+							</form>
+						</td>
 						
 					</tr>
 				</tbody>

@@ -1,5 +1,6 @@
 package dk.kea.taskz.Controllers;
 
+import dk.kea.taskz.Services.CookieService;
 import dk.kea.taskz.Services.MemberService;
 import dk.kea.taskz.Services.SubprojectService;
 import dk.kea.taskz.Services.TaskService;
@@ -22,6 +23,9 @@ public class ProfileController {
 
 	@Autowired
 	SubprojectService subprojectService;
+	
+	@Autowired
+	CookieService cookieService;
 
 	int activeUserId = -1;
 
@@ -36,11 +40,10 @@ public class ProfileController {
 	@GetMapping("/profile")
 	public String yourProfile(Model model, HttpServletRequest request) {
 
-		Cookie[] ck = request.getCookies();
-		for (Cookie cookie : ck) {
-			if (cookie.getName().equals("id")) {
-				activeUserId = Integer.parseInt(cookie.getValue());
-			}
+		int activeUserId = cookieService.getActiveUserId(request);
+		
+		if (activeUserId == -1) {
+			return "redirect:/login";
 		}
 
 		model.addAttribute("member", memberService.getSingleMember(activeUserId));
