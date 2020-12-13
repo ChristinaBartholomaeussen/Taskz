@@ -153,15 +153,11 @@ public class TaskController {
 		taskService.deleteTask(idTask);
 
 		subprojectService.updateSubprojectTotalEstimatedTime();
-
 		subprojectList = subprojectService.getAllSubprojects();
-
 		subprojectService.updateWorkloadPerDay(subprojectList);
 
 		projectService.updateProjectEstimatedTime();
-
 		projectList = projectService.getAllProjects();
-
 		projectService.updateWorkloadPerDay(projectList);
 
 		return "redirect:/subprojects";
