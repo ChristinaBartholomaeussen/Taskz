@@ -50,11 +50,11 @@ public class SubprojectRepository
 						rs.getInt(1),
 						rs.getString(2),
 						rs.getInt(3),
-						rs.getDouble(5),
+						rs.getDouble(4),
+						rs.getDate(5).toLocalDate(),
 						rs.getDate(6).toLocalDate(),
-						rs.getDate(7).toLocalDate(),
-						rs.getString(8),
-						rs.getDouble(9)
+						rs.getString(7),
+						rs.getDouble(8)
 				));
             }
 
