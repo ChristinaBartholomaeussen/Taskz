@@ -10,14 +10,26 @@ public class CookieService {
 	
 	public int getActiveUserId(HttpServletRequest request) {
 
-		Cookie[] ck = request.getCookies();
-		if (ck.length > 0) {
-			for (Cookie cookie : ck) {
-				if (cookie.getName().equals("id")) {
-					return Integer.parseInt(cookie.getValue());
+
+		try {
+
+			Cookie cookie[] = request.getCookies();
+
+			Cookie cookieId = new Cookie("id", "");
+
+			for (Cookie cookie1 : cookie) {
+				if (cookie1.getName().equals("id")) {
+					cookieId.setValue(cookie1.getValue());
 				}
 			}
+
+			return Integer.valueOf(cookieId.getValue());
+
+		} catch (Exception e) {
+			
+			System.out.println("cookiesServivce, Error: " + e.getMessage());
 		}
+
 		return -1;
 	}
 }
