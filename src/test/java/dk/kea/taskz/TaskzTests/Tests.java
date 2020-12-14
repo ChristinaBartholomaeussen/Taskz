@@ -10,6 +10,7 @@ import dk.kea.taskz.Models.Task;
 import dk.kea.taskz.Repositories.ProjectRepository;
 import dk.kea.taskz.Repositories.SubprojectRepository;
 import dk.kea.taskz.Repositories.TaskRepository;
+import org.apache.tomcat.jni.Local;
 import org.junit.jupiter.api.Test;
 
 import java.sql.*;
@@ -140,6 +141,7 @@ class Tests
 	@Test
     public void testInsertTaskToDatabase()
     {
+        // ARRANGE
         ProjectRepository projectRepository = new ProjectRepository();
         SubprojectRepository subprojectRepository = new SubprojectRepository();
         TaskRepository taskRepository = new TaskRepository();
@@ -147,15 +149,14 @@ class Tests
         int projectId = 0;
         int parentSubprojectId = 0;
 
+        projectRepository.insertProjectIntoDatabase(new Project("UNITTESTPROJECT", LocalDate.now(), LocalDate.now().plusDays(7)));
+        Subproject subprojectToBeInserted = new Subproject("UNITTESTSUBPROJECT",projectId,LocalDate.now(),LocalDate.now().plusDays(7));
         Task taskToInsert = new Task(parentSubprojectId,"TASKUNITTEST",Priority.CRITICAL,Complexity.VERY_HARD,LocalDate.now().plusDays(7),10,Status.ACTIVE,"Rune","JAVA");
 
         Task taskToTest = new Task();
 
         try
         {
-            projectRepository.insertProjectIntoDatabase(new Project("UNITTESTPROJECT", LocalDate.now(), LocalDate.now().plusDays(7)));
-            Subproject subprojectToBeInserted = new Subproject("UNITTESTSUBPROJECT",projectId,LocalDate.now(),LocalDate.now().plusDays(7));
-
             String sqlGetProjectIdOfTestProject = "SELECT Project_ID FROM projects WHERE Project_Name  = 'UNITTESTPROJECT'";
             PreparedStatement ps = connection().prepareStatement(sqlGetProjectIdOfTestProject);
             ResultSet rs = ps.executeQuery();
@@ -176,6 +177,7 @@ class Tests
                 taskToInsert.setParentSubProjectId(rs.getInt(1));
             }
 
+            // ACT
             taskRepository.insertNewTaskToDB(taskToInsert);
 
             String sqlQueryToGetTestTask = "SELECT * FROM tasks WHERE Task_Name = 'TASKUNITTEST'";
@@ -203,6 +205,68 @@ class Tests
             e.printStackTrace();
         }
 
+        // ASSERT
         assertEquals(taskToTest,taskToTest);
+    }
+
+    @Test
+    public void testUpdateTaskStatusToDatabase()
+    {
+        // ARRANGE
+        ProjectRepository projectRepository = new ProjectRepository();
+        SubprojectRepository subprojectRepository = new SubprojectRepository();
+        TaskRepository taskRepository = new TaskRepository();
+
+        int projectId = 0;
+        int subprojectId = 0;
+        int taskId = 0;
+
+        projectRepository.insertProjectIntoDatabase(new Project("UNITTESTPROJECT", LocalDate.now(),LocalDate.now().plusDays(7)));
+        Subproject subprojectToBeInserted = new Subproject("UNITTESTSUBPROJECT",projectId,LocalDate.now(),LocalDate.now().plusDays(7));
+        Task taskToInsert = new Task(subprojectId,"TASKUNITTEST",Priority.CRITICAL,Complexity.VERY_HARD,LocalDate.now().plusDays(7),10,Status.ACTIVE,"Rune","JAVA");
+        Task taskToTest = new Task();
+        try
+        {
+            String sqlGetProjectId = "SELECT Project_ID FROM projects WHERE Project_Name = 'UNITTESTPROJECT'";
+            PreparedStatement ps = connection().prepareStatement(sqlGetProjectId);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next())
+            {
+                subprojectToBeInserted.setParentProjectId(rs.getInt(1));
+            }
+            subprojectRepository.insertSubProjectIntoDB(subprojectToBeInserted);
+
+            String sqlGetSubprojectId = "SELECT Subproject_ID FROM subprojects WHERE Subproject_Name = 'UNITTESTSUBPROJECT'";
+            ps = connection().prepareStatement(sqlGetSubprojectId);
+            rs = ps.executeQuery();
+            while(rs.next())
+            {
+                taskToInsert.setParentSubProjectId(rs.getInt(1));
+            }
+            taskRepository.insertNewTaskToDB(taskToInsert);
+
+            // ACT
+            taskRepository.updateTaskStatus(taskToInsert.getTaskId());
+
+            String sqlGetTaskStatus = "SELECT status FROM tasks WHERE Task_Name = 'TASKUNITTEST'";
+            ps = connection().prepareStatement(sqlGetTaskStatus);
+            rs = ps.executeQuery();
+
+            while(rs.next())
+            {
+                taskToTest.setStatus(Status.values()[rs.getInt(1)]);
+            }
+
+            String deleteEvidence = "DELETE FROM projects WHERE Project_Name = 'UNITTESTPROJECT'";
+            ps = connection().prepareStatement(deleteEvidence);
+            ps.execute();
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error happened in Tests at testUpdateTaskStatusToDatabase(): " + e);
+        }
+
+        // ASSERT
+        assertEquals(taskToTest.getStatus(),taskToInsert.getStatus());
     }
 }
