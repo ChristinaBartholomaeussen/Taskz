@@ -245,6 +245,14 @@ class Tests
             }
             taskRepository.insertNewTaskToDB(taskToInsert);
 
+            String sqlGetTaskId = "SELECT Task_ID FROM tasks WHERE Task_Name = 'TASKUNITTEST'";
+            ps = connection().prepareStatement(sqlGetTaskId);
+            rs = ps.executeQuery();
+            while(rs.next())
+            {
+                taskToInsert.setTaskId(rs.getInt(1));
+            }
+
             // ACT
             taskRepository.updateTaskStatus(taskToInsert.getTaskId());
 
@@ -256,6 +264,8 @@ class Tests
             {
                 taskToTest.setStatus(Status.values()[rs.getInt(1)]);
             }
+
+            taskToInsert.setStatus(Status.COMPLETED);
 
             String deleteEvidence = "DELETE FROM projects WHERE Project_Name = 'UNITTESTPROJECT'";
             ps = connection().prepareStatement(deleteEvidence);
