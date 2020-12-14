@@ -104,8 +104,11 @@ public class SubProjectController
 	{
 		String id = data.getParameter("deleteSubProject");
 
+
 		subprojectService.deleteSubProject(Integer.valueOf(id));
 		subprojectService.updateSubprojectTotalEstimatedTime(Integer.valueOf(id));
+		//projectService.updateProjectCompletedTime(activeProjectID);
+
 		subprojectService.updateWorkloadPerDay(subprojectService.getAllAssociatedSubprojectsWithoutTasks(activeProjectID));
 
 		projectService.updateProjectEstimatedTime(activeProjectID);
