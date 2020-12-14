@@ -9,11 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 public class CookieService {
 	
 	public int getActiveUserId(HttpServletRequest request) {
-		
+
 		Cookie[] ck = request.getCookies();
-		for (Cookie cookie : ck) {
-			if (cookie.getName().equals("id")) {
-				return Integer.parseInt(cookie.getValue());
+		if (ck.length > 0) {
+			for (Cookie cookie : ck) {
+				if (cookie.getName().equals("id")) {
+					return Integer.parseInt(cookie.getValue());
+				}
 			}
 		}
 		return -1;

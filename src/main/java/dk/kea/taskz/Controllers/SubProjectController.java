@@ -52,7 +52,6 @@ public class SubProjectController
 	 */
 	@GetMapping("/subprojects")
 	public String subprojects(Model model, HttpServletRequest request) {
-
 		int activeUserId = cookieService.getActiveUserId(request);
 
 		if (activeUserId == -1) {
@@ -72,7 +71,6 @@ public class SubProjectController
 		model.addAttribute("deletePopUp", false);
 		model.addAttribute("stopScroll", false);
 		//model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
-
 
 		return "subprojects";
 	}

@@ -84,8 +84,10 @@
 						<td th:if="${task.getIsDifficult}" class="bg-warning text-center">Limited efficiency</td>
 						<td th:unless="${task.getIsDifficult}" class="text-center">Good</td>
 						<td>
-							<form th:method="post" th:action="postSeeSubproject">
-								<button class="btn btn-primary" th:value="${task.getParentSubProjectId}" name="subprojectId">See Project</button>
+							<form th:method="post" th:action="postOpenSubproject">
+								<button class="btn btn-primary" th:value="${task.getParentSubProjectId}"
+										name="subprojectId">Open Project
+								</button>
 							</form>
 						</td>
 
