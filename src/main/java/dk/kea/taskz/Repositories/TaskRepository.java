@@ -83,7 +83,6 @@ public class TaskRepository {
 			preparedStatement.setString(10, task.getSkill());
 
 			preparedStatement.execute();
-			setATaskToRelocateResources(task.getMember(), task.getTaskId());
 
 		} catch (SQLException e) {
 			System.out.println("Error happened in TaskRepository at insertNewTaskToDB" + e);

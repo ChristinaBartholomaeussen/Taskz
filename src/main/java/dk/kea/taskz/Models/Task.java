@@ -6,6 +6,7 @@ import dk.kea.taskz.Models.Enums.Priority;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 
 public class Task
@@ -172,10 +173,26 @@ public class Task
 		return isDifficult;
 	}
 
-	/*@Override
-	public String toString() {
-    	return "Sub project id: " + parentSubProjectId + "\nTask name: " + taskName + "\nPrio: " + priority + "\nComplexity: " + complexity + "\ndeadline: " + deadline + "\nestimatidtime: " + estimatedTime + "\nStatus: " + status;
-	}*/
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+		Task task = (Task) o;
+		return parentSubProjectId == task.parentSubProjectId && Double.compare(task.estimatedTime, estimatedTime) == 0 && Objects.equals(taskName, task.taskName) && Objects.equals(deadline, task.deadline) && Objects.equals(status, task.status) && Objects.equals(priority, task.priority) && Objects.equals(complexity, task.complexity) && Objects.equals(member, task.member) && Objects.equals(skill, task.skill);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(parentSubProjectId, taskName, deadline, estimatedTime, status, priority, complexity, member, skill);
+	}
 }
 
 

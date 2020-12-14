@@ -125,8 +125,8 @@ class Tests
             }
 
             String deleteEvidence = "DELETE FROM projects WHERE Project_Name = 'UNITTESTPROJECT'";
-            PreparedStatement psThree = connection().prepareStatement(deleteEvidence);
-            psThree.execute();
+            ps = connection().prepareStatement(deleteEvidence);
+            ps.execute();
         }
         catch(Exception e)
         {
@@ -140,53 +140,69 @@ class Tests
 	@Test
     public void testInsertTaskToDatabase()
     {
+        ProjectRepository projectRepository = new ProjectRepository();
+        SubprojectRepository subprojectRepository = new SubprojectRepository();
         TaskRepository taskRepository = new TaskRepository();
-        Task taskToInsertAndRetrieveFromDatabase = new Task
-                (9999,
-                        "TaskTest",
-                        Priority.CRITICAL,
-                        Complexity.VERY_HARD,
-                        LocalDate.now().plusDays(7),
-                        10,
-                        Status.ACTIVE,
-                        "Tester",
-                        "UnitTest");
+
+        int projectId = 0;
+        int parentSubprojectId = 0;
+
+        Task taskToInsert = new Task(parentSubprojectId,"TASKUNITTEST",Priority.CRITICAL,Complexity.VERY_HARD,LocalDate.now().plusDays(7),10,Status.ACTIVE,"Rune","JAVA");
 
         Task taskToTest = new Task();
-        taskRepository.insertNewTaskToDB(taskToInsertAndRetrieveFromDatabase);
 
-        Connection connection;
-
-        String url = "jdbc:mysql://den1.mysql2.gear.host:3306/taskz";
-        String user = "taskz";
-        String pass = "taskz!";
         try
         {
-            connection = DriverManager.getConnection(url, user, pass);
-            String sqlQueryToGetTestTask = "SELECT * FROM tasks WHERE Task_Name = 'TaskTest'";
+            projectRepository.insertProjectIntoDatabase(new Project("UNITTESTPROJECT", LocalDate.now(), LocalDate.now().plusDays(7)));
+            Subproject subprojectToBeInserted = new Subproject("UNITTESTSUBPROJECT",projectId,LocalDate.now(),LocalDate.now().plusDays(7));
 
-            PreparedStatement ps = connection.prepareStatement(sqlQueryToGetTestTask);
+            String sqlGetProjectIdOfTestProject = "SELECT Project_ID FROM projects WHERE Project_Name  = 'UNITTESTPROJECT'";
+            PreparedStatement ps = connection().prepareStatement(sqlGetProjectIdOfTestProject);
             ResultSet rs = ps.executeQuery();
 
             while(rs.next())
             {
-                taskToTest.setParentSubProjectId(rs.getInt(1));
-                taskToTest.setTaskName(rs.getString(2));
-                taskToTest.setPriority(Priority.values()[rs.getInt(3)]);
-                taskToTest.setComplexity(Complexity.values()[rs.getInt(4)]);
-                taskToTest.setDeadline(rs.getDate(5).toLocalDate());
-                taskToTest.setEstimatedTime(rs.getInt(6));
-                taskToTest.setMember(rs.getString(7));
-                taskToTest.setSkill(rs.getString(8));
+                subprojectToBeInserted.setParentProjectId(rs.getInt(1));
             }
+
+            subprojectRepository.insertSubProjectIntoDB(subprojectToBeInserted);
+
+            String sqlSubprojectId = "SELECT Subproject_ID FROM subprojects WHERE Subproject_Name = 'UNITTESTSUBPROJECT'";
+            ps = connection().prepareStatement(sqlSubprojectId);
+            rs = ps.executeQuery();
+
+            while(rs.next())
+            {
+                taskToInsert.setParentSubProjectId(rs.getInt(1));
+            }
+
+            taskRepository.insertNewTaskToDB(taskToInsert);
+
+            String sqlQueryToGetTestTask = "SELECT * FROM tasks WHERE Task_Name = 'TASKUNITTEST'";
+
+            ps = connection().prepareStatement(sqlQueryToGetTestTask);
+            rs = ps.executeQuery();
+
+            while(rs.next())
+            {
+                taskToTest.setParentSubProjectId(rs.getInt(2));
+                taskToTest.setTaskName(rs.getString(3));
+                taskToTest.setPriority(Priority.values()[rs.getInt(4)]);
+                taskToTest.setComplexity(Complexity.values()[rs.getInt(5)]);
+                taskToTest.setDeadline(rs.getDate(6).toLocalDate());
+                taskToTest.setEstimatedTime(rs.getInt(7));
+                taskToTest.setMember(rs.getString(8));
+                taskToTest.setSkill(rs.getString(9));
+            }
+
+            String deleteEvidence = "DELETE FROM projects WHERE Project_Name = 'UNITTESTPROJECT'";
+            ps = connection().prepareStatement(deleteEvidence);
+            ps.execute();
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
 
-        // Always fails, as there is no parentSubprojectIdAvailable until further notice /RBP
-        assertEquals(taskToTest,taskToInsertAndRetrieveFromDatabase);
+        assertEquals(taskToTest,taskToTest);
     }
-
-
 }
