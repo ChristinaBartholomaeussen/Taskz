@@ -1,22 +1,141 @@
 package dk.kea.taskz.TaskzTests;
 
+import com.mysql.cj.protocol.Resultset;
 import dk.kea.taskz.Models.Enums.Complexity;
 import dk.kea.taskz.Models.Enums.Priority;
 import dk.kea.taskz.Models.Enums.Status;
 import dk.kea.taskz.Models.Project;
+import dk.kea.taskz.Models.Subproject;
 import dk.kea.taskz.Models.Task;
 import dk.kea.taskz.Repositories.ProjectRepository;
+import dk.kea.taskz.Repositories.SubprojectRepository;
 import dk.kea.taskz.Repositories.TaskRepository;
-import dk.kea.taskz.Services.ConnectionService;
 import org.junit.jupiter.api.Test;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class Tests {
+class Tests
+{
+    private Connection connection()
+    {
+        String url = "jdbc:mysql://den1.mysql2.gear.host:3306/taskz";
+        String user = "taskz";
+        String pass = "taskz!";
+
+        try
+        {
+            return DriverManager.getConnection(url,user,pass);
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error happened in Tests at connection()");
+            return null;
+        }
+    }
+
+    @Test
+    public void insertProjectIntoDatabase()
+    {
+        // ARRANGE
+        ProjectRepository projectRepository = new ProjectRepository();
+        Project projectToBeInserted = new Project("UNITTESTPROJECT", LocalDate.now(), LocalDate.now().plusDays(7));
+        Project projectToTest = new Project();
+
+        // ACT
+        projectRepository.insertProjectIntoDatabase(projectToBeInserted);
+
+        Connection connection;
+
+        String url = "jdbc:mysql://den1.mysql2.gear.host:3306/taskz";
+        String user = "taskz";
+        String pass = "taskz!";
+        try
+        {
+            connection = DriverManager.getConnection(url, user, pass);
+            String sqlQueryToGetProjectFromDatabase = "SELECT taskz.projects.Project_Name, taskz.projects.Project_StartDate, taskz.projects.Deadline FROM projects WHERE Project_Name = 'UNITTESTPROJECT'";
+
+            PreparedStatement ps = connection.prepareStatement(sqlQueryToGetProjectFromDatabase);
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next())
+            {
+                projectToTest.setName(rs.getString(1));
+                projectToTest.setStartDate(rs.getDate(2).toLocalDate());
+                projectToTest.setDeadline(rs.getDate(3).toLocalDate());
+            }
+
+            String deleteEvidence = "DELETE FROM projects WHERE Project_Name = 'UNITTESTPROJECT'";
+
+            ps = connection.prepareStatement(deleteEvidence);
+            ps.execute();
+
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error happened in Tests.java at insertProjectIntoDabase()");
+        }
+
+        // ASSERT
+        assertEquals(projectToTest.getName(),projectToBeInserted.getName());
+        assertEquals(projectToTest.getStartDate(),projectToBeInserted.getStartDate());
+        assertEquals(projectToTest.getDeadline(),projectToBeInserted.getDeadline());
+        assertEquals(projectToTest,projectToBeInserted);
+    }
+
+    @Test
+    public void testInsertSubprojectToDatabase()
+    {
+        // ARRANGE
+        ProjectRepository projectRepository = new ProjectRepository();
+        projectRepository.insertProjectIntoDatabase(new Project("UNITTESTPROJECT", LocalDate.now(), LocalDate.now().plusDays(7)));
+        SubprojectRepository subprojectRepository = new SubprojectRepository();
+
+        int projectId = 0;
+        Subproject subprojectToBeInserted = new Subproject("UNITTESTSUBPROJECT",projectId,LocalDate.now(),LocalDate.now().plusDays(7));
+        Subproject subprojectToTest = new Subproject();
+
+        try
+        {
+            String sqlGetProjectIdOfTestProject = "SELECT Project_ID FROM projects WHERE Project_Name  = 'UNITTESTPROJECT'";
+            PreparedStatement ps = connection().prepareStatement(sqlGetProjectIdOfTestProject);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next())
+            {
+                subprojectToBeInserted.setParentProjectId(rs.getInt(1));
+                subprojectToTest.setParentProjectId(rs.getInt(1));
+            }
+
+            // ACT
+            subprojectRepository.insertSubProjectIntoDB(subprojectToBeInserted);
+
+            String sqlGetSubprojectFromDatabase = "SELECT Subproject_Name, Subproject_StartDate, Subproject_Deadline FROM subprojects WHERE Subproject_Name = 'UNITTESTSUBPROJECT'";
+            ps = connection().prepareStatement(sqlGetSubprojectFromDatabase);
+            rs = ps.executeQuery();
+
+            while(rs.next())
+            {
+                subprojectToTest.setSubprojectName(rs.getString(1));
+                subprojectToTest.setSubprojectStartDate(rs.getDate(2).toLocalDate());
+                subprojectToTest.setSubprojectDeadline(rs.getDate(3).toLocalDate());
+            }
+
+            String deleteEvidence = "DELETE FROM projects WHERE Project_Name = 'UNITTESTPROJECT'";
+            PreparedStatement psThree = connection().prepareStatement(deleteEvidence);
+            psThree.execute();
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error happened in Tests at testInsertSubprojectToDatabase(): " + e.getMessage());
+        }
+
+        // ASSERT
+        assertEquals(subprojectToTest,subprojectToBeInserted);
+    }
 
 	@Test
     public void testInsertTaskToDatabase()
@@ -69,49 +188,5 @@ class Tests {
         assertEquals(taskToTest,taskToInsertAndRetrieveFromDatabase);
     }
 
-    @Test
-    public void insertProjectIntoDatabase()
-    {
-        ProjectRepository projectRepository = new ProjectRepository();
-        Project projectToBeInserted = new Project("UNITTESTPROJECT", LocalDate.now(), LocalDate.now().plusDays(7));
-        Project projectToTest = new Project();
-        projectRepository.insertProjectIntoDatabase(projectToBeInserted);
 
-        Connection connection;
-
-        String url = "jdbc:mysql://den1.mysql2.gear.host:3306/taskz";
-        String user = "taskz";
-        String pass = "taskz!";
-        try
-        {
-            connection = DriverManager.getConnection(url, user, pass);
-            String sqlQueryToGetProjectFromDatabase = "SELECT taskz.projects.Project_Name, taskz.projects.Project_StartDate, taskz.projects.Deadline FROM projects WHERE Project_Name = 'UNITTESTPROJECT'";
-
-            PreparedStatement ps = connection.prepareStatement(sqlQueryToGetProjectFromDatabase);
-
-            ResultSet rs = ps.executeQuery();
-
-            while(rs.next())
-            {
-                projectToTest.setName(rs.getString(1));
-                projectToTest.setStartDate(rs.getDate(2).toLocalDate());
-                projectToTest.setDeadline(rs.getDate(3).toLocalDate());
-
-            }
-
-            String deleteEvidence = "DELETE FROM projects WHERE Project_Name = 'UNITTESTPROJECT'";
-
-            ps = connection.prepareStatement(deleteEvidence);
-            ps.execute();
-
-        }
-        catch(Exception e)
-        {
-            System.out.println("Error happened in Tests.java at insertProjectIntoDabase()");
-        }
-
-        assertEquals(projectToTest.getName(),projectToBeInserted.getName());
-        assertEquals(projectToTest.getStartDate(),projectToBeInserted.getStartDate());
-        assertEquals(projectToTest.getDeadline(),projectToBeInserted.getDeadline());
-    }
 }

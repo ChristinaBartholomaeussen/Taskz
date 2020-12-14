@@ -3,6 +3,7 @@ package dk.kea.taskz.Models;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Project
 {
@@ -130,17 +131,24 @@ public class Project
         this.associatedSubprojects = associatedSubprojects;
     }
 
-    /*@Override
-    public String toString() {
-        return "Project{" +
-                "projectId=" + projectId +
-                ", name='" + name + '\'' +
-                ", startDate=" + startDate +
-                ", deadline=" + deadline +
-                ", totalWorkHoursPerDay='" + totalWorkHoursPerDay + '\'' +
-                ", totalEstimatedTime=" + totalEstimatedTime +
-                ", completedTime=" + completedTime +
-                ", associatedSubprojects=" + associatedSubprojects +
-                '}';
-    }*/
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+        Project project = (Project) o;
+        return Objects.equals(name, project.name) && Objects.equals(startDate, project.startDate) && Objects.equals(deadline, project.deadline);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(name, startDate, deadline);
+    }
 }

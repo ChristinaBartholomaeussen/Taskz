@@ -2,6 +2,7 @@ package dk.kea.taskz.Models;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 public class Subproject
 {
@@ -35,6 +36,7 @@ public class Subproject
         this.subprojectStartDate = subprojectStartDate;
         this.subprojectDeadline = subprojectDeadline;
     }
+
 
     public Subproject(int subprojectId, String subprojectName, int parentProjectId, double subprojectTotalEstimatedTime, LocalDate subprojectStartDate, LocalDate subprojectDeadline, String subprojectWorkloadPerDay) {
         this.subprojectId = subprojectId;
@@ -126,5 +128,32 @@ public class Subproject
 
     public void setSubprojectCompletedTime(double subprojectCompletedTime) {
         this.subprojectCompletedTime = subprojectCompletedTime;
+    }
+
+    // USED ONLY FOR TESTING
+    public void setParentProjectId(int parentProjectId)
+    {
+        this.parentProjectId = parentProjectId;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+        Subproject that = (Subproject) o;
+        return parentProjectId == that.parentProjectId && Objects.equals(subprojectStartDate, that.subprojectStartDate) && Objects.equals(subprojectDeadline, that.subprojectDeadline);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(parentProjectId, subprojectStartDate, subprojectDeadline);
     }
 }
