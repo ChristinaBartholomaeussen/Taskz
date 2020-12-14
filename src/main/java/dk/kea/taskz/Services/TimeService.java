@@ -22,7 +22,8 @@ public class TimeService {
 
     public boolean isTaskDeadlineBetweenSubprojectStartDateAndDeadline(Subproject subproject, LocalDate deadline){
 
-       if(deadline.isAfter(subproject.getSubprojectStartDate()) && deadline.isBefore(subproject.getSubprojectDeadline())){
+       if((deadline.isAfter(subproject.getSubprojectStartDate()) || deadline == subproject.getSubprojectStartDate())
+        && (deadline.isBefore(subproject.getSubprojectDeadline()) || deadline == subproject.getSubprojectDeadline())){
 
            return true;
         }
