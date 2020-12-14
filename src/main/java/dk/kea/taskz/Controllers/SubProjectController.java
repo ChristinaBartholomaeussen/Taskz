@@ -107,7 +107,7 @@ public class SubProjectController
 
 		subprojectService.deleteSubProject(Integer.valueOf(id));
 		subprojectService.updateSubprojectTotalEstimatedTime(Integer.valueOf(id));
-		//projectService.updateProjectCompletedTime(activeProjectID);
+		projectService.updateProjectCompletedTime(activeProjectID);
 
 		subprojectService.updateWorkloadPerDay(subprojectService.getAllAssociatedSubprojectsWithoutTasks(activeProjectID));
 
