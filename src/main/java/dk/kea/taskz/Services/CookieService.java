@@ -11,7 +11,7 @@ public class CookieService {
 	public int getActiveUserId(HttpServletRequest request) {
 
 
-		if (request.getCookies().length > 0) {
+		try {
 
 			Cookie cookie[] = request.getCookies();
 
@@ -23,7 +23,11 @@ public class CookieService {
 				}
 			}
 
-			return Integer.parseInt(cookieId.getValue());
+			return Integer.valueOf(cookieId.getValue());
+
+		} catch (Exception e) {
+			
+			System.out.println("cookiesServivce, Error: " + e.getMessage());
 		}
 
 		return -1;
