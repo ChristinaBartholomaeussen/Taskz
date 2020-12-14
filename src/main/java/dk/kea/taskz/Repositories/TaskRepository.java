@@ -27,7 +27,7 @@ public class TaskRepository {
 	 * @param Task_ID
 	 * @return
 	 */
-	public Task getASpecificTaskFromDB(int Task_ID) {
+	/*public Task getASpecificTaskFromDB(int Task_ID) {
 		String selectTask = "SELECT * FROM taskz.tasks WHERE Task_ID = ?";
 		Task taskToReturn = new Task();
 		
@@ -58,7 +58,7 @@ public class TaskRepository {
 		}
 
 		return taskToReturn;
-	}
+	}*/
 
 	/**
 	 *  - OVO

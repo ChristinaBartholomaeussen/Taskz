@@ -1,6 +1,4 @@
 package dk.kea.taskz.Services;
-import org.springframework.stereotype.Service;
-
 import org.springframework.stereotype.Component;
 
 import java.sql.Connection;

@@ -38,6 +38,20 @@ public class Task
 		this.skill = skill;
 	}
 
+	public Task(int parentSubProjectId, String taskName, Enum<Priority> priority, Enum<Complexity> complexity, LocalDate deadline, double estimatedTime,
+				Enum<Status> status, String member)
+	{
+		//this.taskId = taskId;
+		this.parentSubProjectId = parentSubProjectId;
+		this.taskName = taskName;
+		this.deadline = deadline;
+		this.estimatedTime = estimatedTime;
+		this.status = status;
+		this.priority = priority;
+		this.complexity = complexity;
+		this.member = member;
+	}
+
     public Task(int taskId, int parentSubProjectId, String taskName, Enum<Priority> priority, Enum<Complexity> complexity,
 				LocalDate deadline, double estimatedTime, Enum<Status> status, String member, String skill, int isDifficult)
     {
@@ -57,23 +71,9 @@ public class Task
 
 
 	public Task(int parentSubProjectId, String taskName, Enum<Priority> priority, Enum<Complexity> complexity, LocalDate deadline, double estimatedTime,
-				 Enum<Status> status, String member)
-{
-	this.taskId = taskId;
-	this.parentSubProjectId = parentSubProjectId;
-	this.taskName = taskName;
-	this.deadline = deadline;
-	this.estimatedTime = estimatedTime;
-	this.status = status;
-	this.priority = priority;
-	this.complexity = complexity;
-	this.member = member;
-}
-
-	public Task(int parentSubProjectId, String taskName, Enum<Priority> priority, Enum<Complexity> complexity, LocalDate deadline, double estimatedTime,
 				Enum<Status> status, String member, String skill)
 	{
-		this.taskId = taskId;
+		//this.taskId = taskId;
 		this.parentSubProjectId = parentSubProjectId;
 		this.taskName = taskName;
 		this.deadline = deadline;
@@ -165,17 +165,17 @@ public class Task
 	}
 
 	public void setSkill(String skill) {
-		skill = skill;
+		this.skill = skill;
 	}
 
 	public int getIsDifficult() {
 		return isDifficult;
 	}
 
-	@Override
+	/*@Override
 	public String toString() {
     	return "Sub project id: " + parentSubProjectId + "\nTask name: " + taskName + "\nPrio: " + priority + "\nComplexity: " + complexity + "\ndeadline: " + deadline + "\nestimatidtime: " + estimatedTime + "\nStatus: " + status;
-	}
+	}*/
 }
 
 

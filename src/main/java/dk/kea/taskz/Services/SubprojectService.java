@@ -1,9 +1,6 @@
 package dk.kea.taskz.Services;
 
-import dk.kea.taskz.Models.Enums.Status;
-import dk.kea.taskz.Models.Project;
 import dk.kea.taskz.Models.Subproject;
-import dk.kea.taskz.Models.Task;
 import dk.kea.taskz.Repositories.SubprojectRepository;
 import dk.kea.taskz.Repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +24,7 @@ public class SubprojectService
     TaskService taskService;
 
 
-    List<Subproject> subprojectList = new ArrayList<>();
+    List<Subproject> subprojectList;
 
     /**
      * Makes a call to the subProjectRepository with the projectId parameter, to return a list with subprojects associated to the

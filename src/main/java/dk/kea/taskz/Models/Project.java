@@ -130,7 +130,7 @@ public class Project
         this.associatedSubprojects = associatedSubprojects;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return "Project{" +
                 "projectId=" + projectId +
@@ -142,5 +142,5 @@ public class Project
                 ", completedTime=" + completedTime +
                 ", associatedSubprojects=" + associatedSubprojects +
                 '}';
-    }
+    }*/
 }

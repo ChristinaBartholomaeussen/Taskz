@@ -27,7 +27,7 @@ public class ProfileController {
 	@Autowired
 	CookieService cookieService;
 
-	int activeUserId = -1;
+	//int activeUserId = -1;
 
 	/**
 	 * - OVO

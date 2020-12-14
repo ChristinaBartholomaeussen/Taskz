@@ -12,11 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
-
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -38,7 +34,7 @@ public class ProjectController {
 	List<Project> projectList;
 
 	List<Subproject> subprojectList;
-	boolean deadlineIsAfterStartDate = false;
+
 
 	/**
 	 * Used only for the header fragment rendering.
@@ -66,6 +62,7 @@ public class ProjectController {
 
 	@GetMapping("/projects")
 	public String projects(Model model, HttpServletRequest request) {
+
 		int activeUserId = cookieService.getActiveUserId(request);
 
 		if (activeUserId == -1) {

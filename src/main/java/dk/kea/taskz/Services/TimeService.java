@@ -2,7 +2,6 @@ package dk.kea.taskz.Services;
 
 import dk.kea.taskz.Models.Project;
 import dk.kea.taskz.Models.Subproject;
-import dk.kea.taskz.Models.Task;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

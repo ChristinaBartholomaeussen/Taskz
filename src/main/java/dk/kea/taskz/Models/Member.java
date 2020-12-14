@@ -3,9 +3,6 @@ package dk.kea.taskz.Models;
 import dk.kea.taskz.Services.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Member
 {
     @Autowired

@@ -3,11 +3,9 @@ import dk.kea.taskz.Models.Project;
 import dk.kea.taskz.Services.ConnectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -159,7 +157,6 @@ public class ProjectRepository {
      * - FMP
      * Updates column Project_Completed_Time in the database based of a projectID
      * The update value preliminaryTime represents the completed amount of hours within a project
-     * @param preliminaryCompletedTime
      * @param projectID
      */
 

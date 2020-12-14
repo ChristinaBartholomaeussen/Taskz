@@ -1,7 +1,6 @@
 package dk.kea.taskz.Services;
 
 import dk.kea.taskz.Models.Project;
-import dk.kea.taskz.Models.Subproject;
 import dk.kea.taskz.Repositories.ProjectRepository;
 import dk.kea.taskz.Repositories.SubprojectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,7 @@ public class ProjectService
     @Autowired
     SubprojectRepository subprojectRepository;
 
-    List<Project> projectList = new ArrayList<>();
+    List<Project> projectList;
 
     /** Christina
      * Henter listen fra Repository, som henter det specfikke ID, navn, deadline og estimeret time

@@ -1,5 +1,4 @@
 package dk.kea.taskz.Services;
-import dk.kea.taskz.Models.Member;
 import dk.kea.taskz.Models.Task;
 import dk.kea.taskz.Repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;

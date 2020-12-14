@@ -34,13 +34,13 @@ public class SubProjectController
 	@Autowired
 	CookieService cookieService;
 
-	int activeProjectIDToTest = 1; // This one is only for the header fragment rendering.
+	//int activeProjectIDToTest = 1; // This one is only for the header fragment rendering.
 	static int activeProjectID = -1;
-	boolean deadlineIsAfterStartDate = false;
 
-	List<Subproject> subprojectList = new ArrayList<>();
-	List<Project> projectList = new ArrayList<>();
-	List<Task> taskList = new ArrayList<>();
+
+	//List<Subproject> subprojectList = new ArrayList<>();
+	//List<Project> projectList = new ArrayList<>();
+	//List<Task> taskList = new ArrayList<>();
 
 	/**
 	 * - OVO
@@ -71,7 +71,7 @@ public class SubProjectController
 		model.addAttribute("subprojectList", subprojectService.getAllAssociatedSubprojects(activeProjectID));
 		model.addAttribute("deletePopUp", false);
 		model.addAttribute("stopScroll", false);
-		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
+		//model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
 
 
 		return "subprojects";
@@ -126,14 +126,14 @@ public class SubProjectController
 	{
 		if (activeProjectID == -1)
 			return "redirect:/projects";
-		activeProjectIDToTest = 1;
+		//activeProjectIDToTest = 1;
 
 		model.addAttribute("popup", true);
 		model.addAttribute("taskPopUp", false);
 		model.addAttribute("project", projectService.getProjectByProjectId(activeProjectID));
 		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProjectID));
 		model.addAttribute("stopScroll", true);
-		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
+		//model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
 
 		return "subprojects";
 	}
@@ -184,7 +184,7 @@ public class SubProjectController
 
 		String subprojectToDelete = data.getParameter("subprojectToDelete");
 
-		activeProjectIDToTest = 1;
+		//activeProjectIDToTest = 1;
 
 		model.addAttribute("subprojectToDelete", subprojectToDelete);
 		model.addAttribute("activeProjectID", activeProjectID);
@@ -222,12 +222,12 @@ public class SubProjectController
 	 */
 	@PostMapping("/postChangeStatus")
 	public String postChangeStatus(WebRequest data) {
+
 		int idTask = Integer.parseInt(data.getParameter("changeStatus"));
 
 		taskService.updateTaskStatus(idTask);
 
-		subprojectService.updateSubprojectCompletedTime(activeProjectID); //Virker
-
+		subprojectService.updateSubprojectCompletedTime(activeProjectID);
 
 		projectService.updateProjectCompletedTime(activeProjectID);
 

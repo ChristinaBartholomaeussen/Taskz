@@ -219,7 +219,6 @@ public class SubprojectRepository
 	 * - FMP
 	 * Updates column Subproject_Completed_Time in the database based of a subprojectID
 	 * The update value preliminaryTime represents the completed amount of hours within a subproject
-	 * @param preliminaryCompletedTime
 	 * @param subprojectID
 	 */
 
