@@ -305,7 +305,7 @@
 			}
 		}
 
-		if(taskD <= startdate || taskD >= deadline) {
+		if(taskD < startdate || taskD > deadline) {
 			alert("Must be between subproject");
 			return false;
 		}
