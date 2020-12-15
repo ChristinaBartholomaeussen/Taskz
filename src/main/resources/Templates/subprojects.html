@@ -309,7 +309,7 @@
 		}
 
 		if(taskD < startdate || taskD > deadline) {
-			alert("Must be between subproject");
+			alert("The deadline for the task must be between start date and deadline for the chosen subproject");
 			return false;
 		}
 	});
@@ -330,7 +330,7 @@
 		if (subStart >= subDeadLine) {
 			window.alert("Deadline cannot be before start date");
 		} else if (subStart < pStart || subDeadLine > pDead) {
-			alert("Must be between project");
+			window.alert("The deadline for the subproject must be between start date and deadline for the chosen project");
 		}
 	});
 
