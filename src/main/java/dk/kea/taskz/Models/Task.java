@@ -193,6 +193,7 @@ public class Task
 	{
 		return Objects.hash(parentSubProjectId, taskName, deadline, estimatedTime, status, priority, complexity, member, skill);
 	}
+
 }
 
 
