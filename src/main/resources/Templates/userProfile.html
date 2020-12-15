@@ -42,8 +42,8 @@
 							<td th:text="${earliestDeadLine.getDeadline}"></td>
 							<td th:text="${earliestDeadLine.getSkill}"></td>
 							<td>
-								<form th:method="post" th:action="postSeeSubproject">
-									<button class="btn btn-primary" th:value="${earliestDeadLine.getParentSubProjectId}" name="subprojectId">See Project</button>
+								<form th:method="post" th:action="postOpenSubproject">
+									<button class="btn btn-primary" th:value="${earliestDeadLine.getParentSubProjectId}" name="subprojectId">Open Project</button>
 								</form>
 							</td>
 						</tr>
