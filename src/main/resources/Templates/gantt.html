@@ -10,14 +10,13 @@
         google.charts.load('current', {'packages':['gantt']});
         google.charts.setOnLoadCallback(drawChart);
 
-        // Unused by nice to have for (maybe) later implementation
         function daysToMilliseconds(days)
         {
             return days * 24 * 60 * 60 * 1000;
         }
 
-        function drawChart() {
-
+        function drawChart()
+        {
             var projects = [[${projects}]];
             var data = new google.visualization.DataTable();
 

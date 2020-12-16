@@ -165,7 +165,8 @@ public class ProjectController {
 	 */
 
 	@PostMapping("/postpopupDeleteProject")
-	public String postpopupDeleteProject(WebRequest data) {
+	public String postpopupDeleteProject(WebRequest data)
+	{
 		activeProjectID = Integer.valueOf(data.getParameter("activeProjectId"));
 		return "redirect:/deletePopup";
 	}

@@ -60,7 +60,6 @@ public class TaskController {
 	@PostMapping("/newTask")
 	public String newTaskPost(WebRequest data)
 	{
-
 		subprojectsID = Integer.parseInt(data.getParameter("subprojectsID"));
 		parentProject = subprojectService.getParentId(subprojectsID);
 		return "redirect:/newTask";
