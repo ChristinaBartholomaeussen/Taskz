@@ -32,21 +32,15 @@ public class DiagramController {
 	 * @return
 	 */
 	@GetMapping("/gantt")
-	public String gant(Model model, HttpServletRequest request) {
+	public String gant(Model model, HttpServletRequest request)
+	{
 		int activeUserId = cookieService.getActiveUserId(request);
 
 		if (activeUserId == -1) {
 			return "redirect:/login";
 		}
 
-
-		List<Project> allProjects = projectService.getAllProjects();
-
-		for (Project p : allProjects) {
-			p.setAssociatedSubprojects(subprojectService.getAllAssociatedSubprojects(p.getProjectId()));
-		}
-
-		model.addAttribute("projects", allProjects);
+		model.addAttribute("projects", projectService.getAllProjectsIncludingAssociatedSubprojectsAndTasks());
 
 		return "/gantt";
 	}

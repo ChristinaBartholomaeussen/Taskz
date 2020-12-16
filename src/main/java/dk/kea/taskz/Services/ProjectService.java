@@ -20,6 +20,9 @@ public class ProjectService
     @Autowired
     SubprojectRepository subprojectRepository;
 
+    @Autowired
+    SubprojectService subprojectService;
+
     List<Project> projectList;
 
     /** Christina
@@ -122,6 +125,17 @@ public class ProjectService
 
 	public void updateProjectCompletedTime(int projectID) {
 	    projectRepository.updateProjectCompletedTime(projectID);
+    }
+
+    public List<Project> getAllProjectsIncludingAssociatedSubprojectsAndTasks()
+    {
+        List<Project> allProjects = getAllProjects();
+
+        for (Project p : allProjects) {
+            p.setAssociatedSubprojects(subprojectService.getAllAssociatedSubprojects(p.getProjectId()));
+        }
+
+        return allProjects;
     }
 }
 
