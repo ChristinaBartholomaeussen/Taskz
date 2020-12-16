@@ -52,22 +52,21 @@ public class ProjectRepository {
         return allProjects;
     }
 
-    public void insertProjectIntoDatabase(Project project) {
-
+    public void insertProjectIntoDatabase(Project project)
+    {
         String insertProjectIntoDatabase =
                 "INSERT INTO projects(Project_Id, Project_Name, Project_StartDate, Deadline) " +
                         "VALUES (?, ?, ?, ?)";
-
-        try{
+        try
+        {
             preparedStatement = ConnectionService.getConnection().prepareStatement(insertProjectIntoDatabase);
             preparedStatement.setInt(1, project.getProjectId());
             preparedStatement.setString(2, project.getName());
             preparedStatement.setDate(3, java.sql.Date.valueOf(project.getStartDate()));
             preparedStatement.setDate(4, java.sql.Date.valueOf(project.getDeadline()));
-
             preparedStatement.execute();
-
-        }catch (SQLException e)
+        }
+        catch (SQLException e)
         {
             System.out.println("Happened in ProjectRepository insertProjectIntoDatabase: " + e.getMessage());
         }
