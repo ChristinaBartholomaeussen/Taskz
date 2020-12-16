@@ -17,8 +17,8 @@
 
         function drawChart()
         {
-            var projects = [[${projects}]];
-            var data = new google.visualization.DataTable();
+            let projects = [[${projects}]];
+            let data = new google.visualization.DataTable();
 
             data.addColumn('string', 'Task ID');
             data.addColumn('string', 'Task Name');
@@ -29,7 +29,7 @@
             data.addColumn('number', 'Percent Complete');
             data.addColumn('string', 'Dependencies');
 
-            for (var project = 0; project < projects.length; project++)
+            for (let project = 0; project < projects.length; project++)
             {
                 let projectStartDate = Date.parse(projects[project].startDate);
                 let projectDeadLine = Date.parse(projects[project].deadline);
