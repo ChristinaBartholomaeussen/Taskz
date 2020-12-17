@@ -90,7 +90,7 @@ public class ProjectRepository {
 
             preparedStatement.execute();
         }catch (SQLException e){
-            System.out.println("Happened in ProjectRepository deleteWholeProject: " + e.getMessage());
+            System.out.println("Error happened in ProjectRepository at deleteWholeProject(): " + e.getMessage());
         }
     }
 
