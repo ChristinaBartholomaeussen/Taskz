@@ -86,14 +86,14 @@
                     for(let task = 0; task < tasks.length;task++)
                     {
                         let taskDeadline = Date.parse(tasks[task].deadline);
-                        let subStartdate = new Date(subprojectStartDate);
+                        let subprojectStartdate = new Date(subprojectStartDate);
                         let taskEstimatedStartDate = new Date(taskDeadline);
 
                         taskEstimatedStartDate.setDate(taskEstimatedStartDate.getDate() - tasks[task].estimatedTime / 8);
 
-                        if(taskEstimatedStartDate < subStartdate)
+                        if(taskEstimatedStartDate < subprojectStartdate)
                         {
-                            taskEstimatedStartDate = subStartdate;
+                            taskEstimatedStartDate = subprojectStartdate;
                         }
 
                         let taskCompletion = tasks[task].status == "ACTIVE" ? 0 : 100;
@@ -117,7 +117,7 @@
                         format: 'M/d/yy',
                         gridlines: {count: 15}
                     },
-                height: data.getNumberOfRows() * 50
+                height: data.getNumberOfRows() * 50 + 50
             };
 
             const chart = new google.visualization.Gantt(document.getElementById('chart_div'));
