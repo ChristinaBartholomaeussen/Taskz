@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -57,11 +56,11 @@ public class ProjectService
      * The calculation accounts for a business week eg. 5 days
      */
 
-    public void updateAllProjectsWorkloadPerDay() {
-
+    public void updateAllProjectsWorkloadPerDay()
+    {
         List<Project> projectList = getAllProjects();
 
-        double convertedDaysBetween = 0;
+        double convertedDaysBetween;
 
         DecimalFormat df = new DecimalFormat("0.00");
 
@@ -85,9 +84,9 @@ public class ProjectService
      * @param project
      */
 
-    public void updateWorkloadPerDayV2(Project project) {
-
-		double convertedDaysBetween = 0;
+    public void updateWorkloadPerDayForSpecificProject(Project project)
+    {
+		double convertedDaysBetween;
 
 		DecimalFormat df = new DecimalFormat("0.00");
 

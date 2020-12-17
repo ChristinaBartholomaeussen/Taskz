@@ -1,8 +1,6 @@
 package dk.kea.taskz.Controllers;
 
-import dk.kea.taskz.Models.Project;
 import dk.kea.taskz.Models.Subproject;
-import dk.kea.taskz.Models.Task;
 import dk.kea.taskz.Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,8 +11,6 @@ import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class SubProjectController
@@ -110,7 +106,7 @@ public class SubProjectController
 		subprojectService.updateWorkloadPerDay(subprojectService.getAllAssociatedSubprojectsWithoutTasks(activeProjectID));
 
 		projectService.updateProjectEstimatedTime(activeProjectID);
-		projectService.updateWorkloadPerDayV2(projectService.getProjectByProjectId(activeProjectID));
+		projectService.updateWorkloadPerDayForSpecificProject(projectService.getProjectByProjectId(activeProjectID));
 
 		return "redirect:/subprojects";
 	}
@@ -234,7 +230,7 @@ public class SubProjectController
 
 		subprojectService.updateWorkloadPerDay(subprojectService.getAllAssociatedSubprojectsWithoutTasks(activeProjectID));
 
-		projectService.updateWorkloadPerDayV2(projectService.getProjectByProjectId(activeProjectID));
+		projectService.updateWorkloadPerDayForSpecificProject(projectService.getProjectByProjectId(activeProjectID));
 
 		return "redirect:/subprojects";
 	}

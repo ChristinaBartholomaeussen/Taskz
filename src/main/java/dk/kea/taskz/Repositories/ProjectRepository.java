@@ -80,16 +80,18 @@ public class ProjectRepository {
      * foreing keys will be deleted as well because of cascade in our database.
      * @param projectId
      */
-    public void deleteWholeProject(int projectId){
-
+    public void deleteWholeProject(int projectId)
+    {
         String deleteQuery = "delete from projects where Project_ID = ?";
 
-        try{
+        try
+        {
             preparedStatement = ConnectionService.getConnection().prepareStatement(deleteQuery);
             preparedStatement.setInt(1, projectId);
-
             preparedStatement.execute();
-        }catch (SQLException e){
+        }
+        catch (SQLException e)
+        {
             System.out.println("Error happened in ProjectRepository at deleteWholeProject(): " + e.getMessage());
         }
     }
