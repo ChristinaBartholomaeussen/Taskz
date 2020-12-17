@@ -81,9 +81,6 @@ class Tests
         }
 
         // ASSERT
-        assertEquals(projectToTest.getName(),projectToBeInserted.getName());
-        assertEquals(projectToTest.getStartDate(),projectToBeInserted.getStartDate());
-        assertEquals(projectToTest.getDeadline(),projectToBeInserted.getDeadline());
         assertEquals(projectToTest,projectToBeInserted);
     }
 
