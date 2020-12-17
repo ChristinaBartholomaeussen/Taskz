@@ -120,7 +120,7 @@ public class ProjectRepository {
             preparedStatement.setInt(1, projectId);
             preparedStatement.executeUpdate();
 
-        }catch (SQLException e){
+        }catch (SQLException e) {
             System.out.println("Happened in ProjectRepository updateProjectEstimatedTime: " + e.getMessage());
         }
     }
