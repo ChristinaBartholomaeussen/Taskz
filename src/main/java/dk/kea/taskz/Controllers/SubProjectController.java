@@ -35,8 +35,13 @@ public class SubProjectController
 
 	/**
 	 * - OVO
-	 * A GetMapping for subprojects.
-	 * has a bunch of model.addAttribute, which is used to load differing things, when needed.
+	 * GetMapping for subprojects.
+	 * To avoid direct linking to the page, without an active user or a selected Project, we check for the activeUserId and the
+	 * activeProjectId. If either is -1, the user will be redirected to the corresponding page needed.
+	 *
+	 * The the Model recieves a bunch of attributes. The activeProjectId, the entirety of the selected Project through ProjectService
+	 * and four attributes used by Thymeleaf to check if we use a GetMapping from a PopUp and disables scrolling on the specific html
+	 * page.
 	 *
 	 * @param model
 	 * @return "subprojects"
@@ -49,16 +54,15 @@ public class SubProjectController
 			return "redirect:/login";
 		}
 
-
 		if (activeProjectID == -1) {
 			return "redirect:/projects";
 		}
 
 		model.addAttribute("activeProjectID", activeProjectID);
 		model.addAttribute("project", projectService.getProjectByProjectId(activeProjectID));
+		model.addAttribute("subprojectList", subprojectService.getAllAssociatedSubprojects(activeProjectID));
 		model.addAttribute("popup", false);
 		model.addAttribute("taskPopUp", false);
-		model.addAttribute("subprojectList", subprojectService.getAllAssociatedSubprojects(activeProjectID));
 		model.addAttribute("deletePopUp", false);
 		model.addAttribute("stopScroll", false);
 
@@ -68,7 +72,7 @@ public class SubProjectController
 	/**
 	 * - OVO
 	 * This postmapping gets called from the projects.html.
-	 * It has an hidden input field, which sends the project id.
+	 * It has an hidden input field, which is recieved from the html page and sets the activeProjectId field.
 	 *
 	 * @param data
 	 * @return
@@ -82,10 +86,10 @@ public class SubProjectController
 	}
 
 	/**
-	 * - RBP
-	 * Postmapping der modtager et subproject id fra subprojects.html og sender dette id videre til subproject repository,
-	 * som sletter det tilhørende subproject og tasks fra databasen.
-	 * - FMP
+	 * - RBP + FMP
+	 * PostMapping which sends a subproject id from subprojects.html and passes this id on to SubprojectRepository, which
+	 * deletes the specific subproject and the corresponding tasks from the database.
+	 *
 	 * Updates Workload_Per_Day from new Estimated_Time values because of the deletion of the subproject
 	 * @param data
 	 * @return
@@ -95,13 +99,11 @@ public class SubProjectController
 	{
 		String id = data.getParameter("deleteSubProject");
 
-
 		subprojectService.deleteSubProject(Integer.valueOf(id));
 		subprojectService.updateSubprojectTotalEstimatedTime(Integer.valueOf(id));
 		projectService.updateProjectCompletedTime(activeProjectID);
 
 		subprojectService.updateWorkloadPerDay(subprojectService.getAllAssociatedSubprojectsWithoutTasks(activeProjectID));
-
 		projectService.updateProjectEstimatedTime(activeProjectID);
 		projectService.updateWorkloadPerDayForSpecificProject(projectService.getProjectByProjectId(activeProjectID));
 
@@ -110,8 +112,8 @@ public class SubProjectController
 
 	/**
 	 *  - OVO
-	 * Has the same model.addAttributes as above, but chances "popup" to be true
-	 * Which let thymeleaf render the popup
+	 * Has the same model.addAttributes as above, but changes "popup" to be true,
+	 * which lets thymeleaf render the popup.
 	 * @param model
 	 * @return "subprojects"
 	 */
@@ -120,20 +122,23 @@ public class SubProjectController
 	{
 		if (activeProjectID == -1)
 			return "redirect:/projects";
-		//activeProjectIDToTest = 1;
 
-		model.addAttribute("popup", true);
-		model.addAttribute("taskPopUp", false);
 		model.addAttribute("project", projectService.getProjectByProjectId(activeProjectID));
 		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProjectID));
+		model.addAttribute("popup", true);
+		model.addAttribute("taskPopUp", false);
 		model.addAttribute("stopScroll", true);
-		//model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
 
 		return "subprojects";
 	}
 
 	/**
 	 * - OVO
+	 * PostMapping to create a new Subproject. Redirects if no project has been selected.
+	 * Calls methods in TimeService to check for valid dates and checks the Subproject named, to follow our naming rules of
+	 * Subprojects.
+	 * Creates a new subproject object which is passed on the the createSubproject method of SubprojectService.
+	 *
 	 * Creates the subproject
 	 * @param data
 	 * @return "redirect:/subprojects"
@@ -143,13 +148,11 @@ public class SubProjectController
 		if (activeProjectID == -1)
 			return "redirect:/projects";
 
-		String subprojectStartDate = data.getParameter("subprojectStartDate");
-		LocalDate convertedSubprojectStartDate = LocalDate.parse(subprojectStartDate);
-
-		String subprojectDeadline = data.getParameter("subprojectDeadline");
-		LocalDate convertedSubprojectDeadline = LocalDate.parse(subprojectDeadline);
-
 		String subprojectName = data.getParameter("subprojectName");
+		String subprojectStartDate = data.getParameter("subprojectStartDate");
+		String subprojectDeadline = data.getParameter("subprojectDeadline");
+		LocalDate convertedSubprojectStartDate = LocalDate.parse(subprojectStartDate);
+		LocalDate convertedSubprojectDeadline = LocalDate.parse(subprojectDeadline);
 
 		if (timeService.isSubprojectStartDateAndDeadlineBetweenProject(projectService.getProjectByProjectId(activeProjectID), convertedSubprojectStartDate, convertedSubprojectDeadline) == false
 				|| timeService.isDeadlineBeforeStartDate(convertedSubprojectStartDate, convertedSubprojectDeadline) == false || subprojectName.equals(" ")) {
@@ -164,8 +167,8 @@ public class SubProjectController
 
 	/**
 	 * - OVO 
-	 * 	PostMapping that takes in a WebRequest and Model. it gets the specific ID for the subproject to delete
-	 * 	And then loads all the background attributes.
+	 * 	PostMapping that takes in a WebRequest and Model. It recieves the specific ID for the subproject to delete
+	 * 	and loads all the background attributes.
 	 * @param model
 	 * @param data
 	 * @return
@@ -181,9 +184,9 @@ public class SubProjectController
 		model.addAttribute("subprojectToDelete", subprojectToDelete);
 		model.addAttribute("activeProjectID", activeProjectID);
 		model.addAttribute("project", projectService.getProjectByProjectId(activeProjectID));
+		model.addAttribute("subprojectList", subprojectService.getAllAssociatedSubprojects(activeProjectID));
 		model.addAttribute("popup", false);
 		model.addAttribute("taskPopUp", false);
-		model.addAttribute("subprojectList", subprojectService.getAllAssociatedSubprojects(activeProjectID));
 		model.addAttribute("deletePopUp", true);
 		model.addAttribute("stopScroll", true);
 
@@ -192,15 +195,15 @@ public class SubProjectController
 
 	/**
 	 * - OVO
-	 * Gets the redirect from project.html
-	 * And then recives the activeProjectID and sets it globally in the subprojectController
+	 * Gets the redirect from project.html and then recives the activeProjectID and sets it globally
+	 * in SubprojectController
 	 *
 	 * @param data
 	 * @return
 	 */
 	@PostMapping("/postOpenSubproject")
-	public String seeSubProject(WebRequest data) {
-
+	public String seeSubProject(WebRequest data)
+	{
 		activeProjectID = subprojectService.getParentId(Integer.valueOf(data.getParameter("subprojectId")));
 		return "redirect:/subprojects";
 	}
@@ -218,13 +221,9 @@ public class SubProjectController
 		int idTask = Integer.parseInt(data.getParameter("changeStatus"));
 
 		taskService.updateTaskStatus(idTask);
-
 		subprojectService.updateSubprojectCompletedTime(activeProjectID);
-
 		projectService.updateProjectCompletedTime(activeProjectID);
-
 		subprojectService.updateWorkloadPerDay(subprojectService.getAllAssociatedSubprojectsWithoutTasks(activeProjectID));
-
 		projectService.updateWorkloadPerDayForSpecificProject(projectService.getProjectByProjectId(activeProjectID));
 
 		return "redirect:/subprojects";
