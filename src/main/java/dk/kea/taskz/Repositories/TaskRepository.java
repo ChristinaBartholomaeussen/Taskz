@@ -200,7 +200,7 @@ public class TaskRepository
 	 * @param member
 	 * @param taskId
 	 */
-	public void setATaskToRelocateResources(String member, int taskId)
+	public void setATaskToRelocateResources(String teammember, int taskId)
 	{
 		String taskSkill = null;
 
@@ -222,7 +222,7 @@ public class TaskRepository
 
 			for (Member member : memberRepository.getAllMembersFromDB())
 			{
-				if (member.getFirstName().equals(member) && !member.getCompetence().contains(taskSkill))
+				if (member.getFirstName().equals(teammember) && !member.getCompetence().contains(taskSkill))
 				{
 					upDateIsDifficult(taskId);
 				}
