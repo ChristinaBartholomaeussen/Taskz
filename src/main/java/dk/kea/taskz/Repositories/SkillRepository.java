@@ -13,9 +13,10 @@ public class SkillRepository
 {
 	PreparedStatement preparedStatement = null;
 
-	/**
-	 * - CMB
-	 * Gets all the competences from the database
+	/**(CMB)
+	 * Selects the skill_description from the table skills
+	 * and adds them to an arraylist of strings.
+	 * After that it returns the list for further use.
 	 *
 	 * @return
 	 */
