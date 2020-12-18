@@ -22,7 +22,7 @@ public class ProjectService
     @Autowired
     SubprojectService subprojectService;
 
-    List<Project> projectList;
+    private List<Project> projectList;
 
     /**
      * CMB
@@ -30,22 +30,20 @@ public class ProjectService
      * We have defined a class attribute which
      * is to contain a list of all projects.
      * We get the list by calling the method from
-     * the repository which return all projects.
-     * After that we returns the projectlist
+     * the repository which returns all projects.
+     * After that we return the projectlist
      * @return
      */
-    public List<Project> getAllProjects() {
-
-
+    public List<Project> getAllProjects()
+    {
         projectList = projectRepository.getAllProjectsFromDatabase();
         return projectList;
     }
 
     /**
-     * CMB
-     * Pass the object project of Project to the method
-     * in the repository class, which insert the new project
-     * to the database
+     * - CMB
+     * Passes the Project obj of Project to the method insertProjectIntoDatabase from the ProjectRepository class,
+     * which insert the new project to the database
      * @param project
      */
     public void addProjectToDatabase(Project project) {
@@ -55,8 +53,7 @@ public class ProjectService
 
     /**
      * CMB
-     * Pass the projectId to the method in the repository
-     * which deletes the specific project
+     * Passes the projectId to the method in the ProjectRepository class which deletes the specific project
      * @param projectId
      */
     public void deleteProject(int projectId){
@@ -98,7 +95,6 @@ public class ProjectService
      * Used where possible to minimize load times
      * @param project
      */
-
     public void updateWorkloadPerDayForSpecificProject(Project project)
     {
 		double convertedDaysBetween;
@@ -142,11 +138,17 @@ public class ProjectService
 	 *
 	 * @param projectID
 	 */
-
 	public void updateProjectCompletedTime(int projectID) {
 	    projectRepository.updateProjectCompletedTime(projectID);
     }
 
+    /**
+     * - RBP
+     * Creates a List containing all the existing projects, recieved from the local getAllProjects() method.
+     * Then the method iterates through the list and for each Project in the list, makes a call to the SubprojectService class
+     * which populates each Projects subproject list with subprojects and their associated tasks.
+     * @return
+     */
     public List<Project> getAllProjectsIncludingAssociatedSubprojectsAndTasks()
     {
         List<Project> allProjects = getAllProjects();
