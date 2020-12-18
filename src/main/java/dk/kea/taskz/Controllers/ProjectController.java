@@ -32,9 +32,7 @@ public class ProjectController {
 	CookieService cookieService;
 
 	List<Project> projectList;
-
 	List<Subproject> subprojectList;
-
 
 	/**
 	 * Needs to be initialized, but the default value is -1.

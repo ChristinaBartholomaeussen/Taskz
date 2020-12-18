@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
@@ -29,7 +28,8 @@ public class ProfileController {
 	
 	/**
 	 * - OVO
-	 * A GetMapping for Profile. It checks whether a cookie matches a member id, and then loads the right data.
+	 * A GetMapping for Profile. It checks if a cookie matches a member id, and then loads the right data.
+	 * If not, it redirects back to the login page.
 	 *
 	 * @param model
 	 * @param request
