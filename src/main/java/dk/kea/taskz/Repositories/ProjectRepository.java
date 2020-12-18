@@ -17,9 +17,11 @@ public class ProjectRepository {
 
     PreparedStatement preparedStatement = null;
     /**
-     * Henter alle projekter fra databasen
-     * @return liste af alle projekter
-     */
+	 * - OVO
+	 * Gets all the projects from the database
+	 *
+	 * @return liste af alle projekter
+	 */
     public List<Project> getAllProjectsFromDatabase()
     {
         String selectAllProjects = "SELECT Project_Id, Project_Name, Project_StartDate, Deadline, Workload_Per_Day, Project_Estimated_Time, Project_Completed_Time FROM projects";
@@ -43,26 +45,30 @@ public class ProjectRepository {
 
                 allProjects.add(project);
 
-            }
+			}
 
-        } catch (SQLException e) {
-            System.out.println("Happened in ProjectRepository getAllProjectsFromDatabase(): " + e.getMessage());
-        }
+		} catch (SQLException e) {
+			System.out.println("Happened in ProjectRepository getAllProjectsFromDatabase(): " + e.getMessage());
+		}
 
-        return allProjects;
-    }
+		return allProjects;
+	}
 
-    public void insertProjectIntoDatabase(Project project)
-    {
-        String insertProjectIntoDatabase =
-                "INSERT INTO projects(Project_Id, Project_Name, Project_StartDate, Deadline) " +
-                        "VALUES (?, ?, ?, ?)";
-        try
-        {
-            preparedStatement = ConnectionService.getConnection().prepareStatement(insertProjectIntoDatabase);
-            preparedStatement.setInt(1, project.getProjectId());
-            preparedStatement.setString(2, project.getName());
-            preparedStatement.setDate(3, java.sql.Date.valueOf(project.getStartDate()));
+	/**
+	 * - OVO
+	 * Inserts a project into the database
+	 *
+	 * @param project
+	 */
+	public void insertProjectIntoDatabase(Project project) {
+		String insertProjectIntoDatabase =
+				"INSERT INTO projects(Project_Id, Project_Name, Project_StartDate, Deadline) " +
+						"VALUES (?, ?, ?, ?)";
+		try {
+			preparedStatement = ConnectionService.getConnection().prepareStatement(insertProjectIntoDatabase);
+			preparedStatement.setInt(1, project.getProjectId());
+			preparedStatement.setString(2, project.getName());
+			preparedStatement.setDate(3, java.sql.Date.valueOf(project.getStartDate()));
             preparedStatement.setDate(4, java.sql.Date.valueOf(project.getDeadline()));
             preparedStatement.execute();
         }

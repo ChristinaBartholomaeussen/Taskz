@@ -42,7 +42,7 @@ public class TaskRepository {
 			preparedStatement.setDate(6, java.sql.Date.valueOf(task.getDeadline()));
 			preparedStatement.setDouble(7, task.getEstimatedTime());
 			preparedStatement.setInt(8, task.getStatus().ordinal());
-			preparedStatement.setString(9,task.getMember());
+			preparedStatement.setString(9, task.getMember());
 			preparedStatement.setString(10, task.getSkill());
 
 			preparedStatement.execute();
@@ -52,6 +52,12 @@ public class TaskRepository {
 		}
 	}
 
+	/**
+	 * - OVO
+	 * Updates an task, if it might be to difficult to comple before the deadline.
+	 *
+	 * @param id
+	 */
 	public void upDateIsDifficult(int id) {
 		String updateQuery = "UPDATE tasks SET Is_Difficult = ? WHERE Task_ID = ?";
 
@@ -197,18 +203,24 @@ public class TaskRepository {
 				taskSkill = rs.getString(2);
 			}
 
-			for(Member member : memberRepository.getAllMembersFromDB()){
-				if(member.getFirstName().equals(teammember) && !member.getCompetence().contains(taskSkill)){
+			for (Member member : memberRepository.getAllMembersFromDB()) {
+				if (member.getFirstName().equals(teammember) && !member.getCompetence().contains(taskSkill)) {
 					upDateIsDifficult(taskId);
 				}
 			}
-			
+
 		} catch (SQLException e) {
 			System.out.println("Class: TaskRepo, Method: setATaskToRelocateResources(), Error: " + e.getMessage());
 		}
 	}
-	
-	
+
+	/**
+	 * - OVO
+	 * Gets all the task that belongs to a specific member.
+	 *
+	 * @param memberId
+	 * @return
+	 */
 	public ArrayList<Task> getAllTaskToOneMember(int memberId) {
 
 		String firstName = memberRepository.getSingleMEmberFromDBWthID(memberId).getFirstName();
@@ -216,13 +228,13 @@ public class TaskRepository {
 		String getAllTaskQuerryString = "select * from tasks inner join members on tasks.member = members.first_name where status = 0 and tasks.member = ?";
 
 		ArrayList<Task> taskList = new ArrayList<>();
-		
+
 		try {
 			preparedStatement = ConnectionService.getConnection().prepareStatement(getAllTaskQuerryString);
 			preparedStatement.setString(1, firstName);
 
 			ResultSet resultSet = preparedStatement.executeQuery();
-			
+
 			while(resultSet.next()) {
 				taskList.add(new Task(resultSet.getInt(1),
 						resultSet.getInt(2),
@@ -235,16 +247,26 @@ public class TaskRepository {
 						resultSet.getString(9),
 						resultSet.getString(10),
 						resultSet.getInt(11)));
-			};
-			
-			
+			}
+			;
+
+
 		} catch (SQLException e) {
-			System.out.println("Klasse: TaskRepo, Methode: getAllTaskToOneMember, Error: " +e.getMessage());
+			System.out.println("Klasse: TaskRepo, Methode: getAllTaskToOneMember, Error: " + e.getMessage());
 		}
-		
+
 		return taskList;
 	}
-	
+
+	/**
+	 * - OVO
+	 * Gets the task where deadline is closes.
+	 * It finds the task out from the member_id
+	 *
+	 * @param memberId
+	 * @return
+	 */
+
 	public Task getEarliestDeadLineFromDB(int memberId) {
 
 		String firstName = memberRepository.getSingleMEmberFromDBWthID(memberId).getFirstName();
@@ -261,7 +283,7 @@ public class TaskRepository {
 			preparedStatement = ConnectionService.getConnection().prepareStatement(selectTask);
 			preparedStatement.setString(1, firstName);
 			ResultSet resultSet = preparedStatement.executeQuery();
-			
+
 			while (resultSet.next()) {
 				task = new Task(resultSet.getInt(1),
 						resultSet.getInt(2),
@@ -275,8 +297,8 @@ public class TaskRepository {
 						resultSet.getString(10),
 						resultSet.getInt(11));
 			}
-			
-			
+
+
 		} catch (SQLException e) {
 			System.out.println("Klasse: TaskRepo, methode: getEarliestDeadLine, Error: " + e.getMessage());
 		}
