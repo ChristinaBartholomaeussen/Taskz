@@ -26,9 +26,7 @@ public class ProfileController {
 	
 	@Autowired
 	CookieService cookieService;
-
-	//int activeUserId = -1;
-
+	
 	/**
 	 * - OVO
 	 * A GetMapping for Profile. It checks whether a cookie matches a member id, and then loads the right data.

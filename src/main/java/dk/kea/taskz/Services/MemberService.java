@@ -64,30 +64,16 @@ public class MemberService {
     }
 
     /**
-     * Get ID with email and password
-     *
-     * @param Email
-     * @param Password
-     * @return
-     */
+	 * - OVO
+	 * Get ID with email and password
+	 *
+	 * @param Email
+	 * @param Password
+	 * @return
+	 */
     public int getId(String Email, String Password) {
         return memberRepository.getActiveUserIDFromDB(Email, Password);
-    }
-        /**
-         * - OVO
-         * Gets all competenece
-         *
-         * @param
-         * @return
-         */
-        public void setCompetenceForAllMembers(){
+	}
 
-            List<Member> members = getAllMembers();
-
-            for(Member m : members){
-                System.out.println(m.getFirstName() + " " + m.getCompetence());
-            }
-
-        }
 }
 

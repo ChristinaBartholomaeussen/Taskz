@@ -27,12 +27,13 @@ public class SubprojectService
     List<Subproject> subprojectList;
 
     /**
-     * Makes a call to the subProjectRepository with the projectId parameter, to return a list with subprojects associated to the
-     * corresponding project
-     * /RBP
-      * @param projectId
-     * @return
-     */
+	 * - RBP
+	 * Makes a call to the subProjectRepository with the projectId parameter, to return a list with subprojects associated to the
+	 * corresponding project
+	 *
+	 * @param projectId
+	 * @return
+	 */
     public List<Subproject> getAllAssociatedSubprojects(int projectId) {
         List<Subproject> allAssociatedSubprojects = subprojectRepository.getAllAssociatedSubprojects(projectId);
 
@@ -57,8 +58,6 @@ public class SubprojectService
     {
         subprojectRepository.deleteSubProjectFromDB(id);
     }
-	
-	public String getParentProjectName(int id) {return subprojectRepository.getParentProjectNameFromDB(id);}
 	
 	public int getParentId(int id) {
     	return subprojectRepository.getParentProjectIdFromDB(id);

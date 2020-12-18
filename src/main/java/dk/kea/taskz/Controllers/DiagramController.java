@@ -24,6 +24,7 @@ public class DiagramController {
 	CookieService cookieService;
 
 	/**
+	 * - RBP
 	 * Getmapping for Gantt chart for all projects, subprojects and tasks.
 	 * Calles projectservice to get a list of all projects created and then populates each projects subproject list with subprojects and
 	 * the corresponding tasks for each subproject.

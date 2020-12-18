@@ -19,10 +19,11 @@ public class LoginController
     private MemberService memberService;
 
     /**
-     * The "root"-mapping which points to the login screen and shows login.html
-     * /RBP
-     * @return
-     */
+	 * - RBP
+	 * The "root"-mapping which points to the login screen and shows login.html
+	 *
+	 * @return
+	 */
     @GetMapping({"/","/login"})
     public String login()
     {
@@ -30,14 +31,17 @@ public class LoginController
     }
 
 	/**
-     * The postmapping that will be used after we press the Login-button from login.html.
-     * Declares two variables, username and password which are sent to the service, which gets a list from the
-     * database of all the users.
-     * If the password and username do not match the information on the list, the user will be redirected back to the
-     * login page. If they match, the project-overview screen will be shown.
-     * @param data
-     * @return
-     */
+	 * - RBP + OVO
+	 * The postmapping that will be used after we press the Login-button from login.html.
+	 * Declares two variables, username and password which are sent to the service, which gets a list from the
+	 * database of all the users.
+	 * If the password and username do not match the information on the list, the user will be redirected back to the
+	 * login page. If they match, the project-overview screen will be shown.
+	 *
+	 * Here we get an id from the input, and sets an cookie.
+	 * @param data
+	 * @return
+	 */
     @PostMapping("/postLogin")
 	public String postLogin(WebRequest data, HttpServletResponse response)
     {

@@ -25,19 +25,34 @@ public class TaskService {
 	/**
 	 * - FMP
 	 * Vehicle for updating task status
+	 *
 	 * @param idTask
 	 */
 
 	public void updateTaskStatus(int idTask) {
 		taskRepository.updateTaskStatus(idTask);
 	}
-	
-	
+
+
+	/**
+	 * - OVO
+	 * Gets all the tasks that is specific to a single member.
+	 *
+	 * @param memberId
+	 * @return
+	 */
 	public ArrayList<Task> getAllTasks(int memberId) {
 
 		return taskRepository.getAllTaskToOneMember(memberId);
-	} 
-	
+	}
+
+	/**
+	 * - OVO
+	 * We use this method to get task closet to deadline.
+	 *
+	 * @param id
+	 * @return
+	 */
 	public Task getEarlistDeadline(int id) {
 		return taskRepository.getEarliestDeadLineFromDB(id);
 	}

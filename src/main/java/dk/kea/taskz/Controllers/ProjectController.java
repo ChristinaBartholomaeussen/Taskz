@@ -37,11 +37,6 @@ public class ProjectController {
 
 
 	/**
-	 * Used only for the header fragment rendering.
-	 */
-	int headerDisplayFlag = 0;
-
-	/**
 	 * Needs to be initialized, but the default value is -1.
 	 * If we hit a breakpoint here and the value still is -1, we know there is no activeproject
 	 * recieved from the LoginController mapping.
@@ -49,10 +44,10 @@ public class ProjectController {
 	int activeProjectID = -1;
 
 	/**
-	 * - OVO
+	 * - OVO / FMP
 	 * Getmapping for project.
 	 * Sets different addtributes, så the subproject page reacts right.
-	 * - FMP
+	 * <p>
 	 * Updates Workload_Per_Day for projects and subprojects to insure that the displayed information is updated
 	 * and accurate
 	 *
@@ -76,7 +71,6 @@ public class ProjectController {
 		subprojectService.updateWorkloadPerDay(subprojectList);
 
 		model.addAttribute("activeProjectID", activeProjectID);
-		model.addAttribute("activeProjectIDToTest", headerDisplayFlag);
 		model.addAttribute("popup", false);
 		model.addAttribute("projectList", projectList);
 		model.addAttribute("deletePopUp", false);
@@ -156,10 +150,9 @@ public class ProjectController {
 	}
 
 	/**
-	 * Postmapping der modtager et Integer fra projects.html, som bruges til at designere det aktive project
-	 * og derefter redirectes videre til deleteProjectPopup-mappingen som bruger det aktive project ID til at vide hvilket
-	 * project der er "peget" på og skal slettes
-	 * deleteProjectPopup-get
+	 * - OVO
+	 * A postmapping that takes an Integer from the projects.html page. It is used to store the project Id
+	 * We use the id to delete a specific task.
 	 * @param data
 	 * @return
 	 */

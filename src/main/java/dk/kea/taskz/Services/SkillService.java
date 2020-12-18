@@ -13,6 +13,7 @@ public class SkillService {
 	SkillRepository skillRepository;
 
 	/**
+	 * - CMB
 	 * returns all the competences
 	 *
 	 * @return
