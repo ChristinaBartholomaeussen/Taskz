@@ -63,7 +63,7 @@ public class ProjectController {
 		}
 
 		projectService.updateAllProjectsWorkloadPerDay();
-		subprojectService.updateWorkloadPerDay(subprojectList);
+		subprojectService.updateWorkloadPerDay(subprojectService.getAllSubprojects());
 
 		model.addAttribute("activeProjectID", activeProjectID);
 		model.addAttribute("projectList", projectService.getAllProjects());
