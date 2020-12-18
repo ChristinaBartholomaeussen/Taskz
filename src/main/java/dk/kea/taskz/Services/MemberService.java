@@ -8,12 +8,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
 @Service
-public class MemberService {
+public class MemberService
+{
     @Autowired
     MemberRepository memberRepository;
-
-    //public MemberService() {
-    //}
 
     /**
      * - OVO returns all members
@@ -25,6 +23,7 @@ public class MemberService {
     }
 
     /**
+     * - OVO
      * Get a single member from the database
      *
      * @param id
@@ -34,21 +33,11 @@ public class MemberService {
         return memberRepository.getSingleMEmberFromDBWthID(id);
     }
 
-    /*public String getMember(String teammember){
-
-        String competences = "";
-
-        for(Member m : getAllMembers())
-
-            if(m.getFirstName().equals(teammember)){
-                competences = m.getCompetence();
-        }
-       return competences;
-    }*/
-
     /**
-     * -Rune
-     *
+     * - RBP
+     * Receives two strings from the method parameter, a username and a password.
+     * Goes through a list of all members received from the local getAllMembers() method, and returns true if the
+     * iterated Member has both the name and password equal to the received method parameters.
      * @param username
      * @param password
      * @return
@@ -58,7 +47,6 @@ public class MemberService {
             if (member.getEmail().equals(username) && member.getPassword().equals(password)) {
                 return true;
             }
-
         return false;
     }
 
