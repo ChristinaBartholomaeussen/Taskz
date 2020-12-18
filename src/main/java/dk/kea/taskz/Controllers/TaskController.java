@@ -39,13 +39,13 @@ public class TaskController {
 	@Autowired
 	TimeService timeService;
 
-	int activeProjectIDToTest = 1; // This one is only for the header fragment rendering.
-	int subprojectsID = -1;
-	int activeProjectID = 1;
-	int parentProject = -1;
+	private int activeProjectIDToTest = 1; // This one is only for the header fragment rendering.
+	private int subprojectsID = -1;
+	private int activeProjectID = 1;
+	private int parentProject = -1;
 
-	List<Subproject> subprojectList = new ArrayList<>();
-	List<Project> projectList = new ArrayList<>();
+	private List<Subproject> subprojectList = new ArrayList<>();
+	private List<Project> projectList = new ArrayList<>();
 
 	/**
 	 * - OVO

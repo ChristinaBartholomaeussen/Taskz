@@ -8,8 +8,7 @@ import java.util.ArrayList;
 @Repository
 public class MemberRepository {
 
-	PreparedStatement preparedStatement = null;
-
+	private	PreparedStatement preparedStatement = null;
 
 	/**(OVO, CMB)
 	 * Gets all the members from the database.

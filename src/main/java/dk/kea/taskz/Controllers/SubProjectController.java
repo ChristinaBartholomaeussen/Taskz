@@ -32,7 +32,6 @@ public class SubProjectController
 
 	static int activeProjectID = -1;
 
-
 	/**
 	 * - OVO
 	 * GetMapping for subprojects.
