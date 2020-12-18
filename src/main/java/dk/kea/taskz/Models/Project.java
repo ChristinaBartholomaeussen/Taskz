@@ -6,24 +6,25 @@ import java.util.List;
 import java.util.Objects;
 
 /**(FMP, OVO, RBP, CMB)
- * Blueprint for object/model Project with getter/setter.
- * Constructor overload because we need constructor with
+ * Blueprint for object/model Project with getters/setters.
+ * Constructor overloads because we need constructors with
  * different parameters
  */
 public class Project
 {
     private int projectId;
     private String name;
+    private String totalWorkHoursPerDay;
     private LocalDate startDate;
     private LocalDate deadline;
-    private String totalWorkHoursPerDay;
     private double totalEstimatedTime;
     private double completedTime;
     private List<Subproject> associatedSubprojects;
 
-    public Project(){
-
+    public Project()
+    {
     }
+
     public Project(String name) {
         this.name = name;
     }

@@ -3,14 +3,13 @@ package dk.kea.taskz.Models;
 import dk.kea.taskz.Models.Enums.Complexity;
 import dk.kea.taskz.Models.Enums.Status;
 import dk.kea.taskz.Models.Enums.Priority;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
 /**(FMP, OVO, RBP, CMB)
- * Blueprint for object/model Task with getter/setter.
- * Constructor overload because we need constructor with
+ * Blueprint for object/model Task with getters/setters.
+ * Constructor overloads because we need constructors with
  * different parameters
  */
 
@@ -18,18 +17,18 @@ public class Task
 {
     private int taskId;
 	private int parentSubProjectId;
-    private String taskName;
-	private LocalDate deadline;
+	private int isDifficult;
 	private double estimatedTime;
+	private String taskName;
+	private String member;
+	private String skill;
+	private LocalDate deadline;
 	private Enum<Status> status;
 	private Enum<Priority> priority;
 	private Enum<Complexity> complexity;
-	private String member;
-	private String skill;
-	private int isDifficult;
 
-	public Task() {
-
+	public Task()
+	{
 	}
 	
 	public Task(int taskId, String taskName, Priority priority, Complexity complexity, LocalDate deadline, double estimatedTime, String skill) {
@@ -55,8 +54,6 @@ public class Task
 		this.member = member;
 	}
 
-
-
 	public Task(int parentSubProjectId, String taskName, Enum<Priority> priority, Enum<Complexity> complexity, LocalDate deadline, double estimatedTime,
 				Enum<Status> status, String member, String skill)
 	{
@@ -69,7 +66,6 @@ public class Task
 		this.complexity = complexity;
 		this.member = member;
 		this.skill = skill;
-		
 	}
 
 	public Task(int taskId, int parentSubProjectId, String taskName, Enum<Priority> priority, Enum<Complexity> complexity,
@@ -86,10 +82,7 @@ public class Task
 		this.member = member;
 		this.skill = skill;
 		this.isDifficult = isDifficult;
-
 	}
-
-
 
 	public String getTaskName() {
 		return taskName;

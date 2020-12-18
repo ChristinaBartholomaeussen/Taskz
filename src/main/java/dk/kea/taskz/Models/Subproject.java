@@ -4,8 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 /**(FMP, OVO, RBP, CMB)
- * Blueprint for object/model Subproject with getter/setter.
- * Constructor overload because we need constructor with
+ * Blueprint for object/model Subproject with getters/setters.
+ * Constructor overloads because we need constructors with
  * different parameters
  */
 public class Subproject
@@ -15,14 +15,15 @@ public class Subproject
     private double subprojectTotalEstimatedTime;
     private double subprojectCompletedTime;
     private String subprojectWorkloadPerDay;
+    private String subprojectName;
     private LocalDate subprojectStartDate;
     private LocalDate subprojectDeadline;
-    private String subprojectName;
     private List<Task> taskList;
 
-    public Subproject(){
-
+    public Subproject()
+    {
     }
+
     public Subproject(String subprojectName, int parentProjectId) {
         this.parentProjectId = parentProjectId;
         this.subprojectName = subprojectName;
@@ -40,7 +41,6 @@ public class Subproject
         this.subprojectStartDate = subprojectStartDate;
         this.subprojectDeadline = subprojectDeadline;
     }
-
 
     public Subproject(int subprojectId, String subprojectName, int parentProjectId, double subprojectTotalEstimatedTime, LocalDate subprojectStartDate, LocalDate subprojectDeadline, String subprojectWorkloadPerDay) {
         this.subprojectId = subprojectId;

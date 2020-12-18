@@ -4,8 +4,8 @@ import dk.kea.taskz.Services.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**(FMP, OVO, RBP, CMB)
- * Blueprint for the object/model Member, with getter/setter
- * Have constructor overload because we need constructors
+ * Blueprint for the object/model Member, with getters/setters
+ * Have constructor overloads because we need constructors
  * with different parameters
  */
 
@@ -25,7 +25,6 @@ public class Member
     public Member()
     {
     }
-
 
     public Member(String email, String password)
     {
