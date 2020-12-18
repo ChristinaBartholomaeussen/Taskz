@@ -10,17 +10,14 @@
 
 	<header th:fragment="header" class="d-flex justify-content-between text-light p-3">
 		<a href="/projects" class="text-light ml-2"><h1>Taskz</h1></a>
-		
+
 		<span class="ml-auto mr-4">
 			<a href="/profile" class="btn btn-success ml-auto">User Profile</a>
 		</span>
 		<span class="mr-4">
 			<a href="/gantt" class="btn btn-success">Gantt Chart for all projects</a>
 		</span>
-		<span th:if="${headerDisplayFlag}">
-			<a href="/newSubProject" class="btn btn-success">New Subproject</a>
-		</span>
-		<span th:unless="${headerDisplayFlag}">
+		<span>
 			<a href="/newProject" class="btn btn-success">New Project</a>
 		</span>
 		<span class="ml-4">
