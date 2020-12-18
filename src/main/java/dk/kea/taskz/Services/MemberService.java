@@ -35,7 +35,7 @@ public class MemberService {
         return memberRepository.getSingleMEmberFromDBWthID(id);
     }
 
-    public String getMember(String teammember){
+    /*public String getMember(String teammember){
 
         String competences = "";
 
@@ -45,7 +45,7 @@ public class MemberService {
                 competences = m.getCompetence();
         }
        return competences;
-    }
+    }*/
 
     /**
      * -Rune
