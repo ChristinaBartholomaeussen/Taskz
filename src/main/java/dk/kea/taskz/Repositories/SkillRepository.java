@@ -14,7 +14,8 @@ public class SkillRepository
 	PreparedStatement preparedStatement = null;
 
 	/**
-	 * - CMB Gets all the competences from the database
+	 * - CMB
+	 * Gets all the competences from the database
 	 *
 	 * @return
 	 */
@@ -31,13 +32,11 @@ public class SkillRepository
 
 			while (resultSet.next()) {
 				String skill = resultSet.getString(1);
-
 				skills.add(skill);
 			}
 		} catch (SQLException e) {
-			System.out.println("Class: CompetencesRepository\nMethod: getAllCompetencesOnceFromDB()\nError: " +e.getMessage());
+			System.out.println("Error happened in CompetencesRepository at getAllSkillsFromDB(): " +e.getMessage());
 		}
 		return skills;
 	}
-	
 }
