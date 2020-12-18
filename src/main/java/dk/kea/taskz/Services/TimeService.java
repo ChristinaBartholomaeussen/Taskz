@@ -22,7 +22,6 @@ public class TimeService {
      * @param deadline
      * @return
      */
-
    public boolean isSubprojectStartDateAndDeadlineBetweenProject(Project project, LocalDate startdate, LocalDate deadline){
 
        if(startdate.isBefore(project.getStartDate()) && deadline.isAfter(project.getDeadline()))
@@ -31,7 +30,6 @@ public class TimeService {
        }
        return true;
     }
-
 
     /**
      * - CMB
@@ -51,7 +49,6 @@ public class TimeService {
         }else if(deadline.isEqual(subproject.getSubprojectDeadline()) || deadline.isEqual(subproject.getSubprojectStartDate())){
            return true;
        }
-
         return false;
     }
 
@@ -72,5 +69,4 @@ public class TimeService {
        }
        return false;
     }
-
 }
