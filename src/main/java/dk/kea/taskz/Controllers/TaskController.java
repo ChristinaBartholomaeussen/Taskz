@@ -47,11 +47,9 @@ public class TaskController {
 	List<Subproject> subprojectList = new ArrayList<>();
 	List<Project> projectList = new ArrayList<>();
 
-
-
 	/**
 	 * - OVO
-	 * Gets both the paren project Id, and the subproject Id, and sets them globally.
+	 * Gets both the parent project Id, and the subproject Id, and sets them globally.
 	 *
 	 * @param data
 	 * @return
@@ -86,14 +84,12 @@ public class TaskController {
 		model.addAttribute("project",projectService.getProjectByProjectId(parentProject));
 		model.addAttribute("skills", skillService.getListOfSkills());
 
-
 		return "subprojects";
 	}
 
 	/**
-	 *  - OVO
+	 *  - OVO + FMP
 	 *  Send from data to the database. To create an task.
-	 *  - FMP
 	 *  Updates Workload_Per_Day based of the new changes introduced by the newly created task
 	 * @param data
 	 * @return
@@ -103,21 +99,21 @@ public class TaskController {
 
 		String subprojectId = data.getParameter("subProjectId");
 		String taskName = data.getParameter("taskName");
-		int priority = Integer.parseInt(data.getParameter("priority"));
-		int complexity = Integer.parseInt(data.getParameter("complexity"));
 		String estimatedTime = data.getParameter("estimatedTime");
 		String deadline = data.getParameter("deadline");
-		LocalDate convertDeadlineToLocalDate = LocalDate.parse(deadline);
 		String teamMember = data.getParameter("TeamMembers");
-
 		String skill = data.getParameter("skills");
 
+		int priority = Integer.parseInt(data.getParameter("priority"));
+		int complexity = Integer.parseInt(data.getParameter("complexity"));
+		LocalDate convertDeadlineToLocalDate = LocalDate.parse(deadline);
 
 		if(timeService.isTaskDeadlineBetweenSubprojectStartDateAndDeadline(subprojectService.getSubprojectStartDateDeadline(subprojectsID), convertDeadlineToLocalDate) == false){
 
 			return "redirect:/newTask";
 		}
-		else{
+		else
+		{
 			Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline), Double.valueOf(estimatedTime), Status.ACTIVE, teamMember, skill);
 
 			taskService.insertTask(task);
@@ -135,7 +131,6 @@ public class TaskController {
 
 			return "redirect:/subprojects";
 		}
-
 	}
 
 	/**
@@ -147,13 +142,11 @@ public class TaskController {
 	 * @return
 	 */
 	@PostMapping("/deleteTask")
-	public String deleteTask(WebRequest data) {
-
-
-		projectList = projectService.getAllProjects();
-
+	public String deleteTask(WebRequest data)
+	{
 		int idTask = Integer.parseInt(data.getParameter("deleteTask"));
 
+		projectList = projectService.getAllProjects();
 		taskService.deleteTask(idTask);
 
 		subprojectService.updateSubprojectTotalEstimatedTime(subprojectsID); //Virker
@@ -163,10 +156,7 @@ public class TaskController {
 
 		subprojectList = subprojectService.getAllSubprojects();
 		subprojectService.updateWorkloadPerDay(subprojectList);
-
 		projectService.updateAllProjectsWorkloadPerDay();
-
-
 
 		return "redirect:/subprojects";
 	}
