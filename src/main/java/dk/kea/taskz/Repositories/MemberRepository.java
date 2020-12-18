@@ -10,9 +10,18 @@ public class MemberRepository {
 
 	PreparedStatement preparedStatement = null;
 
-	/**
-	 * - OVO
-	 * Gets all the members from the database
+
+	/**(OVO, CMB)
+	 * Gets all the members from the database.
+	 * Group_concat(combined the competences for each member in
+	 * one column and separates them by ','.
+	 * It joins the tables jobtitles where the jobtitle is equal
+	 * so that we can access the jobtitle description.
+	 * Joiner the many-many table members_competences where
+	 * the member_id is equal.
+	 * Joins the competences table where the compentence_id
+	 * is equal to the competence_id in the many-many table.
+	 * Groups them by the member_id.
 	 *
 	 * @return
 	 */
@@ -51,9 +60,13 @@ public class MemberRepository {
 		return memberList;
 	}
 
-	/**
-	 * -OVO
+
+	/**(OVE, CMB)
 	 * Gets a single member from the database withe the ID
+	 * Selects the id, email, password, firstname, lastname
+	 * competence and jobtitle_description.
+	 * To access those we need to join the jobtitle table,
+	 * members_competence table and comptences table.
 	 *
 	 * @param member_ID
 	 * @return
