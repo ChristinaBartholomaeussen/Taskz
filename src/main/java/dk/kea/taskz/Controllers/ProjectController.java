@@ -32,9 +32,7 @@ public class ProjectController {
 	CookieService cookieService;
 
 	List<Project> projectList;
-
 	List<Subproject> subprojectList;
-
 
 	/**
 	 * Needs to be initialized, but the default value is -1.
@@ -165,7 +163,11 @@ public class ProjectController {
 	}
 
 	/**
+	 * - OVO
+	 * A getmapping for the deleteproject popup.
+	 * <p>
 	 * Mapping der har det aktive projekt id
+	 *
 	 * @param model
 	 * @return
 	 */

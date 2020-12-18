@@ -10,11 +10,9 @@ import org.springframework.web.context.request.WebRequest;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
-
 @Controller
 public class LoginController
 {
-
     @Autowired
     private MemberService memberService;
 
@@ -31,7 +29,7 @@ public class LoginController
     }
 
 	/**
-	 * - RBP + OVO
+     * - RBP + OVO
 	 * The postmapping that will be used after we press the Login-button from login.html.
 	 * Declares two variables, username and password which are sent to the service, which gets a list from the
 	 * database of all the users.
