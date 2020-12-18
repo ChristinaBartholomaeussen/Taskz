@@ -13,12 +13,11 @@ public class SkillService {
 	SkillRepository skillRepository;
 
 	/**
-	 * - CMB
-	 * returns all the competences
-	 *
+	 * CMB
+	 * Returns a list of all skills by calling
+	 * the method from the repository for further use.
 	 * @return
 	 */
-
 	public List<String> getListOfSkills(){
 		return skillRepository.getAllSkillsFromDB();
 	}
