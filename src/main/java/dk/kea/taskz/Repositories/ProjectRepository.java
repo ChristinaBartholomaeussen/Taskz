@@ -16,6 +16,7 @@ public class ProjectRepository {
     SubprojectRepository subprojectRepository;
 
     PreparedStatement preparedStatement = null;
+
     /**
 	 * - OVO
 	 * Gets all the projects from the database
@@ -44,13 +45,11 @@ public class ProjectRepository {
                 );
 
                 allProjects.add(project);
-
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Happened in ProjectRepository getAllProjectsFromDatabase(): " + e.getMessage());
+			System.out.println("Error happened in ProjectRepository at getAllProjectsFromDatabase(): " + e.getMessage());
 		}
-
 		return allProjects;
 	}
 
@@ -74,16 +73,17 @@ public class ProjectRepository {
         }
         catch (SQLException e)
         {
-            System.out.println("Happened in ProjectRepository insertProjectIntoDatabase: " + e.getMessage());
+            System.out.println("Error happened in ProjectRepository at insertProjectIntoDatabase(): " + e.getMessage());
         }
     }
 
     /**
-     * Method with JDBC query which deletes the chosen project with the specific projectId
-     * Preparestament to sent the string deleteQuery,
-     * set the parameterIndex at 1 to be our ptojectId and then execute it.
-     * When the project is deleted the subprojects and tasks which are connected through
-     * foreing keys will be deleted as well because of cascade in our database.
+     * - CMB
+     * Method with JDBC query which deletes the chosen project with the specific projectId.
+     * PrepareStatement recieves the string, deleteQuery, which sets the parameterIndex 1 to be our
+     * projectId and then executes it.
+     * When the project is deleted, the subprojects and tasks which are connected through
+     * foreign keys, will be deleted as well, because of cascade in our database.
      * @param projectId
      */
     public void deleteWholeProject(int projectId)
@@ -102,18 +102,17 @@ public class ProjectRepository {
         }
     }
 
-    /**(CMB)
-     * Method with a string with our sql query.
-     * The query updates our projects table, joiner the subprojects on the primary key from projects
-     * and the foreign key in subprojects, selects the total sum for
-     * estimated time in subprojects, groups them by project_id because of foreign keys,
+    /**
+     * - CMB
+     * Method with a string, with our sql query.
+     * The query updates our projects table, and joins the subprojects on the primary key from projects
+     * and the foreign key from subprojects.
+     * Then selects the total sum for estimated time in subprojects, groups them by project_id because of the foreign keys and
      * then sets the value of estimated time for each project to be the sum of all subprojects, where
-     * the primary key in projects is == to the foreign key in subprojects.
-     * PrepareStatement to sent the query and then a executeUpdate method.
-     *
+     * the primary key in projects is equal to the foreign key in subprojects.
+     * PrepareStatement receives the sql-query string and then uses the executeUpdate extension method.
      * @param projectId
      */
-
     public void updateProjectEstimatedTime(int projectId){
 
         String updateTotalTime = "update projects p " +
@@ -129,10 +128,20 @@ public class ProjectRepository {
             preparedStatement.executeUpdate();
 
         }catch (SQLException e) {
-            System.out.println("Happened in ProjectRepository updateProjectEstimatedTime: " + e.getMessage());
+            System.out.println("Error happened in ProjectRepository at updateProjectEstimatedTime(): " + e.getMessage());
         }
     }
 
+    /**
+     * - RBP
+     * This method retrieves the Project object from the database.
+     * A sqlQuery string is created with the Project_ID and selects all columns from the projects table, where the Project_ID is equal
+     * to the Project_ID recieved from the method parameter.
+     *
+     * The Project object is populated by the information recieved from the ResultSet and returned to the caller.
+     * @param projectId
+     * @return
+     */
     public Project getProjectByProjectId(int projectId)
     {
         String sqlQuery = "SELECT * FROM taskz.projects WHERE Project_ID = " + projectId;
@@ -164,14 +173,13 @@ public class ProjectRepository {
 
     /** (FMP, CMB)
      * Updates column Project_Completed_Time in the database based of a projectID
-     * To do that we get the total sum of completed time for all the subproject
-     * to the specific project as mysum. It join on the primary key from the projects table
+     * To do that we get the total sum of completed time for all the subprojects
+     * to the specific project as mysum. It joins on the primary key from the projects table
      * and the foreign key in the subprojects table.
-     * Then the project completed time sets to mysum
-     * where the primary key in projects is == to the parameter projectID
+     * Then the project completed time is set to mysum where the primary key in projects is equal to
+     * the parameter projectID.
      * @param projectID
      */
-
     public void updateProjectCompletedTime(int projectID) {
 
         String updateProjectCompletedTime = "update projects p\n" +
@@ -181,12 +189,13 @@ public class ProjectRepository {
                 "set p.project_completed_time = s.mysum\n" +
                 "where p.project_id = ?";
 
-        try {
+        try
+        {
             preparedStatement = ConnectionService.getConnection().prepareStatement(updateProjectCompletedTime);
             preparedStatement.setInt(1, projectID);
-
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
+        } catch (SQLException e)
+        {
             System.out.println("Error happened in ProjectRepository at updateProjectCompletedTime()" + e.getMessage());
         }
     }
@@ -199,17 +208,18 @@ public class ProjectRepository {
      * @param workloadPerDay
      * @param projectID
      */
-
-    public void updateWorkloadPerDay(String workloadPerDay, int projectID) {
+    public void updateWorkloadPerDay(String workloadPerDay, int projectID)
+    {
         String updateWorkloadPerDay = "UPDATE projects SET Workload_Per_Day = ? WHERE Project_ID = ?;";
 
-        try {
+        try
+        {
             PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(updateWorkloadPerDay);
             preparedStatement.setString(1, workloadPerDay);
             preparedStatement.setDouble(2, projectID);
-
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
+        } catch (SQLException e)
+        {
             System.out.println("Error happened in ProjectRepository updateWorkLoadPerDay: " + e.getMessage());
         }
     }

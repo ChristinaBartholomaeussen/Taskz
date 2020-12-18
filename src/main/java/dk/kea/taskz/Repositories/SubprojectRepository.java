@@ -17,20 +17,30 @@ public class SubprojectRepository
 
 	PreparedStatement preparedStatement = null;
 
-	public Subproject getSubprojectStartDateAndDeadlineById(int subprojectId){
+	/**
+	 * - RBP
+	 * Gets the Subproject_StartDate and Subproject_Deadline for the specific subproject obtained from the method parameter.
+	 * 
+	 * @param subprojectId
+	 * @return
+	 */
+	public Subproject getSubprojectStartDateAndDeadlineById(int subprojectId)
+	{
 		String getSubproject = "select subprojects.Subproject_StartDate, subprojects.Subproject_Deadline from taskz.subprojects where subprojects.Subproject_ID =" + subprojectId;
-
 		Subproject subproject = new Subproject();
 
 		try{
 			preparedStatement = ConnectionService.getConnection().prepareStatement(getSubproject);
 			ResultSet rs = preparedStatement.executeQuery();
 
-			while(rs.next()){
+			while(rs.next())
+			{
 				subproject.setSubprojectStartDate(rs.getDate(1).toLocalDate());
 				subproject.setSubprojectDeadline(rs.getDate(2).toLocalDate());
 			}
-		}catch (SQLException e){
+		}
+		catch (SQLException e)
+		{
 			System.out.println("Error happened in SubprojectRepository at getSubprojectStartDateAndDeadlineById(): " + e);
 		}
 

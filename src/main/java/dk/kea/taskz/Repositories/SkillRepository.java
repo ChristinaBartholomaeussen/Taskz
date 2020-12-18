@@ -13,7 +13,8 @@ public class SkillRepository
 {
 	PreparedStatement preparedStatement = null;
 
-	/**(CMB)
+	/**
+	 * - CMB
 	 * Selects the skill_description from the table skills
 	 * and adds them to an arraylist of strings.
 	 * After that it returns the list for further use.
@@ -36,7 +37,7 @@ public class SkillRepository
 				skills.add(skill);
 			}
 		} catch (SQLException e) {
-			System.out.println("Error happened in CompetencesRepository at getAllSkillsFromDB(): " +e.getMessage());
+			System.out.println("Error happened in SkillRepository at getAllSkillsFromDB(): " +e.getMessage());
 		}
 		return skills;
 	}
