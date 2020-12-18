@@ -12,12 +12,24 @@ public class TaskService {
 	@Autowired
 	TaskRepository taskRepository;
 
-
-	public void insertTask(Task task) {
+	/**
+	 * -RBP
+	 * Receives a Task from the method parameter, which is passed on insertNewTaskToDB method in TaskRepository
+	 * and uses the two extensionmethods, getMember() and getTaskId() in the setATaskToRelocateResources
+	 * in the Task Repository
+	 * @param task
+	 */
+	public void insertTask(Task task)
+	{
 		taskRepository.insertNewTaskToDB(task);
 		taskRepository.setATaskToRelocateResources(task.getMember(),task.getTaskId());
 	}
-	
+
+	/**
+	 * Receives an integer id from the method parameter, which is passed on to the
+	 * deleteTaskFromDB method in Task Repository
+	 * @param id
+	 */
 	public void deleteTask(int id) {
 		taskRepository.deleteTaskFromDB(id);
 	}
@@ -28,11 +40,9 @@ public class TaskService {
 	 *
 	 * @param idTask
 	 */
-
 	public void updateTaskStatus(int idTask) {
 		taskRepository.updateTaskStatus(idTask);
 	}
-
 
 	/**
 	 * - OVO

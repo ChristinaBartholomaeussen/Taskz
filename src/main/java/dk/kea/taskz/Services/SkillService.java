@@ -15,7 +15,7 @@ public class SkillService {
 	/**
 	 * CMB
 	 * Returns a list of all skills by calling
-	 * the method from the repository for further use.
+	 * the method from the SkillRepository.
 	 * @return
 	 */
 	public List<String> getListOfSkills(){
