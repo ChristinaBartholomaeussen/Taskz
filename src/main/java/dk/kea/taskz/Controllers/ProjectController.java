@@ -35,6 +35,7 @@ public class ProjectController {
 	List<Subproject> subprojectList;
 
 	/**
+	 * - RBP
 	 * Needs to be initialized, but the default value is -1.
 	 * If we hit a breakpoint here and the value still is -1, we know there is no activeproject
 	 * recieved from the LoginController mapping.
@@ -45,14 +46,14 @@ public class ProjectController {
 	 * - OVO / FMP
 	 * Getmapping for project.
 	 * Sets different addtributes, så the subproject page reacts right.
-	 * <p>
+	 *
 	 * Updates Workload_Per_Day for projects and subprojects to insure that the displayed information is updated
 	 * and accurate
+	 *
 	 *
 	 * @param model
 	 * @return projects
 	 */
-
 	@GetMapping("/projects")
 	public String projects(Model model, HttpServletRequest request) {
 
@@ -61,7 +62,6 @@ public class ProjectController {
 		if (activeUserId == -1) {
 			return "redirect:/login";
 		}
-
 
 		projectList = projectService.getAllProjects();
 		projectService.updateAllProjectsWorkloadPerDay();

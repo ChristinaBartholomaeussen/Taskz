@@ -29,7 +29,6 @@ public class ProfileController {
 	/**
 	 * - OVO
 	 * A GetMapping for Profile. It checks if a cookie matches a member id, and then loads the right data.
-	 * If not, it redirects back to the login page.
 	 *
 	 * @param model
 	 * @param request
