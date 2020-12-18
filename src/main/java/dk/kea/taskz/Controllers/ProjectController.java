@@ -50,7 +50,6 @@ public class ProjectController {
 	 * Updates Workload_Per_Day for projects and subprojects to insure that the displayed information is updated
 	 * and accurate
 	 *
-	 *
 	 * @param model
 	 * @return projects
 	 */
@@ -63,51 +62,46 @@ public class ProjectController {
 			return "redirect:/login";
 		}
 
-		projectList = projectService.getAllProjects();
 		projectService.updateAllProjectsWorkloadPerDay();
-		subprojectList = subprojectService.getAllSubprojects();
 		subprojectService.updateWorkloadPerDay(subprojectList);
 
 		model.addAttribute("activeProjectID", activeProjectID);
+		model.addAttribute("projectList", projectService.getAllProjects());
 		model.addAttribute("popup", false);
-		model.addAttribute("projectList", projectList);
 		model.addAttribute("deletePopUp", false);
-
 
 		return "projects";
 	}
 
 	/**
-	 * - RBP
-	 * Postmapping for 'delete project'
-	 * -FMP
+	 * - RBP + FMP
+	 * Postmapping for 'delete project'.
 	 * Gets a list of all projects, then collects the associated projectID from the project we wish to delete
 	 * Loops through the list and removes the project if the projectID matches any of the projectID's in the list
 	 * @param deleteProjectData
 	 * @return
 	 */
 	@PostMapping("/deleteProject")
-	public String deleteProject(WebRequest deleteProjectData) {
-
+	public String deleteProject(WebRequest deleteProjectData)
+	{
 		List<Project> projectList = projectService.getAllProjects();
-
 		int projectToDeleteId = Integer.parseInt(deleteProjectData.getParameter("projectId"));
 
 		for(Project project : projectList)
-			if(project.getProjectId() == projectToDeleteId) {
+		{
+			if(project.getProjectId() == projectToDeleteId)
+			{
 				projectService.deleteProject(projectToDeleteId);
 			}
+		}
 
 		return "redirect:/projects";
 	}
 
 	/**
 	 * - OVO
-	 * A Getmapping which take care of "new Project" and sets a model attribute to  become true, så the popup works.
-	 * <p>
-	 * En ny getmapping som bliver kaldt af "New Projects" linket i project siden.
-	 * Egentlig returnere denb projekt siden igen, men også sætter boolean til true.
-	 * Det gør at popup bliver aktiv.
+	 * A Getmapping for "new Project" and sets the Popup model attribute to become true, so the popup works.
+	 * Adds a list to the Model, which contains all existing Projects.
 	 *
 	 * @return projects
 	 */
@@ -123,18 +117,17 @@ public class ProjectController {
 	/**
 	 * - FMP
 	 * Postmapping for 'create new project'
-	 * Inserts a project into the database
-	 * Checks the start date and deadline of the project, to insure that out rules are met
+	 * Inserts a project into the database. Checks the start date,deadline and name of the project, to ensure that our
+	 * naming rules are met.
+	 *
 	 * @param projectData
 	 * @return redirect:/projects
 	 */
-
 	@PostMapping("/postNewProject")
 	public String postNewProject(WebRequest projectData) {
 
 		String projectStartDate = projectData.getParameter("projectStartDate");
 		String projectDeadline = projectData.getParameter("projectDeadline");
-
 
 		if (timeService.isDeadlineBeforeStartDate(LocalDate.parse(projectStartDate), LocalDate.parse(projectDeadline)) == false || projectData.getParameter("projectName").equals(" ")) {
 			return "redirect:/newProject";
@@ -149,12 +142,11 @@ public class ProjectController {
 
 	/**
 	 * - OVO
-	 * A postmapping that takes an Integer from the projects.html page. It is used to store the project Id
-	 * We use the id to delete a specific task.
+	 * A postmapping that takes an Integer from the projects.html page. It is used to store the project Id, which we
+	 * use to delete the specific project.
 	 * @param data
 	 * @return
 	 */
-
 	@PostMapping("/postpopupDeleteProject")
 	public String postpopupDeleteProject(WebRequest data)
 	{
@@ -165,20 +157,16 @@ public class ProjectController {
 	/**
 	 * - OVO
 	 * A getmapping for the deleteproject popup.
-	 * <p>
-	 * Mapping der har det aktive projekt id
-	 *
+	 * The model recieves the activeProjectId, a list of all existing Projects and sets the popup and deletePopUp attributes.
 	 * @param model
 	 * @return
 	 */
 	@GetMapping("/deletePopup")
 	public String deletePopip(Model model) {
 		model.addAttribute("activeProjectID", activeProjectID);
-		model.addAttribute("popup", false);
 		model.addAttribute("projectList", projectService.getAllProjects());
+		model.addAttribute("popup", false);
 		model.addAttribute("deletePopUp", true);
 		return "projects";
 	}
-
-
 }
