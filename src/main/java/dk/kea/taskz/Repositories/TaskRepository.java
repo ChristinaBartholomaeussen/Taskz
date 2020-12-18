@@ -16,7 +16,7 @@ import java.util.List;
 @Repository
 public class TaskRepository
 {
-	PreparedStatement preparedStatement = null;
+	private PreparedStatement preparedStatement = null;
 
 	@Autowired
 	MemberRepository memberRepository;
