@@ -24,8 +24,14 @@ public class ProjectService
 
     List<Project> projectList;
 
-    /** Christina
-     * Henter listen fra Repository, som henter det specfikke ID, navn, deadline og estimeret time
+    /**
+     * CMB
+     * Method to return all projects.
+     * We have defined a class attribute which
+     * is to contain a list of all projects.
+     * We get the list by calling the method from
+     * the repository which return all projects.
+     * After that we returns the projectlist
      * @return
      */
     public List<Project> getAllProjects() {
@@ -35,8 +41,11 @@ public class ProjectService
         return projectList;
     }
 
-    /** Christina
-     * Indsaetter nyt object af Project i databasen ved hjaelp af metode i repository
+    /**
+     * CMB
+     * Pass the object project of Project to the method
+     * in the repository class, which insert the new project
+     * to the database
      * @param project
      */
     public void addProjectToDatabase(Project project) {
@@ -44,6 +53,12 @@ public class ProjectService
         projectRepository.insertProjectIntoDatabase(project);
     }
 
+    /**
+     * CMB
+     * Pass the projectId to the method in the repository
+     * which deletes the specific project
+     * @param projectId
+     */
     public void deleteProject(int projectId){
 
         projectRepository.deleteWholeProject(projectId);
@@ -110,6 +125,12 @@ public class ProjectService
 		return projectRepository.getProjectByProjectId(activeProjectID);
 	}
 
+    /**
+     * CMB
+     * Pass the projectId to the method in the repository
+     * to define which project there should be updated
+     * @param projectId
+     */
 	public void updateProjectEstimatedTime(int projectId) {
 		projectRepository.updateProjectEstimatedTime(projectId);
 	}
