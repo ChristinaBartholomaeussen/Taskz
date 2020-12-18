@@ -8,8 +8,8 @@ import java.sql.SQLException;
 @Component
 public class ConnectionService
 {
-    /**
-     * CMB
+    /**(CMB)
+     * Singleton, because we only need to establish the connection once
      * Static variable of connection which is null in the beginning
      * Static block of code with our url, user and password which tries to connect to out database with DriverManager,
      * Static because we only need the information to be stored once in our memory
