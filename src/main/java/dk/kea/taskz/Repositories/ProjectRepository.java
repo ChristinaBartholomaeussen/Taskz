@@ -102,7 +102,7 @@ public class ProjectRepository {
         }
     }
 
-    /**
+    /**(CMB)
      * Method with a string with our sql query.
      * The query updates our projects table, joiner the subprojects on the primary key from projects
      * and the foreign key in subprojects, selects the total sum for
@@ -110,6 +110,8 @@ public class ProjectRepository {
      * then sets the value of estimated time for each project to be the sum of all subprojects, where
      * the primary key in projects is == to the foreign key in subprojects.
      * PrepareStatement to sent the query and then a executeUpdate method.
+     *
+     * @param projectId
      */
 
     public void updateProjectEstimatedTime(int projectId){
@@ -160,10 +162,13 @@ public class ProjectRepository {
         return project;
     }
 
-    /**
-     * - FMP
+    /** (FMP, CMB)
      * Updates column Project_Completed_Time in the database based of a projectID
-     * The update value preliminaryTime represents the completed amount of hours within a project
+     * To do that we get the total sum of completed time for all the subproject
+     * to the specific project as mysum. It join on the primary key from the projects table
+     * and the foreign key in the subprojects table.
+     * Then the project completed time sets to mysum
+     * where the primary key in projects is == to the parameter projectID
      * @param projectID
      */
 
