@@ -15,10 +15,9 @@ public class CookieService {
 	 * @return int
 	 */
 	public int getActiveUserId(HttpServletRequest request) {
-		try {
-
+		try
+		{
 			Cookie cookie[] = request.getCookies();
-
 			Cookie cookieId = new Cookie("id", "");
 
 			for (Cookie cookie1 : cookie) {
@@ -32,7 +31,6 @@ public class CookieService {
 			
 			System.out.println("cookiesServivce, Error: " + e.getMessage());
 		}
-
 		return -1;
 	}
 }
