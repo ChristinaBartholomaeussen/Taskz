@@ -122,24 +122,7 @@ public class SubprojectRepository
 
 	}
 
-	public String getParentProjectNameFromDB(int projectId) {
-		String selectsProject = "SELECT Project_Name FROM taskz.projects WHERE Project_ID = " + projectId;
-		String projectNameToReturn = "";
 
-		try {
-			preparedStatement = ConnectionService.getConnection().prepareStatement(selectsProject);
-			ResultSet resultSet =  preparedStatement.executeQuery();
-
-			while (resultSet.next()) {
-				projectNameToReturn = resultSet.getString(1);
-			}
-		} catch (SQLException e) {
-			System.out.println("Error happened in SubprojectRepository at getProjectName(): " + e.getMessage());
-		}
-
-		return projectNameToReturn;
-	}
-	
 	public int getParentProjectIdFromDB(int subproject_ID) {
 
     	String selectsProject = "SELECT Project_ID FROM taskz.subprojects WHERE Subproject_ID = " + subproject_ID;

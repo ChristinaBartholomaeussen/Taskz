@@ -14,7 +14,7 @@ public class SkillRepository
 	PreparedStatement preparedStatement = null;
 
 	/**
-	 * - OVO Gets all the competences from the database
+	 * - CMB Gets all the competences from the database
 	 *
 	 * @return
 	 */

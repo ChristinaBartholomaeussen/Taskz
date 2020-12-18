@@ -41,7 +41,6 @@ public class TaskController {
 
 	int activeProjectIDToTest = 1; // This one is only for the header fragment rendering.
 	int subprojectsID = -1;
-	static int activeParentIDToTest = 1;
 	int activeProjectID = 1;
 	int parentProject = -1;
 
@@ -119,12 +118,12 @@ public class TaskController {
 			return "redirect:/newTask";
 		}
 		else{
-			Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline),  Double.valueOf(estimatedTime), Status.ACTIVE, teamMember, skill);
+			Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline), Double.valueOf(estimatedTime), Status.ACTIVE, teamMember, skill);
 
 			taskService.insertTask(task);
 
-			subprojectService.updateSubprojectTotalEstimatedTime(Integer.valueOf(subprojectId)); // virker
-			subprojectService.updateSubprojectCompletedTime(Integer.valueOf(subprojectId)); //virker
+			subprojectService.updateSubprojectTotalEstimatedTime(Integer.valueOf(subprojectId));
+			subprojectService.updateSubprojectCompletedTime(Integer.valueOf(subprojectId));
 
 			projectService.updateProjectEstimatedTime(parentProject);
 			projectService.updateProjectCompletedTime(activeProjectID);
