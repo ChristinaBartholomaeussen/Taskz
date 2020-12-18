@@ -17,15 +17,15 @@ public class SubprojectRepository
 
 	PreparedStatement preparedStatement = null;
 
-	/**
-	 * - RBP
-	 * Gets the Subproject_StartDate and Subproject_Deadline for the specific subproject obtained from the method parameter.
-	 * 
+	/**(CMB)
+	 * Methods to return a subproject and only the startdate and
+	 * deadline for the specific subprojects based on the subprojectId
+	 * parameter.
+	 *
 	 * @param subprojectId
 	 * @return
 	 */
-	public Subproject getSubprojectStartDateAndDeadlineById(int subprojectId)
-	{
+	public Subproject getSubprojectStartDateAndDeadlineById(int subprojectId){
 		String getSubproject = "select subprojects.Subproject_StartDate, subprojects.Subproject_Deadline from taskz.subprojects where subprojects.Subproject_ID =" + subprojectId;
 		Subproject subproject = new Subproject();
 
@@ -46,6 +46,18 @@ public class SubprojectRepository
 
 		return subproject;
 	}
+
+	/**(CMB)
+	 * Returns a list of subprojects where the foreign key
+	 * is == the primary key based on a parameter.
+	 * To get a date from the database we need to
+	 * convert it to localDate.
+	 * If the list is less than 0 it sets the estimated time
+	 * for the project to 0
+	 *
+	 * @param projectId
+	 * @return
+	 */
 
     public List<Subproject> getAllAssociatedSubprojects(int projectId) {
 
@@ -91,7 +103,7 @@ public class SubprojectRepository
         return subprojectList;
     }
 
-
+    //TODO - Kommentar
     
     public void insertSubProjectIntoDB(Subproject subproject) {
     	String insertSubProject = "INSERT INTO taskz.subprojects (Subproject_Name, Project_ID, Subproject_StartDate, Subproject_Deadline) VALUES (?, ?, ?, ?)";
@@ -152,7 +164,16 @@ public class SubprojectRepository
     	return idToReturn;
 	}
 
-
+	/**(CMB)
+	 * Method to update a subproject estimated time basen
+	 * the subprojectId received from the method
+	 * parameter. It takes the sum of the tasks estimated
+	 * time for the subproject. We use coalesce so the sum will be
+	 * set to 0, if all tasks are deleted otherwise the old value
+	 * wouldn't change.
+	 *
+	 * @param subprojectId
+	 */
 	public void updateSubprojectEstimated(int subprojectId){
 
     	String updateTotalEstimatedTime = "update subprojects s\n" +
@@ -208,10 +229,15 @@ public class SubprojectRepository
     	return allSubprojects;
 	}
 
-	/**
-	 * - FMP
-	 * Updates column Subproject_Completed_Time in the database based of a subprojectID
-	 * The update value preliminaryTime represents the completed amount of hours within a subproject
+	/**(FMP, CMB)
+	 *
+	 * Updates column Subproject_Completed_Time in the database based of a subprojectId
+	 * To do that we get the total sum of completed time for all the tasks
+	 * to the specific subproject as mysum where the status is 1. It join on the primary key from the subprojects
+	 * table and the foreign key in the tasks table.
+	 * Then the subproject completed time sets to mysum
+	 * where the primary key in subprojects is == to the parameter subprojectId.
+	 *
 	 * @param subprojectID
 	 */
 
