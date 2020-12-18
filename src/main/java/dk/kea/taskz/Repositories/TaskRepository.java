@@ -197,38 +197,34 @@ public class TaskRepository
 	 * - OVO
 	 * Sets a Task to a high difficulty setting, if the skill of the member received from the method parameter, is not equal to the
 	 * task skill based on the taskId recieved from the method parameter.
-	 * @param member
+	 * @param teammember
 	 * @param taskId
 	 */
-	public void setATaskToRelocateResources(String teammember, int taskId)
-	{
+	public void setATaskToRelocateResources(String teammember, int taskId) {
+
 		String taskSkill = null;
 
 		String setToDifficult = "select tasks.task_id, tasks.skill_description\n" +
 				"from tasks\n" +
 				"where tasks.complexity>=3 \n" +
 				"and tasks.priority>=2";
-		
-		try
-		{
+
+		try {
 			preparedStatement = ConnectionService.getConnection().prepareStatement(setToDifficult);
 			ResultSet rs = preparedStatement.executeQuery();
 
-			while (rs.next())
-			{
+			while (rs.next()){
 				taskId = rs.getInt(1);
 				taskSkill = rs.getString(2);
 			}
 
-			for (Member member : memberRepository.getAllMembersFromDB())
-			{
-				if (member.getFirstName().equals(teammember) && !member.getCompetence().contains(taskSkill))
-				{
+			for (Member member : memberRepository.getAllMembersFromDB()) {
+				if (member.getFirstName().equals(teammember) && !member.getCompetence().contains(taskSkill)) {
 					upDateIsDifficult(taskId);
 				}
 			}
-		} catch (SQLException e)
-		{
+
+		} catch (SQLException e) {
 			System.out.println("Error happened in TaskRepository at setATaskToRelocateResources(): " + e.getMessage());
 		}
 	}
