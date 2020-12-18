@@ -47,7 +47,6 @@ class Tests
 
         // ACT
         projectRepository.insertProjectIntoDatabase(projectToBeInserted);
-
         Connection connection;
 
         String url = "jdbc:mysql://den1.mysql2.gear.host:3306/taskz";
@@ -56,8 +55,8 @@ class Tests
         try
         {
             connection = DriverManager.getConnection(url, user, pass);
-            String sqlQueryToGetProjectFromDatabase = "SELECT taskz.projects.Project_Name, taskz.projects.Project_StartDate, taskz.projects.Deadline FROM projects WHERE Project_Name = 'UNITTESTPROJECT'";
-
+            String sqlQueryToGetProjectFromDatabase = "SELECT taskz.projects.Project_Name, taskz.projects.Project_StartDate, " +
+                    "taskz.projects.Deadline FROM projects WHERE Project_Name = 'UNITTESTPROJECT'";
             PreparedStatement ps = connection.prepareStatement(sqlQueryToGetProjectFromDatabase);
 
             ResultSet rs = ps.executeQuery();
@@ -73,7 +72,6 @@ class Tests
 
             ps = connection.prepareStatement(deleteEvidence);
             ps.execute();
-
         }
         catch(Exception e)
         {
@@ -148,7 +146,7 @@ class Tests
 
         projectRepository.insertProjectIntoDatabase(new Project("UNITTESTPROJECT", LocalDate.now(), LocalDate.now().plusDays(7)));
         Subproject subprojectToBeInserted = new Subproject("UNITTESTSUBPROJECT",projectId,LocalDate.now(),LocalDate.now().plusDays(7));
-        Task taskToInsert = new Task(parentSubprojectId,"TASKUNITTEST",Priority.CRITICAL,Complexity.VERY_HARD,LocalDate.now().plusDays(7),10,Status.ACTIVE,"Rune","JAVA");
+        Task taskToInsert = new Task(parentSubprojectId,"UNITTESTTASK",Priority.CRITICAL,Complexity.VERY_HARD,LocalDate.now().plusDays(7),10,Status.ACTIVE,"Marianne","JAVA");
 
         Task taskToTest = new Task();
 
@@ -177,7 +175,7 @@ class Tests
             // ACT
             taskRepository.insertNewTaskToDB(taskToInsert);
 
-            String sqlQueryToGetTestTask = "SELECT * FROM tasks WHERE Task_Name = 'TASKUNITTEST'";
+            String sqlQueryToGetTestTask = "SELECT * FROM tasks WHERE Task_Name = 'UNITTESTTASK'";
 
             ps = connection().prepareStatement(sqlQueryToGetTestTask);
             rs = ps.executeQuery();
@@ -220,7 +218,7 @@ class Tests
 
         projectRepository.insertProjectIntoDatabase(new Project("UNITTESTPROJECT", LocalDate.now(),LocalDate.now().plusDays(7)));
         Subproject subprojectToBeInserted = new Subproject("UNITTESTSUBPROJECT",projectId,LocalDate.now(),LocalDate.now().plusDays(7));
-        Task taskToInsert = new Task(subprojectId,"TASKUNITTEST",Priority.CRITICAL,Complexity.VERY_HARD,LocalDate.now().plusDays(7),10,Status.ACTIVE,"Rune","JAVA");
+        Task taskToInsert = new Task(subprojectId,"UNITTESTTASK",Priority.CRITICAL,Complexity.VERY_HARD,LocalDate.now().plusDays(7),10,Status.ACTIVE,"Marianne","JAVA");
         Task taskToTest = new Task();
         try
         {
@@ -242,7 +240,7 @@ class Tests
             }
             taskRepository.insertNewTaskToDB(taskToInsert);
 
-            String sqlGetTaskId = "SELECT Task_ID FROM tasks WHERE Task_Name = 'TASKUNITTEST'";
+            String sqlGetTaskId = "SELECT Task_ID FROM tasks WHERE Task_Name = 'UNITTESTTASK'";
             ps = connection().prepareStatement(sqlGetTaskId);
             rs = ps.executeQuery();
             while(rs.next())
@@ -253,7 +251,7 @@ class Tests
             // ACT
             taskRepository.updateTaskStatus(taskToInsert.getTaskId());
 
-            String sqlGetTaskStatus = "SELECT status FROM tasks WHERE Task_Name = 'TASKUNITTEST'";
+            String sqlGetTaskStatus = "SELECT status FROM tasks WHERE Task_Name = 'UNITTESTTASK'";
             ps = connection().prepareStatement(sqlGetTaskStatus);
             rs = ps.executeQuery();
 
