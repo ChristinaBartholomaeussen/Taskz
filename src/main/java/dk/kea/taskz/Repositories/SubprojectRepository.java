@@ -17,7 +17,8 @@ public class SubprojectRepository
 
 	PreparedStatement preparedStatement = null;
 
-	/**(CMB)
+	/**
+	 * - CMB
 	 * Methods to return a subproject and only the startdate and
 	 * deadline for the specific subprojects based on the subprojectId
 	 * parameter.
@@ -25,7 +26,8 @@ public class SubprojectRepository
 	 * @param subprojectId
 	 * @return
 	 */
-	public Subproject getSubprojectStartDateAndDeadlineById(int subprojectId){
+	public Subproject getSubprojectStartDateAndDeadlineById(int subprojectId)
+	{
 		String getSubproject = "select subprojects.Subproject_StartDate, subprojects.Subproject_Deadline from taskz.subprojects where subprojects.Subproject_ID =" + subprojectId;
 		Subproject subproject = new Subproject();
 
@@ -43,7 +45,6 @@ public class SubprojectRepository
 		{
 			System.out.println("Error happened in SubprojectRepository at getSubprojectStartDateAndDeadlineById(): " + e);
 		}
-
 		return subproject;
 	}
 
@@ -79,33 +80,38 @@ public class SubprojectRepository
 						rs.getDouble(8)
 				));
             }
-
         }
         catch(Exception e)
         {
             System.out.println("Error happened in SubprojectRepository at getAllAssociatedSubprojects(): " + e);
         }
 
-        if(subprojectList.size() <= 0){
+        if(subprojectList.size() <= 0)
+        {
         	String update = "update projects set projects.Project_Estimated_Time = 0 where projects.Project_id =?";
 
-        	try{
+        	try
+			{
 				preparedStatement = ConnectionService.getConnection().prepareStatement(update);
 				preparedStatement.setInt(1, projectId);
-
 				preparedStatement.executeUpdate();
-			}catch (SQLException e){
+			}
+        	catch (SQLException e)
+			{
 				System.out.println("Error");
 			}
-
-
 		}
         return subprojectList;
     }
 
-    //TODO - Kommentar
-    
-    public void insertSubProjectIntoDB(Subproject subproject) {
+	/**
+	 * - RBP
+	 * Inserts a Subproject into the database, based on the Subproject object received in the method parameter.
+	 * The PreparedStatement receives an SQL-query string which inserts the Subproject_Name, Project_Id, Subproject_StartDate
+	 * and Subproject_Deadline into the subprojects-table.
+	 * @param subproject
+	 */
+	public void insertSubProjectIntoDB(Subproject subproject) {
     	String insertSubProject = "INSERT INTO taskz.subprojects (Subproject_Name, Project_ID, Subproject_StartDate, Subproject_Deadline) VALUES (?, ?, ?, ?)";
     	
     	try {
@@ -117,9 +123,8 @@ public class SubprojectRepository
 
 			preparedStatement.execute();
 		} catch (SQLException e) {
-			System.out.println("Error in SubProjectRepository. Method: createSubProject: " + e.getMessage());
+			System.out.println("Error happened in SubProjectRepository at createSubProject(): " + e.getMessage());
 		}
-
 	}
 
 	/**
@@ -128,39 +133,49 @@ public class SubprojectRepository
 	 *
 	 * @param Subproject_ID
 	 */
-	public void deleteSubProjectFromDB(int Subproject_ID) {
+	public void deleteSubProjectFromDB(int Subproject_ID)
+	{
 		String deleteSubProjectFromDB = "DELETE FROM subprojects WHERE Subproject_ID = ?";
 
-		try {
+		try
+		{
 			preparedStatement = ConnectionService.getConnection().prepareStatement(deleteSubProjectFromDB);
 			preparedStatement.setInt(1, Subproject_ID);
-
 			preparedStatement.execute();
-
-
-		} catch (SQLException e) {
-			System.out.println("Klasse: SubprojectRepository\nMethode: deleteSubProject()\nError: " + e.getMessage());
 		}
-
+		catch (SQLException e) {
+			System.out.println("Error happened in SubprojectRepository at deleteSubProject: " + e.getMessage());
+		}
 	}
 
 
+	/**
+	 * - RBP
+	 * Obtains a Project_ID based on the subproject_ID.
+	 * The PreparedStatement recieves an SQL-query string which selects the Project_ID from the subprojects table, where the
+	 * Sudproject_ID is equal to the subproject_ID recieved in the method parameter.
+	 * @param subproject_ID
+	 * @return
+	 */
 	public int getParentProjectIdFromDB(int subproject_ID) {
 
     	String selectsProject = "SELECT Project_ID FROM taskz.subprojects WHERE Subproject_ID = " + subproject_ID;
     	int idToReturn = 0;
     	
-    	try {
+    	try
+		{
     		preparedStatement = ConnectionService.getConnection().prepareStatement(selectsProject);
     		ResultSet resultSet = preparedStatement.executeQuery();
     		
-    		while (resultSet.next()) {
+    		while (resultSet.next())
+    		{
     			idToReturn = resultSet.getInt(1);
 			}
-		}catch (SQLException e) {
+		}
+    	catch (SQLException e)
+		{
 			System.out.println("Error happened in SubprojectRepository at getParentProjectIdFromDB(): " + e.getMessage());
 		}
-
     	return idToReturn;
 	}
 
@@ -200,7 +215,6 @@ public class SubprojectRepository
 	 * Creates an arrayList of all the subprojects in the database
 	 * @return
 	 */
-
 	public List<Subproject> selectAllSubprojects() {
     	String selectAllSubprojects = "SELECT Subproject_ID, Subproject_Name, Project_ID, Subproject_Estimated_Time, Subproject_StartDate, Subproject_Deadline, Subproject_Workload_Per_Day, Subproject_Completed_Time FROM subprojects";
 
@@ -229,18 +243,15 @@ public class SubprojectRepository
     	return allSubprojects;
 	}
 
-	/**(FMP, CMB)
-	 *
-	 * Updates column Subproject_Completed_Time in the database based of a subprojectId
-	 * To do that we get the total sum of completed time for all the tasks
-	 * to the specific subproject as mysum where the status is 1. It join on the primary key from the subprojects
-	 * table and the foreign key in the tasks table.
-	 * Then the subproject completed time sets to mysum
-	 * where the primary key in subprojects is == to the parameter subprojectId.
-	 *
+	/**
+	 * - FMP, CMB
+	 * Updates column Subproject_Completed_Time in the database based of subprojectId recieved in the method parameter.
+	 * To do that we get the total sum of completed time for all the tasks to the specific subproject as mysum where
+	 * the status is 1. It joins on the primary key from the subprojects  table and the foreign key in the tasks table.
+	 * Then the subproject completed time is set to mysum, where the primary key in subprojects is equal to the
+	 * parameter subprojectId.
 	 * @param subprojectID
 	 */
-
 	public void updateSubprojectCompletedTime(int subprojectID) {
 
 		String updateSubprojectCompletedTime = "update subprojects s\n" +
@@ -262,13 +273,12 @@ public class SubprojectRepository
 
 	/**
 	 * - FMP
-	 * Updates column Subproject_Workload_Per_Day in the database based of a subprojectID
+	 * Updates column Subproject_Workload_Per_Day in the database based on the subprojectID recieved in the method parameter.
 	 * The update value workloadPerDay represents the hours you would need to fill to get the subproject completed
 	 * on time
 	 * @param workloadPerDay
 	 * @param subprojectID
 	 */
-
 	public void updateWorkloadPerDay(String workloadPerDay, int subprojectID) {
 		String updateWorkloadPerDay = "UPDATE subprojects SET Subproject_Workload_Per_Day = ? WHERE Subproject_ID = ?";
 
@@ -276,7 +286,6 @@ public class SubprojectRepository
 			PreparedStatement preparedStatement = ConnectionService.getConnection().prepareStatement(updateWorkloadPerDay);
 			preparedStatement.setString(1, workloadPerDay);
 			preparedStatement.setDouble(2, subprojectID);
-
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("Error happened in ProjectRepository updateWorkLoadPerDay: " + e.getMessage());
