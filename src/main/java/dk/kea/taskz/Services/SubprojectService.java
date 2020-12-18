@@ -69,7 +69,7 @@ public class SubprojectService
      * - CMB
      * Recieves a integer id from the method parameter, which is used by the SubprojectRepository method,
      * deleteSubprojectFromDB(), to delete a Subproject from the Database
-     * @param id
+     * @param subprojectId
      */
 	public void deleteSubProject(int subprojectId)
     {
@@ -80,7 +80,7 @@ public class SubprojectService
      * - RBP
      * Returns a parent project id based on the subproject id recieved in the method parameter, which is used
      * by the SubprojectRepository method getParentProjectIdFromDB().
-     * @param id
+     * @param subprojectId
      * @return
      */
 	public int getParentId(int subprojectId) {
