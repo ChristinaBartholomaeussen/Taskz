@@ -30,13 +30,8 @@ public class SubProjectController
 	@Autowired
 	CookieService cookieService;
 
-	//int activeProjectIDToTest = 1; // This one is only for the header fragment rendering.
 	static int activeProjectID = -1;
 
-
-	//List<Subproject> subprojectList = new ArrayList<>();
-	//List<Project> projectList = new ArrayList<>();
-	//List<Task> taskList = new ArrayList<>();
 
 	/**
 	 * - OVO
@@ -66,13 +61,15 @@ public class SubProjectController
 		model.addAttribute("subprojectList", subprojectService.getAllAssociatedSubprojects(activeProjectID));
 		model.addAttribute("deletePopUp", false);
 		model.addAttribute("stopScroll", false);
-		//model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
 
 		return "subprojects";
 	}
 
 	/**
-	 * Postmapping der bliver ramt efter man tr
+	 * - OVO
+	 * This postmapping gets called from the projects.html.
+	 * It has an hidden input field, which sends the project id.
+	 *
 	 * @param data
 	 * @return
 	 */
@@ -180,9 +177,7 @@ public class SubProjectController
 			return "redirect:/projects";
 
 		String subprojectToDelete = data.getParameter("subprojectToDelete");
-
-		//activeProjectIDToTest = 1;
-
+		
 		model.addAttribute("subprojectToDelete", subprojectToDelete);
 		model.addAttribute("activeProjectID", activeProjectID);
 		model.addAttribute("project", projectService.getProjectByProjectId(activeProjectID));

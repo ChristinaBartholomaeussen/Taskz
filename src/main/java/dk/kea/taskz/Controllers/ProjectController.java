@@ -165,7 +165,11 @@ public class ProjectController {
 	}
 
 	/**
+	 * - OVO
+	 * A getmapping for the deleteproject popup.
+	 * <p>
 	 * Mapping der har det aktive projekt id
+	 *
 	 * @param model
 	 * @return
 	 */
