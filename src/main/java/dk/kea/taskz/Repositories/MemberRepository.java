@@ -5,12 +5,10 @@ import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.util.ArrayList;
 
-
 @Repository
 public class MemberRepository {
 
 	PreparedStatement preparedStatement = null;
-
 
 	/**
 	 * - OVO
@@ -48,11 +46,10 @@ public class MemberRepository {
 			}
 
 		} catch (Exception e) {
-			System.out.println("Error happened in member repository, getAllMembersFromDB" + e.getMessage());
+			System.out.println("Error happened in MemberRepository at getAllMembersFromDB()" + e.getMessage());
 		}
 		return memberList;
 	}
-
 
 	/**
 	 * -OVO
@@ -72,27 +69,26 @@ public class MemberRepository {
 				"left outer join competences c on mc.competencecompetence_id = c.competence_id\n" +
 				"where m.member_id = ?";
 
-    	try {
-    		
-    	preparedStatement = ConnectionService.getConnection().prepareStatement(getMemberQuery);
-    	preparedStatement.setInt(1, member_ID);
-    	
-    	ResultSet resultSet = preparedStatement.executeQuery();
-    	
-    	while(resultSet.next()) {
-    		member = new Member(
-    				resultSet.getInt(1),
-					resultSet.getString(2),
-					resultSet.getString(3),
-					resultSet.getString(4),
-					resultSet.getString(5),
-					resultSet.getString(6),
-					resultSet.getString(7));
-		}
+    	try
+		{
+			preparedStatement = ConnectionService.getConnection().prepareStatement(getMemberQuery);
+			preparedStatement.setInt(1, member_ID);
 
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			while(resultSet.next()) {
+				member = new Member(
+						resultSet.getInt(1),
+						resultSet.getString(2),
+						resultSet.getString(3),
+						resultSet.getString(4),
+						resultSet.getString(5),
+						resultSet.getString(6),
+						resultSet.getString(7));
+			}
 
 		} catch (SQLException e) {
-			System.out.println("Klasse: MemberRepo, Methode: getSingleMemberFRomDBWithID(), Error: " + e.getMessage());
+			System.out.println("Error happened in MemberRepository at getSingleMemberFRomDBWithID(): " + e.getMessage());
 		}
 		return member;
 	}
@@ -106,10 +102,11 @@ public class MemberRepository {
 	 * @return
 	 */
 	public int getActiveUserIDFromDB(String Email, String Password) {
-    	String getIdQuerry = "SELECT Member_ID FROM taskz.members WHERE Email = ? AND Password = ?";
+    	String getIdQuery = "SELECT Member_ID FROM taskz.members WHERE Email = ? AND Password = ?";
     	int id = 0;
-    	try {
-    		preparedStatement = ConnectionService.getConnection().prepareStatement(getIdQuerry);
+    	try
+		{
+    		preparedStatement = ConnectionService.getConnection().prepareStatement(getIdQuery);
     		preparedStatement.setString(1, Email);
     		preparedStatement.setString(2, Password);
     		
@@ -119,7 +116,7 @@ public class MemberRepository {
     			id = resultSet.getInt(1);
 			}
 		} catch (SQLException e) {
-			System.out.println("Klasse: MemberRepo, Methode: getActiveUserIDFromDB(), Error: " + e.getMessage());
+			System.out.println("Error happened in MemberRepository at getActiveUserIDFromDB(): " + e.getMessage());
 		}
     	
     	return id;
