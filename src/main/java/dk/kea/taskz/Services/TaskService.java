@@ -22,6 +22,7 @@ public class TaskService {
 	public void insertTask(Task task)
 	{
 		taskRepository.insertNewTaskToDB(task);
+
 		taskRepository.setATaskToRelocateResources(task.getMember(),task.getTaskId());
 	}
 

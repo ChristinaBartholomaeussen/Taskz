@@ -200,9 +200,9 @@ public class TaskRepository
 	 * @param teammember
 	 * @param taskId
 	 */
-	public void setATaskToRelocateResources(String teammember, int taskId) {
-
-		String taskSkill = null;
+	public void setATaskToRelocateResources(String teammember, int taskId)
+	{
+		String taskSkill = "";
 
 		String setToDifficult = "select tasks.task_id, tasks.skill_description\n" +
 				"from tasks\n" +
