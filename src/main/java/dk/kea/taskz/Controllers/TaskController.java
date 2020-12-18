@@ -150,7 +150,7 @@ public class TaskController {
 	@PostMapping("/deleteTask")
 	public String deleteTask(WebRequest data) {
 
-		subprojectList = subprojectService.getAllSubprojects();
+
 		projectList = projectService.getAllProjects();
 
 		int idTask = Integer.parseInt(data.getParameter("deleteTask"));
@@ -162,6 +162,7 @@ public class TaskController {
 		subprojectService.updateSubprojectCompletedTime(parentProject); //Virker
 		projectService.updateProjectCompletedTime(parentProject);
 
+		subprojectList = subprojectService.getAllSubprojects();
 		subprojectService.updateWorkloadPerDay(subprojectList);
 
 		projectService.updateAllProjectsWorkloadPerDay();

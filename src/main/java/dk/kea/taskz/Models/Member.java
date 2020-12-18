@@ -3,6 +3,12 @@ package dk.kea.taskz.Models;
 import dk.kea.taskz.Services.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**(FMP, OVO, RBP, CMB)
+ * Blueprint for the object/model Member, with getter/setter
+ * Have constructor overload because we need constructors
+ * with different parameters
+ */
+
 public class Member
 {
     @Autowired
@@ -85,9 +91,5 @@ public class Member
 		this.jobTitle = jobTitle;
 	}
 
-	@Override
-	public String toString() {
-    	return "MEMBER";
-	}
 
 }
