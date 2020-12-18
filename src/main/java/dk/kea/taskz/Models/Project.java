@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**(FMP, OVO, RBP, CMB)
+ * Blueprint for object/model Project with getter/setter.
+ * Constructor overload because we need constructor with
+ * different parameters
+ */
 public class Project
 {
     private int projectId;

@@ -8,11 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDate;
 import java.util.Objects;
 
+/**(FMP, OVO, RBP, CMB)
+ * Blueprint for object/model Task with getter/setter.
+ * Constructor overload because we need constructor with
+ * different parameters
+ */
 
 public class Task
 {
-
-
     private int taskId;
 	private int parentSubProjectId;
     private String taskName;
@@ -42,7 +45,6 @@ public class Task
 	public Task(int parentSubProjectId, String taskName, Enum<Priority> priority, Enum<Complexity> complexity, LocalDate deadline, double estimatedTime,
 				Enum<Status> status, String member)
 	{
-		//this.taskId = taskId;
 		this.parentSubProjectId = parentSubProjectId;
 		this.taskName = taskName;
 		this.deadline = deadline;
@@ -53,28 +55,11 @@ public class Task
 		this.member = member;
 	}
 
-    public Task(int taskId, int parentSubProjectId, String taskName, Enum<Priority> priority, Enum<Complexity> complexity,
-				LocalDate deadline, double estimatedTime, Enum<Status> status, String member, String skill, int isDifficult)
-    {
-        this.taskId = taskId;
-        this.parentSubProjectId = parentSubProjectId;
-        this.taskName = taskName;
-        this.deadline = deadline;
-        this.estimatedTime = estimatedTime;
-        this.status = status;
-        this.priority = priority;
-        this.complexity = complexity;
-        this.member = member;
-		this.skill = skill;
-		this.isDifficult = isDifficult;
-        
-	}
 
 
 	public Task(int parentSubProjectId, String taskName, Enum<Priority> priority, Enum<Complexity> complexity, LocalDate deadline, double estimatedTime,
 				Enum<Status> status, String member, String skill)
 	{
-		//this.taskId = taskId;
 		this.parentSubProjectId = parentSubProjectId;
 		this.taskName = taskName;
 		this.deadline = deadline;
@@ -85,6 +70,23 @@ public class Task
 		this.member = member;
 		this.skill = skill;
 		
+	}
+
+	public Task(int taskId, int parentSubProjectId, String taskName, Enum<Priority> priority, Enum<Complexity> complexity,
+				LocalDate deadline, double estimatedTime, Enum<Status> status, String member, String skill, int isDifficult)
+	{
+		this.taskId = taskId;
+		this.parentSubProjectId = parentSubProjectId;
+		this.taskName = taskName;
+		this.deadline = deadline;
+		this.estimatedTime = estimatedTime;
+		this.status = status;
+		this.priority = priority;
+		this.complexity = complexity;
+		this.member = member;
+		this.skill = skill;
+		this.isDifficult = isDifficult;
+
 	}
 
 

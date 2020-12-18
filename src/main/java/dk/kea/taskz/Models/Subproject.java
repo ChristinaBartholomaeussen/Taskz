@@ -3,7 +3,11 @@ package dk.kea.taskz.Models;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
-
+/**(FMP, OVO, RBP, CMB)
+ * Blueprint for object/model Subproject with getter/setter.
+ * Constructor overload because we need constructor with
+ * different parameters
+ */
 public class Subproject
 {
 	private int subprojectId;
