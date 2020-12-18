@@ -38,7 +38,7 @@ class Tests
     }
 
     @Test
-    public void insertProjectIntoDatabase()
+    public void testInsertProjectIntoDatabase()
     {
         // ARRANGE
         ProjectRepository projectRepository = new ProjectRepository();
@@ -54,9 +54,10 @@ class Tests
         String pass = "taskz!";
         try
         {
-            connection = DriverManager.getConnection(url, user, pass);
             String sqlQueryToGetProjectFromDatabase = "SELECT taskz.projects.Project_Name, taskz.projects.Project_StartDate, " +
                     "taskz.projects.Deadline FROM projects WHERE Project_Name = 'UNITTESTPROJECT'";
+            connection = DriverManager.getConnection(url, user, pass);
+
             PreparedStatement ps = connection.prepareStatement(sqlQueryToGetProjectFromDatabase);
 
             ResultSet rs = ps.executeQuery();
@@ -108,8 +109,8 @@ class Tests
 
             // ACT
             subprojectRepository.insertSubProjectIntoDB(subprojectToBeInserted);
-
-            String sqlGetSubprojectFromDatabase = "SELECT Subproject_Name, Subproject_StartDate, Subproject_Deadline FROM subprojects WHERE Subproject_Name = 'UNITTESTSUBPROJECT'";
+            String sqlGetSubprojectFromDatabase = "SELECT Subproject_Name, Subproject_StartDate, Subproject_Deadline " +
+                    "FROM subprojects WHERE Subproject_Name = 'UNITTESTSUBPROJECT'";
             ps = connection().prepareStatement(sqlGetSubprojectFromDatabase);
             rs = ps.executeQuery();
 
@@ -146,10 +147,9 @@ class Tests
 
         projectRepository.insertProjectIntoDatabase(new Project("UNITTESTPROJECT", LocalDate.now(), LocalDate.now().plusDays(7)));
         Subproject subprojectToBeInserted = new Subproject("UNITTESTSUBPROJECT",projectId,LocalDate.now(),LocalDate.now().plusDays(7));
-        Task taskToInsert = new Task(parentSubprojectId,"UNITTESTTASK",Priority.CRITICAL,Complexity.VERY_HARD,LocalDate.now().plusDays(7),10,Status.ACTIVE,"Marianne","JAVA");
-
+        Task taskToInsert = new Task(parentSubprojectId,"UNITTESTTASK",Priority.CRITICAL,Complexity.VERY_HARD,
+                            LocalDate.now().plusDays(7),10,Status.ACTIVE,"Marianne","JAVA");
         Task taskToTest = new Task();
-
         try
         {
             String sqlGetProjectIdOfTestProject = "SELECT Project_ID FROM projects WHERE Project_Name  = 'UNITTESTPROJECT'";
@@ -195,6 +195,7 @@ class Tests
             String deleteEvidence = "DELETE FROM projects WHERE Project_Name = 'UNITTESTPROJECT'";
             ps = connection().prepareStatement(deleteEvidence);
             ps.execute();
+
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -250,8 +251,8 @@ class Tests
 
             // ACT
             taskRepository.updateTaskStatus(taskToInsert.getTaskId());
-
             String sqlGetTaskStatus = "SELECT status FROM tasks WHERE Task_Name = 'UNITTESTTASK'";
+
             ps = connection().prepareStatement(sqlGetTaskStatus);
             rs = ps.executeQuery();
 
