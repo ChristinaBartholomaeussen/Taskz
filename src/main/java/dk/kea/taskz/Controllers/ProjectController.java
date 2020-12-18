@@ -172,7 +172,6 @@ public class ProjectController {
 	@GetMapping("/deletePopup")
 	public String deletePopip(Model model) {
 		model.addAttribute("activeProjectID", activeProjectID);
-		model.addAttribute("activeProjectIDToTest", headerDisplayFlag);
 		model.addAttribute("popup", false);
 		model.addAttribute("projectList", projectService.getAllProjects());
 		model.addAttribute("deletePopUp", true);

@@ -7,10 +7,15 @@ import javax.servlet.http.HttpServletRequest;
 
 @Service
 public class CookieService {
-	
+
+	/**
+	 * - OVO
+	 * Gets an array of cookies and looks to see if one has the name of "id"
+	 *
+	 * @param request
+	 * @return int
+	 */
 	public int getActiveUserId(HttpServletRequest request) {
-
-
 		try {
 
 			Cookie cookie[] = request.getCookies();
