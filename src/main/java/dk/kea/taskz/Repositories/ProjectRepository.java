@@ -15,7 +15,7 @@ public class ProjectRepository {
     @Autowired
     SubprojectRepository subprojectRepository;
 
-    PreparedStatement preparedStatement = null;
+    private PreparedStatement preparedStatement = null;
 
     /**
 	 * - OVO

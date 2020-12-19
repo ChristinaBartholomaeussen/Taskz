@@ -39,13 +39,13 @@ public class TaskController {
 	@Autowired
 	TimeService timeService;
 
-	int activeProjectIDToTest = 1; // This one is only for the header fragment rendering.
-	int subprojectsID = -1;
-	int activeProjectID = 1;
-	int parentProject = -1;
+	private int activeProjectIDToTest = 1; // This one is only for the header fragment rendering.
+	private int subprojectsID = -1;
+	private int activeProjectID = 1;
+	private int parentProject = -1;
 
-	List<Subproject> subprojectList = new ArrayList<>();
-	List<Project> projectList = new ArrayList<>();
+	private List<Subproject> subprojectList = new ArrayList<>();
+	private List<Project> projectList = new ArrayList<>();
 
 	/**
 	 * - OVO
@@ -117,16 +117,12 @@ public class TaskController {
 			Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline), Double.valueOf(estimatedTime), Status.ACTIVE, teamMember, skill);
 
 			taskService.insertTask(task);
-
 			subprojectService.updateSubprojectTotalEstimatedTime(Integer.valueOf(subprojectId));
 			subprojectService.updateSubprojectCompletedTime(Integer.valueOf(subprojectId));
 
 			projectService.updateProjectEstimatedTime(parentProject);
 			projectService.updateProjectCompletedTime(activeProjectID);
-
-			subprojectList = subprojectService.getAllSubprojects();
-			subprojectService.updateWorkloadPerDay(subprojectList);
-
+			subprojectService.updateWorkloadPerDay(subprojectService.getAllSubprojects());
 			projectService.updateAllProjectsWorkloadPerDay();
 
 			return "redirect:/subprojects";
@@ -146,16 +142,14 @@ public class TaskController {
 	{
 		int idTask = Integer.parseInt(data.getParameter("deleteTask"));
 
-		projectList = projectService.getAllProjects();
 		taskService.deleteTask(idTask);
 
-		subprojectService.updateSubprojectTotalEstimatedTime(subprojectsID); //Virker
-		projectService.updateProjectEstimatedTime(parentProject); //Virker
-		subprojectService.updateSubprojectCompletedTime(parentProject); //Virker
+		subprojectService.updateSubprojectTotalEstimatedTime(subprojectsID);
+		projectService.updateProjectEstimatedTime(parentProject);
+		subprojectService.updateSubprojectCompletedTime(parentProject);
 		projectService.updateProjectCompletedTime(parentProject);
 
-		subprojectList = subprojectService.getAllSubprojects();
-		subprojectService.updateWorkloadPerDay(subprojectList);
+		subprojectService.updateWorkloadPerDay(subprojectService.getAllSubprojects());
 		projectService.updateAllProjectsWorkloadPerDay();
 
 		return "redirect:/subprojects";

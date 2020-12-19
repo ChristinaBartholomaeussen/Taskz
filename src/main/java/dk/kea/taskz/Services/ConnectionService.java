@@ -9,15 +9,12 @@ import java.sql.SQLException;
 public class ConnectionService
 {
     /**
-     * CMB
-     * Static variable of connection which is null in the beginning
-     * Static block of code with our url, user and password which tries to connect to out database with DriverManager,
-     * Static because we only need the information to be stored once in our memory
-     * Static method of Connection which returns the connection, which makes the navigation on our application faster,
-     * because we don't need to instance a new object of our class and then call the method with all the
-     * information every single time
+     * - CMB
+     * Singleton, because we only need to establish the connection once.
+     * A static Connection object is declared, but the value is set to null.
+     * Then a block of code with our url, user and password is created, which uses DriverManager try to connect to
+     * our database. It is made static, as we only need the information to be stored in memory once.
      */
-
     private static Connection connection = null;
 
     static
@@ -33,6 +30,13 @@ public class ConnectionService
         }
     }
 
+    /**
+     * - CMB
+     * A static method of Connection is created, which returns the connection.
+     * This makes the navigation on our application faster, as we don't need to instantiate a new object of our
+     * class and then call the method with all the information every single time we try to establish a connection.
+     * @return
+     */
     public static Connection getConnection()
     {
         return connection;

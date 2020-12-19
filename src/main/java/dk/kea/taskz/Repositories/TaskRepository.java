@@ -14,14 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class TaskRepository {
-
-	PreparedStatement preparedStatement = null;
+public class TaskRepository
+{
+	private PreparedStatement preparedStatement = null;
 
 	@Autowired
 	MemberRepository memberRepository;
-
-
 
 	/**
 	 *  - OVO
@@ -44,53 +42,66 @@ public class TaskRepository {
 			preparedStatement.setInt(8, task.getStatus().ordinal());
 			preparedStatement.setString(9, task.getMember());
 			preparedStatement.setString(10, task.getSkill());
-
 			preparedStatement.execute();
-
-		} catch (SQLException e) {
-			System.out.println("Error happened in TaskRepository at insertNewTaskToDB" + e);
+		}
+		catch (SQLException e)
+		{
+			System.out.println("Error happened in TaskRepository at insertNewTaskToDB()" + e);
 		}
 	}
 
 	/**
 	 * - OVO
-	 * Updates an task, if it might be to difficult to comple before the deadline.
+	 * Updates an task, if it might be too difficult to complete before the deadline.
 	 *
 	 * @param id
 	 */
-	public void upDateIsDifficult(int id) {
+	public void upDateIsDifficult(int id)
+	{
 		String updateQuery = "UPDATE tasks SET Is_Difficult = ? WHERE Task_ID = ?";
 
-		try {
+		try
+		{
 			preparedStatement = ConnectionService.getConnection().prepareStatement(updateQuery);
 			preparedStatement.setInt(1, 1);
 			preparedStatement.setInt(2, id);
-
 			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println("Class: TaskRepo, Method: upDateIsDifficult(int id), Error: " + e.getMessage());
+		} catch (SQLException e)
+		{
+			System.out.println("Error happened in TaskRepository at upDateIsDifficult(): " + e.getMessage());
 		}
-
 	}
 
 	/**
 	 *  - OVO
-	 *  Deletes a task form the database
+	 *  Deletes a task from the database
 	 * @param Task_ID
 	 */
-	public void deleteTaskFromDB(int Task_ID) {
+	public void deleteTaskFromDB(int Task_ID)
+	{
 		String deleteTaskFromDB =  "DELETE FROM taskz.tasks WHERE Task_ID = ?";
-		try {
+		try
+		{
 			preparedStatement = ConnectionService.getConnection().prepareStatement(deleteTaskFromDB);
 			preparedStatement.setInt(1, Task_ID);
-			
 			preparedStatement.execute();
-		}catch (SQLException e) {
+		}
+		catch (SQLException e)
+		{
 			System.out.println(e.getMessage());
 		}
 	}
 
-	public List<Task> getAllAssociatedTasksToSubproject(int subprojectId) {
+	/**
+	 * - RBP
+	 * Gets all the associated tasks to the Subproject based on the subprojectId recieved from the method parameter.
+	 * The PreparedStatement recieves an SQL-query string which selects all the columns in the tasks table, where the SubProject_ID is
+	 * is equal to the subprojectId
+	 * @param subprojectId
+	 * @return
+	 */
+	public List<Task> getAllAssociatedTasksToSubproject(int subprojectId)
+	{
 		String getAllAssociatedTasksToSubproject = "SELECT * FROM taskz.tasks WHERE SubProject_ID = " + subprojectId;
 		List<Task> taskList = new ArrayList<>();
 
@@ -127,7 +138,6 @@ public class TaskRepository {
 	 * @param idTask
 	 * @return
 	 */
-
 	public int selectTaskStatusByID(int idTask) {
 		String selectStatus = "SELECT Status FROM tasks WHERE Task_ID = ?";
 
@@ -150,10 +160,9 @@ public class TaskRepository {
 
 	/**
 	 * - FMP
-	 * Updates a single task status based of the current value of the associated task
+	 * Updates a single task status based on the current value of the associated task
 	 * @param idTask
 	 */
-
 	public void updateTaskStatus(int idTask) {
 		String updateTaskByID = "UPDATE tasks SET Status = ? WHERE Task_ID = ?";
 
@@ -184,16 +193,22 @@ public class TaskRepository {
 		}
 	}
 
-	
-	public void setATaskToRelocateResources(String teammember, int taskId) {
-
-		String taskSkill = null;
+	/**
+	 * - OVO
+	 * Sets a Task to a high difficulty setting, if the skill of the member received from the method parameter, is not equal to the
+	 * task skill based on the taskId recieved from the method parameter.
+	 * @param teammember
+	 * @param taskId
+	 */
+	public void setATaskToRelocateResources(String teammember, int taskId)
+	{
+		String taskSkill = "";
 
 		String setToDifficult = "select tasks.task_id, tasks.skill_description\n" +
 				"from tasks\n" +
 				"where tasks.complexity>=3 \n" +
 				"and tasks.priority>=2";
-		
+
 		try {
 			preparedStatement = ConnectionService.getConnection().prepareStatement(setToDifficult);
 			ResultSet rs = preparedStatement.executeQuery();
@@ -210,32 +225,33 @@ public class TaskRepository {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Class: TaskRepo, Method: setATaskToRelocateResources(), Error: " + e.getMessage());
+			System.out.println("Error happened in TaskRepository at setATaskToRelocateResources(): " + e.getMessage());
 		}
 	}
 
 	/**
 	 * - OVO
-	 * Gets all the task that belongs to a specific member.
+	 * Gets all the tasks that belongs to a specific member.
 	 *
 	 * @param memberId
 	 * @return
 	 */
-	public ArrayList<Task> getAllTaskToOneMember(int memberId) {
-
+	public ArrayList<Task> getAllTaskToOneMember(int memberId)
+	{
 		String firstName = memberRepository.getSingleMEmberFromDBWthID(memberId).getFirstName();
-
 		String getAllTaskQuerryString = "select * from tasks inner join members on tasks.member = members.first_name where status = 0 and tasks.member = ?";
 
 		ArrayList<Task> taskList = new ArrayList<>();
 
-		try {
+		try
+		{
 			preparedStatement = ConnectionService.getConnection().prepareStatement(getAllTaskQuerryString);
 			preparedStatement.setString(1, firstName);
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 
-			while(resultSet.next()) {
+			while(resultSet.next())
+			{
 				taskList.add(new Task(resultSet.getInt(1),
 						resultSet.getInt(2),
 						resultSet.getString(3),
@@ -248,10 +264,9 @@ public class TaskRepository {
 						resultSet.getString(10),
 						resultSet.getInt(11)));
 			}
-			;
-
-
-		} catch (SQLException e) {
+		}
+		catch (SQLException e)
+		{
 			System.out.println("Klasse: TaskRepo, Methode: getAllTaskToOneMember, Error: " + e.getMessage());
 		}
 
@@ -260,13 +275,11 @@ public class TaskRepository {
 
 	/**
 	 * - OVO
-	 * Gets the task where deadline is closes.
-	 * It finds the task out from the member_id
+	 * Gets the task where deadline is closest. It finds the task out from the member_id
 	 *
 	 * @param memberId
 	 * @return
 	 */
-
 	public Task getEarliestDeadLineFromDB(int memberId) {
 
 		String firstName = memberRepository.getSingleMEmberFromDBWthID(memberId).getFirstName();
@@ -279,12 +292,14 @@ public class TaskRepository {
 
 		Task task = null;
 
-		try {
+		try
+		{
 			preparedStatement = ConnectionService.getConnection().prepareStatement(selectTask);
 			preparedStatement.setString(1, firstName);
 			ResultSet resultSet = preparedStatement.executeQuery();
 
-			while (resultSet.next()) {
+			while (resultSet.next())
+			{
 				task = new Task(resultSet.getInt(1),
 						resultSet.getInt(2),
 						resultSet.getString(3),
@@ -297,16 +312,11 @@ public class TaskRepository {
 						resultSet.getString(10),
 						resultSet.getInt(11));
 			}
-
-
-		} catch (SQLException e) {
-			System.out.println("Klasse: TaskRepo, methode: getEarliestDeadLine, Error: " + e.getMessage());
+		}
+		catch (SQLException e)
+		{
+			System.out.println("Error happened in TaskRepository at getEarliestDeadLineFromDB(): " + e.getMessage());
 		}
 		return task;
 	}
-
-
-
-
-	
 }

@@ -23,8 +23,7 @@ public class SubprojectService
     @Autowired
     TaskService taskService;
 
-
-    List<Subproject> subprojectList;
+    private List<Subproject> subprojectList;
 
     /**
 	 * - RBP
@@ -37,30 +36,55 @@ public class SubprojectService
     public List<Subproject> getAllAssociatedSubprojects(int projectId) {
         List<Subproject> allAssociatedSubprojects = subprojectRepository.getAllAssociatedSubprojects(projectId);
 
-        for(Subproject subproject : allAssociatedSubprojects)
+        for(Subproject subproject : subprojectRepository.getAllAssociatedSubprojects(projectId))
             subproject.setTaskList(taskRepository.getAllAssociatedTasksToSubproject(subproject.getSubprojectId()));
 
         return allAssociatedSubprojects;
     }
 
+    /**
+     * -FMP
+     * Returns a list of all subprojects to the corresponding Project based on the projectId recieved from the method parameter,
+     * by using the SubprojectRepository method getAllAssociatedSubprojects()
+     *
+     * @param projectID
+     * @return
+     */
     public List<Subproject> getAllAssociatedSubprojectsWithoutTasks(int projectID) {
 
-        List<Subproject> allAssociatedSubprojects = subprojectRepository.getAllAssociatedSubprojects(projectID);
-
-        return allAssociatedSubprojects;
+        return subprojectRepository.getAllAssociatedSubprojects(projectID);
     }
-    
+
+    /**
+     * - RBP
+     * Passes a Subproject object recieved from the method parameter to the SubprojectRepository method,
+     * insertSubProjectIntoDB()
+     * @param subproject
+     */
     public void createSubproject(Subproject subproject){
     	subprojectRepository.insertSubProjectIntoDB(subproject);
 	}
-	
-	public void deleteSubProject(int id)
+
+    /**
+     * - CMB
+     * Recieves a integer id from the method parameter, which is used by the SubprojectRepository method,
+     * deleteSubprojectFromDB(), to delete a Subproject from the Database
+     * @param subprojectId
+     */
+	public void deleteSubProject(int subprojectId)
     {
-        subprojectRepository.deleteSubProjectFromDB(id);
+        subprojectRepository.deleteSubProjectFromDB(subprojectId);
     }
-	
-	public int getParentId(int id) {
-    	return subprojectRepository.getParentProjectIdFromDB(id);
+
+    /**
+     * - RBP
+     * Returns a parent project id based on the subproject id recieved in the method parameter, which is used
+     * by the SubprojectRepository method getParentProjectIdFromDB().
+     * @param subprojectId
+     * @return
+     */
+	public int getParentId(int subprojectId) {
+    	return subprojectRepository.getParentProjectIdFromDB(subprojectId);
     }
 
     /**
@@ -74,7 +98,6 @@ public class SubprojectService
 
         return subprojectList;
     }
-    
 
     /**
      * - FMP
@@ -83,7 +106,6 @@ public class SubprojectService
      * The calculation accounts for a business week eg. 5 days
      * @param subprojectList
      */
-
     public void updateWorkloadPerDay(List<Subproject> subprojectList) {
 
         double convertedDaysBetween = 0;
@@ -109,12 +131,9 @@ public class SubprojectService
      * Updates Workload_Per_Day in the database per subproject
      * @param projectId
      */
-
     public void updateSubprojectCompletedTime(int projectId){
 
-        List<Subproject> subprojects = getAllSubprojects();
-
-        for(Subproject s : subprojects){
+        for(Subproject s : getAllSubprojects()){
             if(s.getParentProjectId() == projectId){
                 subprojectRepository.updateSubprojectCompletedTime(s.getSubprojectId());
             }
@@ -122,10 +141,22 @@ public class SubprojectService
     }
 
 
+    /**
+     * - OVO
+     * Recieves a subprojectId from the method parameter, which is passed on to the Subproject Repository
+     * method updateSubprojectEstimated(), which is used to update the corresponding Subproject total estimated time
+     * @param subprojectId
+     */
     public void updateSubprojectTotalEstimatedTime(int subprojectId) {
         subprojectRepository.updateSubprojectEstimated(subprojectId);
     }
 
+    /**
+     * Returns a Subproject object based on the subprojectId recieved from the method parameter, which is used by the SubprojectRepository
+     * method getSubprojectStartDateAndDeadlineById()
+     * @param subprojectId
+     * @return
+     */
     public Subproject getSubprojectStartDateDeadline(int subprojectId){
         return subprojectRepository.getSubprojectStartDateAndDeadlineById(subprojectId);
     }

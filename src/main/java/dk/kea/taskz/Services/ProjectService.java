@@ -22,21 +22,28 @@ public class ProjectService
     @Autowired
     SubprojectService subprojectService;
 
-    List<Project> projectList;
+    private List<Project> projectList;
 
-    /** Christina
-     * Henter listen fra Repository, som henter det specfikke ID, navn, deadline og estimeret time
+    /**
+     * CMB
+     * Method to return all projects.
+     * We have defined a class attribute which
+     * is to contain a list of all projects.
+     * We get the list by calling the method from
+     * the repository which returns all projects.
+     * After that we return the projectlist
      * @return
      */
-    public List<Project> getAllProjects() {
-
-
+    public List<Project> getAllProjects()
+    {
         projectList = projectRepository.getAllProjectsFromDatabase();
         return projectList;
     }
 
-    /** Christina
-     * Indsaetter nyt object af Project i databasen ved hjaelp af metode i repository
+    /**
+     * - CMB
+     * Passes the Project obj of Project to the method insertProjectIntoDatabase from the ProjectRepository class,
+     * which insert the new project to the database
      * @param project
      */
     public void addProjectToDatabase(Project project) {
@@ -44,6 +51,11 @@ public class ProjectService
         projectRepository.insertProjectIntoDatabase(project);
     }
 
+    /**
+     * CMB
+     * Passes the projectId to the method in the ProjectRepository class which deletes the specific project
+     * @param projectId
+     */
     public void deleteProject(int projectId){
 
         projectRepository.deleteWholeProject(projectId);
@@ -83,7 +95,6 @@ public class ProjectService
      * Used where possible to minimize load times
      * @param project
      */
-
     public void updateWorkloadPerDayForSpecificProject(Project project)
     {
 		double convertedDaysBetween;
@@ -110,6 +121,12 @@ public class ProjectService
 		return projectRepository.getProjectByProjectId(activeProjectID);
 	}
 
+    /**
+     * CMB
+     * Pass the projectId to the method in the repository
+     * to define which project there should be updated
+     * @param projectId
+     */
 	public void updateProjectEstimatedTime(int projectId) {
 		projectRepository.updateProjectEstimatedTime(projectId);
 	}
@@ -121,11 +138,17 @@ public class ProjectService
 	 *
 	 * @param projectID
 	 */
-
 	public void updateProjectCompletedTime(int projectID) {
 	    projectRepository.updateProjectCompletedTime(projectID);
     }
 
+    /**
+     * - RBP
+     * Creates a List containing all the existing projects, recieved from the local getAllProjects() method.
+     * Then the method iterates through the list and for each Project in the list, makes a call to the SubprojectService class
+     * which populates each Projects subproject list with subprojects and their associated tasks.
+     * @return
+     */
     public List<Project> getAllProjectsIncludingAssociatedSubprojectsAndTasks()
     {
         List<Project> allProjects = getAllProjects();
