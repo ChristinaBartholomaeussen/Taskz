@@ -80,7 +80,7 @@ public class TaskController {
 		model.addAttribute("TaskPopUp", true);
 		model.addAttribute("stopScroll", true);
 		model.addAttribute("activeProjectIDToTest", activeProjectIDToTest);
-		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(parentProject));
+		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojectsAndAssociatedTasks(parentProject));
 		model.addAttribute("project",projectService.getProjectByProjectId(parentProject));
 		model.addAttribute("skills", skillService.getListOfSkills());
 
