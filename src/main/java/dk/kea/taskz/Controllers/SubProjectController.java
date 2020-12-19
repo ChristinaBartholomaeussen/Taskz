@@ -59,7 +59,7 @@ public class SubProjectController
 
 		model.addAttribute("activeProjectID", activeProjectID);
 		model.addAttribute("project", projectService.getProjectByProjectId(activeProjectID));
-		model.addAttribute("subprojectList", subprojectService.getAllAssociatedSubprojects(activeProjectID));
+		model.addAttribute("subprojectList", subprojectService.getAllAssociatedSubprojectsAndAssociatedTasks(activeProjectID));
 		model.addAttribute("popup", false);
 		model.addAttribute("taskPopUp", false);
 		model.addAttribute("deletePopUp", false);
@@ -123,7 +123,7 @@ public class SubProjectController
 			return "redirect:/projects";
 
 		model.addAttribute("project", projectService.getProjectByProjectId(activeProjectID));
-		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojects(activeProjectID));
+		model.addAttribute("subprojectList",subprojectService.getAllAssociatedSubprojectsAndAssociatedTasks(activeProjectID));
 		model.addAttribute("popup", true);
 		model.addAttribute("taskPopUp", false);
 		model.addAttribute("stopScroll", true);
@@ -183,7 +183,7 @@ public class SubProjectController
 		model.addAttribute("subprojectToDelete", subprojectToDelete);
 		model.addAttribute("activeProjectID", activeProjectID);
 		model.addAttribute("project", projectService.getProjectByProjectId(activeProjectID));
-		model.addAttribute("subprojectList", subprojectService.getAllAssociatedSubprojects(activeProjectID));
+		model.addAttribute("subprojectList", subprojectService.getAllAssociatedSubprojectsAndAssociatedTasks(activeProjectID));
 		model.addAttribute("popup", false);
 		model.addAttribute("taskPopUp", false);
 		model.addAttribute("deletePopUp", true);

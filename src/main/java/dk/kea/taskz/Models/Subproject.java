@@ -23,11 +23,11 @@ public class Subproject
     public Subproject()
     {
     }
-
+/*
     public Subproject(String subprojectName, int parentProjectId) {
         this.parentProjectId = parentProjectId;
         this.subprojectName = subprojectName;
-    }
+    } */
 
     public Subproject(int subprojectId, int parentProjectId, String subprojectName) {
         this.subprojectId = subprojectId;

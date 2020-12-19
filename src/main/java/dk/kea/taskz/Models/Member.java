@@ -26,23 +26,7 @@ public class Member
     {
     }
 
-    public Member(String email, String password)
-    {
-        this.email = email;
-        this.password = password;
-    }
-
-    public Member(int memberId, String email, String password, String firstName, String lastName, String jobTitle)
-    {
-        this.memberId = memberId;
-        this.email = email;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.jobTitle = jobTitle;
-    }
-
-    public Member(int memberId, String email, String password, String firstName, String lastName, String competences, String jobTitle)
+	public Member(int memberId, String email, String password, String firstName, String lastName, String competences, String jobTitle)
     {
         this.memberId = memberId;
         this.email = email;
@@ -77,17 +61,8 @@ public class Member
 		return competence;
 	}
 
-	public void setCompetence(String competences) {
-
-		this.competence = competences;
-	}
-
 	public String getJobTitle() {
 		return jobTitle;
-	}
-
-	public void setJobTitle(String jobTitle) {
-		this.jobTitle = jobTitle;
 	}
 
 

@@ -154,7 +154,7 @@ public class ProjectService
         List<Project> allProjects = getAllProjects();
 
         for (Project p : allProjects) {
-            p.setAssociatedSubprojects(subprojectService.getAllAssociatedSubprojects(p.getProjectId()));
+            p.setAssociatedSubprojects(subprojectService.getAllAssociatedSubprojectsAndAssociatedTasks(p.getProjectId()));
         }
 
         return allProjects;

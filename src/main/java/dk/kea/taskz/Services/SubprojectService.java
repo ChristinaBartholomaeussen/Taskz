@@ -33,10 +33,10 @@ public class SubprojectService
 	 * @param projectId
 	 * @return
 	 */
-    public List<Subproject> getAllAssociatedSubprojects(int projectId) {
+    public List<Subproject> getAllAssociatedSubprojectsAndAssociatedTasks(int projectId) {
         List<Subproject> allAssociatedSubprojects = subprojectRepository.getAllAssociatedSubprojects(projectId);
 
-        for(Subproject subproject : subprojectRepository.getAllAssociatedSubprojects(projectId))
+        for(Subproject subproject : allAssociatedSubprojects)
             subproject.setTaskList(taskRepository.getAllAssociatedTasksToSubproject(subproject.getSubprojectId()));
 
         return allAssociatedSubprojects;
