@@ -1,6 +1,12 @@
 google.charts.load('current', {'packages':['gantt']});
 google.charts.setOnLoadCallback(drawChart);
 
+/**
+ * A more localized version of the Gantt-diagram, for the specific project opened up in "See Project".
+ * The Javascript code has access to the Project object, through the th:src method in line 343 of subprojects.html
+ * The function adds the default diagram column information, and we populate the diagram with information through
+ * java-objects via Thymeleaf implementation, ie. "project", "subprojects", recieved from the GetMapping.
+ */
 function drawChart() {
 	const data = new google.visualization.DataTable();
 

@@ -10,11 +10,12 @@
         google.charts.load('current', {'packages':['gantt']});
         google.charts.setOnLoadCallback(drawChart);
 
-        function daysToMilliseconds(days)
-        {
-            return days * 24 * 60 * 60 * 1000;
-        }
-
+        /**
+         * A function that creates a Gantt-diagram for all of the projects with their associated subprojects and
+         * their associated tasks.
+         * The function adds the default diagram column information, with data recieved through Thymeleaf
+         * implementation, by using the th:inline="javascript" attribute in the <script> tag above.
+         */
         function drawChart()
         {
             let projects = [[${projects}]];
