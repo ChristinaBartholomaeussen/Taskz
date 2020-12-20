@@ -29,7 +29,7 @@ public class CookieService {
 		}
 		catch (Exception e) {
 			
-			System.out.println("cookiesServivce, Error: " + e.getMessage());
+			System.out.println("Error happened in CookieService at getActiveUserId(): " + e.getMessage());
 		}
 		return -1;
 	}
