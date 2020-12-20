@@ -31,8 +31,8 @@ public class ProjectController {
 	@Autowired
 	CookieService cookieService;
 
-	List<Project> projectList;
-	List<Subproject> subprojectList;
+	private List<Project> projectList;
+	private List<Subproject> subprojectList;
 
 	/**
 	 * - RBP
@@ -40,7 +40,7 @@ public class ProjectController {
 	 * If we hit a breakpoint here and the value still is -1, we know there is no activeproject
 	 * recieved from the LoginController mapping.
 	 */
-	int activeProjectID = -1;
+	private int activeProjectID = -1;
 
 	/**
 	 * - OVO / FMP

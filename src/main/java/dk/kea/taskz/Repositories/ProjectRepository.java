@@ -20,7 +20,6 @@ public class ProjectRepository {
     /**
 	 * - OVO
 	 * Gets all the projects from the database
-	 *
 	 * @return liste af alle projekter
 	 */
     public List<Project> getAllProjectsFromDatabase()
@@ -56,7 +55,6 @@ public class ProjectRepository {
 	/**
 	 * - OVO
 	 * Inserts a project into the database
-	 *
 	 * @param project
 	 */
 	public void insertProjectIntoDatabase(Project project) {

@@ -24,34 +24,11 @@ public class Project
     public Project() {
 	}
 
-	/*
-		public Project(String name) {
-			this.name = name;
-		} */
-/*
-    public Project(LocalDate startDate, LocalDate deadline, double totalEstimatedTime, double completedTime) {
-        this.startDate = startDate;
-        this.deadline = deadline;
-        this.totalEstimatedTime = totalEstimatedTime;
-        this.completedTime= completedTime;
-    } 
-
-
-*/
 	public Project(String name, LocalDate startDate, LocalDate deadline) {
 		this.name = name;
 		this.startDate = startDate;
 		this.deadline = deadline;
 	} 
-
-/*
-    public Project(int projectId, String name, LocalDate startDate, LocalDate deadline, double totalEstimatedTime){
-        this.projectId = projectId;
-        this.name = name;
-        this.startDate = startDate;
-        this.deadline = deadline;
-        this.totalEstimatedTime = totalEstimatedTime;
-    } */
 
     public Project(int projectId, String name, LocalDate startDate, LocalDate deadline, String totalWorkHoursPerDay, double totalEstimatedTime) {
         this.projectId = projectId;

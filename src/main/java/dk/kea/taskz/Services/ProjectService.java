@@ -113,7 +113,6 @@ public class ProjectService
 
 	/**
 	 * - OVO gets active project ID
-	 *
 	 * @param activeProjectID
 	 * @return
 	 */
@@ -135,7 +134,6 @@ public class ProjectService
 	 * - FMP
 	 * Calculates the completed hours of a project as a total of all the subprojects completed time
 	 * Updates Workload_Per_Day in the database for the active project
-	 *
 	 * @param projectID
 	 */
 	public void updateProjectCompletedTime(int projectID) {

@@ -21,7 +21,6 @@ public class MemberRepository {
 	 * Joins the competences table where the compentence_id
 	 * is equal to the competence_id in the many-many table.
 	 * Groups them by the member_id.
-	 *
 	 * @return
 	 */
 	public ArrayList<Member> getAllMembersFromDB() {
@@ -66,7 +65,6 @@ public class MemberRepository {
 	 * competence and jobtitle_description.
 	 * To access those we need to join the jobtitle table,
 	 * members_competence table and comptences table.
-	 *
 	 * @param member_ID
 	 * @return
 	 */
@@ -108,7 +106,6 @@ public class MemberRepository {
 	/**
 	 * - OVO
 	 * Gets the right user from the database, where email and password matches.
-	 *
 	 * @param Email
 	 * @param Password
 	 * @return

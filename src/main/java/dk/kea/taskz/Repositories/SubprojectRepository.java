@@ -22,7 +22,6 @@ public class SubprojectRepository
 	 * Methods to return a subproject and only the startdate and
 	 * deadline for the specific subprojects based on the subprojectId
 	 * parameter.
-	 *
 	 * @param subprojectId
 	 * @return
 	 */
@@ -55,7 +54,6 @@ public class SubprojectRepository
 	 * convert it to localDate.
 	 * If the list is less than 0 it sets the estimated time
 	 * for the project to 0
-	 *
 	 * @param projectId
 	 * @return
 	 */
@@ -130,7 +128,6 @@ public class SubprojectRepository
 	/**
 	 * - OVO
 	 * Deletes a single subproject from the database with use of a ID.
-	 *
 	 * @param Subproject_ID
 	 */
 	public void deleteSubProjectFromDB(int Subproject_ID)
@@ -147,7 +144,6 @@ public class SubprojectRepository
 			System.out.println("Error happened in SubprojectRepository at deleteSubProject: " + e.getMessage());
 		}
 	}
-
 
 	/**
 	 * - RBP
@@ -186,7 +182,6 @@ public class SubprojectRepository
 	 * time for the subproject. We use coalesce so the sum will be
 	 * set to 0, if all tasks are deleted otherwise the old value
 	 * wouldn't change.
-	 *
 	 * @param subprojectId
 	 */
 	public void updateSubprojectEstimated(int subprojectId){

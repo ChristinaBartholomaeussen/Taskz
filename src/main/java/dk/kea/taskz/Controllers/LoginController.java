@@ -20,8 +20,7 @@ public class LoginController {
 	@Autowired
 	private CookieService cookieService;
 
-
-	Boolean loginFailed = false;
+	private Boolean loginFailed = false;
 
 	/**
 	 * - RBP

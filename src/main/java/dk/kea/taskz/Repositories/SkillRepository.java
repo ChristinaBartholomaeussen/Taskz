@@ -18,7 +18,6 @@ public class SkillRepository
 	 * Selects the skill_description from the table skills
 	 * and adds them to an arraylist of strings.
 	 * After that it returns the list for further use.
-	 *
 	 * @return
 	 */
 	public ArrayList<String> getAllSkillsFromDB() {

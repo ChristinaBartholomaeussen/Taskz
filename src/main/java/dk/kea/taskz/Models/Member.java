@@ -11,9 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class Member
 {
-    @Autowired
-    MemberService memberService;
-
     private int memberId;
     private String email;
     private String password;

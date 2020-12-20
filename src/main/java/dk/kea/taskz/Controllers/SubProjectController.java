@@ -30,7 +30,7 @@ public class SubProjectController
 	@Autowired
 	CookieService cookieService;
 
-	static int activeProjectID = -1;
+	private static int activeProjectID = -1;
 
 	/**
 	 * - OVO
@@ -217,9 +217,7 @@ public class SubProjectController
 	@PostMapping("/postChangeStatus")
 	public String postChangeStatus(WebRequest data) {
 
-		int idTask = Integer.parseInt(data.getParameter("changeStatus"));
-
-		taskService.updateTaskStatus(idTask);
+		taskService.updateTaskStatus(Integer.parseInt(data.getParameter("changeStatus")));
 		subprojectService.updateSubprojectCompletedTime(activeProjectID);
 		projectService.updateProjectCompletedTime(activeProjectID);
 		subprojectService.updateWorkloadPerDay(subprojectService.getAllAssociatedSubprojectsWithoutTasks(activeProjectID));

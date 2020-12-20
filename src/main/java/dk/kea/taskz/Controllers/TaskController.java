@@ -140,9 +140,7 @@ public class TaskController {
 	@PostMapping("/deleteTask")
 	public String deleteTask(WebRequest data)
 	{
-		int idTask = Integer.parseInt(data.getParameter("deleteTask"));
-
-		taskService.deleteTask(idTask);
+		taskService.deleteTask(Integer.parseInt(data.getParameter("deleteTask")));
 
 		subprojectService.updateSubprojectTotalEstimatedTime(subprojectsID);
 		projectService.updateProjectEstimatedTime(parentProject);

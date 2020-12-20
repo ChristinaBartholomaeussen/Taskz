@@ -35,7 +35,6 @@ public class TimeService {
      * - CMB
      * Method to check if the deadline for a task is between the
      * chosen subproject startdate and deadline, to make sure that the tasks is created correctly
-     *
      * @param subproject
      * @param deadline
      * @return
@@ -57,7 +56,6 @@ public class TimeService {
      * Can be used for both projects and subproject, that's
      * why it takes two Localdates and not a Project and subproject
      * as parameters.
-     *
      * @param startdate
      * @param deadline
      * @return

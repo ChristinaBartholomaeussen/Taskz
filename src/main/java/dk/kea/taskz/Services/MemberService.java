@@ -15,7 +15,6 @@ public class MemberService
 
     /**
      * - OVO returns all members
-     *
      * @return
      */
     public ArrayList<Member> getAllMembers() {
@@ -25,7 +24,6 @@ public class MemberService
     /**
      * - OVO
      * Get a single member from the database
-     *
      * @param id
      * @return
      */
@@ -53,7 +51,6 @@ public class MemberService
     /**
 	 * - OVO
 	 * Get ID with email and password
-	 *
 	 * @param Email
 	 * @param Password
 	 * @return

@@ -16,10 +16,10 @@ import java.util.List;
 @Repository
 public class TaskRepository
 {
-	private PreparedStatement preparedStatement = null;
-
 	@Autowired
 	MemberRepository memberRepository;
+
+	private PreparedStatement preparedStatement = null;
 
 	/**
 	 *  - OVO
@@ -53,7 +53,6 @@ public class TaskRepository
 	/**
 	 * - OVO
 	 * Updates an task, if it might be too difficult to complete before the deadline.
-	 *
 	 * @param id
 	 */
 	public void upDateIsDifficult(int id)
@@ -128,7 +127,6 @@ public class TaskRepository
 		{
 			System.out.println("Error happened in TaskRepository at getAllAssociatedTasksToSubproject(): " + e);
 		}
-
 		return taskList;
 	}
 
@@ -232,7 +230,6 @@ public class TaskRepository
 	/**
 	 * - OVO
 	 * Gets all the tasks that belongs to a specific member.
-	 *
 	 * @param memberId
 	 * @return
 	 */
@@ -269,7 +266,6 @@ public class TaskRepository
 		{
 			System.out.println("Klasse: TaskRepo, Methode: getAllTaskToOneMember, Error: " + e.getMessage());
 		}
-
 		return taskList;
 	}
 

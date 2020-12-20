@@ -92,7 +92,6 @@ public class SubprojectService
      * Gets an arrayList of all subprojects in the database
      * @return
      */
-
     public List<Subproject> getAllSubprojects() {
         subprojectList = subprojectRepository.selectAllSubprojects();
 
@@ -139,7 +138,6 @@ public class SubprojectService
             }
         }
     }
-
 
     /**
      * - OVO
