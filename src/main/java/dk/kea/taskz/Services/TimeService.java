@@ -16,7 +16,6 @@ public class TimeService {
      * It takes the project as parameters and two LocalDates startdate and deadline.
      * If the startdate and deadline for the subproject is not between the project
      * startdate and deadline, it will return false.
-     *
      * @param project
      * @param startdate
      * @param deadline
