@@ -1,8 +1,10 @@
 package dk.kea.taskz.Controllers;
 
+import dk.kea.taskz.Services.CookieService;
 import dk.kea.taskz.Services.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
@@ -11,22 +13,28 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
-public class LoginController
-{
-    @Autowired
-    private MemberService memberService;
+public class LoginController {
+	@Autowired
+	private MemberService memberService;
 
-    /**
+	@Autowired
+	private CookieService cookieService;
+
+
+	Boolean loginFailed = false;
+
+	/**
 	 * - RBP
 	 * The "root"-mapping which points to the login screen and shows login.html
 	 *
 	 * @return
 	 */
-    @GetMapping({"/","/login"})
-    public String login()
-    {
-        return "login";
-    }
+	@GetMapping({"/", "/login"})
+	public String login(Model model) {
+		model.addAttribute("alert", loginFailed);
+
+		return "login";
+	}
 
 	/**
      * - RBP + OVO
@@ -41,16 +49,16 @@ public class LoginController
 	 * @return
 	 */
     @PostMapping("/postLogin")
-	public String postLogin(WebRequest data, HttpServletResponse response)
-    {
-        String username = data.getParameter("username");
-        String password = data.getParameter("password");
+	public String postLogin(WebRequest data, HttpServletResponse response) {
+		String username = data.getParameter("username");
+		String password = data.getParameter("password");
 
-        if(memberService.verifyLogin(username,password))
-        {
+		if (memberService.verifyLogin(username, password)) {
 			Cookie ck = new Cookie("id", Integer.toString(memberService.getId(username, password)));
 			response.addCookie(ck);
-            return "redirect:/projects";
+			return "redirect:/projects";
+		} else {
+			loginFailed = true;
 		}
 
         return "redirect:/login";

@@ -26,5 +26,12 @@
     </form>
 </div>
 
+<script type="text/javascript" th:inline="javascript">
+	const failedLogin = [[${alert}]];
+
+	if (failedLogin) {
+		alert(`Your login failed. Your email and password does not match. Try again`);
+	}
+</script>
 </body>
 </html>
