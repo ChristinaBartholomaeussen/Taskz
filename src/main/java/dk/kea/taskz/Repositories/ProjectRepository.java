@@ -1,6 +1,10 @@
 package dk.kea.taskz.Repositories;
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
 import dk.kea.taskz.Models.Project;
+import dk.kea.taskz.Models.Subproject;
 import dk.kea.taskz.Services.ConnectionService;
+import dk.kea.taskz.Services.ProjectService;
+import dk.kea.taskz.Services.SubprojectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
@@ -14,6 +18,12 @@ public class ProjectRepository {
 
     @Autowired
     SubprojectRepository subprojectRepository;
+
+    @Autowired
+    ProjectService projectService;
+
+    @Autowired
+    SubprojectService subprojectService;
 
     private PreparedStatement preparedStatement = null;
 
@@ -208,7 +218,7 @@ public class ProjectRepository {
      */
     public void updateWorkloadPerDay(String workloadPerDay, int projectID)
     {
-        String updateWorkloadPerDay = "UPDATE projects SET Workload_Per_Day = ? WHERE Project_ID = ?;";
+        String updateWorkloadPerDay = "UPDATE projects SET Workload_Per_Day = ? WHERE Project_ID = ?";
 
         try
         {
@@ -221,4 +231,105 @@ public class ProjectRepository {
             System.out.println("Error happened in ProjectRepository updateWorkLoadPerDay: " + e.getMessage());
         }
     }
+
+
+    public void updateEverything(int projectID, int subprojectId) throws SQLException {
+
+        String updateSubprojectEstimatedTime = "update subprojects s\n" +
+                "left outer join (select tasks.subproject_id, coalesce(sum(tasks.task_estimated_time), 0) as mysum\n" +
+                "from tasks group by tasks.subproject_id) as t\n" +
+                "  on s.subproject_id = t.subproject_id\n" +
+                "  set s.subproject_estimated_time = t.mysum\n" +
+                "where s.subproject_id = ?";
+
+        String updateSubprojectCompletedTime = "update subprojects s\n" +
+                "left outer join (select tasks.subproject_id, sum(tasks.task_estimated_time) as mysum\n" +
+                "from tasks where tasks.status = 1 group by tasks.subproject_id) as t\n" +
+                "on s.subproject_id = t.subproject_id\n" +
+                "set s.subproject_completed_time = t.mysum\n" +
+                "where s.subproject_id = ?";
+
+        String updateTotalEstimatedTimeProject = "update projects p " +
+                "inner join (select subprojects.Project_ID, " +
+                "sum(subprojects.Subproject_Estimated_time) as mysum " +
+                "from subprojects group by " +
+                "subprojects.Project_ID) as s on p.Project_ID = s.Project_ID set p.Project_Estimated_Time" +
+                " = s.mysum where p.Project_ID = ?";
+
+        String updateProjectCompletedTime = "update projects p\n" +
+                "left outer join (select subprojects.project_id, sum(subprojects.Subproject_Completed_Time) as mysum\n" +
+                "from subprojects group by subprojects.Project_ID) as s\n" +
+                "on p.project_id = s.project_id\n" +
+                "set p.project_completed_time = s.mysum\n" +
+                "where p.project_id = ?";
+
+
+        try {
+            ConnectionService.getConnection().setAutoCommit(false);
+
+            //Subproject estimated time
+            preparedStatement = ConnectionService.getConnection().prepareStatement(updateSubprojectEstimatedTime);
+            preparedStatement.setInt(1, subprojectId);
+            preparedStatement.executeUpdate();
+
+            //Subproject completed time
+            preparedStatement = ConnectionService.getConnection().prepareStatement(updateSubprojectCompletedTime);
+            preparedStatement.setInt(1, subprojectId);
+            preparedStatement.executeUpdate();
+
+            //Project estimated time
+            preparedStatement = ConnectionService.getConnection().prepareStatement(updateTotalEstimatedTimeProject);
+            preparedStatement.setInt(1, projectID);
+            preparedStatement.executeUpdate();
+
+            //project Completed time
+            preparedStatement = ConnectionService.getConnection().prepareStatement(updateProjectCompletedTime);
+            preparedStatement.setInt(1, projectID);
+            preparedStatement.executeUpdate();
+
+            projectService.updateWorkloadForProject(projectID);
+            subprojectService.updateWorkloadPerDayForSubproject(subprojectId);
+            ConnectionService.getConnection().commit();
+
+            ConnectionService.getConnection().setAutoCommit(true);
+
+
+        } catch (SQLException e) {
+            ConnectionService.getConnection().rollback();
+        }
+    }
+
+    public void updateWorkhoursProject(int projectID, String workhoursforProject){
+
+        String updateWorkloadPerDayProject = "UPDATE projects SET Workload_Per_Day = ? WHERE Project_ID = ?";
+
+        try{
+
+            //Project Workload
+            preparedStatement = ConnectionService.getConnection().prepareStatement(updateWorkloadPerDayProject);
+            preparedStatement.setString(1, workhoursforProject);
+            preparedStatement.setInt(2, projectID);
+            preparedStatement.executeUpdate();
+        }catch (SQLException e){
+
+        }
+    }
+
+    public void updateWorkhoursSubproject(int subprojectId, String workhourForSubproject){
+
+        String updateWorkloadPerDay = "UPDATE subprojects SET Subproject_Workload_Per_Day = ? WHERE Subproject_ID = ?";
+
+        try{
+            //Subproject workload
+            preparedStatement = ConnectionService.getConnection().prepareStatement(updateWorkloadPerDay);
+            preparedStatement.setString(1, workhourForSubproject);
+            preparedStatement.setInt(2, subprojectId);
+            preparedStatement.executeUpdate();
+        }catch (SQLException e){
+
+        }
+    }
+
+
+
 }

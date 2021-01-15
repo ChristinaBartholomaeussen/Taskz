@@ -1,6 +1,7 @@
 package dk.kea.taskz.Services;
 
 import dk.kea.taskz.Models.Subproject;
+import dk.kea.taskz.Repositories.ProjectRepository;
 import dk.kea.taskz.Repositories.SubprojectRepository;
 import dk.kea.taskz.Repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class SubprojectService
 
     @Autowired
     TaskService taskService;
+
+    @Autowired
+    ProjectRepository projectRepository;
 
     private List<Subproject> subprojectList;
 
@@ -158,4 +162,32 @@ public class SubprojectService
     public Subproject getSubprojectStartDateDeadline(int subprojectId){
         return subprojectRepository.getSubprojectStartDateAndDeadlineById(subprojectId);
     }
+
+
+    public void updateWorkloadPerDayForSubproject(int subprojectId) {
+
+        List<Subproject> subprojects = getAllSubprojects();
+
+        double convertedDaysBetween = 0;
+        double workloadPerDay = 0;
+
+        DecimalFormat df = new DecimalFormat("0.00");
+
+        for (Subproject s : subprojects) {
+            if(s.getSubprojectId() == subprojectId){
+                long daysBetween = ChronoUnit.DAYS.between(s.getSubprojectStartDate(), s.getSubprojectDeadline());
+                long numberOfWeeks = daysBetween / 7;
+
+                daysBetween = daysBetween - (2 * numberOfWeeks);
+                convertedDaysBetween = (double)daysBetween;
+                workloadPerDay =  (s.getSubprojectTotalEstimatedTime() - s.getSubprojectCompletedTime()) / convertedDaysBetween;
+                subprojectId = s.getSubprojectId();
+            }
+        }
+        String formattedDate = df.format(workloadPerDay);
+
+        projectRepository.updateWorkhoursSubproject(subprojectId, formattedDate);
+    }
+
+
 }

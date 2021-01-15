@@ -6,6 +6,7 @@ import dk.kea.taskz.Repositories.SubprojectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -157,6 +158,46 @@ public class ProjectService
 
         return allProjects;
     }
+
+
+    public void updateEverythingService(int projectID, int subprojectId) throws SQLException {
+        projectRepository.updateEverything(projectID, subprojectId);
+    }
+
+
+    public void updateWorkloadForProject(int projectId)
+    {
+        List<Project> projects = getAllProjects();
+
+        double convertedDaysBetween = 0;
+        double workloadPerDay = 0;
+
+
+        DecimalFormat df = new DecimalFormat("0.00");
+
+        for (Project p : projects) {
+            if(projectId == p.getProjectId()){
+
+                long daysBetween = ChronoUnit.DAYS.between(p.getStartDate(), p.getDeadline());
+                long numberOfWeeks = daysBetween / 7;
+
+                daysBetween = daysBetween - (2 * numberOfWeeks);
+                convertedDaysBetween = (double)daysBetween;
+                workloadPerDay =  (p.getTotalEstimatedTime() - p.getCompletedTime()) / convertedDaysBetween;
+                projectId = p.getProjectId();
+            }
+
+        }
+
+        String formattetDate = df.format(workloadPerDay);
+
+        projectRepository.updateWorkhoursProject(projectId, formattetDate);
+    }
+
+
+
+
+
 }
 
 

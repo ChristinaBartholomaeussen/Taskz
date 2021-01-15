@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 public class TaskController {
@@ -95,7 +97,7 @@ public class TaskController {
 	 * @return
 	 */
 	@PostMapping("/newTaskData")
-	public String newTaskData(WebRequest data) {
+	public String newTaskData(WebRequest data) throws SQLException {
 
 		String subprojectId = data.getParameter("subProjectId");
 		String taskName = data.getParameter("taskName");
@@ -117,13 +119,28 @@ public class TaskController {
 			Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline), Double.valueOf(estimatedTime), Status.ACTIVE, teamMember, skill);
 
 			taskService.insertTask(task);
+
+			long start = System.currentTimeMillis();
+
+			//Start
+			projectService.updateEverythingService(parentProject, Integer.valueOf(subprojectId));
+			//Slut
+
+			long finish = System.currentTimeMillis();
+			long time = finish - start;
+			System.out.println(time);
+
+
+			/*
 			subprojectService.updateSubprojectTotalEstimatedTime(Integer.valueOf(subprojectId));
 			subprojectService.updateSubprojectCompletedTime(Integer.valueOf(subprojectId));
 
 			projectService.updateProjectEstimatedTime(parentProject);
 			projectService.updateProjectCompletedTime(activeProjectID);
+
 			subprojectService.updateWorkloadPerDay(subprojectService.getAllSubprojects());
 			projectService.updateAllProjectsWorkloadPerDay();
+			*/
 
 			return "redirect:/subprojects";
 		}
@@ -138,17 +155,18 @@ public class TaskController {
 	 * @return
 	 */
 	@PostMapping("/deleteTask")
-	public String deleteTask(WebRequest data)
-	{
+	public String deleteTask(WebRequest data) throws SQLException {
 		taskService.deleteTask(Integer.parseInt(data.getParameter("deleteTask")));
 
-		subprojectService.updateSubprojectTotalEstimatedTime(subprojectsID);
+		projectService.updateEverythingService(parentProject, subprojectsID);
+
+		/*subprojectService.updateSubprojectTotalEstimatedTime(subprojectsID);
 		projectService.updateProjectEstimatedTime(parentProject);
 		subprojectService.updateSubprojectCompletedTime(parentProject);
 		projectService.updateProjectCompletedTime(parentProject);
 
 		subprojectService.updateWorkloadPerDay(subprojectService.getAllSubprojects());
-		projectService.updateAllProjectsWorkloadPerDay();
+		projectService.updateAllProjectsWorkloadPerDay();*/
 
 		return "redirect:/subprojects";
 	}
