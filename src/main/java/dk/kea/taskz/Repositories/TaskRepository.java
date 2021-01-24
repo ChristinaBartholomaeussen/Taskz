@@ -5,8 +5,11 @@ import dk.kea.taskz.Models.Enums.Status;
 import dk.kea.taskz.Models.Member;
 import dk.kea.taskz.Models.Task;
 import dk.kea.taskz.Services.ConnectionService;
+import dk.kea.taskz.Services.DBCPDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,6 +24,18 @@ public class TaskRepository
 
 	private PreparedStatement preparedStatement = null;
 
+	ConnectionService connection = new ConnectionService();
+
+	static Connection con;
+
+	static {
+		try {
+			con = DBCPDataSource.getConnection();
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
+	}
+
 	/**
 	 *  - OVO
 	 *  Creates a task from the database.
@@ -31,7 +46,7 @@ public class TaskRepository
 		String insertTaskSQL = "INSERT INTO tasks(Task_ID, SubProject_ID, Task_Name, Priority, Complexity, Task_Deadline, Task_Estimated_Time, Status, Member, Skill_description) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?)";
 
 		try {
-			preparedStatement = ConnectionService.getConnection().prepareStatement(insertTaskSQL);
+			preparedStatement = con.prepareStatement(insertTaskSQL);
 			preparedStatement.setInt(1, task.getTaskId());
 			preparedStatement.setInt(2, task.getParentSubProjectId());
 			preparedStatement.setString(3, task.getTaskName());

@@ -116,7 +116,16 @@ public class TaskController {
 		{
 			Task task = new Task(Integer.valueOf(subprojectId), taskName, Priority.values()[priority], Complexity.values()[complexity], LocalDate.parse(deadline), Double.valueOf(estimatedTime), Status.ACTIVE, teamMember, skill);
 
+			long start = System.currentTimeMillis();
+
 			taskService.insertTask(task);
+
+			long end = System.currentTimeMillis();
+
+			long total = end - start;
+
+			System.out.println(total);
+
 			subprojectService.updateSubprojectTotalEstimatedTime(Integer.valueOf(subprojectId));
 			subprojectService.updateSubprojectCompletedTime(Integer.valueOf(subprojectId));
 

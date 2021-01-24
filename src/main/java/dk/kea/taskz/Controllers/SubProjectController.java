@@ -160,7 +160,17 @@ public class SubProjectController
 		}
 
 		Subproject subproject = new Subproject(subprojectName, activeProjectID, convertedSubprojectStartDate, convertedSubprojectDeadline);
+
+		long start = System.currentTimeMillis();
+
 		subprojectService.createSubproject(subproject);
+
+		long end = System.currentTimeMillis();
+
+		long total = end - start;
+
+		System.out.println(total);
+
 		return "redirect:/subprojects";
 	}
 

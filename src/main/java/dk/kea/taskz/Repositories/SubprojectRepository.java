@@ -1,8 +1,11 @@
 package dk.kea.taskz.Repositories;
 import dk.kea.taskz.Models.Subproject;
 import dk.kea.taskz.Services.ConnectionService;
+import dk.kea.taskz.Services.DBCPDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +19,18 @@ public class SubprojectRepository
 	ProjectRepository projectRepository;
 
 	PreparedStatement preparedStatement = null;
+
+	ConnectionService connection = new ConnectionService();
+
+	static Connection con;
+
+	static {
+		try {
+			con = DBCPDataSource.getConnection();
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
+	}
 
 	/**
 	 * - CMB
@@ -113,7 +128,7 @@ public class SubprojectRepository
     	String insertSubProject = "INSERT INTO taskz.subprojects (Subproject_Name, Project_ID, Subproject_StartDate, Subproject_Deadline) VALUES (?, ?, ?, ?)";
     	
     	try {
-    		preparedStatement = ConnectionService.getConnection().prepareStatement(insertSubProject);
+    		preparedStatement = con.prepareStatement(insertSubProject);
     		preparedStatement.setString(1, subproject.getSubprojectName());
     		preparedStatement.setInt(2, subproject.getParentProjectId());
 			preparedStatement.setDate(3, java.sql.Date.valueOf(subproject.getSubprojectStartDate()));

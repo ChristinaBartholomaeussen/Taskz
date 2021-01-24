@@ -1,8 +1,12 @@
 package dk.kea.taskz.Repositories;
 import dk.kea.taskz.Models.Project;
 import dk.kea.taskz.Services.ConnectionService;
+import dk.kea.taskz.Services.DBCPDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.nio.channels.ScatteringByteChannel;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +20,18 @@ public class ProjectRepository {
     SubprojectRepository subprojectRepository;
 
     private PreparedStatement preparedStatement = null;
+
+    ConnectionService connection = new ConnectionService();
+
+    static Connection con;
+
+    static {
+        try {
+            con = DBCPDataSource.getConnection();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 
     /**
 	 * - OVO
@@ -62,7 +78,7 @@ public class ProjectRepository {
 				"INSERT INTO projects(Project_Id, Project_Name, Project_StartDate, Deadline) " +
 						"VALUES (?, ?, ?, ?)";
 		try {
-			preparedStatement = ConnectionService.getConnection().prepareStatement(insertProjectIntoDatabase);
+			preparedStatement = con.prepareStatement(insertProjectIntoDatabase);
 			preparedStatement.setInt(1, project.getProjectId());
 			preparedStatement.setString(2, project.getName());
 			preparedStatement.setDate(3, java.sql.Date.valueOf(project.getStartDate()));

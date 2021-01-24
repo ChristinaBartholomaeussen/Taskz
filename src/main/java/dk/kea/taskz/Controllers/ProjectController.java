@@ -135,7 +135,16 @@ public class ProjectController {
 		} else {
 
 			Project newProject = new Project(projectData.getParameter("projectName"), LocalDate.parse(projectStartDate), LocalDate.parse(projectDeadline));
+
+			long start = System.currentTimeMillis();
+
 			projectService.addProjectToDatabase(newProject);
+
+			long end = System.currentTimeMillis();
+			long total = end - start;
+
+			System.out.println(total);
+
 			return "redirect:/projects";
 		}
 	}
